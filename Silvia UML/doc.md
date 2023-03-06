@@ -32,8 +32,9 @@ We created two abstract classes for the cards, each has a number of subclasses (
 
 Memento pattern can be used to keep track of all the moves that players make during a game.
 
-I believe that chat can be implemented using a separate thread as discussed in the meeting
+I believe that chat can be implemented using a separate thread as discussed in the meeting.
 
+Singleton pattern can be used to show all players common objective cards. 
 
 Within a game turn of a single player it is necessary that the various component are notified every time a clock occurs: 
 - the Observer/Mediator pattern could be a good fit for this scenario where components within a game turn need to be notified when they are selected

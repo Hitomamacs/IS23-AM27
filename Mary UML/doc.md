@@ -10,9 +10,9 @@ We created two different abstract classes: one to represent personal objective c
 ## tabellone
 In the game the number of players can vary from 2 to 4 and depending on how many there are, the board must be configured differently. In order to adapt the shape of the board to the number of players we decided to implement the strategy pattern: depending on the dynamic number of players the creation of the board changes because it will override the method creaTaboardone.
 
-##game
+## game
 The game is managed by two classes: one that manages the game in general and counts points and the other that manages the turn. The class that manages the turn has a list with the order of the players and notifies each player when he has to play.
 
 
-##memento
+## memento
 it can be used to take track of the moves that players make.

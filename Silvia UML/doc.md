@@ -25,24 +25,16 @@ N.B.: whenever the tiles on the game board run out or if there are only isolated
 
 ## UML AND DESIGN PATTERN IDEAS 
 
-I now use the reference to the points listed above
+In the game we can identify some main factors: the game board, the bag, the tiles, the grid of the single players, the players and the personal and common objective cards.
+I have not chosen any design pattern for the tiles, I consider the factory method less efficient than the enumeration because we already know the colors of the cards. 
+I have decided to use the strategy pattern to create the correct game board based on the number of players as the number of players is discovered at runtime. 
+We created two abstract classes for the cards, each has a number of subclasses (we didn't draw them all in the UML diagram) equal to the number of personal/common objective cards that exist. Each eight-class implements a specific type of card. 
 
-1. We should use the Factory Method to create players
-2. Each concretePlayer has an attribute that indicates his player number 
-3. The Strategy pattern could be used to implement different board configurations based on the number of players. This would involve defining a set of board configurations that can be selected at runtime based on the number of players 
-4. We should use the Factory Method to create personal objective cards 
-5. We should use the Factory Method to create common objective cards 
-6. We should use the Mediator design pattern and we should create a mediator object that can manage the turn-based gameplay logic and notify each player when it's his turn to take action
-7. We should use the Factory Method to create tiles 
-8. We can introduce the shelf interface and four subclasses that implement this interface. The shelf only exists if the player exists so there is a bijective relationship between the player and the shelf
-9. I need to think how to do it
-10. linked to 6. 
-11. I need to think 
-12. linked to 6. 
-13. I need to think
-14. Each concretePlayer has an attribute that indicates his score 
+Memento pattern can be used to keep track of all the moves that players make during a game.
+
+I believe that chat can be implemented using a separate thread as discussed in the meeting
 
 
 Within a game turn of a single player it is necessary that the various component are notified every time a clock occurs: 
-- the Observer pattern could be a good fit for this scenario where components within a game turn need to be notified when they are selected
+- the Observer/Mediator pattern could be a good fit for this scenario where components within a game turn need to be notified when they are selected
 

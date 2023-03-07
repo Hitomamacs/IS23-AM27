@@ -74,6 +74,9 @@ It implements TurnStrategy, it sends a message to the Game orchestrator telling 
 ### CompletedCommonObjStrategy
 It implements TurnStrategy, it checks and notifies if "the" player compleated a common objective
 
+# DataFlow
+I think that all of the remaining class are quite esplicative by looking at the UML diagram. What I want is to try and explain how the match orchestrator handles all of the communication server-side. I decided to implement it like a sort of mediator/observer. During the game the match class takes care of the match state and the current turn. All messages (from players, generalBoard, TileBag etc) are forwarded to the orchestrator that then decides who to notify with that message. The main Idea is to create a communication protocol (similar to how assembly works (op code, addres etc)) where a single message contains all of the relevant information that needs to b communicated to a certain class. In this way all the flow of message is very clear and makes debugging easy 
+
 
 ## Ideas
 

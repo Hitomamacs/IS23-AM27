@@ -40,9 +40,9 @@ class SpotTest {
 
     @Test
     void removeTile() {
-        Tile removed_tile = place.removeTile()
+        Tile removed_tile = place.removeTile();
         assertEquals(tile, removed_tile, "Checking picked tile is ok");
-        assertNull(place);
+        assertNull(place.getTile());
         assertEquals(tile, removed_tile,"Checking if after deletion tile is still memorized");
     }
 }

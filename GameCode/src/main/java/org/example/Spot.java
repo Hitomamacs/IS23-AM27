@@ -25,7 +25,7 @@ public class Spot {
     public void placeTile(Tile tile) {
         this.tile = tile;
     }
-    /** Class that returns a tile specifi in that spot and epties it*/
+    /** Class that returns a tile specific in that spot and epties it*/
     public Tile removeTile(){
         setOccupied(false);
         Tile currentTile = getTile();

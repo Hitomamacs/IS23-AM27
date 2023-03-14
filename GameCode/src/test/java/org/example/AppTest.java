@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  */
 public class AppTest {
     @Test
-void verifu(){
+void verify(){
         assertEquals(42,22+22);
     }
 

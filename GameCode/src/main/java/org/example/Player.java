@@ -1,7 +1,7 @@
 package org.example;
 
 
-import java.util.Set;
+import java.util.List;
 
 public class Player {
     private String nickname;
@@ -10,8 +10,8 @@ public class Player {
    private PlayerGrid playerGrid;
    private boolean[] CompletedCGoals;
    //TODO  we still need to create the class PersonalGoal so right now this would give an error private PersonalGoal myPersonalGoal;
-   private Set<Tile> pickedTiles;
-   
+   private List<Tile> pickedTiles;
+
     public Player() {
     }
     public String getNickname() {
@@ -29,7 +29,7 @@ public class Player {
     public boolean[] getCompletedCGoals() {
         return CompletedCGoals;
     }
-    public Set<Tile> getPickedTiles() {
+    public List<Tile> getPickedTiles() {
         return pickedTiles;
     }
     public void setNickname(String nickname) {
@@ -47,7 +47,8 @@ public class Player {
     public void setCompletedCGoals(boolean[] completedCGoals) {
         CompletedCGoals = completedCGoals;
     }
-    public void setPickedTiles(Set<Tile> pickedTiles) {
+    public void setPickedTiles(List<Tile> pickedTiles) {
         this.pickedTiles = pickedTiles;
     }
+    
 }

@@ -27,7 +27,7 @@ public class TileBag {
     public Set<Tile> randomPick(int n)
     {
         Set<Tile> tilePicked= new HashSet<Tile>();
-        Random random= new Random;
+        Random random= new Random();
        for(int i=0;i<n;i++)
        {
            //generation of a random number

@@ -3,13 +3,13 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NegativeM {
+public class TrueM {
     static final int[][] negativeMatrix1= {
             {0, 0, 0, 1, 1, 0, 0, 0, 0},
             {0, 0, 0, 1, 1, 1, 0, 0, 0},
             {0, 0, 1, 1, 1, 1, 1, 0, 0},
             {0, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 4, 1, 1, 1, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 0},
             {0, 0, 1, 1, 1, 1, 1, 0, 0},
             {0, 0, 0, 1, 1, 1, 0, 0, 0},

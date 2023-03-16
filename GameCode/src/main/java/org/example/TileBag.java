@@ -1,15 +1,12 @@
 package org.example;
 
-<<<<<<< Updated upstream
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
 public class TileBag {
-=======
-public class TileBag {
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
+
 
     private Set<Tile> bag;
 
@@ -51,7 +48,5 @@ public class TileBag {
 
        return tilePicked;
     }
-=======
-    //private Set<Tile> bag;
->>>>>>> Stashed changes
+
 }

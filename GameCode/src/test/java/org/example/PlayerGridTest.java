@@ -27,11 +27,11 @@ class PlayerGridTest {
         Tile tile1 = new Tile(Color.GREEN, 1);
         Tile tile2 = new Tile(Color.AZURE, 2);
         playerGrid.topUp(0,tile1);
-        assertEquals(tile1, playerGrid.getTile(coordinates));
+        assertEquals(tile1, playerGrid.getSpot(coordinates).getTile());
         playerGrid.topUp(0,tile2);
-        assertEquals(tile2, playerGrid.getTile(coordinates1));
+        assertEquals(tile2, playerGrid.getSpot(coordinates1).getTile());
         playerGrid.topUp(2,tile1);
-        assertEquals(tile1, playerGrid.getTile(coordinates2));
+        assertEquals(tile1, playerGrid.getSpot(coordinates2).getTile());
 
     }
 

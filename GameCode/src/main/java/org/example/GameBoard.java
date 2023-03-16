@@ -57,6 +57,24 @@ public class GameBoard {
             System.out.println(); //change line on console as row comes to end in the matrix.
         }
     }
+    /** functions that prints the board and the tile rappresented by the number 2 == tiles 1 == valid Spot */
+    public boolean printMwithTiles() {
+        for(int i = 0; i< returndim()[0]; i++){
+            for (int j = 0; j< returndim()[1]; j++){
+                if (board[i][j].isOccupied()){
+                    System.out.print(2 + " ");
+                }
+                else if (!board[i][j].isOccupied()){
+                    System.out.print(finalMatrix[i][j] + " ");
+                }
+
+
+            }
+            System.out.println(); //change line on console as row comes to end in the matrix.
+        }
+        return true;
+
+    }
 
 
 
@@ -70,30 +88,54 @@ public class GameBoard {
 
 
 
-    public Set<Tile> pick(Coordinates c){
-        Tile picked_Tile = board[c.getX()][c.getY()].removeTile();
+    public Set<Tile> pick(Coordinates c) {
         Set<Tile> return_tiles = new HashSet<Tile>();
-        return_tiles.add(picked_Tile);
-        return return_tiles;
+        try {
+            Tile picked_Tile = board[c.getX()][c.getY()].removeTile();
+            return_tiles.add(picked_Tile);
+            return return_tiles;
+
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("prova", e);
+        }
+
+
     }
 
     public Set<Tile> pick(Coordinates c1, Coordinates c2){
-        Tile picked_Tile1 = board[c1.getX()][c1.getY()].removeTile();
-        Tile picked_Tile2 = board[c2.getX()][c2.getY()].removeTile();
         Set<Tile> return_tiles = new HashSet<Tile>();
-        return_tiles.add(picked_Tile1);
-        return_tiles.add(picked_Tile2);
+        try{
+            Tile picked_Tile1 = board[c1.getX()][c1.getY()].removeTile();
+            Tile picked_Tile2 = board[c2.getX()][c2.getY()].removeTile();
+            return_tiles.add(picked_Tile1);
+            return_tiles.add(picked_Tile2);
+        }catch (IllegalStateException e) {
+            System.out.print("Tile not present");
+            throw new IllegalStateException();
+
+
+    }
         return return_tiles;
     }
 
     public Set<Tile> pick(Coordinates c1, Coordinates c2, Coordinates c3){
-        Tile picked_Tile1 = board[c1.getX()][c1.getY()].removeTile();
-        Tile picked_Tile2 = board[c2.getX()][c2.getY()].removeTile();
-        Tile picked_Tile3 = board[c3.getX()][c3.getY()].removeTile();
-        Set<Tile> return_tiles = new HashSet<Tile>();
-        return_tiles.add(picked_Tile1);
-        return_tiles.add(picked_Tile2);
-        return_tiles.add(picked_Tile3);
+            Set<Tile> return_tiles = new HashSet<Tile>();
+            try {
+                Tile picked_Tile1 = board[c1.getX()][c1.getY()].removeTile();
+                Tile picked_Tile2 = board[c2.getX()][c2.getY()].removeTile();
+                Tile picked_Tile3 = board[c3.getX()][c3.getY()].removeTile();
+                return_tiles.add(picked_Tile1);
+                return_tiles.add(picked_Tile2);
+                return_tiles.add(picked_Tile3);
+
+            }catch (IllegalStateException e) {
+                System.out.print("Tile not present");
+                throw new IllegalStateException();
+
+
+
+            }
+
         return return_tiles;
     }
 

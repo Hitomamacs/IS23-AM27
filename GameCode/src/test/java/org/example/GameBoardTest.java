@@ -27,23 +27,52 @@ class GameBoardTest {
     @Test
     @DisplayName("Verify Picking 1 Tile")
     void testpick() {
-        Board.fillBoard(bag.randomPick(45));
+       Set<Tile> pickedTile = new HashSet<Tile>();
+       Set<Tile> tile = bag.randomPick(1);
+       Set<Tile> tile_copy = new HashSet<Tile>(tile);
+        Board.fillBoard(tile);
         Board.printMwithTiles();
-        Coordinates c1 = new Coordinates(3,3);
-        Board.pick(c1);
+        Coordinates c1 = new Coordinates(0,3);
+        pickedTile = Board.pick(c1);
         System.out.println();
         Board.printMwithTiles();
+        assertEquals(pickedTile.iterator().next(), tile_copy.iterator().next());
 
     }
 
     @Test
+    @DisplayName("Verify Picking 2 Tile")
     void testPick1() {
-        assertEquals(1,1);
+        Set<Tile> pickedTile = new HashSet<Tile>();
+        Set<Tile> tile = bag.randomPick(2);
+        Set<Tile> tile_copy = new HashSet<Tile>(tile);
+        Board.fillBoard(tile);
+        Board.printMwithTiles();
+        Coordinates c1 = new Coordinates(0,3);
+        Coordinates c2 = new Coordinates(0,4);
+        pickedTile = Board.pick(c1,c2);
+        System.out.println();
+        Board.printMwithTiles();
+        assertTrue(pickedTile.containsAll(tile_copy));
+
+
     }
 
     @Test
+    @DisplayName("Verify Picking 3 Tile")
     void testPick2() {
-        assertEquals(1,1);
+        Set<Tile> pickedTile = new HashSet<Tile>();
+        Set<Tile> tile = bag.randomPick(3);
+        Set<Tile> tile_copy = new HashSet<Tile>(tile);
+        Board.fillBoard(tile);
+        Board.printMwithTiles();
+        Coordinates c1 = new Coordinates(0,3);
+        Coordinates c2 = new Coordinates(0,4);
+        Coordinates c3 = new Coordinates(1,3);
+        pickedTile = Board.pick(c1,c2, c3);
+        System.out.println();
+        Board.printMwithTiles();
+        assertTrue(pickedTile.containsAll(tile_copy));
     }
 
     @Test
@@ -51,6 +80,14 @@ class GameBoardTest {
         Board.printM();
 
 
+    }
+
+    @Test
+    @DisplayName("Testing exception")
+    void ExcTest(){
+       Coordinates c1 = new Coordinates(3,3);
+      Throwable exc = assertThrows(IllegalStateException.class,() -> Board.pick(c1) );
+      
     }
 
 

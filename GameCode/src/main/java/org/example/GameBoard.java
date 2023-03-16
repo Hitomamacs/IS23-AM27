@@ -96,10 +96,7 @@ public class GameBoard {
             return return_tiles;
 
         } catch (IllegalStateException e) {
-            System.out.print("Tile not present");
-        }
-        finally {
-            return return_tiles;
+            throw new IllegalStateException("prova", e);
         }
 
 
@@ -114,6 +111,7 @@ public class GameBoard {
             return_tiles.add(picked_Tile2);
         }catch (IllegalStateException e) {
             System.out.print("Tile not present");
+            throw new IllegalStateException();
 
 
     }
@@ -132,6 +130,8 @@ public class GameBoard {
 
             }catch (IllegalStateException e) {
                 System.out.print("Tile not present");
+                throw new IllegalStateException();
+
 
 
             }

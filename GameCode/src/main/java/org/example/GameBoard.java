@@ -61,7 +61,7 @@ public class GameBoard {
 
 
     //functions that returns dimension of matrix
-    private int[] returndim(){
+    public int[] returndim(){
         int[] dim = new int[2];
         dim[0] = finalMatrix.length;
         dim[1] = finalMatrix[1].length;
@@ -101,13 +101,14 @@ public class GameBoard {
         int[] dim = returndim();
         int rows = dim[0];
         int columns = dim[1];
-        while (tiles.size() > 0){
             for(int i=0; i<rows; i++){
                 for(int j=0; j<columns; j++){
                     if(finalMatrix[i][j] != 0){
-                        board[i][j].placeTile(tiles.iterator().next());
-                        tiles.remove(tiles.iterator().next());
-                    }
+                        while (!tiles.isEmpty()) {
+                            board[i][j].placeTile(tiles.iterator().next());
+                            tiles.remove(tiles.iterator().next());
+                            break;
+                        }
                 }
             }
         }

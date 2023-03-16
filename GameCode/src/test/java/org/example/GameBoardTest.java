@@ -27,6 +27,7 @@ class GameBoardTest {
     @Test
     @DisplayName("Verify Picking 1 Tile")
     void testpick() {
+        System.out.println("Pick1");
        Set<Tile> pickedTile = new HashSet<Tile>();
        Set<Tile> tile = bag.randomPick(1);
        Set<Tile> tile_copy = new HashSet<Tile>(tile);
@@ -37,12 +38,14 @@ class GameBoardTest {
         System.out.println();
         Board.printMwithTiles();
         assertEquals(pickedTile.iterator().next(), tile_copy.iterator().next());
+        System.out.println();
 
     }
 
     @Test
     @DisplayName("Verify Picking 2 Tile")
     void testPick1() {
+        System.out.println("Pick2");
         Set<Tile> pickedTile = new HashSet<Tile>();
         Set<Tile> tile = bag.randomPick(2);
         Set<Tile> tile_copy = new HashSet<Tile>(tile);
@@ -54,6 +57,7 @@ class GameBoardTest {
         System.out.println();
         Board.printMwithTiles();
         assertTrue(pickedTile.containsAll(tile_copy));
+        System.out.println();
 
 
     }
@@ -61,6 +65,7 @@ class GameBoardTest {
     @Test
     @DisplayName("Verify Picking 3 Tile")
     void testPick2() {
+        System.out.println("Pick3");
         Set<Tile> pickedTile = new HashSet<Tile>();
         Set<Tile> tile = bag.randomPick(3);
         Set<Tile> tile_copy = new HashSet<Tile>(tile);
@@ -73,11 +78,14 @@ class GameBoardTest {
         System.out.println();
         Board.printMwithTiles();
         assertTrue(pickedTile.containsAll(tile_copy));
+        System.out.println();
     }
 
     @Test
     void printM() {
+        System.out.println("Print");
         Board.printM();
+        System.out.println();
 
 
     }
@@ -87,7 +95,7 @@ class GameBoardTest {
     void ExcTest(){
        Coordinates c1 = new Coordinates(3,3);
       Throwable exc = assertThrows(IllegalStateException.class,() -> Board.pick(c1) );
-      
+
     }
 
 
@@ -112,9 +120,28 @@ class GameBoardTest {
     @Test
     @DisplayName("Testing display function Board with Tiles refilling")
     void printMwithTiles() {
+        System.out.println("Print with tiles");
         Board.fillBoard(bag.randomPick(10));
         assertTrue(Board.printMwithTiles());
 
 
     }
+
+    @Test
+    @DisplayName("Testing board check and fill of tiles already on board")
+    void checkBoard() {
+       Coordinates c1 = new Coordinates(0,3);
+        Board.fillBoard(bag.randomPick(1));
+        Board.printMwithTiles();
+        assertTrue(Board.checkBoard());
+        Board.fillBoard(bag.randomPick(1));
+        Board.printMwithTiles();
+        Board.pick(c1);
+        Board.printMwithTiles();
+        assertTrue(Board.checkBoard());
+        Board.fillBoard(bag.randomPick(10));
+        Board.printMwithTiles();
+        assertFalse(Board.checkBoard());
+    }
+
 }

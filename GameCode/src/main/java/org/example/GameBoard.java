@@ -1,6 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameBoard {
@@ -8,6 +10,7 @@ public class GameBoard {
     private int[][] negativeMatrix;
     private int[][] oneMatrix;
     private int[][] finalMatrix;
+    private ArrayList<Tile> adjcecent = new ArrayList<Tile>();
 
     public GameBoard(int rows, int columns, int players){
         TrueM.addMatrix(TrueM.negativeMatrix1);
@@ -46,6 +49,13 @@ public class GameBoard {
 
 
     }
+    static boolean isValidPos(int i, int j, int n, int m)
+    {
+        if (i < 0 || j < 0 || i > n - 1 || j > m - 1) {
+            return false;
+        }
+        return true;
+    }
 
     //code that prints final matrix in console
     public void printM(){
@@ -72,6 +82,7 @@ public class GameBoard {
             }
             System.out.println(); //change line on console as row comes to end in the matrix.
         }
+        System.out.println();
         return true;
 
     }
@@ -86,6 +97,56 @@ public class GameBoard {
         return dim;
     }
 
+    private ArrayList<Tile> get_adjcent(int i, int j){
+        int n = negativeMatrix.length;
+        int m = negativeMatrix[0].length;
+        ArrayList<Tile> v = new ArrayList<Tile>();
+
+
+        // Checking for all the possible adjacent positions
+        if (isValidPos(i - 1, j - 1, n, m) && board[i-1][j-1].isOccupied()) {
+            v.add(board[i-1][j-1].getTile());
+        }
+        if (isValidPos(i - 1, j, n, m) && board[i-1][j].isOccupied()) {
+            v.add(board[i-1][j].getTile());
+        }
+        if (isValidPos(i - 1, j + 1, n, m) && board[i-1][j+1].isOccupied()) {
+            v.add(board[i-1][j+1].getTile());
+        }
+        if (isValidPos(i, j - 1, n, m)&&board[i][j-1].isOccupied()) {
+            v.add(board[i][j-1].getTile());
+        }
+        if (isValidPos(i, j + 1, n, m)&&board[i][j+1].isOccupied()) {
+            v.add(board[i][j+1].getTile());
+        }
+        if (isValidPos(i + 1, j - 1, n, m)&& board[i+1][j-1].isOccupied()) {
+            v.add(board[i+1][j-1].getTile());
+        }
+        if (isValidPos(i + 1, j, n, m)&&board[i+1][j].isOccupied()) {
+            v.add(board[i+1][j].getTile());
+        }
+        if (isValidPos(i + 1, j + 1, n, m)&&board[i+1][j+1].isOccupied()) {
+            v.add(board[i+1][j+1].getTile());
+        }
+
+        // Returning the arraylist
+        return v;
+    }
+
+    public boolean checkBoard(){
+        ArrayList<Tile> adjcecent = new ArrayList<Tile>();
+        for(int i = 0; i< board.length; i++ ) {
+            for (int j = 0; j< board[0].length; j++){
+                adjcecent = get_adjcent(i,j);
+                if((!adjcecent.isEmpty()) && board[i][j].isOccupied()  )
+                    for (Tile tile: adjcecent){
+                        if (tile != null)
+                            return false;
+                    }
+            }
+        }
+        return true;
+    }
 
 
     public Set<Tile> pick(Coordinates c) {
@@ -145,7 +206,7 @@ public class GameBoard {
         int columns = dim[1];
             for(int i=0; i<rows; i++){
                 for(int j=0; j<columns; j++){
-                    if(finalMatrix[i][j] != 0){
+                    if(finalMatrix[i][j] != 0 && !board[i][j].isOccupied())
                         while (!tiles.isEmpty()) {
                             board[i][j].placeTile(tiles.iterator().next());
                             tiles.remove(tiles.iterator().next());
@@ -156,7 +217,7 @@ public class GameBoard {
         }
 
 
-    }
+
 
     public int[][] getFinalMatrix() {
         return finalMatrix;

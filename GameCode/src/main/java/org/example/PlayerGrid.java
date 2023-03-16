@@ -40,7 +40,7 @@ public class PlayerGrid {
 
     }
 
-    //* Method that returns a boolean that tells if the number of tiles is available in a column*/
+   //* Method that returns a boolean that tells if the number of tiles is available in a column*/
     public boolean spaceCheck(int column, int n_tiles) {
         if (column < 0 || column > 5) {
             throw new IllegalArgumentException("Column must be between 0 and 5");

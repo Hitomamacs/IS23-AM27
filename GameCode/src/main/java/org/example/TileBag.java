@@ -13,6 +13,7 @@ public class TileBag {
 
     public TileBag() {
         bag= new HashSet<>();
+        initializeBag();
     }
 
     public void initializeBag(){

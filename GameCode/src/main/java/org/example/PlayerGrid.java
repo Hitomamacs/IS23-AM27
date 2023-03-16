@@ -71,14 +71,14 @@ public class PlayerGrid {
         return true;
     }
 
-    public Tile getTile(Coordinates c) {
-        if (c.getX() < 0 || c.getY() > 5) {
+    public Spot getSpot(Coordinates c) {
+        if (c.getY() < 0 || c.getY() > 5) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
         }
-        if (c.getY()< 0 || c.getY() > 6) {
+        if (c.getX()< 0 || c.getX() > 6) {
             throw new IllegalArgumentException("Row must be between 0 and 6");
         }
-        return grid[c.getY()][c.getX()].getTile();
+        return grid[c.getY()][c.getX()];
     }
 
     private boolean columnFull(int column) {

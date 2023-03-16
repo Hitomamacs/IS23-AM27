@@ -2,6 +2,7 @@ package org.example;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -24,17 +25,24 @@ class GameBoardTest {
 
 
     @Test
-    void pick() {
-        assertEquals(1,1);
-    }
+    @DisplayName("Verify Picking 1 Tile")
+    void testpick() {
+        Board.fillBoard(bag.randomPick(45));
+        Board.printMwithTiles();
+        Coordinates c1 = new Coordinates(3,3);
+        Board.pick(c1);
+        System.out.println();
+        Board.printMwithTiles();
 
-    @Test
-    void testPick() {
-        assertEquals(1,1);
     }
 
     @Test
     void testPick1() {
+        assertEquals(1,1);
+    }
+
+    @Test
+    void testPick2() {
         assertEquals(1,1);
     }
 
@@ -48,6 +56,7 @@ class GameBoardTest {
 
 
     @Test
+    @DisplayName("Verifing fill matrix")
     void fillBoard() {
         Set<Tile> tiles = new HashSet<>(bag.randomPick(2));
         Set<Tile> tile_copy = new HashSet<>(tiles);
@@ -63,4 +72,12 @@ class GameBoardTest {
     }
 
 
+    @Test
+    @DisplayName("Testing display function Board with Tiles refilling")
+    void printMwithTiles() {
+        Board.fillBoard(bag.randomPick(10));
+        assertTrue(Board.printMwithTiles());
+
+
+    }
 }

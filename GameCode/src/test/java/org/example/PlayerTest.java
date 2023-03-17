@@ -28,6 +28,11 @@ class PlayerTest {
         //TODO test for exception missing if I pass negative int
     }
     @Test
+    void testExceptionChangeScore(){
+        Throwable exception = assertThrows(IllegalArgumentException.class,
+                ()->{player.changeScore(-1);} );
+    }
+    @Test
     void testModifyCompletedCGoals(){
         boolean[] test;
          test = player.getCompletedCGoals();
@@ -43,13 +48,17 @@ class PlayerTest {
          assertTrue(test[0]);
          assertTrue(test[1]);
          //TODO test exception in case position is not in {0,1}
-
+    }
+    @Test
+    void testExceptionModifyCompletedCGoals(){
+        Throwable exception = assertThrows(IllegalArgumentException.class,
+                ()->{player.modifyCompletedCGoals(2);} );
     }
     @Test
     void testModifyPickedTiles(){
 
         Set<Tile> tiles;
-        tiles = new HashSet<Tile>();
+        tiles = new HashSet<>();
 
         assertNull(player.getPickedTiles()[0]);
         assertNull(player.getPickedTiles()[1]);
@@ -61,9 +70,9 @@ class PlayerTest {
 
         player.modifyPickedTiles(tiles);
 
-        assertEquals(player.getPickedTiles()[0].getIdTile, 0);
-        assertEquals(player.getPickedTiles()[1].getIdTile, 1);
-        assertEquals(player.getPickedTiles()[2].getIdTile, 2);
+        assertEquals(player.getPickedTiles()[0].getIdTile(), 0);
+        assertEquals(player.getPickedTiles()[1].getIdTile(), 1);
+        assertEquals(player.getPickedTiles()[2].getIdTile(), 2);
 
     }
     @Test
@@ -72,7 +81,7 @@ class PlayerTest {
         Tile tile1 = new Tile(Color.PINK, 0);
         Tile tile2 = new Tile(Color.GREEN, 1);
         Tile tile3 = new Tile(Color.WHITE, 2);
-        tiles = new HashSet<Tile>();
+        tiles = new HashSet<>();
         tiles.add(tile1);
         tiles.add(tile2);
         tiles.add(tile3);
@@ -87,7 +96,7 @@ class PlayerTest {
     @Test
     void testPickedTilesIsEmpty(){
         Set<Tile> tiles;
-        tiles = new HashSet<Tile>();
+        tiles = new HashSet<>();
         tiles.add(new Tile(Color.PINK, 0));    //Creating a set I can pass to modifyPickedTiles
         tiles.add(new Tile(Color.GREEN, 1));
         tiles.add(new Tile(Color.WHITE, 2));
@@ -99,7 +108,7 @@ class PlayerTest {
     @Test
     void testVerifyPGoalsPoints(){
         PersonalGoal PGoal;
-        PGoal = new PersonalGoal_1;
+        PGoal = new PersonalGoal_1();
         Tile tile;
         player.setMyPersonalGoal(PGoal);
 

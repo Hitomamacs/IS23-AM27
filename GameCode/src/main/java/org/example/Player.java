@@ -16,6 +16,7 @@ public class Player {
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
+
     }
     public String getNickname() {
         return nickname;
@@ -89,9 +90,9 @@ public class Player {
         boolean result = true;
         int i = 0;
         while(i < 3 && result){
-            if(pickedTiles[i] != null);
+            if(pickedTiles[i] != null)
                 result = false;
-                i++;
+            i++;
 
         }
         return result;

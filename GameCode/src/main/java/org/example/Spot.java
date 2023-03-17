@@ -24,13 +24,17 @@ public class Spot {
 
     public void placeTile(Tile tile) {
         this.tile = tile;
+        if(tile != null)
         setOccupied(true);
     }
     /** Class that returns a tile specific in that spot and epties it*/
     public Tile removeTile(){
-        setOccupied(false);
         Tile currentTile = getTile();
+        this.occupied = false;
         placeTile(null); //Setting the new space as an empty Spot
+        if (currentTile == null){
+            throw new IllegalStateException("Tiles not present");
+        }
         return currentTile;
     }
 }

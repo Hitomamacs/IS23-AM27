@@ -148,6 +148,17 @@ public class GameBoard {
         return true;
     }
 
+    private int getNumbervalidSpot(){
+        int num = 0;
+        for(int i = 0; i< board.length; i++ ) {
+            for (int j = 0; j< board[0].length; j++){
+                if (finalMatrix[i][j] != 0)
+                    num++;
+            }
+        }
+        return num;
+    }
+
     public int boardCheckNum() throws NotToRefillBoardExc {
         if (!checkBoard())
             throw new NotToRefillBoardExc("Board not to refill");
@@ -159,7 +170,7 @@ public class GameBoard {
                         num++;
                 }
             }
-            return num;
+            return getNumbervalidSpot() - num;
         }
 
     }

@@ -78,7 +78,7 @@ public class PlayerGrid {
         if (c.getY()< 0 || c.getY() > 6) {
             throw new IllegalArgumentException("Row must be between 0 and 6");
         }
-        return grid[c.getY()][c.getX()].getTile();
+        return grid[c.getX()][c.getY()].getTile();
     }
 
     private boolean columnFull(int column) {

@@ -104,30 +104,23 @@ public class GameBoard {
 
 
         // Checking for all the possible adjacent positions
-        if (isValidPos(i - 1, j - 1, n, m) && board[i-1][j-1].isOccupied()) {
-            v.add(board[i-1][j-1].getTile());
-        }
+
         if (isValidPos(i - 1, j, n, m) && board[i-1][j].isOccupied()) {
             v.add(board[i-1][j].getTile());
         }
-        if (isValidPos(i - 1, j + 1, n, m) && board[i-1][j+1].isOccupied()) {
-            v.add(board[i-1][j+1].getTile());
-        }
+
         if (isValidPos(i, j - 1, n, m)&&board[i][j-1].isOccupied()) {
             v.add(board[i][j-1].getTile());
         }
         if (isValidPos(i, j + 1, n, m)&&board[i][j+1].isOccupied()) {
             v.add(board[i][j+1].getTile());
         }
-        if (isValidPos(i + 1, j - 1, n, m)&& board[i+1][j-1].isOccupied()) {
-            v.add(board[i+1][j-1].getTile());
-        }
+
+
         if (isValidPos(i + 1, j, n, m)&&board[i+1][j].isOccupied()) {
             v.add(board[i+1][j].getTile());
         }
-        if (isValidPos(i + 1, j + 1, n, m)&&board[i+1][j+1].isOccupied()) {
-            v.add(board[i+1][j+1].getTile());
-        }
+
 
         // Returning the arraylist
         return v;
@@ -174,7 +167,54 @@ public class GameBoard {
         }
 
     }
+    /**this function verigy taht the tile at coordinates c has at east 1 free sid and can be picked
+     this function will be called on maximum 3 tiles and after it returns true for al the tiles they will be picked */
+    public boolean verifyPickable(Coordinates c){
+        int n = negativeMatrix.length;
+        int m = negativeMatrix[0].length;
+        int i = c.getX();
+        int j = c.getY();
 
+        if ((isValidPos(i - 1, j, n, m) && !board[i-1][j].isOccupied()|| !isValidPos(i -1, j, n, m))) {
+            for (i = i-1; i>=0; i--){
+                if (board[i][j].isOccupied())
+                    return false;
+
+            }
+            return true;
+
+
+        }
+
+        if ((isValidPos(i, j - 1, n, m)&&!board[i][j-1].isOccupied()) || !isValidPos(i, j - 1, n, m)) {
+            for (j = j-1; j>=0; j--){
+                if (board[i][j].isOccupied())
+                    return false;
+            }
+            return true;
+        }
+
+        if ((isValidPos(i, j + 1, n, m)&&!board[i][j+1].isOccupied()) || !isValidPos(i, j + 1, n, m)) {
+            for (j = j+1; j<board[0].length; j++){
+                if (board[i][j].isOccupied())
+                    return false;
+            }
+            return true;
+        }
+
+        if (isValidPos(i + 1, j, n, m)&&!board[i+1][j].isOccupied() || !isValidPos(i + 1, j, n, m)) {
+            for (i = i+1; i<board.length; i++){
+                if (board[i][j].isOccupied())
+                    return false;
+            }
+            return true;
+        }
+
+
+
+        return false;
+
+    }
 
     public Set<Tile> pick(Coordinates c) {
         Set<Tile> return_tiles = new HashSet<Tile>();

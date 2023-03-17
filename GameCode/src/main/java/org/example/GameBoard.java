@@ -148,6 +148,22 @@ public class GameBoard {
         return true;
     }
 
+    public int boardCheckNum() throws NotToRefillBoardExc {
+        if (!checkBoard())
+            throw new NotToRefillBoardExc("Board not to refill");
+        else {
+            int num = 0;
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    if (board[i][j].isOccupied())
+                        num++;
+                }
+            }
+            return num;
+        }
+
+    }
+
 
     public Set<Tile> pick(Coordinates c) {
         Set<Tile> return_tiles = new HashSet<Tile>();

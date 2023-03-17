@@ -112,6 +112,7 @@ public class Player {
         Coordinates coordinate;
         Color color;
         int count = 0;
+        int result = 0;
         colorMap = myPersonalGoal.getColoredGoal();
         //for loop iterates on hash map and checks for each coordinate if there is a tile and if the color is correct
         //in which case count is incremented
@@ -125,20 +126,30 @@ public class Player {
                 }
             }
         }
-        switch(count){  //switch to determine how many points are assigned based on number of correct tiles
+        switch(count){//switch to determine how many points are assigned based on number of correct tiles
+            case 0:
+                result = 0;
+                break;
             case 1:
-                return 1;
+                result = 1;
+                break;
             case 2:
-                return 2;
+                result = 2;
+                break;
             case 3:
-                return 4;
+                result = 4;
+                break;
             case 4:
-                return 6;
+                result = 6;
+                break;
             case 5:
-                return 9;
+                result = 9;
+                break;
             case 6:
-                return 12;
+                result = 12;
+                break;
         }
+        return result;
     }
 
     //verifyExtraPoints is the method that checks how many points to assign for groups of same colored tiles

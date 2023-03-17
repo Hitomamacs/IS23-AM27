@@ -107,9 +107,9 @@ class PlayerTest {
     }
     @Test
     void testVerifyPGoalsPoints(){
-        PersonalGoal PGoal;
-        PGoal = new PersonalGoal_1();
         Tile tile;
+        PersonalGoal PGoal= new PersonalGoal_1();
+        PGoal.initialize();
         player.setMyPersonalGoal(PGoal);
 
         assertEquals(player.verifyPGoalPoints(), 0);

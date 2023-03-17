@@ -17,12 +17,14 @@ public class TileBag {
     }
 
     public void initializeBag(){
+        int j=0;
         for (Color color:Color.values())
         {
             for(int i=0; i<22; i++)
             {
-                Tile tile= new Tile(color,i);
+                Tile tile= new Tile(color,j);
                 bag.add(tile);
+                j++;
             }
         }
     }

@@ -56,7 +56,7 @@ class PlayerTest {
     }
     @Test
     void testModifyPickedTiles(){
-
+        //TODO have to change test as set iteration order varies from run to run
         Set<Tile> tiles;
         tiles = new HashSet<>();
 

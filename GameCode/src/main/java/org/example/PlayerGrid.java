@@ -30,7 +30,7 @@ public class PlayerGrid {
             throw new IllegalArgumentException("Column is full");
         }
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 5; i >= 0; i--) {
             if (!grid[i][column].isOccupied()) {
                 grid[i][column].placeTile(tile);
                 grid[i][column].setOccupied(true);
@@ -91,8 +91,25 @@ public class PlayerGrid {
 
 
     }
+
+    public Spot[][] getGrid(){
+        return grid;
+    }
     public void setTile(int column, int row){
         grid[row][column].setOccupied(false);
+    }
+
+    public void printPlayerGrid(){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (grid[i][j].isOccupied()) {
+                    System.out.print("X");
+                } else {
+                    System.out.print("O");
+                }
+            }
+            System.out.println();
+        }
     }
 }
 

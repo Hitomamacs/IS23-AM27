@@ -143,5 +143,66 @@ class PlayerTest {
     }
 
 
+    @Test
+    void verifyExtraPoints() {
+        Tile tile;
+        PersonalGoal PGoal = new PersonalGoal_1();
+        PGoal.initialize();
+        player.setMyPersonalGoal(PGoal);
+
+        assertEquals(player.verifyExtraPoints(), 0);
+        Tile tile1 = new Tile(Color.PINK, 0);
+        Tile tile2 = new Tile(Color.PINK, 1);
+        Tile tile3 = new Tile(Color.PINK, 2);
+        player.getPlayerGrid().topUp(0, tile1);
+        player.getPlayerGrid().topUp(0, tile2);
+        player.getPlayerGrid().topUp(0, tile3);
+        assertEquals(player.verifyExtraPoints(), 2);
+        Tile tile4 = new Tile(Color.PINK, 3);
+        Tile tile5 = new Tile(Color.PINK, 4);
+        Tile tile6 = new Tile(Color.PINK, 5);
+        player.getPlayerGrid().topUp(0, tile4);
+        player.getPlayerGrid().topUp(0, tile5);
+        player.getPlayerGrid().topUp(0, tile6);
+        assertEquals(player.verifyExtraPoints(), 8);
+        Tile tile7 = new Tile(Color.AZURE, 6);
+        Tile tile8 = new Tile(Color.AZURE, 7);
+        Tile tile9 = new Tile(Color.AZURE, 8);
+        player.getPlayerGrid().topUp(1, tile7);
+        player.getPlayerGrid().topUp(2, tile8);
+        player.getPlayerGrid().topUp(3, tile9);
+        assertEquals(player.verifyExtraPoints(), 8);
+        Tile tile10 = new Tile(Color.AZURE, 9);
+        Tile tile11 = new Tile(Color.AZURE, 10);
+        Tile tile12 = new Tile(Color.AZURE, 11);
+        player.getPlayerGrid().topUp(1, tile10);
+        player.getPlayerGrid().topUp(1, tile11);
+        player.getPlayerGrid().topUp(1, tile12);
+        assertEquals(player.verifyExtraPoints(), 16);
+
+    }
+
+    @Test
+    @DisplayName("testing multiple streaks")
+    public void MultipleExtratest(){
+        Tile tile;
+        PersonalGoal PGoal = new PersonalGoal_1();
+        PGoal.initialize();
+        Tile tile1 = new Tile(Color.PINK, 0);
+        Tile tile2 = new Tile(Color.PINK, 1);
+        Tile tile3 = new Tile(Color.PINK, 2);
+        Tile tile7 = new Tile(Color.AZURE, 6);
+        Tile tile8 = new Tile(Color.AZURE, 7);
+        Tile tile9 = new Tile(Color.AZURE, 8);
+        player.getPlayerGrid().topUp(1, tile7);
+        player.getPlayerGrid().topUp(2, tile8);
+        player.getPlayerGrid().topUp(3, tile9);
+        player.getPlayerGrid().printPlayerGrid();
+        assertEquals(player.verifyExtraPoints(), 2);
+        player.getPlayerGrid().topUp(0, tile1);
+        player.getPlayerGrid().topUp(0, tile2);
+        player.getPlayerGrid().topUp(0, tile3);
+        assertEquals(player.verifyExtraPoints(), 4);
+    }
 
 }

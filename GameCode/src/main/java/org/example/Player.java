@@ -153,8 +153,68 @@ public class Player {
     }
 
     //verifyExtraPoints is the method that checks how many points to assign for groups of same colored tiles
-    //in playergrid adjacent to each other.
-    //public int verifyExtraPoints()
+    //in playergrid adjacent to each other. You could use DFS or BFS but I decided to use DFS
+    //if you have at least 3 tile connected ofthe same color you get 2 points if you have 4 3 points and if you have 5 5 points and i you have 6+ 8
+    //if you have in a grid 2 groups of 3 tiles of the same color you get 4 points.
+    //in verifyextrapoint helper we need also to verify if we are in an ammissible position in the grid and if the tile is occupied
+    // we are using the class coordinates to represent the position in the grid
+    public int verifyExtraPoints(){
+        boolean[][] visited;
+        int i,j;
+        int count = 0;
+        int result = 0;
+        Color color;
+        visited = new boolean[6][5];
+        for(i = 0; i < 6; i++){
+            for(j = 0; j < 5; j++){
+                visited[i][j] = false;
+            }
+        }
+        for(i = 0; i < 6; i++){
+            for(j = 0; j < 5; j++){
+                if(playerGrid.getSpot(new Coordinates(i,j)).isOccupied() && !visited[i][j]){
+                    color = playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor();
+                    count = verifyExtraPointHelper(i,j,color,visited);
+                    if(count >= 3){
+                        if(count == 3)
+                            result = result + 2;
+                        else if(count == 4)
+                            result = result + 3;
+                        else if(count == 5)
+                            result = result + 5;
+                        else
+                            result = result + 8;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int verifyExtraPointHelper(int i, int j, Color color, boolean[][] visited){
+        int count = 1;
+        visited[i][j] = true;
+        if(isValidPos(i + 1,j,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i+1,j)).isOccupied() && playerGrid.getSpot(new Coordinates(i+1,j)).getTile().getColor() == color && !visited[i + 1][j]){
+            count = count + verifyExtraPointHelper(i + 1,j,color,visited);
+        }
+        if(isValidPos(i - 1,j,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i-1,j)).isOccupied() && playerGrid.getSpot(new Coordinates(i-1,j)).getTile().getColor() == color && !visited[i - 1][j]){
+            count = count + verifyExtraPointHelper(i - 1,j,color,visited);
+        }
+        if(isValidPos(i,j + 1,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i,j+1)).isOccupied() && playerGrid.getSpot(new Coordinates(i,j+1)).getTile().getColor() == color && !visited[i][j + 1]){
+            count = count + verifyExtraPointHelper(i,j + 1,color,visited);
+        }
+        if(isValidPos(i,j - 1,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i,j-1)).isOccupied() && playerGrid.getSpot(new Coordinates(i,j-1)).getTile().getColor() == color && !visited[i][j - 1]){
+            count = count + verifyExtraPointHelper(i,j - 1,color,visited);
+        }
+        return count;
+    }
+    static boolean isValidPos(int i, int j, int n, int m)
+    {
+        if (i < 0 || j < 0 || i > n - 1 || j > m - 1) {
+            return false;
+        }
+        return true;
+    }
 
 }
 

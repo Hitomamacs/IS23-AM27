@@ -20,9 +20,19 @@ class CommonGoal_8Test {
         PlayerGrid playerGrid = new PlayerGrid();
         Tile pinkTile = new Tile(Color.PINK, 0);
         playerGrid.getSpot(new Coordinates(0, 0)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(0, 4)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(5, 0)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(5, 4)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(4, 0)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(0, 5)).placeTile(pinkTile);
+        /*for(int i=5; i>0; i--){ //fisso la riga
+            for(int j=0; j<1; j++){ //riempio la colonna
+                playerGrid.topUp(j, pinkTile);
+            }
+        }
+        for(int i=5; i>0; i--){
+            for(int j=4; j<5; j++){
+                playerGrid.topUp(j, pinkTile);
+            }
+        }*/
+        playerGrid.getSpot(new Coordinates(4, 5)).placeTile(pinkTile);
 
         assertTrue(commonGoal_8.checkGoal(playerGrid));
     }
@@ -32,8 +42,8 @@ class CommonGoal_8Test {
     public void checkFalseWhenNotAllCornersOccupied() {
         PlayerGrid playerGrid = new PlayerGrid();
         Tile pinkTile = new Tile(Color.PINK, 0);
-        playerGrid.getSpot(new Coordinates(5, 0)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(5, 4)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(0, 0)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(0, 5)).placeTile(pinkTile);
 
         assertFalse(commonGoal_8.checkGoal(playerGrid));
     }
@@ -45,8 +55,10 @@ class CommonGoal_8Test {
         Tile pinkTile = new Tile(Color.PINK, 0);
         Tile greenTile = new Tile(Color.GREEN, 0);
         playerGrid.getSpot(new Coordinates(0,0)).placeTile(greenTile);
-        playerGrid.getSpot(new Coordinates(0,4)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(5,0)).placeTile(pinkTile);
-        playerGrid.getSpot(new Coordinates(5,4)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(4,0)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(0,5)).placeTile(pinkTile);
+        playerGrid.getSpot(new Coordinates(4,5)).placeTile(pinkTile);
+
+        assertFalse(commonGoal_8.checkGoal(playerGrid));
     }
 }

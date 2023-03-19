@@ -111,6 +111,45 @@ public class PlayerGrid {
             System.out.println();
         }
     }
+    public void quickGridSetter(Color[][] matrix){
+
+        int i = 0;
+        int j = 0;
+        Tile tile;
+        Color color;
+
+        for(i = 0; i < 6; i++){
+            for(j = 0; j < 5; j++){
+                color = matrix[i][j];
+                tile = new Tile(color, 0);
+                grid[i][j].placeTile(tile);
+            }
+        }
+        return;
+    }
+    public void printColorPlayerGrid(){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (grid[i][j].isOccupied()) {
+                    if(grid[i][j].getTile().getColor() == Color.PINK)
+                        System.out.print("P ");
+                    if(grid[i][j].getTile().getColor() == Color.GREEN)
+                        System.out.print("G ");
+                    if(grid[i][j].getTile().getColor() == Color.YELLOW)
+                        System.out.print("Y ");
+                    if(grid[i][j].getTile().getColor() == Color.WHITE)
+                        System.out.print("W ");
+                    if(grid[i][j].getTile().getColor() == Color.AZURE)
+                        System.out.print("A ");
+                    if(grid[i][j].getTile().getColor() == Color.BLUE)
+                        System.out.print("B ");
+                } else {
+                    System.out.print("O");
+                }
+            }
+            System.out.println();
+        }
+    }
 }
 
 

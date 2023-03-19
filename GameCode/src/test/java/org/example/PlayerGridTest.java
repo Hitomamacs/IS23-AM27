@@ -64,4 +64,18 @@ class PlayerGridTest {
 
     }
 
+    @Test
+    void testQuickGridSetter(){
+        Color[][] matrix;
+
+        matrix = new Color[][]{{Color.PINK,Color.PINK,Color.GREEN,Color.GREEN,Color.BLUE },
+                {Color.WHITE,Color.GREEN,Color.YELLOW,Color.AZURE,Color.PINK},
+                {Color.AZURE, Color.PINK,Color.GREEN,Color.PINK,Color.AZURE},
+                {Color.PINK,Color.GREEN,Color.YELLOW,Color.AZURE,Color.PINK},
+                {Color.BLUE,Color.GREEN,Color.YELLOW,Color.AZURE,Color.PINK},
+                {Color.WHITE,Color.AZURE, Color.PINK,Color.GREEN,Color.AZURE}};
+
+        playerGrid.quickGridSetter(matrix);
+        playerGrid.printColorPlayerGrid();
+    }
 }

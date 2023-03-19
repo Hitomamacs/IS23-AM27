@@ -21,16 +21,16 @@ class PlayerGridTest {
     @Test
     @DisplayName("Testing topUp")
     void testTopUp() {
-        Coordinates coordinates = new Coordinates(0,0);
-        Coordinates coordinates1 = new Coordinates(0,1);
-        Coordinates coordinates2 = new Coordinates(2,0);
+        Coordinates coordinates = new Coordinates(5,0);
+        Coordinates coordinates1 = new Coordinates(5,1);
+        Coordinates coordinates2 = new Coordinates(4,0);
         Tile tile1 = new Tile(Color.GREEN, 1);
         Tile tile2 = new Tile(Color.AZURE, 2);
         playerGrid.topUp(0,tile1);
         assertEquals(tile1, playerGrid.getSpot(coordinates).getTile());
-        playerGrid.topUp(0,tile2);
+        playerGrid.topUp(1,tile2);
         assertEquals(tile2, playerGrid.getSpot(coordinates1).getTile());
-        playerGrid.topUp(2,tile1);
+        playerGrid.topUp(0,tile1);
         assertEquals(tile1, playerGrid.getSpot(coordinates2).getTile());
 
     }

@@ -1,5 +1,6 @@
 package org.example;
 
+    public boolean checkGoal(PlayerGrid playerGrid){
 public class CommonGoal_10 extends CommonGoal{
 
     public boolean checkGoal(PlayerGrid playerGrid) {

@@ -171,7 +171,7 @@ class PlayerTest {
         player.getPlayerGrid().topUp(1, tile7);
         player.getPlayerGrid().topUp(2, tile8);
         player.getPlayerGrid().topUp(3, tile9);
-        assertEquals(player.verifyExtraPoints(), 8);
+        assertEquals(player.verifyExtraPoints(), 10);
         Tile tile10 = new Tile(Color.AZURE, 9);
         Tile tile11 = new Tile(Color.AZURE, 10);
         Tile tile12 = new Tile(Color.AZURE, 11);

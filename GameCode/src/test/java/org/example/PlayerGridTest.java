@@ -1,9 +1,11 @@
 package org.example;
 
+import org.fusesource.jansi.AnsiConsole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.fusesource.jansi.Ansi.ansi;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerGridTest {
@@ -66,6 +68,7 @@ class PlayerGridTest {
 
     @Test
     void testQuickGridSetter(){
+
         Color[][] matrix;
 
         matrix = new Color[][]{{Color.PINK,Color.PINK,Color.GREEN,Color.GREEN,Color.BLUE },

@@ -1,9 +1,10 @@
 package org.example;
-
+import org.fusesource.jansi.AnsiConsole;
 public class PlayerGrid {
     private Spot[][] grid;
 
     public PlayerGrid() {
+        AnsiConsole.systemInstall();
         grid = new Spot[6][5];
         initializeGrid();
     }
@@ -11,6 +12,15 @@ public class PlayerGrid {
     /**
      * Method that initializes the grid with empty spots
      */
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     private void initializeGrid() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -132,17 +142,17 @@ public class PlayerGrid {
             for (int j = 0; j < 5; j++) {
                 if (grid[i][j].isOccupied()) {
                     if(grid[i][j].getTile().getColor() == Color.PINK)
-                        System.out.print("P ");
+                        System.out.print(ANSI_PURPLE+"P ");
                     if(grid[i][j].getTile().getColor() == Color.GREEN)
-                        System.out.print("G ");
+                        System.out.print(ANSI_GREEN+"G ");
                     if(grid[i][j].getTile().getColor() == Color.YELLOW)
-                        System.out.print("Y ");
+                        System.out.print(ANSI_YELLOW+"Y ");
                     if(grid[i][j].getTile().getColor() == Color.WHITE)
-                        System.out.print("W ");
+                        System.out.print(ANSI_WHITE+"W ");
                     if(grid[i][j].getTile().getColor() == Color.AZURE)
-                        System.out.print("A ");
+                        System.out.print(ANSI_CYAN+"A ");
                     if(grid[i][j].getTile().getColor() == Color.BLUE)
-                        System.out.print("B ");
+                        System.out.print(ANSI_BLUE+"B ");
                 } else {
                     System.out.print("O");
                 }

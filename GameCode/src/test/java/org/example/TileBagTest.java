@@ -12,7 +12,7 @@ class TileBagTest {
     @Test
     void initializeBag() {
         tilebag.initializeBag();
-        assertEquals(132,.size());
+        assertEquals(132, .size());
     }
 
     @Test

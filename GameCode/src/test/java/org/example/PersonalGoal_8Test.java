@@ -3,60 +3,44 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonalGoal_8Test {
 
-    PersonalGoal_8 goal = new PersonalGoal_8();
-    Spot[][] spots = goal.getSpotGrid();
+    PersonalGoal_8 personalGoal_8;
+    private final Coordinates a = new Coordinates(3,0);
+    private final Coordinates b = new Coordinates(0,4);
+    private final Coordinates c = new Coordinates(1,1);
+    private final Coordinates d = new Coordinates(4,3);
+    private final Coordinates e = new Coordinates(5,3);
+    private final Coordinates f = new Coordinates(2,2);
+
 
     @BeforeEach
     void setUp(){
-        goal = new PersonalGoal_8();
+        personalGoal_8 = new PersonalGoal_8();
+
     }
 
-    //Test 1: check that the tiles are in the right position
     @Test
-    void checkCorrectPosition(){
-        assert spots[1][1].getTile().getColor().equals(Color.GREEN);
-        assert spots[3][0].getTile().getColor().equals(Color.PINK);
-        assert spots[5][3].getTile().getColor().equals(Color.YELLOW);
-        assert spots[2][2].getTile().getColor().equals(Color.AZURE);
-        assert spots[4][3].getTile().getColor().equals(Color.WHITE);
-        assert spots[0][4].getTile().getColor().equals(Color.BLUE);
-    }
+    public void testInitialize() {
 
-    //Test 2: check that other spots are empty
-    @Test
-    void emptyCheckPosition(){
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                if((i==1 && j==1) || (i==3 && j==0) || (i==5 && j==3) || (i==2 && j==2) || (i==4 && j==3)
-                        || (i==0 && j==4)){
-                    continue;
-                }
-                assert !spots[i][j].isOccupied();
-            }
-        }
-    }
-
-    //Test 3: check that the filled Spots have the attribute occupied=true
-    @Test
-    void fullCheckPosition(){
-        for(int i=0; i<6; i++){
-            for(int j=0; j<5; j++){
-                if((i==1 && j==1) || (i==3 && j==0) || (i==5 && j==3) || (i==2 && j==2) || (i==4 && j==3)
-                        || (i==0 && j==4)){
-                    assert spots[i][j].isOccupied();
-                }
-            }
-        }
-    }
-
-    //Test 4: check that spots matrix is created correctly
-    @Test
-    void checkCorrectMatrix(){
-        assertEquals(6, spots.length);
-        assertEquals(5, spots[0].length);
+        personalGoal_8.initialize();
+        HashMap<Coordinates, Color> coloredGoal = personalGoal_8.getColoredGoal();
+        assertEquals(6, coloredGoal.size());
+        assertTrue(coloredGoal.containsKey(a));
+        assertTrue(coloredGoal.containsKey(b));
+        assertTrue(coloredGoal.containsKey(c));
+        assertTrue(coloredGoal.containsKey(d));
+        assertTrue(coloredGoal.containsKey(e));
+        assertTrue(coloredGoal.containsKey(f));
+        assertEquals(Color.PINK, coloredGoal.get(a));
+        assertEquals(Color.BLUE, coloredGoal.get(b));
+        assertEquals(Color.GREEN, coloredGoal.get(c));
+        assertEquals(Color.WHITE, coloredGoal.get(d));
+        assertEquals(Color.YELLOW, coloredGoal.get(e));
+        assertEquals(Color.AZURE, coloredGoal.get(f));
     }
 }

@@ -40,7 +40,7 @@ public class PlayerGrid {
 
     }
 
-    //* Method that returns a boolean that tells if the number of tiles is available in a column*/
+   //* Method that returns a boolean that tells if the number of tiles is available in a column*/
     public boolean spaceCheck(int column, int n_tiles) {
         if (column < 0 || column > 4) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
@@ -91,8 +91,25 @@ public class PlayerGrid {
 
 
     }
+
+    public Spot[][] getGrid(){
+        return grid;
+    }
     public void setTile(int column, int row){
         grid[row][column].setOccupied(false);
+    }
+
+    public void printPlayerGrid(){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (grid[i][j].isOccupied()) {
+                    System.out.print("X");
+                } else {
+                    System.out.print("O");
+                }
+            }
+            System.out.println();
+        }
     }
 }
 

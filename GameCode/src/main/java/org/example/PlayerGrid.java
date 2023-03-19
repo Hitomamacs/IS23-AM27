@@ -1,10 +1,9 @@
 package org.example;
-import org.fusesource.jansi.AnsiConsole;
+
 public class PlayerGrid {
     private Spot[][] grid;
 
     public PlayerGrid() {
-        AnsiConsole.systemInstall();
         grid = new Spot[6][5];
         initializeGrid();
     }

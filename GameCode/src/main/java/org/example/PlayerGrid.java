@@ -22,7 +22,7 @@ public class PlayerGrid {
     //* Method that fills a spot with a tile with a mechanis similar to a stack*/
     //add exception that checks if a column is full and throws eception
     public void topUp(int column, Tile tile) {
-        if (column < 0 || column > 5) {
+        if (column < 0 || column > 3) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
         }
 
@@ -42,7 +42,7 @@ public class PlayerGrid {
 
    //* Method that returns a boolean that tells if the number of tiles is available in a column*/
     public boolean spaceCheck(int column, int n_tiles) {
-        if (column < 0 || column > 5) {
+        if (column < 0 || column > 3) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
         }
         int counter = 0;
@@ -72,10 +72,10 @@ public class PlayerGrid {
     }
 
     public Spot getSpot(Coordinates c) {
-        if (c.getY() < 0 || c.getY() > 5) {
+        if (c.getY() < 0 || c.getY() > 3) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
         }
-        if (c.getX()< 0 || c.getX() > 6) {
+        if (c.getX()< 0 || c.getX() > 4) {
             throw new IllegalArgumentException("Row must be between 0 and 6");
         }
         return grid[c.getY()][c.getX()];

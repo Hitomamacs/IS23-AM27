@@ -42,6 +42,10 @@ public class GameOrchestrator {
         return this.players.get(this.currentPlayerIndex);
     }
 
+    public int CurrentPlayerIndex(){
+        return this.currentPlayerIndex;
+    }
+
     public Player nextPlayer(){
         if(this.currentPlayerIndex==this.players.size()-1){
             this.currentPlayerIndex=0;

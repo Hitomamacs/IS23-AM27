@@ -1,4 +1,24 @@
 package org.example;
 
 public class ConnectionCheckState implements GameState{
+    private GameOrchestrator gameOrchestrator;
+
+    @Override
+    public void changeState() {
+        if(gameOrchestrator.getCurrentPlayer().isConnected()){
+            gameOrchestrator.changeState(new RefillState());
+        }
+        else{
+            gameOrchestrator.nextPlayer();
+            gameOrchestrator.changeState(new RefillState());
+        }
+
+
+    }
+
+
+    @Override
+    public void execute() {
+        changeState();
+    }
 }

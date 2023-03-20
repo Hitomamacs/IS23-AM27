@@ -14,7 +14,7 @@ public class CommonGoal_1 extends CommonGoal{
 
         for(int i = 0; i < 5; i++){ //stopping before the last row as last row will already have been checked
             for(int j = 0; j < 4; j++ ) { //by previous row control. Same goes for the column
-                if(visited[i][j] = false) {
+                if(visited[i][j] == false) {
                     visited[i][j] = true;
                     coordinates = new Coordinates(i, j);
                     if (playerGrid.getSpot(coordinates).isOccupied()) {

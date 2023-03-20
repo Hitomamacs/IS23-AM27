@@ -144,7 +144,7 @@ public class PlayerGrid {
                     if(grid[i][j].getTile().getColor() == Color.BLUE)
                         System.out.print("B ");
                 } else {
-                    System.out.print("O");
+                    System.out.print("O ");
                 }
             }
             System.out.println();

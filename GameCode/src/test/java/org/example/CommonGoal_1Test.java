@@ -11,23 +11,27 @@ class CommonGoal_1Test {
 
     @BeforeEach
     void setUp(){
+
         commonGoal = new CommonGoal_1();
+        playerGrid = new PlayerGrid();
     }
 
     @Test
-    boolean test1_CheckGoal(){
+    void test1_CheckGoal(){
         Color[][] matrix;
         boolean result = false;
 
-        matrix = new Color[][]{{Color.PINK, Color.AZURE, Color.GREEN, Color.WHITE, Color.PINK},
+        matrix = new Color[][]{{Color.PINK, Color.PINK, Color.GREEN, Color.WHITE, Color.AZURE},
                 {Color.PINK, Color.PINK,Color.WHITE,Color.AZURE, Color.GREEN},
-                {Color.GREEN, Color.GREEN, Color.AZURE, Color.YELLOW, Color.WHITE},
-                {Color.PINK, Color.AZURE, Color.GREEN, Color.WHITE, Color.PINK},
-                {Color.PINK, Color.AZURE, Color.AZURE, Color.GREEN, Color.WHITE},
-                {Color.PINK, Color.AZURE, Color.GREEN, Color.WHITE, Color.PINK}};
-        result = commonGoal.checkGoal(playerGrid);
+                {Color.PINK, Color.PINK, Color.AZURE, Color.YELLOW, Color.WHITE},
+                {Color.AZURE, Color.AZURE, Color.GREEN, Color.WHITE, Color.PINK},
+                {Color.AZURE, Color.AZURE, Color.AZURE, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.AZURE, Color.AZURE, Color.AZURE, Color.PINK}};
+        playerGrid.quickGridSetter(matrix);
+        playerGrid.getSpot(new Coordinates(4,0)).removeTile();
         playerGrid.printColorPlayerGrid();
-        return result;
+        assertTrue(commonGoal.checkGoal(playerGrid));
     }
 
+  
 }

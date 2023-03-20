@@ -13,10 +13,10 @@ class CommonGoal_9Test {
         PlayerGrid playerGrid = new PlayerGrid();
         // create a pinkTile
         Tile pinkTile = new Tile(Color.PINK, 0);
-        //fill all columns
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 6; j++) {
-                playerGrid.topUp(j, pinkTile);
+        //fill all columns with pink tiles
+        for (int i = 4; i >= 0; i--) {
+            for (int j = 5; j >= 0; j--) {
+                playerGrid.topUp(i, pinkTile);
             }
         }
         // create a CommonGoal_9 instance and check the goal
@@ -29,9 +29,12 @@ class CommonGoal_9Test {
     public void checkTrueWhenAllGreen(){
         //create a PlayerGrid with all green tiles
         PlayerGrid playerGrid = new PlayerGrid();
-        for(int i=0; i<5; i++){
-            for(int j=0; j<6; j++){
-                playerGrid.getSpot(new Coordinates(i, j)).placeTile(new Tile(Color.GREEN, 0));
+        //create a greenTile
+        Tile greenTile = new Tile(Color.GREEN, 0);
+        //fill all columns with green tiles
+        for(int i = 4; i >= 0; i--){
+            for(int j = 5; j >= 0; j--){
+                playerGrid.topUp(i, greenTile);
             }
         }
 
@@ -53,18 +56,18 @@ class CommonGoal_9Test {
 
     @Test
     //check that goal returns false when only some spot are occupied with less than eight tile per color
-    public void checkFalseWhenOnlySomeColorsHave8TilesOccupying() {
+    public void checkFalseWhenNot8TilesSameColor() {
         // create a PlayerGrid
         PlayerGrid playerGrid = new PlayerGrid();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 5; i > 0; i--) { //iteration row
             for (int j = 0; j < 6; j++) {
                 // add some occupied tiles of different colors
-                if (i == 0 && j < 8) {
-                    playerGrid.getSpot(new Coordinates(i, j)).placeTile(new Tile(Color.PINK,0));
-                } else if (i == 1 && j < 8) {
-                    playerGrid.getSpot(new Coordinates(i, j)).placeTile(new Tile(Color.YELLOW,0));
-                } else if (i == 2 && j < 8) {
-                    playerGrid.getSpot(new Coordinates(i, j)).placeTile(new Tile(Color.GREEN,0));
+                if (i == 4) {
+                    playerGrid.topUp(i, new Tile(Color.PINK,0));
+                } else if (i == 3) {
+                    playerGrid.topUp(i, new Tile(Color.YELLOW,0));
+                } else if (i == 2) {
+                    playerGrid.topUp(i, new Tile(Color.GREEN,0));
                 }
             }
         }
@@ -73,7 +76,4 @@ class CommonGoal_9Test {
         CommonGoal_9 commonGoal = new CommonGoal_9();
         assertFalse(commonGoal.checkGoal(playerGrid));
     }
-
-
-
 }

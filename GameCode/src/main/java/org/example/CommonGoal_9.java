@@ -8,45 +8,45 @@ public class CommonGoal_9 extends CommonGoal{
         int j = 0;
         int counterPink = 0, counterYellow = 0, counterGreen = 0, counterWhite = 0, counterBlue = 0, counterAzure = 0;
 
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 6; j++) {
-                if ((playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.PINK) &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+        for (i = 0; i < 6; i++) { //iteration row
+            for (j = 0; j < 5; j++) { //iteration column
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.PINK) {
                     counterPink++;
                     if (counterPink == 8) {
                         return true;
                     }
                 }
-                if (playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.YELLOW &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.YELLOW) {
                     counterYellow++;
                     if (counterYellow == 8) {
                         return true;
                     }
                 }
-                if (playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.GREEN &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.GREEN) {
                     counterGreen++;
                     if (counterGreen == 8) {
                         return true;
                     }
                 }
-                if (playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.WHITE &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.WHITE) {
                     counterWhite++;
                     if (counterWhite == 8) {
                         return true;
                     }
                 }
-                if (playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.BLUE &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.BLUE) {
                     counterBlue++;
                     if (counterBlue == 8) {
                         return true;
                     }
                 }
-                if (playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.AZURE &&
-                        playerGrid.getSpot(new Coordinates(i, j)).isOccupied()) {
+                if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor() == Color.AZURE) {
                     counterAzure++;
                     if (counterAzure == 8) {
                         return true;

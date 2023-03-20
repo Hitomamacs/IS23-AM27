@@ -3,7 +3,7 @@ package org.example;
 public class StartTurnState implements GameState{
     private GameOrchestrator gameOrchestrator;
 
-    public void Execute(){
+    public void execute(){
         changeState();
 
 

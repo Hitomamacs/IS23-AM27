@@ -18,6 +18,16 @@ public class PickState implements GameState{
         gameOrchestrator.getCurrentPlayer().modifyPickedTiles(pickedTiles);
     }
 
+    public boolean DisconnectState(){
+        if (!gameOrchestrator.getCurrentPlayer().isConnected()){
+            gameOrchestrator.nextPlayer();
+            gameOrchestrator.changeState(new StartTurnState());
+            return true;
+        }
+        return false;
+
+    }
+
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new TopUpState());
@@ -27,7 +37,9 @@ public class PickState implements GameState{
 
     @Override
     public void execute() {
+        if(!DisconnectState()){
         Pick();
         changeState();
+    }
     }
 }

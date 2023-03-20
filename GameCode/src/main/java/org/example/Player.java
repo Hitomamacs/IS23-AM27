@@ -214,5 +214,12 @@ public class Player {
         return true;
     }
 
+    public int getSelectedColumn() {
+        return selectedColumn;
+    }
+
+    public void setSelectedColumn(int selectedColumn) {
+        this.selectedColumn = selectedColumn;
+    }
 }
 

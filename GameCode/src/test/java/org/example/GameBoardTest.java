@@ -144,4 +144,49 @@ class GameBoardTest {
         assertFalse(Board.checkBoard());
     }
 
+    @Test
+    @DisplayName("Checking boardnum function")
+    void boardCheckNum() {
+       Coordinates c1 = new Coordinates(0,0);
+       try {
+           int n = Board.boardCheckNum();
+           assertEquals(n, 45);
+
+       }catch (Exception e){
+           System.out.println("Board is does not need to be refilled");
+       }
+
+       Board.fillBoard(bag.randomPick(1));
+       try {
+           int n = Board.boardCheckNum();
+           assertEquals(n, 44);
+       }catch (Exception e){
+           System.out.println("Board  does not need to be refilled");
+       }
+       Board.fillBoard(bag.randomPick(1));
+         try {
+              assertThrows(Exception.class, () -> Board.boardCheckNum());
+
+    }catch (Exception e){
+        System.out.println("Board  does not need to be refilled");
+    }
+}
+
+    @Test
+    void verifyPickable() {
+         Board.fillBoard(bag.randomPick(1));
+         Coordinates c1 = new Coordinates(0,3);
+         Coordinates c2 = new Coordinates(0,4);
+         Coordinates c3 = new Coordinates(2,3);
+         Coordinates c4 = new Coordinates(3,2);
+         Board.printMwithTiles();
+         assertTrue(Board.verifyPickable(c1));
+         Board.fillBoard(bag.randomPick(1));
+         assertTrue(Board.verifyPickable(c2));
+         Board.fillBoard(bag.randomPick(12));
+         Board.printMwithTiles();
+         assertFalse(Board.verifyPickable(c3));
+         assertTrue(Board.verifyPickable(c4));
+
+    }
 }

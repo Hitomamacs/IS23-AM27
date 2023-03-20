@@ -8,29 +8,46 @@ public class CommonGoal_12 extends CommonGoal{
         int j=0;
         int counter_1=0, counter_2=0, counter_3=0, counter_4=0;
 
-        for(i = 0; i < 5; i++){
-            for(j = 0; j <= i; j++){
-                if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
+        //first case
+        for(i = 1; i < 6; i++) {
+            for (j = 0; j < 5; j++) {
+                if((j >= i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
+                    break;
+                }
+
+                if((j < i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
                     counter_1++;
-                    if(counter_1==15){
+                    if (counter_1 == 15) {
                         return true;
                     }
                 }
             }
         }
 
-        for(i = 1; i < 6; i++){
-            for(j = 0; j <= i; j++){
-                if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
+        //second case
+        for(i = 0; i < 5; i++) {
+            for (j = 0; j < 5; j++) {
+                if((j > i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
+                    break;
+                }
+
+                if((j <= i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
                     counter_2++;
-                    if(counter_2==15){
+                    if (counter_2 == 15) {
                         return true;
                     }
                 }
             }
         }
 
-        for(i = 0; i < 5; i++){
+        //third case
+        for(i = 1; i < 6; i++){
+            for(j = 4; j >= 0; j--){
+                if();
+            }
+        }
+
+        /*for(i = 0; i < 5; i++){
             for(j = 4; j >= i; j--){
                 if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
                     counter_3++;
@@ -39,10 +56,17 @@ public class CommonGoal_12 extends CommonGoal{
                     }
                 }
             }
-        }
+        }*/
 
-        for(i = 1; i < 6; i++){
-            for(j = 4; j >= i; j--){
+        /*for(i = 1; i < 6; i++){
+            for(j = 0; j < 5; j++){
+                if(5-i>j){
+
+                }
+            }
+        }
+        for(i = 5; i > 0; i--){
+            for(j = i-1; j >= 0; j--){
                 if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
                     counter_4++;
                     if(counter_4==15){
@@ -50,8 +74,10 @@ public class CommonGoal_12 extends CommonGoal{
                     }
                 }
             }
-        }
+        }*/
 
         return false;
     }
+
+
 }

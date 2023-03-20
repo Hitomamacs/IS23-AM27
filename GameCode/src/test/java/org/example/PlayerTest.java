@@ -234,6 +234,7 @@ class PlayerTest {
         player.getPlayerGrid().topUp(4, tile12);
         player.getPlayerGrid().topUp(4, tile13);
         player.getPlayerGrid().topUp(3, tile14);
+        player.getPlayerGrid().printPlayerGrid();
         assertEquals(player.verifyExtraPoints(), 7);
 
 

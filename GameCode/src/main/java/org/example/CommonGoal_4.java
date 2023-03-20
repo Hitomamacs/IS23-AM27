@@ -11,7 +11,8 @@ public class CommonGoal_4 extends CommonGoal{
         //check if in the row there are some right pairs
         for(i=0;i<4;i++){
             for(j=0;j<5;j++){
-                if(playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor().ordinal()==playerGrid.getSpot(new Coordinates(i,j+1)).getTile().getColor().ordinal()
+                if(playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor().ordinal()==
+                        playerGrid.getSpot(new Coordinates(i,j+1)).getTile().getColor().ordinal()
                    && Rowused[i][j]!=true && Rowused[i][j+1]!=true){
                     counter++;
                     Rowused[i][j]=true;
@@ -22,7 +23,8 @@ public class CommonGoal_4 extends CommonGoal{
         //check if in the column there are some right pairs
         for(i=0;i<5;i++){
             for(j=0;j<4;j++){
-                if(playerGrid.getSpot(new Coordinates(j,i)).getTile().getColor().ordinal()==playerGrid.getSpot(new Coordinates(j+1,i)).getTile().getColor().ordinal()
+                if(playerGrid.getSpot(new Coordinates(j,i)).getTile().getColor().ordinal()==
+                        playerGrid.getSpot(new Coordinates(j+1,i)).getTile().getColor().ordinal()
                         && Rowused[j][i]!=true && Rowused[j+1][i]!=true){
                     counter++;
                     Colused[j][i]=true;

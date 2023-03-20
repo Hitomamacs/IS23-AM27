@@ -78,12 +78,12 @@ public class Player {
     //player pickedTiles array, don't need to worry about the set being bigger than 3 as that check is made
     //by the method that passes the set
     public void modifyPickedTiles(Set<Tile> tiles){
-       int i;
-       i = 0;
-       for(Tile tile : tiles){
-           pickedTiles[i] = tile;
-           i++;
-       }
+        int i;
+        i = 0;
+        for(Tile tile : tiles){
+            pickedTiles[i] = tile;
+            i++;
+        }
     }
     //pickedTilesIsEmpty returns true if the pickedtiles array is empty
     public boolean pickedTilesIsEmpty(){

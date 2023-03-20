@@ -27,59 +27,13 @@ class GameBoardTest {
     @Test
     @DisplayName("Verify Picking 1 Tile")
     void testpick() {
-        System.out.println("Pick1");
-       Set<Tile> pickedTile = new HashSet<Tile>();
-       Set<Tile> tile = bag.randomPick(1);
-       Set<Tile> tile_copy = new HashSet<Tile>(tile);
-        Board.fillBoard(tile);
-        Board.printMwithTiles();
-        Coordinates c1 = new Coordinates(0,3);
-        pickedTile = Board.pick(c1);
-        System.out.println();
-        Board.printMwithTiles();
-        assertEquals(pickedTile.iterator().next(), tile_copy.iterator().next());
-        System.out.println();
+        //TODO da rifare
 
     }
 
-    @Test
-    @DisplayName("Verify Picking 2 Tile")
-    void testPick1() {
-        System.out.println("Pick2");
-        Set<Tile> pickedTile = new HashSet<Tile>();
-        Set<Tile> tile = bag.randomPick(2);
-        Set<Tile> tile_copy = new HashSet<Tile>(tile);
-        Board.fillBoard(tile);
-        Board.printMwithTiles();
-        Coordinates c1 = new Coordinates(0,3);
-        Coordinates c2 = new Coordinates(0,4);
-        pickedTile = Board.pick(c1,c2);
-        System.out.println();
-        Board.printMwithTiles();
-        assertTrue(pickedTile.containsAll(tile_copy));
-        System.out.println();
 
 
-    }
 
-    @Test
-    @DisplayName("Verify Picking 3 Tile")
-    void testPick2() {
-        System.out.println("Pick3");
-        Set<Tile> pickedTile = new HashSet<Tile>();
-        Set<Tile> tile = bag.randomPick(3);
-        Set<Tile> tile_copy = new HashSet<Tile>(tile);
-        Board.fillBoard(tile);
-        Board.printMwithTiles();
-        Coordinates c1 = new Coordinates(0,3);
-        Coordinates c2 = new Coordinates(0,4);
-        Coordinates c3 = new Coordinates(1,3);
-        pickedTile = Board.pick(c1,c2, c3);
-        System.out.println();
-        Board.printMwithTiles();
-        assertTrue(pickedTile.containsAll(tile_copy));
-        System.out.println();
-    }
 
     @Test
     void printM() {

@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VerifyBoardableState implements GameState{
@@ -8,11 +9,9 @@ public class VerifyBoardableState implements GameState{
 
 
     public boolean verifyBoardable(){
-        HashMap<Coordinates, Tile> pickedTiles = gameOrchestrator.getPickedTiles();
-        for(Map.Entry<Coordinates, Tile> mapElement : pickedTiles.entrySet()){
-            Coordinates coordinates = mapElement.getKey();
-            Tile tile = mapElement.getValue();
-            if(!gameOrchestrator.getGameBoard().verifyPickable(coordinates)){
+        List<Coordinates> pickedCoordinates = gameOrchestrator.getPickedCoordinates();
+        for(Coordinates c : pickedCoordinates){;
+            if(!gameOrchestrator.getGameBoard().verifyPickable(c)){
                 return false;
             }
         }

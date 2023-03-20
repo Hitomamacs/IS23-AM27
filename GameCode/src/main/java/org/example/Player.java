@@ -10,12 +10,14 @@ public class Player {
    private PlayerGrid playerGrid;
    private boolean[] CompletedCGoals;
    private PersonalGoal myPersonalGoal;
+   int selectedColumn;
 
    private Tile[] pickedTiles;
     public Player() {
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
+        selectedColumn = -1;
 
     }
     public String getNickname() {

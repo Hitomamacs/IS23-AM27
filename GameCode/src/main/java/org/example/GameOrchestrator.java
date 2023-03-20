@@ -1,6 +1,5 @@
 package org.example;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,7 @@ public class GameOrchestrator {
     private List<CommonGoal> selectedCGoal;
     private PointAssigner pointAssigner;
     private TileBag tileBag;
-    private HashMap<Coordinates, Tile> pickedTiles;
+    private List<Coordinates> pickedCoordinates;
     Game game;
 
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
@@ -26,7 +25,7 @@ public class GameOrchestrator {
         this.selectedCGoal=selectedCGoal;
         this.pointAssigner=pointAssigner;
         this.tileBag=tileBag;
-        this.pickedTiles=new HashMap<>();
+        this.pickedCoordinates =new ArrayList<>();
         this.game=game;
     }
 
@@ -80,12 +79,12 @@ public List<CommonGoal> getSelectedCGoal(){
         return this.pointAssigner;
     }
 
-    public HashMap<Coordinates, Tile> getPickedTiles(){
-        return this.pickedTiles;
+    public List<Coordinates> getPickedCoordinates(){
+        return this.pickedCoordinates;
     }
 
-    public void setPickedTiles(HashMap<Coordinates, Tile> pickedTiles){
-        this.pickedTiles=pickedTiles;
+    public void setPickedCoordinates(List<Coordinates> pickedCoordinates){
+        this.pickedCoordinates = pickedCoordinates;
     }
 
     public Game getGame(){

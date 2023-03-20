@@ -1,7 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 public class PickState implements GameState{
@@ -9,19 +10,20 @@ public class PickState implements GameState{
     private GameOrchestrator gameOrchestrator;
 
     public void Pick(){
-        HashMap<Coordinates, Tile> pickedTiles = gameOrchestrator.getPickedTiles();
-        gameOrchestrator.getCurrentPlayer().modifyPickedTiles((Set<Tile>) pickedTiles.values()); //TODO see if it works
+        List<Coordinates> coordinates = gameOrchestrator.getPickedCoordinates();
+        List<Tile> pickedTiles = new ArrayList<Tile>();
+        for(Coordinates c : coordinates){
+            pickedTiles.add(gameOrchestrator.getGameBoard().pick(c));
+        }
+        gameOrchestrator.getCurrentPlayer().modifyPickedTiles(pickedTiles);
     }
 
     @Override
     public void changeState() {
-        if(gameOrchestrator.getCurrentPlayer().isConnected())
-            gameOrchestrator.changeState(new TopUpState());
-        else
-            gameOrchestrator.changeState(new ReplaceState());
-
+        gameOrchestrator.changeState(new TopUpState());
 
     }
+
 
     @Override
     public void execute() {

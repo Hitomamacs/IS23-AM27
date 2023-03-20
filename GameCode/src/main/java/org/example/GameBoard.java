@@ -49,6 +49,15 @@ public class GameBoard {
 
 
     }
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     static boolean isValidPos(int i, int j, int n, int m)
     {
         if (i < 0 || j < 0 || i > n - 1 || j > m - 1) {
@@ -281,6 +290,37 @@ public class GameBoard {
                         }
                 }
             }
+        }
+    //print colored game Board
+    public void printBoardColor(){
+        int[] dim = returndim();
+        int rows = dim[0];
+        int columns = dim[1];
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<columns; j++){
+                if(finalMatrix[i][j] == 0){
+                    System.out.print("  ");
+                }
+                else if (board[i][j].isOccupied()){
+                    if(board[i][j].getTile().getColor() == Color.PINK)
+                        System.out.print(ANSI_PURPLE + "P ");
+                    else if(board[i][j].getTile().getColor() == Color.BLUE)
+                        System.out.print(ANSI_BLUE + "B " );
+                    else if(board[i][j].getTile().getColor() == Color.GREEN)
+                        System.out.print(ANSI_GREEN + "G ") ;
+                    else if(board[i][j].getTile().getColor() == Color.YELLOW)
+                        System.out.print(ANSI_YELLOW + "Y ");
+                    else if(board[i][j].getTile().getColor() == Color.AZURE)
+                        System.out.print(ANSI_CYAN + "A ");
+
+                }
+                else
+                    System.out.print(ANSI_BLACK+"0 ");
+
+                }
+            System.out.println();
+            }
+
         }
 
 

@@ -153,7 +153,7 @@ public class PlayerGrid {
                     if(grid[i][j].getTile().getColor() == Color.BLUE)
                         System.out.print(ANSI_BLUE+"B ");
                 } else {
-                    System.out.print("O");
+                    System.out.print(ANSI_BLACK+"O ");
                 }
             }
             System.out.println();

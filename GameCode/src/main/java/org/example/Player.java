@@ -11,11 +11,11 @@ public class Player {
    private boolean[] CompletedCGoals;
    private PersonalGoal myPersonalGoal;
 
-   private Tile[] pickedTiles;
+   private List<Tile> pickedTiles;
     public Player() {
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
-        pickedTiles = new Tile[3];
+        pickedTiles = new ArrayList<>();
 
     }
     public String getNickname() {
@@ -36,7 +36,7 @@ public class Player {
     public PersonalGoal getMyPersonalGoal() {
         return myPersonalGoal;
     }
-    public Tile[] getPickedTiles() {
+    public List<Tile> getPickedTiles() {
         return pickedTiles;
     }
     public void setNickname(String nickname) {
@@ -57,7 +57,7 @@ public class Player {
     public void setMyPersonalGoal(PersonalGoal personalGoal){
         myPersonalGoal = personalGoal;
     }
-    public void setPickedTiles(Tile[] pickedTiles) {
+    public void setPickedTiles(List<Tile> pickedTiles) {
         this.pickedTiles = pickedTiles;
     }
     //changeScore is the method used to increment the score in player. Score can only increase so if a negative
@@ -79,7 +79,7 @@ public class Player {
     //by the method that passes the set
     public void modifyPickedTiles(List<Tile> tiles){
        for(int i = 0; i < tiles.size(); i++){
-           pickedTiles[i] = tiles.get(i);
+           pickedTiles.add(i,tiles.get(i));
        }
     }
     //pickedTilesIsEmpty returns true if the pickedtiles array is empty
@@ -87,7 +87,7 @@ public class Player {
         boolean result = true;
         int i = 0;
         while(i < 3 && result){
-            if(pickedTiles[i] != null)
+            if(pickedTiles.get(i) != null)
                 result = false;
             i++;
 
@@ -97,8 +97,8 @@ public class Player {
     //selectTile allows player to select a tile from the tiles in his hand(pickedTiles)
     public Tile selectTile(int position){
         Tile tile;
-        tile = pickedTiles[position];
-        pickedTiles[position] = null;
+        tile = pickedTiles.get(position);
+        pickedTiles.remove(position);
         return tile;
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal

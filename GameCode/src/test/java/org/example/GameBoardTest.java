@@ -133,14 +133,12 @@ class GameBoardTest {
        Coordinates c1 = new Coordinates(0,3);
         Board.fillBoard(bag.randomPick(1));
         Board.printMwithTiles();
+        Board.printBoardColor();
         assertTrue(Board.checkBoard());
         Board.fillBoard(bag.randomPick(1));
-        Board.printMwithTiles();
         Board.pick(c1);
-        Board.printMwithTiles();
         assertTrue(Board.checkBoard());
         Board.fillBoard(bag.randomPick(10));
-        Board.printMwithTiles();
         assertFalse(Board.checkBoard());
     }
 

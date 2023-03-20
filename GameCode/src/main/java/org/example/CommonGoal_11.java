@@ -7,50 +7,59 @@ public class CommonGoal_11 extends CommonGoal{
         int j; //column
         int counterDiagonal_1 = 0, counterDiagonal_2 = 0, counterDiagonal_3=0, counterDiagonal_4=0;
 
-        for (i = 1; i < 5; i++) {
-            if (playerGrid.getSpot(new Coordinates(i - 1, i - 1)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i, i)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, i - 1)).getTile().getColor() ==
-                            playerGrid.getSpot(new Coordinates(i, i)).getTile().getColor()) {
-                counterDiagonal_1++;
-                if (counterDiagonal_1 == 5) {
-                    return true;
+
+        if(playerGrid.getSpot(new Coordinates(0,0)).isOccupied()){
+            counterDiagonal_1++;
+            for(i=1; i<5; i++){
+                if(playerGrid.getSpot(new Coordinates(i,i)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i,i)).getTile().getColor() ==
+                                playerGrid.getSpot(new Coordinates(0,0)).getTile().getColor()){
+                    counterDiagonal_1++;
+                    if(counterDiagonal_1==5){
+                        return true;
+                    }
                 }
             }
         }
 
-        for (i = 2, j = 1; i < 5 && j < 6; i++, j++) {
-            if (playerGrid.getSpot(new Coordinates(i - 1, j - 1)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, j - 1)).getTile().getColor() ==
-                            playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor()) {
-                counterDiagonal_2++;
-                if (counterDiagonal_2 == 5) {
-                    return true;
+        if(playerGrid.getSpot(new Coordinates(1,0)).isOccupied()){
+            counterDiagonal_2++;
+            for(i=2, j=1; i<6 && j<5; i++, j++){
+                if(playerGrid.getSpot(new Coordinates(i,j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor() ==
+                                playerGrid.getSpot(new Coordinates(1,0)).getTile().getColor()){
+                    counterDiagonal_2++;
+                    if(counterDiagonal_2==5){
+                        return true;
+                    }
                 }
             }
         }
 
-        for (i = 4, j=0; i >0 && j<5; i--, j++) {
-            if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, j + 1)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, j + 1)).getTile().getColor() ==
-                            playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor()) {
-                counterDiagonal_3++;
-                if (counterDiagonal_3 == 5) {
-                    return true;
+        if(playerGrid.getSpot(new Coordinates(0,4)).isOccupied()){
+            counterDiagonal_3++;
+            for(i=1, j=3; i<5 && j>=0; i++, j--){
+                if(playerGrid.getSpot(new Coordinates(i,j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor() ==
+                                playerGrid.getSpot(new Coordinates(0,4)).getTile().getColor()){
+                    counterDiagonal_3++;
+                    if(counterDiagonal_3==5){
+                        return true;
+                    }
                 }
             }
         }
 
-        for (i = 4, j=1; i >0 && j<6; i--, j++) {
-            if (playerGrid.getSpot(new Coordinates(i, j)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, j + 1)).isOccupied() &&
-                    playerGrid.getSpot(new Coordinates(i - 1, j + 1)).getTile().getColor() ==
-                            playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor()) {
-                counterDiagonal_4++;
-                if (counterDiagonal_4 == 5) {
-                    return true;
+        if(playerGrid.getSpot(new Coordinates(1,4)).isOccupied()){
+            counterDiagonal_4++;
+            for(i=2, j=3; i<6 && j>=0; i++, j--){
+                if(playerGrid.getSpot(new Coordinates(i,j)).isOccupied() &&
+                        playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor() ==
+                                playerGrid.getSpot(new Coordinates(1,4)).getTile().getColor()){
+                    counterDiagonal_4++;
+                    if(counterDiagonal_4==5){
+                        return true;
+                    }
                 }
             }
         }
@@ -58,3 +67,4 @@ public class CommonGoal_11 extends CommonGoal{
         return false;
     }
 }
+

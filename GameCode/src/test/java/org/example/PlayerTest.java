@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,13 +58,8 @@ class PlayerTest {
     }
     @Test
     void testModifyPickedTiles(){
-        //TODO have to change test as set iteration order varies from run to run
-        Set<Tile> tiles;
-        tiles = new HashSet<>();
-
-        assertNull(player.getPickedTiles()[0]);
-        assertNull(player.getPickedTiles()[1]);
-        assertNull(player.getPickedTiles()[2]);
+        List<Tile> tiles;
+        tiles = new ArrayList<>();
 
         tiles.add(new Tile(Color.PINK, 0));
         tiles.add(new Tile(Color.GREEN, 1));
@@ -77,11 +74,11 @@ class PlayerTest {
     }
     @Test
     void testSelectTile(){
-        Set<Tile> tiles;
+        List<Tile> tiles;
         Tile tile1 = new Tile(Color.PINK, 0);
         Tile tile2 = new Tile(Color.GREEN, 1);
         Tile tile3 = new Tile(Color.WHITE, 2);
-        tiles = new HashSet<>();
+        tiles = new ArrayList<>();
         tiles.add(tile1);
         tiles.add(tile2);
         tiles.add(tile3);
@@ -95,8 +92,8 @@ class PlayerTest {
     }
     @Test
     void testPickedTilesIsEmpty(){
-        Set<Tile> tiles;
-        tiles = new HashSet<>();
+        List<Tile> tiles;
+        tiles = new ArrayList<>();
         tiles.add(new Tile(Color.PINK, 0));    //Creating a set I can pass to modifyPickedTiles
         tiles.add(new Tile(Color.GREEN, 1));
         tiles.add(new Tile(Color.WHITE, 2));

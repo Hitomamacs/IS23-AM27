@@ -77,12 +77,9 @@ public class Player {
     //modifypickedTiles allows me to put the set of picked tiles returned by the pick state in the
     //player pickedTiles array, don't need to worry about the set being bigger than 3 as that check is made
     //by the method that passes the set
-    public void modifyPickedTiles(Set<Tile> tiles){
-       int i;
-       i = 0;
-       for(Tile tile : tiles){
-           pickedTiles[i] = tile;
-           i++;
+    public void modifyPickedTiles(List<Tile> tiles){
+       for(int i = 0; i < tiles.size(); i++){
+           pickedTiles[i] = tiles.get(i);
        }
     }
     //pickedTilesIsEmpty returns true if the pickedtiles array is empty

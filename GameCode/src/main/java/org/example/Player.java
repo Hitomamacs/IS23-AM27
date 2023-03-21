@@ -11,11 +11,11 @@ public class Player {
    private boolean[] CompletedCGoals;
    private PersonalGoal myPersonalGoal;
 
-   private List<Tile> pickedTiles;
+   private Tile[] pickedTiles;
     public Player() {
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
-        pickedTiles = new ArrayList<>();
+        pickedTiles = new Tile[3];
 
     }
     public String getNickname() {
@@ -36,7 +36,7 @@ public class Player {
     public PersonalGoal getMyPersonalGoal() {
         return myPersonalGoal;
     }
-    public List<Tile> getPickedTiles() {
+    public Tile[] getPickedTiles() {
         return pickedTiles;
     }
     public void setNickname(String nickname) {
@@ -57,7 +57,7 @@ public class Player {
     public void setMyPersonalGoal(PersonalGoal personalGoal){
         myPersonalGoal = personalGoal;
     }
-    public void setPickedTiles(List<Tile> pickedTiles) {
+    public void setPickedTiles(Tile[] pickedTiles) {
         this.pickedTiles = pickedTiles;
     }
     //changeScore is the method used to increment the score in player. Score can only increase so if a negative
@@ -79,26 +79,31 @@ public class Player {
     //by the method that passes the set
     public void modifyPickedTiles(List<Tile> tiles){
        for(int i = 0; i < tiles.size(); i++){
-           pickedTiles.add(i,tiles.get(i));
+           pickedTiles[i] = tiles.get(i);
        }
     }
-    //pickedTilesIsEmpty returns true if the pickedtiles array is empty
+    //pickedTilesIsEmpty returns true if the pickedtiles list is empty
     public boolean pickedTilesIsEmpty(){
         boolean result = true;
-        int i = 0;
-        while(i < 3 && result){
-            if(pickedTiles.get(i) != null)
+        for(int i = 0; i < 3 && result; i++)
+            if(pickedTiles[i] != null)
                 result = false;
-            i++;
-
+        return result;
+    }
+    //Tells me number of tiles in players pickedTiles
+    public int pickedTilesNum(){
+        int result = 0;
+        for(int i = 0; i < 3; i++){
+            if(pickedTiles[i] != null)
+                result++;
         }
         return result;
     }
     //selectTile allows player to select a tile from the tiles in his hand(pickedTiles)
     public Tile selectTile(int position){
         Tile tile;
-        tile = pickedTiles.get(position);
-        pickedTiles.remove(position);
+        tile = pickedTiles[position];
+        pickedTiles[position] = null;
         return tile;
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal

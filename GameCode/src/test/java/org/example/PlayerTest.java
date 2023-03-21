@@ -103,6 +103,10 @@ class PlayerTest {
         assertFalse(player.pickedTilesIsEmpty());
     }
     @Test
+    void testPickedTilesNum(){
+        //TODO
+    }
+    @Test
     void testVerifyPGoalsPoints(){
         Tile tile;
         PersonalGoal PGoal= new PersonalGoal_1();

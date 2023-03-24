@@ -4,7 +4,7 @@ public class CommonGoal_12 extends CommonGoal{
 
     public boolean checkGoal(PlayerGrid playerGrid){
         //counter for the matrix
- /*       int i=0;
+    /*    int i=0;
         int j=0;
         int counter_1=0, counter_2=0, counter_3=0, counter_4=0;
 

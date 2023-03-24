@@ -15,7 +15,7 @@ class CommonGoal_1Test {
         commonGoal = new CommonGoal_1();
         playerGrid = new PlayerGrid();
     }
-
+    
     @Test
     void test1_CheckGoal(){
         Color[][] matrix;

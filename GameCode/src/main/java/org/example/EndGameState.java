@@ -2,7 +2,10 @@ package org.example;
 
 public class EndGameState implements GameState{
 
-
+    GameOrchestrator gameOrchestrator;
+    public EndGameState(GameOrchestrator orchestrator){
+        this.gameOrchestrator = orchestrator;
+    }
 
     @Override
     public void execute() {

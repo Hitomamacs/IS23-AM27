@@ -1,16 +1,17 @@
 package org.example;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VerifyBoardableState implements GameState{
     private GameOrchestrator gameOrchestrator;
 
+    public VerifyBoardableState(GameOrchestrator orchestrator){
+        this.gameOrchestrator = orchestrator;
+    }
 
     public boolean verifyBoardable(){
         List<Coordinates> pickedCoordinates = gameOrchestrator.getPickedCoordinates();
-        for(Coordinates c : pickedCoordinates){;
+        for(Coordinates c : pickedCoordinates){
             if(!gameOrchestrator.getGameBoard().verifyPickable(c)){
                 return false;
             }
@@ -21,12 +22,12 @@ public class VerifyBoardableState implements GameState{
     @Override
     public void changeState() {
         if(verifyBoardable()) {
-            gameOrchestrator.changeState(new PickState());
-            gameOrchestrator.excecuteState();
+            gameOrchestrator.changeState(new PickState(gameOrchestrator));
+            gameOrchestrator.executeState();
         }
 
         else
-            gameOrchestrator.changeState(new VerifyGrillableState());
+            gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
 
 
     }

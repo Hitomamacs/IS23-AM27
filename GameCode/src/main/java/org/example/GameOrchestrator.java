@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class GameOrchestrator {
@@ -28,7 +27,7 @@ public class GameOrchestrator {
         this.players=players;
         this.currentPlayerIndex=0;
         this.finalRoundFlag=false;
-        this.State = new RefillState();
+        this.State = new StartTurnState(this);
         this.gameBoard=gameBoard;
         this.selectedCGoal=selectedCGoal;
         this.pointAssigner=pointAssigner;
@@ -41,7 +40,7 @@ public class GameOrchestrator {
         this.State=state;
     }
 
-    public void excecuteState(){
+    public void executeState(){
         this.State.execute();
     }
 

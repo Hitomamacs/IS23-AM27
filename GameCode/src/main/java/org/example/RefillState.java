@@ -3,10 +3,14 @@ package org.example;
 public class RefillState implements GameState{
     private GameOrchestrator gameOrchestrator;
 
+    public RefillState(GameOrchestrator orchestrator){
+        this.gameOrchestrator = orchestrator;
+    }
+
 
     @Override
     public void changeState() {
-        gameOrchestrator.changeState(new VerifyGrillableState());
+        gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
 
 
     }

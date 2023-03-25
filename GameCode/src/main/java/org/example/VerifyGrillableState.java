@@ -3,6 +3,10 @@ package org.example;
 public class VerifyGrillableState implements GameState{
 
     private GameOrchestrator gameOrchestrator;
+
+    public VerifyGrillableState(GameOrchestrator orchestrator) {
+        this.gameOrchestrator = orchestrator;
+    }
     public boolean verifyGrillable(){
         PlayerGrid grid = gameOrchestrator.getCurrentPlayer().getPlayerGrid();
         int n_picked_tiles =  gameOrchestrator.getPickedCoordinates().size();
@@ -19,11 +23,11 @@ public class VerifyGrillableState implements GameState{
     @Override
     public void changeState() {
         if(verifyGrillable()) {
-            gameOrchestrator.changeState(new VerifyBoardableState());
-            gameOrchestrator.excecuteState();
+            gameOrchestrator.changeState(new VerifyBoardableState(gameOrchestrator));
+            gameOrchestrator.executeState();
         }
         else
-            gameOrchestrator.changeState(new VerifyGrillableState());
+            gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
 
     }
     @Override

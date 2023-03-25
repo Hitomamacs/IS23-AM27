@@ -16,6 +16,14 @@ public class GameOrchestrator {
     private List<Coordinates> pickedCoordinates;
     Game game;
 
+    public GameState getState() {
+        return State;
+    }
+
+    public void setState(GameState state) {
+        State = state;
+    }
+
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;

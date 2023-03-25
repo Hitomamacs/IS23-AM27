@@ -20,8 +20,11 @@ public class VerifyBoardableState implements GameState{
     }
     @Override
     public void changeState() {
-        if(verifyBoardable())
+        if(verifyBoardable()) {
             gameOrchestrator.changeState(new PickState());
+            gameOrchestrator.excecuteState();
+        }
+
         else
             gameOrchestrator.changeState(new VerifyGrillableState());
 

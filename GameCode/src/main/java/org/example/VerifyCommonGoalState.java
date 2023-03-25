@@ -24,6 +24,7 @@ public class VerifyCommonGoalState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new FullGridState());
+        gameOrchestrator.excecuteState();
 
     }
 

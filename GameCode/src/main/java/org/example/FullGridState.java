@@ -13,14 +13,18 @@ public class FullGridState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new StartTurnState());
+        gameOrchestrator.excecuteState();
 
 
     }
 
     @Override
     public void execute() {
-        if(gameOrchestrator.getCurrentPlayer().getPlayerGrid().fullCheck() && gameOrchestrator.getFinalRoundFlag() == false)
+        if(gameOrchestrator.getCurrentPlayer().getPlayerGrid().fullCheck() && gameOrchestrator.getFinalRoundFlag() == false) {
             gameOrchestrator.setFinalRoundFlag(true);
+            gameOrchestrator.nextPlayer();
+        }
+
         changeState();
 
 

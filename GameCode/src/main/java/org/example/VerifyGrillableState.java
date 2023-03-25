@@ -14,10 +14,14 @@ public class VerifyGrillableState implements GameState{
         }
         return false;
     }
+    
+
     @Override
     public void changeState() {
-        if(verifyGrillable())
+        if(verifyGrillable()) {
             gameOrchestrator.changeState(new VerifyBoardableState());
+            gameOrchestrator.excecuteState();
+        }
         else
             gameOrchestrator.changeState(new VerifyGrillableState());
 

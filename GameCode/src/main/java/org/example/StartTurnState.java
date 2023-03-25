@@ -13,9 +13,11 @@ public class StartTurnState implements GameState{
     public void changeState(){
         if(gameOrchestrator.getFinalRoundFlag() && gameOrchestrator.CurrentPlayerIndex() == 0){
             gameOrchestrator.changeState(new EndGameState());
+            gameOrchestrator.excecuteState();
         }
         else{
             gameOrchestrator.changeState(new ConnectionCheckState());
+            gameOrchestrator.excecuteState();
         }
     }
 

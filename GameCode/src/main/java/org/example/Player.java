@@ -11,6 +11,7 @@ public class Player {
    private boolean[] CompletedCGoals;
    private PersonalGoal myPersonalGoal;
    int selectedColumn;
+   int tileIndex;
 
    private List<Tile> pickedTiles;
     public Player() {
@@ -220,6 +221,14 @@ public class Player {
 
     public void setSelectedColumn(int selectedColumn) {
         this.selectedColumn = selectedColumn;
+    }
+
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
+    public void setTileIndex(int tileIndex) {
+        this.tileIndex = tileIndex;
     }
 }
 

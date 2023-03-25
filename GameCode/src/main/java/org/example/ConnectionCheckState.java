@@ -7,10 +7,12 @@ public class ConnectionCheckState implements GameState{
     public void changeState() {
         if(gameOrchestrator.getCurrentPlayer().isConnected()){
             gameOrchestrator.changeState(new RefillState());
+            gameOrchestrator.excecuteState();
         }
         else{
             gameOrchestrator.nextPlayer();
-            gameOrchestrator.changeState(new RefillState());
+            gameOrchestrator.changeState(new StartTurnState());
+            gameOrchestrator.excecuteState();
         }
 
 

@@ -4,7 +4,7 @@ public class CommonGoal_12 extends CommonGoal{
 
     public boolean checkGoal(PlayerGrid playerGrid){
         //counter for the matrix
- /*       int i=0;
+        int i=0;
         int j=0;
         int counter_1=0, counter_2=0, counter_3=0, counter_4=0;
 
@@ -41,14 +41,22 @@ public class CommonGoal_12 extends CommonGoal{
         }
 
         //third case
-        for(i = 1; i < 6; i++){
-            for(j = 4; j >= 0; j--){
-                if();
+        for(i = 0; i < 6; i++){
+            for(j = 0; j < 5; j++){
+                if(i + j < 6 && playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
+                    break;
+                }
+                if(i + j >= 6 && playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
+                    counter_3++;
+                    if(counter_3 == 15){
+                        return true;
+                    }
+                }
             }
         }
-    */
+
         /*for(i = 0; i < 5; i++){
-            for(j = 4; j >= i; j--){
+            for(j = 0; j < 4; j--){
                 if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
                     counter_3++;
                     if(counter_3==15){

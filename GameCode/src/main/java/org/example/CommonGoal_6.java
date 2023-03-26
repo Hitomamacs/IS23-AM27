@@ -1,10 +1,11 @@
 package org.example;
 
+import java.util.ArrayList;
+
 public class CommonGoal_6 extends CommonGoal{
 
-    public boolean checkGoal(PlayerGrid playerGrid)
-    {
-        int counter=0; //counter for row that verify the goal
+    public boolean checkGoal(PlayerGrid playerGrid) {
+        /*int counter=0; //counter for row that verify the goal
         int i=0, j=0; //counters for playergrid
         int k=0; //counter for array
         int s=0; //counter for array
@@ -12,10 +13,10 @@ public class CommonGoal_6 extends CommonGoal{
 
         int[] arrayColor={-1,-1,-1,-1,-1};
 
-        for(i=0; i<5; i++)
+        for(i=0; i<6; i++)
         {
             uguali=0;
-            for(j=0; j<6; j++)
+            for(j=0; j<5; j++)
             {
                 if(!(playerGrid.getSpot(new Coordinates(i,j)).isOccupied()))
                 {
@@ -51,5 +52,26 @@ public class CommonGoal_6 extends CommonGoal{
             return true;
         else
             return false;
+    }*/
+        int counter = 0; //counter for row that verify the goal
+        int i, j; //counters for playergrid
+
+        for (i = 0; i < 6; i++) {
+            ArrayList<Integer> color = new ArrayList<Integer>();
+            for (j = 0; j < 5; j++) {
+                if (!(playerGrid.getSpot(new Coordinates(i, j)).isOccupied())) {
+                    break;
+                } else {
+                    if (!(color.contains(playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor().ordinal()))) {
+                        color.add(playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor().ordinal());
+                    }
+                }
+            }
+            if (color.size() == 5)
+                counter++;
+        }
+        if (counter >= 2)
+            return true;
+        else return false;
     }
 }

@@ -9,10 +9,10 @@ public class CommonGoal_5 extends CommonGoal{
         int counter=0; //counter for row that verify the goal
         int i, j; //counters for playergrid
 
-        for(i=0; i<6; i++)
+        for(i=0; i<5; i++)
         {
             ArrayList<Integer> color= new ArrayList<>();
-            for(j=0; j<5; j++)
+            for(j=0; j<6; j++)
             {
                 if(!(playerGrid.getSpot(new Coordinates(j,i)).isOccupied()))
                 {

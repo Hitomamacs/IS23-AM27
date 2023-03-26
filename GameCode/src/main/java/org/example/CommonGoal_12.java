@@ -3,89 +3,71 @@ package org.example;
 public class CommonGoal_12 extends CommonGoal{
 
     public boolean checkGoal(PlayerGrid playerGrid){
-        //counter for the matrix
-        int i=0;
+        //counter for the column of the matrix
         int j=0;
-        int counter_1=0, counter_2=0, counter_3=0, counter_4=0;
 
         //first case
-        for(i = 1; i < 6; i++) {
-            for (j = 0; j < 5; j++) {
-                if((j >= i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
-                    break;
-                }
-
-                if((j < i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
-                    counter_1++;
-                    if (counter_1 == 15) {
-                        return true;
-                    }
-                }
+        for(j = 0; j < 5; j++){
+            if(!mySpaceCheck(j, j + 1, playerGrid)){
+                break;
+            }
+            if(j == 4){
+                return true;
             }
         }
 
         //second case
-        for(i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
-                if((j > i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
-                    break;
-                }
-
-                if((j <= i) && (playerGrid.getSpot(new Coordinates(i, j)).isOccupied())){
-                    counter_2++;
-                    if (counter_2 == 15) {
-                        return true;
-                    }
-                }
+        for(j = 0; j < 5; j++){
+            if(!mySpaceCheck(j, j, playerGrid)){
+                break;
+            }
+            if(j == 4){
+                return true;
             }
         }
 
         //third case
-        for(i = 0; i < 6; i++){
-            for(j = 0; j < 5; j++){
-                if(i + j < 6 && playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
-                    break;
-                }
-                if(i + j >= 6 && playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
-                    counter_3++;
-                    if(counter_3 == 15){
-                        return true;
-                    }
-                }
+        for(j = 0; j < 5; j++){
+            if(!mySpaceCheck(j, 5-j, playerGrid)){
+                break;
+            }
+            if(j==4){
+                return true;
             }
         }
 
-        /*for(i = 0; i < 5; i++){
-            for(j = 0; j < 4; j--){
-                if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
-                    counter_3++;
-                    if(counter_3==15){
-                        return true;
-                    }
-                }
+        //fourth case
+        for(j = 0; j < 5; j++){
+            if(!mySpaceCheck(j, 4-j, playerGrid)){
+                break;
             }
-        }*/
-
-        /*for(i = 1; i < 6; i++){
-            for(j = 0; j < 5; j++){
-                if(5-i>j){
-
-                }
+            if(j==4){
+                return true;
             }
         }
-        for(i = 5; i > 0; i--){
-            for(j = i-1; j >= 0; j--){
-                if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied()){
-                    counter_4++;
-                    if(counter_4==15){
-                        return true;
-                    }
-                }
-            }
-        }*/
 
-      return false;
+
+        return false;
     }
 
+    public boolean mySpaceCheck(int column, int n_tiles, PlayerGrid playerGrid) {
 
+        if (column < 0 || column > 4) {
+            throw new IllegalArgumentException("Column must be between 0 and 5");
+        }
+        int counter = 0;
+        for (int i = 0; i <= 5; i++) {
+            if (!playerGrid.getSpot(new Coordinates(i, column)).isOccupied()) {
+                counter++;
+            }
+        }
+        if (counter == n_tiles) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
+
+

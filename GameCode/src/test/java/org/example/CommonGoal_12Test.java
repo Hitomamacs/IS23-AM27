@@ -356,7 +356,6 @@ class CommonGoal_12Test {
         CommonGoal_12 commonGoal = new CommonGoal_12();
         assertFalse(commonGoal.checkGoal(playerGrid));
     }
-
 }
 
 

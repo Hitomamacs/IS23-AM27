@@ -6,12 +6,12 @@ public class CommonGoal_7 extends CommonGoal{
     public boolean checkGoal(PlayerGrid playerGrid)
     {
         int counter=0; //counter for row that verify the goal
-        int i=0, j=0; //counters for playergrid
+        int i, j; //counters for playergrid
 
-        for(i=0; i<5; i++)
+        for(i=0; i<6; i++)
         {
             ArrayList<Integer> color= new ArrayList<Integer>();
-            for(j=0; j<6; j++)
+            for(j=0; j<5; j++)
             {
                 if(!(playerGrid.getSpot(new Coordinates(i,j)).isOccupied()))
                 {

@@ -89,7 +89,7 @@ class CommonGoal_12Test {
 
     @Test
     //check the first matrix
-    public void checkFirstMatrixFalse3(){
+    public void checkFirstMatrixFalse2 (){
 
         PlayerGrid playerGrid = new PlayerGrid();
         matrix= new Color[][]{
@@ -227,10 +227,9 @@ class CommonGoal_12Test {
         assertFalse(commonGoal.checkGoal(playerGrid));
     }
 
-//TODO: da qui
 
     @Test
-    //check third matrix
+    //check third matrix true
     public void checkThirdMatrixTrue(){
 
         PlayerGrid playerGrid = new PlayerGrid();
@@ -269,8 +268,43 @@ class CommonGoal_12Test {
     }
 
     @Test
-    //check fourth diagonal
-    public void checkFourthDiagonal(){
+    //check third matrix false
+    public void checkThirdMatrixFalse(){
+
+        PlayerGrid playerGrid = new PlayerGrid();
+        matrix= new Color[][]{
+                {Color.BLUE, Color.BLUE, Color.GREEN, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.YELLOW, Color.GREEN, Color.WHITE, Color.WHITE},
+                {Color.AZURE, Color.PINK, Color.WHITE, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.WHITE, Color.PINK, Color.GREEN, Color.WHITE},
+                {Color.WHITE, Color.BLUE, Color.GREEN, Color.GREEN, Color.WHITE},
+                {Color.YELLOW, Color.BLUE, Color.GREEN, Color.AZURE, Color.PINK},
+        };
+
+        playerGrid.quickGridSetter(matrix);
+
+        playerGrid.getSpot(new Coordinates(0,0)).removeTile();
+        playerGrid.getSpot(new Coordinates(0,2)).removeTile();
+        playerGrid.getSpot(new Coordinates(0,3)).removeTile();
+        playerGrid.getSpot(new Coordinates(0,4)).removeTile();
+        playerGrid.getSpot(new Coordinates(1,0)).removeTile();
+        playerGrid.getSpot(new Coordinates(1,2)).removeTile();
+        playerGrid.getSpot(new Coordinates(1,1)).removeTile();
+        playerGrid.getSpot(new Coordinates(2,2)).removeTile();
+        playerGrid.getSpot(new Coordinates(3,0)).removeTile();
+        playerGrid.getSpot(new Coordinates(3,1)).removeTile();
+        playerGrid.getSpot(new Coordinates(4,0)).removeTile();
+
+        playerGrid.printColorPlayerGrid();
+
+        // create a CommonGoal_12 instance and check the goal
+        CommonGoal_12 commonGoal = new CommonGoal_12();
+        assertFalse(commonGoal.checkGoal(playerGrid));
+    }
+
+    @Test
+    //check fourth diagonal false
+    public void checkFourthMatrixFalse(){
 
         PlayerGrid playerGrid = new PlayerGrid();
         matrix= new Color[][]{
@@ -287,7 +321,7 @@ class CommonGoal_12Test {
 
         // create a CommonGoal_12 instance and check the goal
         CommonGoal_12 commonGoal = new CommonGoal_12();
-        assertTrue(commonGoal.checkGoal(playerGrid));
+        assertFalse(commonGoal.checkGoal(playerGrid));
     }
 
     @Test

@@ -15,7 +15,7 @@ class CommonGoal_1Test {
         commonGoal = new CommonGoal_1();
         playerGrid = new PlayerGrid();
     }
-
+    
     @Test
     void test1_CheckGoal(){
         Color[][] matrix;
@@ -23,12 +23,12 @@ class CommonGoal_1Test {
 
         matrix = new Color[][]{{Color.PINK, Color.PINK, Color.GREEN, Color.WHITE, Color.AZURE},
                 {Color.PINK, Color.PINK,Color.WHITE,Color.AZURE, Color.GREEN},
-                {Color.PINK, Color.PINK, Color.AZURE, Color.YELLOW, Color.WHITE},
-                {Color.AZURE, Color.AZURE, Color.GREEN, Color.WHITE, Color.PINK},
-                {Color.AZURE, Color.AZURE, Color.AZURE, Color.AZURE, Color.WHITE},
-                {Color.PINK, Color.AZURE, Color.AZURE, Color.AZURE, Color.PINK}};
+                {Color.PINK, Color.PINK, Color.AZURE, Color.WHITE, Color.WHITE},
+                {Color.PINK, Color.AZURE, Color.GREEN, Color.WHITE, Color.WHITE},
+                {Color.PINK, Color.PINK, Color.PINK, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.PINK, Color.PINK, Color.AZURE, Color.PINK}};
         playerGrid.quickGridSetter(matrix);
-        playerGrid.getSpot(new Coordinates(4,0)).removeTile();
+        //playerGrid.getSpot(new Coordinates(4,0)).removeTile();
         playerGrid.printColorPlayerGrid();
         assertTrue(commonGoal.checkGoal(playerGrid));
     }

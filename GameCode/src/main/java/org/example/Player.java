@@ -10,6 +10,8 @@ public class Player {
    private PlayerGrid playerGrid;
    private boolean[] CompletedCGoals;
    private PersonalGoal myPersonalGoal;
+   int selectedColumn;
+   int tileIndex;
 
    private Tile[] pickedTiles;
     public Player() {
@@ -218,5 +220,20 @@ public class Player {
         return true;
     }
 
+    public int getSelectedColumn() {
+        return selectedColumn;
+    }
+
+    public void setSelectedColumn(int selectedColumn) {
+        this.selectedColumn = selectedColumn;
+    }
+
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
+    public void setTileIndex(int tileIndex) {
+        this.tileIndex = tileIndex;
+    }
 }
 

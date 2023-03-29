@@ -15,7 +15,7 @@ public class ConnectionCheckState implements GameState{
     @Override
     public void changeState() {
         if(gameOrchestrator.getCurrentPlayer().isConnected()){
-            if(gameOrchestrator.getCurrentPlayer().getPickedTiles().isEmpty()) {
+            if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
                 gameOrchestrator.changeState(new RefillState(gameOrchestrator));
                 gameOrchestrator.executeState();
             }

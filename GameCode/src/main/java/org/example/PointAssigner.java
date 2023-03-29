@@ -12,6 +12,9 @@ public class PointAssigner {
 
     private List<Stack<Integer>> stackList;
 
+    public PointAssigner(){
+        stackList = new ArrayList<>();
+    }
     public List<Stack<Integer>> getStackList(){
         return stackList;
     }

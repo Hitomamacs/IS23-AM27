@@ -24,7 +24,12 @@ public class Game {
     CommonGoal_Deck commonGoalDeck;
 
     //TODO WHat happens if game terminates?
-
+    public Game(){
+        topUpListener = new TopUpListener(this);
+        coordinatesListener = new CoordinatesListener(this);
+        players = new ArrayList<>();
+        commonGoals = new ArrayList<>();
+    }
     public void gameInit(int num_players){
         tileBag = new TileBag();
         tileBag.initializeBag();

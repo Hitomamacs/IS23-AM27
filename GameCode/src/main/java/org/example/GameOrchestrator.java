@@ -98,4 +98,8 @@ public List<CommonGoal> getSelectedCGoal(){
         return this.game;
     }
 
+    public void flushCoordinates(){
+        pickedCoordinates.clear();
+    }
+
 }

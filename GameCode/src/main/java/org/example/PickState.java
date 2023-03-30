@@ -47,6 +47,7 @@ public class PickState implements GameState {
     public void execute() {
  //       if(!DisconnectState()){
         Pick();
+        gameOrchestrator.flushCoordinates();
         changeState();
     }
 

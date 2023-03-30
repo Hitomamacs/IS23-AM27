@@ -26,9 +26,10 @@ public class VerifyBoardableState implements GameState{
             gameOrchestrator.executeState();
         }
 
-        else
+        else {
+            gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-
+        }
 
     }
 

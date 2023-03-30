@@ -58,6 +58,7 @@ class VerifyGrillableStateTest {
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
         assertFalse(orchestrator.getCurrentPlayer().pickedTilesIsEmpty());
+        assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The PickState flushes the pickedCoordinates
         assertEquals(0, orchestrator.CurrentPlayerIndex());
 
         for(int i = 0; i < coordinates.size(); i++){
@@ -88,6 +89,7 @@ class VerifyGrillableStateTest {
         //we are back in VerifyGrillableState
         orchestrator.executeState();
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
+        assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The VerifyBoardable calls the flush
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
 
@@ -118,6 +120,7 @@ class VerifyGrillableStateTest {
 
         orchestrator.executeState();
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
+        assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The verifyGrillable calls the flush
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
     }

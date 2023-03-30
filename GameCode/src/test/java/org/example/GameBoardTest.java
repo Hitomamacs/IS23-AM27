@@ -137,6 +137,7 @@ class GameBoardTest {
          assertTrue(Board.verifyPickable(c2));
          Board.fillBoard(bag.randomPick(12));
          Board.printMwithTiles();
+         Board.printBoardColor();
          assertFalse(Board.verifyPickable(c3));
          assertTrue(Board.verifyPickable(c4));
 

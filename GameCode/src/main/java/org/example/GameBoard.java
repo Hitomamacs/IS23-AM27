@@ -275,6 +275,10 @@ public class GameBoard {
                         System.out.print(ANSI_YELLOW + "Y ");
                     else if(board[i][j].getTile().getColor() == Color.AZURE)
                         System.out.print(ANSI_CYAN + "A ");
+                    else if(board[i][j].getTile().getColor() == Color.WHITE)
+                        System.out.print(ANSI_WHITE + "W ");
+
+
 
                 }
                 else

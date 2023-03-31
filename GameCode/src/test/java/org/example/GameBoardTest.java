@@ -33,8 +33,6 @@ class GameBoardTest {
 
 
 
-
-
     @Test
     void printM() {
         System.out.println("Print");

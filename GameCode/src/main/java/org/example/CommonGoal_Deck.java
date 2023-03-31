@@ -47,4 +47,8 @@ public class CommonGoal_Deck {
         deck.remove(randomGoal);
         return randomGoal;
     }
+
+    public ArrayList<CommonGoal> getDeck() {
+        return deck;
+    }
 }

@@ -130,8 +130,10 @@ public class PlayerGrid {
         for(i = 0; i < 6; i++){
             for(j = 0; j < 5; j++){
                 color = matrix[i][j];
-                tile = new Tile(color, 0);
-                grid[i][j].placeTile(tile);
+                if(color != null) {
+                    tile = new Tile(color, 0);
+                    grid[i][j].placeTile(tile);
+                }
             }
         }
         return;

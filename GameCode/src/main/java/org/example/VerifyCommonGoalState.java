@@ -10,7 +10,7 @@ public class VerifyCommonGoalState implements GameState{
 
     public void verifyCommonGoal(){
         PlayerGrid grid = gameOrchestrator.getCurrentPlayer().getPlayerGrid();
-        for(int i = 0; i< gameOrchestrator.getSelectedCGoal().size(); i++){
+        for(int i = 0; i < gameOrchestrator.getSelectedCGoal().size(); i++){
             if(!gameOrchestrator.getCurrentPlayer().getCompletedCGoals()[i]){
                 if(gameOrchestrator.getSelectedCGoal().get(i).checkGoal(grid)){
                     gameOrchestrator.getCurrentPlayer().modifyCompletedCGoals(i);

@@ -1,21 +1,38 @@
-/* package org.example;
+package org.example;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileBagTest {
 
-    TileBag tilebag=new TileBag();
-    @BeforeEach
+    //test to see that I create the correct number of tiles
     @Test
     void initializeBag() {
-        tilebag.initializeBag();
-        assertEquals(132, .size());
+        TileBag tilebag=new TileBag();
+        assertEquals(132, tilebag.getBag().size());
     }
 
+    //test to see that I take the right number of tiles and that they are no longer present in tilebags
     @Test
-    void randomPick() {
+    public void testRandomPick(){
+        TileBag tilebag=new TileBag();
+        Set<Tile> pickedTiles = tilebag.randomPick(7);
+        assertEquals(7,pickedTiles.size());
+        assertFalse(tilebag.getBag().containsAll(pickedTiles));
     }
-}*/
+
+    //test to see that if the tilebag is empty then I don't take any more tiles
+    @Test
+    public void testRandomPickEmptyBag() {
+        TileBag tilebag = new TileBag();
+        tilebag.randomPick(132);
+        Set<Tile> pickedTiles = tilebag.randomPick(1);
+        assertTrue(pickedTiles.isEmpty());
+    }
+
+}

@@ -48,6 +48,10 @@ public class GameOrchestrator {
         return this.players.get(this.currentPlayerIndex);
     }
 
+    public Player getPlayer(int i){
+        return this.players.get(i);
+    }
+
     public int CurrentPlayerIndex(){
         return this.currentPlayerIndex;
     }

@@ -20,7 +20,14 @@ public class ConnectionCheckState implements GameState{
                 gameOrchestrator.executeState();
             }
             else{
-                gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+                int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
+                gameOrchestrator.changeState(new TopUpState(gameOrchestrator, previousSelectedColumn));
+                //Otherwise if player had disconnected in between TopUps he could place remaining tiles in
+                //a different column, note that this means that at the end of the TopUp phase of a player the
+                //Selected column in player has to be set to the default value -1.This is because had the player
+                //disconnected before his first TopUp the connectionCheckState would force him to use the same
+                //column of the previous TopUp phase. In stead this way in that scenario the TopUps selectedColumn
+                //would be -1 and the player would be allowed to select a new column
             }
         }
         else{

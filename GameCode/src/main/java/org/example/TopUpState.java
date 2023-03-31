@@ -18,6 +18,7 @@ public class TopUpState implements GameState{
         if(!gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty())
             gameOrchestrator.changeState(new TopUpState(gameOrchestrator, selectedColumn));
         else {
+            gameOrchestrator.getCurrentPlayer().setSelectedColumn(-1);
             gameOrchestrator.changeState(new VerifyCommonGoalState(gameOrchestrator));
             gameOrchestrator.executeState();
         }
@@ -27,7 +28,7 @@ public class TopUpState implements GameState{
     @Override
     public void execute() {
   //      if(!disconnectChange())
-            topUp();//TODO change state not in top-up
+            topUp();
             changeState();
 
 
@@ -45,7 +46,6 @@ public class TopUpState implements GameState{
     }
 
  */
- //TODO here we consider the column is always the same
     public void topUp(){
 
         Tile tile;
@@ -53,14 +53,20 @@ public class TopUpState implements GameState{
         if(selectedColumn == -1)
             selectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
 
-        PlayerGrid grid = gameOrchestrator.getCurrentPlayer().getPlayerGrid();
-        int n_picked_tiles =  gameOrchestrator.getPickedCoordinates().size();
-        if(gameOrchestrator.getCurrentPlayer().getPlayerGrid().spaceCheck(selectedColumn, n_picked_tiles)){
-            index = gameOrchestrator.getCurrentPlayer().getTileIndex();
-            tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
-            gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn,tile);
+        if(selectedColumn == gameOrchestrator.getCurrentPlayer().getSelectedColumn()) {
+            PlayerGrid grid = gameOrchestrator.getCurrentPlayer().getPlayerGrid();
+            int n_picked_tiles = gameOrchestrator.getCurrentPlayer().pickedTilesNum();
+            if (grid.spaceCheck(selectedColumn, n_picked_tiles)) {
+                index = gameOrchestrator.getCurrentPlayer().getTileIndex();
+                if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
+                    tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
+                    gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
+                }
+            }
+            else selectedColumn = -1;
+            //if the selected column doesn't have enough space the player has to change it, to allow
+            //the player to change it the default state selectedColumn has to be set back to -1
         }
-        changeState();
     }
 
 }

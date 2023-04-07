@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * This class represents the bag that is filled by the tiles
+ */
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +19,9 @@ public class TileBag {
         initializeBag();
     }
 
+    /**
+     * For each color create 22 tiles and assign each one a different id
+     */
     public void initializeBag(){
         int j=0; //index of tile
         for (Color color:Color.values())
@@ -29,6 +35,13 @@ public class TileBag {
         }
     }
 
+    /**
+     * Method that randomly takes n tiles from the bag.
+     * To do this, you turn the set into an array, randomly choose a value between 0 and size of the array,
+     * take the tile that is in that position, delete the tile from the set.
+     * @param n rapresents the number of cards to draw
+     * @return The set of drawn tiles
+     */
     public Set<Tile> randomPick(int n)
     {
         Set<Tile> tilePicked= new HashSet<Tile>();

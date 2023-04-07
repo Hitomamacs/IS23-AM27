@@ -1,6 +1,16 @@
 package org.example;
+
+/**
+ * this class represents common goal 10 where there must be five tiles of the same type
+ * forming an X.
+ */
 public class CommonGoal_10 extends CommonGoal{
 
+    /**
+     *This method runs along a smaller matrix (where the centers of the X-rays can be).
+     * After checking that the positions are not empty, check that they all have the same color.
+     * @return true if the common goal is completed
+     */
     public boolean checkGoal(PlayerGrid playerGrid) {
         int i,j;
         int color;

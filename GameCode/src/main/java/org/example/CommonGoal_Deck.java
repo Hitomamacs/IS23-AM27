@@ -5,12 +5,24 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class CommonGoal_Deck {
-    ArrayList<CommonGoal> deck=new ArrayList<>();
+/**
+ * This class represents the deck of common objective cards.
+ */
 
+public class CommonGoal_Deck {
+    ArrayList<CommonGoal> deck=new ArrayList<>(); //where i save all the cards
+
+    /**
+     * The constructor calls the fill deck method that fills the deck
+     */
     public CommonGoal_Deck() {
         fillDeck();
     }
+
+    /**
+     * this method fills the deck
+     * @return the array where i saved all the cards
+     */
     public ArrayList<CommonGoal> fillDeck(){
         CommonGoal co1=new CommonGoal_1();
         deck.add(co1);
@@ -40,6 +52,10 @@ public class CommonGoal_Deck {
         return deck;
     }
 
+    /**
+     * This method randomly takes a card from the deck and deletes it
+     * @return the card that I take.
+     */
     public CommonGoal getRandom(){
         Random random= new Random();
         int randomIndex= random.nextInt(deck.size());
@@ -48,6 +64,9 @@ public class CommonGoal_Deck {
         return randomGoal;
     }
 
+    /**
+     * @return the array where there are all the cards
+     */
     public ArrayList<CommonGoal> getDeck() {
         return deck;
     }

@@ -1,6 +1,4 @@
-package org.example;
-
-import static org.junit.jupiter.api.Assertions.*;
+package org.Project;
 
 class PersonalGoal_DeckTest {
       //TODO

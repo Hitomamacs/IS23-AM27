@@ -1,4 +1,4 @@
-package org.example;
+package org.Project;
 
 public class CommonGoal_1 extends CommonGoal{
 //  Goal is x2   |= =|  2 distinct squares (separate from each other) of four same color tiles

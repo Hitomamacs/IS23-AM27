@@ -1,9 +1,7 @@
-package org.example;
+package org.Project;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 public class CommonGoal_Deck {
     ArrayList<CommonGoal> deck=new ArrayList<>();

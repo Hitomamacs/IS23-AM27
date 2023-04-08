@@ -1,4 +1,4 @@
-package org.example;
+package org.Project;
 
 //Goal is to have at least two columns containing all different colors. Since there are six colors
 //and columns are 6 spots tall this corresponds to checking that each color appears in the column.

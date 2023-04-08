@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.Project.Persistencer.saveGame;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StartTurnStateTest {
@@ -66,6 +67,7 @@ class StartTurnStateTest {
         assertTrue(orchestrator.getGameBoard().checkBoard());
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
+        saveGame(orchestrator, "test");
      }
 
 }

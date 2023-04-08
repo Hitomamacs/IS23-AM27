@@ -1,5 +1,7 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -9,6 +11,7 @@ import static java.lang.Integer.valueOf;
 //whoever creates PointAssigner will have to use the constructor then call the initialize function
 //passing number of players and number of common goals
 public class PointAssigner {
+    @Expose
 
     private List<Stack<Integer>> stackList;
 

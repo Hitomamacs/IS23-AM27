@@ -1,7 +1,7 @@
 package org.Project;
 
 public class StartTurnState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public StartTurnState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

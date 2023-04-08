@@ -2,7 +2,7 @@ package org.Project;
 
 public class VerifyGrillableState implements GameState{
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyGrillableState(GameOrchestrator orchestrator) {
         this.gameOrchestrator = orchestrator;

@@ -1,7 +1,11 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 public class Tile {
+    @Expose
     private Color color;
+    @Expose
     private int idTile;
     public Tile(Color color, int idTile){
         this.color=color;

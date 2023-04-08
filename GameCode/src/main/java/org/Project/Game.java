@@ -1,5 +1,7 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ public class Game {
 
     TopUpListener topUpListener;
     CoordinatesListener coordinatesListener;
+
     List<Player> players;
     GameOrchestrator orchestrator;
     GameBoard gameBoard;

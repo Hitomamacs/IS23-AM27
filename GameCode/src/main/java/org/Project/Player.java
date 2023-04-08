@@ -1,16 +1,26 @@
 package org.Project;
 
 
+import com.google.gson.annotations.Expose;
+
 import java.util.*;
 
 public class Player {
+    @Expose
     private String nickname;
+    @Expose
    private boolean isConnected;
+    @Expose
    private int score;
+    @Expose
    private PlayerGrid playerGrid;
+    @Expose
    private boolean[] CompletedCGoals;
+    @Expose
    private PersonalGoal myPersonalGoal;
+    @Expose
    int selectedColumn;
+    @Expose
    int tileIndex;
 
    private Tile[] pickedTiles;

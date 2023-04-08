@@ -1,19 +1,33 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameOrchestrator {
+    @Expose
     private List<Player> players;
+    @Expose
     private int currentPlayerIndex;
+    @Expose
     private boolean finalRoundFlag;
+    @Expose
+    //TODO state id
     private GameState State;
+    @Expose
     private GameBoard gameBoard;
+    @Expose
+    //TODO common goal id
     private List<CommonGoal> selectedCGoal;
+    @Expose
     private PointAssigner pointAssigner;
+    @Expose
     private TileBag tileBag;
+    @Expose
     private List<Coordinates> pickedCoordinates;
-    Game game;
+    @Expose
+    private transient Game game;
 
     public GameState getState() {
         return State;

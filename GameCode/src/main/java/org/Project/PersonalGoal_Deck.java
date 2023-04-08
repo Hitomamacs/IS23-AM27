@@ -1,10 +1,13 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class PersonalGoal_Deck {
+        @Expose
         List<PersonalGoal> deck;
 
         public PersonalGoal_Deck() {

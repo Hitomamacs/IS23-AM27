@@ -6,7 +6,7 @@ package org.Project;
 //the board needs refilling
 
 public class ConnectionCheckState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public ConnectionCheckState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

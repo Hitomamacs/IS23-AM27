@@ -1,6 +1,9 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 public class PlayerGrid {
+    @Expose
     private Spot[][] grid;
 
     public PlayerGrid() {

@@ -1,9 +1,12 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.HashMap;
 
 public class PersonalGoal_1 extends PersonalGoal{
-    private HashMap<Coordinates, Color> coloredGoal;
+    @Expose
+    private  HashMap<Coordinates, Color> coloredGoal;
 
     public void initialize() {
         coloredGoal = new HashMap<>();

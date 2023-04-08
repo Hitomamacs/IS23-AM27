@@ -1,7 +1,7 @@
 package org.Project;
 
 public class RefillState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public RefillState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

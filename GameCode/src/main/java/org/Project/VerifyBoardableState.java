@@ -3,7 +3,7 @@ package org.Project;
 import java.util.List;
 
 public class VerifyBoardableState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyBoardableState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

@@ -1,7 +1,11 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 public class Spot {
+    @Expose
     private boolean occupied;
+    @Expose
     private Tile tile;
 
     public Spot(boolean occupied, Tile tile){

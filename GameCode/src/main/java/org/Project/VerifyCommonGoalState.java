@@ -2,7 +2,7 @@ package org.Project;
 
 public class VerifyCommonGoalState implements GameState{
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyCommonGoalState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

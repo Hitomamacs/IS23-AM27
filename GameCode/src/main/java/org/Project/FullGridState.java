@@ -2,7 +2,7 @@ package org.Project;
 
 public class FullGridState implements GameState{
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public FullGridState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

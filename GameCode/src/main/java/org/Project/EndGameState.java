@@ -2,7 +2,7 @@ package org.Project;
 
 public class EndGameState implements GameState{
 
-    GameOrchestrator gameOrchestrator;
+    transient GameOrchestrator  gameOrchestrator;
     public EndGameState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }

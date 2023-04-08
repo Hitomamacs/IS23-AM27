@@ -1,13 +1,20 @@
 package org.Project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Set;
 
 public class GameBoard {
+    @Expose
     private Spot[][] board;
+    @Expose
     private int[][] negativeMatrix;
+    @Expose
     private int[][] oneMatrix;
+    @Expose
     private int[][] finalMatrix;
+    @Expose
     private ArrayList<Tile> adjcecent = new ArrayList<Tile>();
 
     public GameBoard(int rows, int columns, int players){

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PickState implements GameState {
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public PickState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;

@@ -2,6 +2,10 @@ package org.example;
 
 public class CommonGoal_3 extends CommonGoal{
 
+    /** method used to verify the CommonGoal_3 in which there must be four groups
+     * formed by four tiles of the same color
+     * method used also to check the objectives on the dashboard
+     */
     public boolean checkGoal(PlayerGrid playerGrid) {
 
         int i, j;
@@ -36,7 +40,8 @@ public class CommonGoal_3 extends CommonGoal{
         return false;
     }
 
-
+    /** method used also to check the objectives on the dashboard
+     */
     public int verifyExtraPointHelper(int i, int j, Color color, boolean[][] visited, PlayerGrid playerGrid){
         int count = 1;
         visited[i][j] = true;

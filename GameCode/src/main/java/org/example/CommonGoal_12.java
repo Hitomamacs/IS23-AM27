@@ -2,6 +2,13 @@ package org.example;
 
 public class CommonGoal_12 extends CommonGoal{
 
+    /** method that checks the CommonGoal_12 in which the shape that must
+     * be satisfied is represented by a low triangular matrix
+     * there are four possible configurations and I consider them as four separate cases:
+     * in each of them I check that in each column of the playerGrid there is the correct number
+     * of empty spots, otherwise I exit the for loop and I go on
+     */
+
     public boolean checkGoal(PlayerGrid playerGrid){
         //counter for the column of the matrix
         int j=0;
@@ -45,11 +52,12 @@ public class CommonGoal_12 extends CommonGoal{
                 return true;
             }
         }
-
-
         return false;
     }
 
+    /** method that checks that in a column there is a number of empty places
+     * equal to a parameter called n_tiles
+     */
     public boolean mySpaceCheck(int column, int n_tiles, PlayerGrid playerGrid) {
 
         if (column < 0 || column > 4) {

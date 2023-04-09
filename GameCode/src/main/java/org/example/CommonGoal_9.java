@@ -2,6 +2,13 @@ package org.example;
 
 public class CommonGoal_9 extends CommonGoal{
 
+    /** method that checks the CommonGoal_9 where
+     *  eight tiles of the same color must be in the playerGrid
+     *  I have a number of counters equal to the number of colors that a Tile can have,
+     *  I iterate on the playerGrid and when I find an occupied Spot I check the color of the
+     *  Tile and increase the counter of that color by one.
+     *  As soon as a counter reaches the value of eight, the goal is verified
+     */
     public boolean checkGoal(PlayerGrid playerGrid) {
         //counters for the matrix
         int i = 0;

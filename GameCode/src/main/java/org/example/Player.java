@@ -14,7 +14,8 @@ public class Player {
    int tileIndex;
 
    private Tile[] pickedTiles;
-    public Player() {
+    public Player(String nickname) {
+        this.nickname = nickname;
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];

@@ -1,6 +1,7 @@
 package org.Project;
 
 public class TopUpState implements GameState{
+    private final int stateID = 7;
     private GameOrchestrator gameOrchestrator;
 
     int selectedColumn;
@@ -15,11 +16,15 @@ public class TopUpState implements GameState{
     }
     @Override
     public void changeState() {
-        if(!gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty())
+        if(!gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
             gameOrchestrator.changeState(new TopUpState(gameOrchestrator, selectedColumn));
+            gameOrchestrator.setCurr_sate_id(7);
+
+        }
         else {
             gameOrchestrator.getCurrentPlayer().setSelectedColumn(-1);
             gameOrchestrator.changeState(new VerifyCommonGoalState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(9);
             gameOrchestrator.executeState();
         }
 

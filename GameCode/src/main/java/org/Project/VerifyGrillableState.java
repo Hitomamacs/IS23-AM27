@@ -1,6 +1,7 @@
 package org.Project;
 
 public class VerifyGrillableState implements GameState{
+    private final int stateID = 10;
 
     private transient GameOrchestrator gameOrchestrator;
 
@@ -24,11 +25,13 @@ public class VerifyGrillableState implements GameState{
     public void changeState() {
         if(verifyGrillable()) {
             gameOrchestrator.changeState(new VerifyBoardableState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(8);
             gameOrchestrator.executeState();
         }
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(10);
         }
 
     }

@@ -1,6 +1,8 @@
 package org.Project;
 
 public class RefillState implements GameState{
+
+    private final int stateID = 5;
     private transient GameOrchestrator gameOrchestrator;
 
     public RefillState(GameOrchestrator orchestrator){
@@ -11,6 +13,7 @@ public class RefillState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+        gameOrchestrator.setCurr_sate_id(10);
 
 
     }

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class PickState implements GameState {
 
+    private final int stateID = 4;
+
     private transient GameOrchestrator gameOrchestrator;
 
     public PickState(GameOrchestrator orchestrator){
@@ -33,9 +35,13 @@ public class PickState implements GameState {
 */
     @Override
     public void changeState() {
-        if(!gameOrchestrator.getCurrentPlayer().isConnected())
+        if(!gameOrchestrator.getCurrentPlayer().isConnected()){
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
-        else gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(6);
+        }
+        else {gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+              gameOrchestrator.setCurr_sate_id(7);
+        }
 
 
     }

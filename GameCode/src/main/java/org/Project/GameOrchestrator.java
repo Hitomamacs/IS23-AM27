@@ -6,18 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameOrchestrator {
+
+    @Expose
+    private int curr_sate_id;
     @Expose
     private List<Player> players;
     @Expose
     private int currentPlayerIndex;
     @Expose
     private boolean finalRoundFlag;
-    @Expose
+
     //TODO state id
     private GameState State;
     @Expose
     private GameBoard gameBoard;
-    @Expose
+
     //TODO common goal id
     private List<CommonGoal> selectedCGoal;
     @Expose
@@ -120,4 +123,11 @@ public List<CommonGoal> getSelectedCGoal(){
         pickedCoordinates.clear();
     }
 
+    public int getCurr_sate_id() {
+        return curr_sate_id;
+    }
+
+    public void setCurr_sate_id(int curr_sate_id) {
+        this.curr_sate_id = curr_sate_id;
+    }
 }

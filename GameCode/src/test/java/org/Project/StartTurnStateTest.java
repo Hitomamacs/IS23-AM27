@@ -3,10 +3,11 @@ package org.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.Project.Persistencer.saveGame;
+import static org.Project.Persistencer.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StartTurnStateTest {
@@ -68,6 +69,11 @@ class StartTurnStateTest {
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
         saveGame(orchestrator, "test");
+        GameOrchestrator saved = loadGame("test");
+        game.persistencer.load_states(saved);
+        assertTrue(saved.getState() instanceof TopUpState);
+
      }
+
 
 }

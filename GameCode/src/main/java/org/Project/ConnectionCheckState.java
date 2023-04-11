@@ -6,6 +6,8 @@ package org.Project;
 //the board needs refilling
 
 public class ConnectionCheckState implements GameState{
+
+    private final int stateID = 1;
     private transient GameOrchestrator gameOrchestrator;
 
     public ConnectionCheckState(GameOrchestrator orchestrator){
@@ -17,11 +19,13 @@ public class ConnectionCheckState implements GameState{
         if(gameOrchestrator.getCurrentPlayer().isConnected()){
             if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
                 gameOrchestrator.changeState(new RefillState(gameOrchestrator));
+                gameOrchestrator.setCurr_sate_id(5);
                 gameOrchestrator.executeState();
             }
             else{
                 int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
                 gameOrchestrator.changeState(new TopUpState(gameOrchestrator, previousSelectedColumn));
+                gameOrchestrator.setCurr_sate_id(7);
                 //Otherwise if player had disconnected in between TopUps he could place remaining tiles in
                 //a different column, note that this means that at the end of the TopUp phase of a player the
                 //Selected column in player has to be set to the default value -1.This is because had the player
@@ -33,6 +37,7 @@ public class ConnectionCheckState implements GameState{
         else{
             gameOrchestrator.nextPlayer();
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(6);
             gameOrchestrator.executeState();
         }
 

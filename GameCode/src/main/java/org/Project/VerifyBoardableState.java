@@ -3,6 +3,7 @@ package org.Project;
 import java.util.List;
 
 public class VerifyBoardableState implements GameState{
+    private final int stateID = 8;
     private transient GameOrchestrator gameOrchestrator;
 
     public VerifyBoardableState(GameOrchestrator orchestrator){
@@ -23,12 +24,14 @@ public class VerifyBoardableState implements GameState{
     public void changeState() {
         if(verifyBoardable()) {
             gameOrchestrator.changeState(new PickState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(4);
             gameOrchestrator.executeState();
         }
 
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(10);
         }
 
     }

@@ -1,6 +1,7 @@
 package org.Project;
 
 public class VerifyCommonGoalState implements GameState{
+    private final int stateID = 9;
 
     private transient GameOrchestrator gameOrchestrator;
 
@@ -24,6 +25,7 @@ public class VerifyCommonGoalState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new FullGridState(gameOrchestrator));
+        gameOrchestrator.setCurr_sate_id(3);
         gameOrchestrator.executeState();
 
     }

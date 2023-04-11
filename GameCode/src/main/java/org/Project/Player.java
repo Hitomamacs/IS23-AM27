@@ -16,7 +16,7 @@ public class Player {
    private PlayerGrid playerGrid;
     @Expose
    private boolean[] CompletedCGoals;
-    @Expose
+    //TODO Pgoal ID
    private PersonalGoal myPersonalGoal;
     @Expose
    int selectedColumn;

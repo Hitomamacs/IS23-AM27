@@ -17,4 +17,10 @@ public class TilesView {
         playerTiles[position] = "N";
     }
 
+    public void updateTilesView(String[] pickedTiles){
+        System.arraycopy(pickedTiles, 0, playerTiles, 0, 3);
+    }
+    public String getUsername(){ return username; }
+
+    public String[] getPlayerTiles(){ return playerTiles; }
 }

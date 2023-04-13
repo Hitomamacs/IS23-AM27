@@ -22,6 +22,7 @@ public class VerifyGrillableState implements GameState{
 
     @Override
     public void changeState() {
+        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         if(verifyGrillable()) {
             gameOrchestrator.changeState(new VerifyBoardableState(gameOrchestrator));
             gameOrchestrator.executeState();
@@ -29,6 +30,8 @@ public class VerifyGrillableState implements GameState{
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+            //Update view
+            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Not enough space for the selected tiles");
         }
 
     }

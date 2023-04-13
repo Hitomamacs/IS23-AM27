@@ -47,6 +47,11 @@ public class PickState implements GameState {
     public void execute() {
  //       if(!DisconnectState()){
         Pick();
+        //Now we update the Virtual View
+        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
+        Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
+        gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
+        gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
         changeState();
     }

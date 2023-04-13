@@ -24,8 +24,8 @@ public class RefillState implements GameState{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
+        //We update the board view
+        gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
         }
         changeState();
     }

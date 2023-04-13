@@ -10,4 +10,7 @@ public class PointStackView {
         return pointList;
     }
 
+    public void updatePointStackView(int newValue, int position){
+        pointList.set(position, newValue);
+    }
 }

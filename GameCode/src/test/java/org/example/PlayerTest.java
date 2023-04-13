@@ -14,10 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     Player player;
-
     @BeforeEach
     void setUp() {
-        player = new Player();
+        player = new Player("randomName");
     }
 
     @Test
@@ -238,8 +237,7 @@ class PlayerTest {
         player.getPlayerGrid().printColorPlayerGrid();
         assertEquals(player.verifyExtraPoints(), 7);
 
-
-
     }
+
 
 }

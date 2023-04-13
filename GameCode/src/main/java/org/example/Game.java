@@ -24,6 +24,8 @@ public class Game {
 
     CommonGoal_Deck commonGoalDeck;
 
+    VirtualView view;
+
     //TODO WHat happens if game terminates?
     public Game(){
         users = new ArrayList<>();
@@ -52,6 +54,7 @@ public class Game {
         pointAssigner = new PointAssigner();
         pointAssigner.initialize(num_players, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
+        view = new VirtualView(users);
     }
 
 
@@ -69,4 +72,6 @@ public class Game {
     public void setOrchestrator(GameOrchestrator orchestrator) {
         this.orchestrator = orchestrator;
     }
+
+    public VirtualView getView(){ return view; }
 }

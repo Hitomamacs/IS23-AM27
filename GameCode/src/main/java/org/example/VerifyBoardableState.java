@@ -21,6 +21,7 @@ public class VerifyBoardableState implements GameState{
     }
     @Override
     public void changeState() {
+        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         if(verifyBoardable()) {
             gameOrchestrator.changeState(new PickState(gameOrchestrator));
             gameOrchestrator.executeState();
@@ -29,6 +30,8 @@ public class VerifyBoardableState implements GameState{
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+            //Update view
+            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Tiles must be adjacent and have at least one free side");
         }
 
     }

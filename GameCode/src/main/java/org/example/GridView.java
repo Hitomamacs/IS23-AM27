@@ -27,4 +27,8 @@ public class GridView {
     public String getUsername(){
         return username;
     }
+
+    public String[][] getGridView(){
+        return grid;
+    }
 }

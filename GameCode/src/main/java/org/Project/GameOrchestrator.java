@@ -24,6 +24,8 @@ public class GameOrchestrator {
     //TODO common goal id
     private List<CommonGoal> selectedCGoal;
     @Expose
+    private List<Integer> selectedCGoal_int;
+    @Expose
     private PointAssigner pointAssigner;
     @Expose
     private TileBag tileBag;
@@ -51,6 +53,9 @@ public class GameOrchestrator {
         this.tileBag=tileBag;
         this.pickedCoordinates =new ArrayList<>();
         this.game=game;
+        for(CommonGoal cg: selectedCGoal){
+            this.selectedCGoal_int.add(cg.getGoalID());
+        }
     }
 
     public void changeState(GameState state){
@@ -125,6 +130,10 @@ public List<CommonGoal> getSelectedCGoal(){
 
     public int getCurr_sate_id() {
         return curr_sate_id;
+    }
+
+    public List<Integer> get_selected_cgoal_int(){
+        return this.selectedCGoal_int;
     }
 
     public void setCurr_sate_id(int curr_sate_id) {

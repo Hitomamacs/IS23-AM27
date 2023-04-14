@@ -1,4 +1,6 @@
-package org.example;
+package org.Project;
+
+import org.Project.User;
 
 import java.util.List;
 

@@ -18,23 +18,25 @@ public class Persistencer {
     public static void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
         String json = gson_parser.toJson(gameOrchestrator);
         try {
-            PrintWriter out = new PrintWriter(new FileWriter(fileName+".json"));
+            PrintWriter out = new PrintWriter(new FileWriter(fileName + ".json"));
             out.println(json);
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     //return json function
     public static String returnJson(GameOrchestrator gameOrchestrator) {
         String json = gson_parser.toJson(gameOrchestrator);
         return json;
     }
+
     //function to load a game from a file
-    public static GameOrchestrator loadGame(String fileName)  {
+    public static GameOrchestrator loadGame(String fileName) {
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get(fileName+".json"));
+            reader = Files.newBufferedReader(Paths.get(fileName + ".json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,8 +44,8 @@ public class Persistencer {
         return gameOrchestrator;
     }
 
-    public boolean load_states(GameOrchestrator gameOrchestrator){
-        switch (gameOrchestrator.getCurr_sate_id()){
+    public boolean load_states(GameOrchestrator gameOrchestrator) {
+        switch (gameOrchestrator.getCurr_sate_id()) {
             case 1:
                 gameOrchestrator.changeState(new ConnectionCheckState(gameOrchestrator));
                 return true;
@@ -89,6 +91,50 @@ public class Persistencer {
         return false;
     }
 
+    public boolean load_common_goals(GameOrchestrator gameOrchestrator) {
+        for (int i = 0; i < gameOrchestrator.get_selected_cgoal_int().size(); i++) {
+            switch (gameOrchestrator.get_selected_cgoal_int().get(i)) {
+                case 1:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_1());
+                    break;
+                case 2:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_2());
+                    break;
+                case 3:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_3());
+                    break;
+                case 4:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_4());
+                    break;
+                case 5:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_5());
+                    break;
+                case 6:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_6());
+                    break;
+                case 7:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_7());
+                    break;
+                case 8:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_8());
+                    break;
+                case 9:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_9());
+                    break;
+                case 10:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_10());
+                    break;
+                case 11:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_11());
+                    break;
+                case 12:
+                    gameOrchestrator.getSelectedCGoal().add(new CommonGoal_12());
+                    break;
+            }
 
+
+}
+        return true;
+    }
 
 }

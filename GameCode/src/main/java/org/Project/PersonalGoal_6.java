@@ -5,6 +5,8 @@ import com.google.gson.annotations.Expose;
 import java.util.HashMap;
 
 public class PersonalGoal_6 extends PersonalGoal{
+
+    private static int Pgoal_ID = 6;
     @Expose
 
     private HashMap<Coordinates, Color> coloredGoal;

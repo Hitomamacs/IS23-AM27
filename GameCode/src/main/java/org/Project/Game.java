@@ -8,15 +8,14 @@ import java.util.Random;
 
 public class Game {
 
-<<<<<<< HEAD:GameCode/src/main/java/org/Project/Game.java
+
     Persistencer persistencer;
 
     TopUpListener topUpListener;
     CoordinatesListener coordinatesListener;
 
-=======
     List<User> users;
->>>>>>> Sockets:GameCode/src/main/java/org/example/Game.java
+
     List<Player> players;
     GameOrchestrator orchestrator;
     GameBoard gameBoard;

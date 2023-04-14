@@ -1,6 +1,8 @@
 package org.Project;
 
 public class CommonGoal_11 extends CommonGoal{
+
+    private static int goal_ID = 11;
     public boolean checkGoal(PlayerGrid playerGrid) {
         //counters for the matrix
         int i; //row

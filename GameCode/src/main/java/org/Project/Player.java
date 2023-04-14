@@ -18,6 +18,8 @@ public class Player {
    private boolean[] CompletedCGoals;
     //TODO Pgoal ID
    private PersonalGoal myPersonalGoal;
+
+   private int personalGoalID;
     @Expose
    int selectedColumn;
     @Expose
@@ -69,6 +71,7 @@ public class Player {
     }
     public void setMyPersonalGoal(PersonalGoal personalGoal){
         myPersonalGoal = personalGoal;
+        personalGoalID = personalGoal.getPgoal_ID();
     }
     public void setPickedTiles(Tile[] pickedTiles) {
         this.pickedTiles = pickedTiles;

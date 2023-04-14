@@ -1,6 +1,8 @@
 package org.Project;
 public class CommonGoal_10 extends CommonGoal{
 
+    private static int goal_ID = 10;
+
     public boolean checkGoal(PlayerGrid playerGrid) {
         int i,j;
         int color;

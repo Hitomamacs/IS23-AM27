@@ -1,4 +1,4 @@
-package org.example;
+package org.Project;
 
 public class quitMessage {
     String username;

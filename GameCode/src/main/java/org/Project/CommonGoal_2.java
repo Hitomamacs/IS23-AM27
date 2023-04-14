@@ -5,6 +5,8 @@ package org.Project;
 //If each color appears it means it must appear just once
 public class CommonGoal_2 extends CommonGoal{
 
+    private static int goal_ID = 2;
+
     public boolean checkGoal(PlayerGrid playerGrid) {
 
         boolean[] color_array = new boolean[6]; //Array of booleans to check if color is in column

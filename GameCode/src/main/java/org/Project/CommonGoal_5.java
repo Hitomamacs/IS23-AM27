@@ -3,6 +3,7 @@ package org.Project;
 import java.util.ArrayList;
 
 public class CommonGoal_5 extends CommonGoal{
+    private static int goal_ID = 5;
 
     public boolean checkGoal(PlayerGrid playerGrid)
     {

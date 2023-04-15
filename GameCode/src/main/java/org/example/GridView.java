@@ -18,7 +18,7 @@ public class GridView {
     public void updateGridView(String tile, int column) {
         int i = 0;
         if (grid[i][column] == "N") {
-            while (grid[i][column] == "N" && i < 6) {
+            while (grid[i][column] == "N" && i < 5) {
                 i++;
             }
             grid[i][column] = tile;

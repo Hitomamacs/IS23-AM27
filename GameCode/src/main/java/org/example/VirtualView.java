@@ -100,14 +100,16 @@ public class VirtualView {
     public void updateView(Tile[] pickedTiles, String username){
         String[] pickedTilesStr = new String[3];
         for(int i = 0; i < 3; i++) {
-            pickedTilesStr[i] = switch (pickedTiles[i].getColor()) {
-                case YELLOW -> "Y";
-                case WHITE -> "W";
-                case GREEN -> "G";
-                case BLUE -> "B";
-                case AZURE -> "A";
-                case PINK -> "P";
-            };
+            if(pickedTiles[i] != null){
+                pickedTilesStr[i] = switch (pickedTiles[i].getColor()) {
+                    case YELLOW -> "Y";
+                    case WHITE -> "W";
+                    case GREEN -> "G";
+                    case BLUE -> "B";
+                    case AZURE -> "A";
+                    case PINK -> "P";
+                };
+            }else pickedTilesStr[i] = "N";
         }
         for(TilesView tView : tilesViews){
             if(tView.username.equals(username)){

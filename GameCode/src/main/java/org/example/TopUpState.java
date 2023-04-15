@@ -60,11 +60,11 @@ public class TopUpState implements GameState{
             if (grid.spaceCheck(selectedColumn, n_picked_tiles)) {
                 index = gameOrchestrator.getCurrentPlayer().getTileIndex();
                 if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
-                    tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
-                    gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
                     //Update the view
                     Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
                     gameOrchestrator.getGame().getView().updateView(pickedTiles, currentPlayer, index, selectedColumn);
+                    tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
+                    gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
                 }
             }
             else {

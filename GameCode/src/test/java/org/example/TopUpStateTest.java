@@ -20,6 +20,9 @@ class TopUpStateTest {
     void setup(){
         tiles = new ArrayList<>();
         game = new Game();
+        for(int i = 0; i < 4; i++){
+            game.getUsers().add(new User("Spike", true));
+        }
         game.gameInit(4);
         orchestrator = new GameOrchestrator(game.players, game.gameBoard, game.commonGoals, game.pointAssigner, game.tileBag, game);
         state = new StartTurnState(orchestrator);

@@ -137,4 +137,16 @@ public class Persistencer {
         return true;
     }
 
+    public void load_pgoals(GameOrchestrator gameOrchestrator){
+        for(Player p : gameOrchestrator.getPlayers()){
+            p.recoverPersonalGoal();
+        }
+    }
+
+    public void load_all(GameOrchestrator gameOrchestrator){
+        load_states(gameOrchestrator);
+        load_common_goals(gameOrchestrator);
+        load_pgoals(gameOrchestrator);
+    }
+
 }

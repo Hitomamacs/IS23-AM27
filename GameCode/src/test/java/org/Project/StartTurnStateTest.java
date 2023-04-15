@@ -70,7 +70,7 @@ class StartTurnStateTest {
         orchestrator.getGameBoard().printMwithTiles();
         saveGame(orchestrator, "test");
         GameOrchestrator saved = loadGame("test");
-        game.persistencer.load_states(saved);
+        game.persistencer.load_all(saved);
         assertTrue(saved.getState() instanceof TopUpState);
 
      }

@@ -7,6 +7,7 @@ import java.util.List;
 //client however the virtual view class its self is just on the server, so a few methods do take model parts
 //as input, while the common parts do not so that in the client there won't be any need to know how
 //the model data structures are implemented
+//hello
 public class VirtualView {
 
     BoardView boardView;

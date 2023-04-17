@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 public class StartTurnState implements GameState{
     private GameOrchestrator gameOrchestrator;

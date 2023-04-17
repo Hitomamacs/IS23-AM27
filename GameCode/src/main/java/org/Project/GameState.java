@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 public interface GameState {
     public void execute();

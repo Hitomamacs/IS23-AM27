@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 public class Settings {
     static int RMI_PORT= 1234;

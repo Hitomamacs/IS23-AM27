@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 public class CommonGoal_9 extends CommonGoal{
 

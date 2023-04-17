@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class Server {
     }
 
     //METODI CHE IL CLIENT PUO CHIAMARE SUL SERVER
-    public void login(String nickname, RMIClientApp client){
+    public void login(String nickname,  RMIClientApp client){
         //vedo metodo scritto da ale
     }
 

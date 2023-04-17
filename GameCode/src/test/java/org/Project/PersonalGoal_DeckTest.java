@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 class PersonalGoal_DeckTest {
       //TODO

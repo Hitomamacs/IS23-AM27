@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 
 public class Spot {
     private boolean occupied;

@@ -1,4 +1,4 @@
-package org.Project;
+package org.project;
 //ConnectionCheckState controls that the player is connected through its isConnected boolean,
 //if the player is disconnected just skips his turn. If the player is connected two possibilities are left
 //the player has some pickedTiles as he had previously disconnected during topUp state and now has to place

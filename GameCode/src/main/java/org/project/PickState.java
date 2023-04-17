@@ -5,7 +5,9 @@ import java.util.List;
 
 public class PickState implements GameState {
 
-    private GameOrchestrator gameOrchestrator;
+    private final int stateID = 4;
+
+    private transient GameOrchestrator gameOrchestrator;
 
     public PickState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
@@ -33,9 +35,13 @@ public class PickState implements GameState {
 */
     @Override
     public void changeState() {
-        if(!gameOrchestrator.getCurrentPlayer().isConnected())
+        if(!gameOrchestrator.getCurrentPlayer().isConnected()){
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
-        else gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(6);
+        }
+        else {gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+              gameOrchestrator.setCurr_sate_id(7);
+        }
 
 
     }
@@ -45,11 +51,6 @@ public class PickState implements GameState {
     public void execute() {
  //       if(!DisconnectState()){
         Pick();
-        //Now we update the Virtual View
-        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
-        Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
-        gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
-        gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
         changeState();
     }

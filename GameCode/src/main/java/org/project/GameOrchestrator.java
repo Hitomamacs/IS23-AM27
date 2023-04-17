@@ -1,19 +1,38 @@
 package org.project;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameOrchestrator {
+
+    @Expose
+    private int curr_sate_id;
+    @Expose
     private List<Player> players;
+    @Expose
     private int currentPlayerIndex;
+    @Expose
     private boolean finalRoundFlag;
+
+    //TODO state id
     private GameState State;
+    @Expose
     private GameBoard gameBoard;
+
+    //TODO common goal id
     private List<CommonGoal> selectedCGoal;
+    @Expose
+    private List<Integer> selectedCGoal_int;
+    @Expose
     private PointAssigner pointAssigner;
+    @Expose
     private TileBag tileBag;
+    @Expose
     private List<Coordinates> pickedCoordinates;
-    Game game;
+    @Expose
+    private transient Game game;
 
     public GameState getState() {
         return State;
@@ -34,6 +53,10 @@ public class GameOrchestrator {
         this.tileBag=tileBag;
         this.pickedCoordinates =new ArrayList<>();
         this.game=game;
+        this.selectedCGoal_int = new ArrayList<>();
+        for(CommonGoal cg: selectedCGoal){
+            this.selectedCGoal_int.add(cg.getGoalID());
+        }
     }
 
     public void changeState(GameState state){
@@ -54,6 +77,10 @@ public class GameOrchestrator {
 
     public int CurrentPlayerIndex(){
         return this.currentPlayerIndex;
+    }
+
+    public List<Player> getPlayers(){
+        return this.players;
     }
 
     public Player nextPlayer(){
@@ -106,4 +133,15 @@ public List<CommonGoal> getSelectedCGoal(){
         pickedCoordinates.clear();
     }
 
+    public int getCurr_sate_id() {
+        return curr_sate_id;
+    }
+
+    public List<Integer> get_selected_cgoal_int(){
+        return this.selectedCGoal_int;
+    }
+
+    public void setCurr_sate_id(int curr_sate_id) {
+        this.curr_sate_id = curr_sate_id;
+    }
 }

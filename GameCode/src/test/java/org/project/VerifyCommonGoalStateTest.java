@@ -1,3 +1,4 @@
+
 package org.project;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -84,6 +85,7 @@ class VerifyCommonGoalStateTest {
         assertTrue(orchestrator.getPlayer(1).getCompletedCGoals()[0]);
         assertEquals(4, (int) orchestrator.getPointAssigner().getStackList().get(0).peek());
         assertEquals(4, (int) orchestrator.getPointAssigner().getStackList().get(1).peek());
+
 
         matrix = new Color[][]{
                 {Color.PINK, Color.PINK,     null  ,     null,        null},

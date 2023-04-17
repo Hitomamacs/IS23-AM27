@@ -1,9 +1,12 @@
 package org.project;
 
+
 //Goal is to have at least two columns containing all different colors. Since there are six colors
 //and columns are 6 spots tall this corresponds to checking that each color appears in the column.
 //If each color appears it means it must appear just once
 public class CommonGoal_2 extends CommonGoal{
+
+    private static int goal_ID = 2;
 
     public boolean checkGoal(PlayerGrid playerGrid) {
 

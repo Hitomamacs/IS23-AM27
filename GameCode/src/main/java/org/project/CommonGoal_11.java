@@ -1,21 +1,15 @@
 package org.project;
 
+
 public class CommonGoal_11 extends CommonGoal{
 
-    /**
-     * method that checks the CommonGoal_11 in which the shape that must be
-     * satisfied is represented by a diagonal of five elements
-     * there are four possible diagonals that can be identified in the playerGrid and
-     * I treat them as four separate cases: first I identify the first Spot where a Tile should be,
-     * if it isn't there I interrupt, if there is I continue along the diagonal and check that the
-     * Spots visited are occupied and that the Tiles have the same color as the first one I visited
-     */
-
+    private static int goal_ID = 11;
     public boolean checkGoal(PlayerGrid playerGrid) {
         //counters for the matrix
         int i; //row
         int j; //column
         int counterDiagonal_1 = 0, counterDiagonal_2 = 0, counterDiagonal_3=0, counterDiagonal_4=0;
+
 
         if(playerGrid.getSpot(new Coordinates(0,0)).isOccupied()){
             counterDiagonal_1++;

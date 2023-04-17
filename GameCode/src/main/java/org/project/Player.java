@@ -1,16 +1,28 @@
 package org.project;
 
 
+import com.google.gson.annotations.Expose;
+
 import java.util.*;
 
 public class Player {
+    @Expose
     private String nickname;
+    @Expose
    private boolean isConnected;
+    @Expose
    private int score;
+    @Expose
    private PlayerGrid playerGrid;
+    @Expose
    private boolean[] CompletedCGoals;
+    //TODO Pgoal ID
    private PersonalGoal myPersonalGoal;
+
+   private int personalGoalID;
+    @Expose
    int selectedColumn;
+    @Expose
    int tileIndex;
 
    private Tile[] pickedTiles;
@@ -59,6 +71,50 @@ public class Player {
     }
     public void setMyPersonalGoal(PersonalGoal personalGoal){
         myPersonalGoal = personalGoal;
+        personalGoalID = personalGoal.getPgoal_ID();
+    }
+
+    public int recoverPersonalGoal(){
+        switch (personalGoalID){
+            case 1:
+                myPersonalGoal = new PersonalGoal_1();
+                break;
+            case 2:
+                myPersonalGoal = new PersonalGoal_2();
+                break;
+            case 3:
+                myPersonalGoal = new PersonalGoal_3();
+                break;
+            case 4:
+                myPersonalGoal = new PersonalGoal_4();
+                break;
+            case 5:
+                myPersonalGoal = new PersonalGoal_5();
+                break;
+            case 6:
+                myPersonalGoal = new PersonalGoal_6();
+                break;
+            case 7:
+                myPersonalGoal = new PersonalGoal_7();
+                break;
+            case 8:
+                myPersonalGoal = new PersonalGoal_8();
+                break;
+            case 9:
+                myPersonalGoal = new PersonalGoal_9();
+                break;
+            case 10:
+                myPersonalGoal = new PersonalGoal_10();
+                break;
+            case 11:
+                myPersonalGoal = new PersonalGoal_11();
+                break;
+            case 12:
+                myPersonalGoal = new PersonalGoal_12();
+                break;
+
+        }
+        return 1;
     }
     public void setPickedTiles(Tile[] pickedTiles) {
         this.pickedTiles = pickedTiles;

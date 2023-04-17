@@ -1,3 +1,4 @@
+
 package org.project;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -95,6 +96,8 @@ class TopUpStateTest {
         //VerifyGrillableState
         orchestrator.getCurrentPlayer().setSelectedColumn(0);
         orchestrator.getCurrentPlayer().setTileIndex(1);
+
+
         orchestrator.executeState();
         System.out.print(orchestrator.CurrentPlayerIndex());
         System.out.print("\n");

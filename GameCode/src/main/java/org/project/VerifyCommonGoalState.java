@@ -1,8 +1,9 @@
 package org.project;
 
 public class VerifyCommonGoalState implements GameState{
+    private final int stateID = 9;
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyCommonGoalState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
@@ -16,8 +17,6 @@ public class VerifyCommonGoalState implements GameState{
                     gameOrchestrator.getCurrentPlayer().modifyCompletedCGoals(i);
                     int points = gameOrchestrator.getPointAssigner().assignPoints(i);
                     gameOrchestrator.getCurrentPlayer().changeScore(points); //TODO add exception catches
-                    //Update view
-                    gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getPointAssigner(), i);
                 }
             }
         }
@@ -26,6 +25,7 @@ public class VerifyCommonGoalState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new FullGridState(gameOrchestrator));
+        gameOrchestrator.setCurr_sate_id(3);
         gameOrchestrator.executeState();
 
     }

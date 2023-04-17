@@ -3,7 +3,8 @@ package org.project;
 import java.util.List;
 
 public class VerifyBoardableState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+    private final int stateID = 8;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyBoardableState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
@@ -21,17 +22,16 @@ public class VerifyBoardableState implements GameState{
     }
     @Override
     public void changeState() {
-        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         if(verifyBoardable()) {
             gameOrchestrator.changeState(new PickState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(4);
             gameOrchestrator.executeState();
         }
 
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-            //Update view
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Tiles must be adjacent and have at least one free side");
+            gameOrchestrator.setCurr_sate_id(10);
         }
 
     }

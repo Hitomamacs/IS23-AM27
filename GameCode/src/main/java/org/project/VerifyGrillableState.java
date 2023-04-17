@@ -1,8 +1,9 @@
 package org.project;
 
 public class VerifyGrillableState implements GameState{
+    private final int stateID = 10;
 
-    private GameOrchestrator gameOrchestrator;
+    private transient GameOrchestrator gameOrchestrator;
 
     public VerifyGrillableState(GameOrchestrator orchestrator) {
         this.gameOrchestrator = orchestrator;
@@ -22,16 +23,15 @@ public class VerifyGrillableState implements GameState{
 
     @Override
     public void changeState() {
-        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         if(verifyGrillable()) {
             gameOrchestrator.changeState(new VerifyBoardableState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(8);
             gameOrchestrator.executeState();
         }
         else {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-            //Update view
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Not enough space for the selected tiles");
+            gameOrchestrator.setCurr_sate_id(10);
         }
 
     }

@@ -1,7 +1,9 @@
 package org.project;
 
 public class RefillState implements GameState{
-    private GameOrchestrator gameOrchestrator;
+
+    private final int stateID = 5;
+    private transient GameOrchestrator gameOrchestrator;
 
     public RefillState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
@@ -11,6 +13,7 @@ public class RefillState implements GameState{
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+        gameOrchestrator.setCurr_sate_id(10);
 
 
     }
@@ -24,8 +27,8 @@ public class RefillState implements GameState{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        //We update the board view
-        gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
+
+
         }
         changeState();
     }

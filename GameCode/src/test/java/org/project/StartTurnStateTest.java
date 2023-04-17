@@ -43,7 +43,7 @@ class StartTurnStateTest {
     //to be verifyGrillable but of the following player.
     //Process is the following StartTurn1--->ConnectionState1--->StartTurn2--->ConnectionState2--->VerifyGrillable2
     //where 1 stands for player 1 and 2 for player 2
-     @Test
+    @Test
     void goesToNextStartTurn(){
         orchestrator.getCurrentPlayer().setConnected(false);
         orchestrator.executeState();
@@ -52,10 +52,10 @@ class StartTurnStateTest {
         orchestrator.getGameBoard().printMwithTiles();
         assertEquals(1, orchestrator.CurrentPlayerIndex());
         assertFalse(orchestrator.getGameBoard().checkBoard());
-     }
-     //Have to check that startTurn goes to connectionCheck and connectionCheck goes to TopUp if player is
-     //connected and has some tiles in his hand
-     @Test
+    }
+    //Have to check that startTurn goes to connectionCheck and connectionCheck goes to TopUp if player is
+    //connected and has some tiles in his hand
+    @Test
     void goesToTopUp(){
         List<Tile> tiles = new ArrayList<>();
         tiles.add(new Tile(Color.PINK, 1));
@@ -69,6 +69,6 @@ class StartTurnStateTest {
         assertTrue(orchestrator.getGameBoard().checkBoard());
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
-     }
+    }
 
 }

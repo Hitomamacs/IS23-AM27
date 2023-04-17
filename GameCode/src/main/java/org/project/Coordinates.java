@@ -1,7 +1,12 @@
 package org.project;
 
+
+import com.google.gson.annotations.Expose;
+
 public class Coordinates {
+    @Expose
     private int x;
+    @Expose
     private int y;
     public Coordinates(int x, int y){
         this.x = x;

@@ -1,21 +1,11 @@
 package org.project;
 
+
 import java.util.ArrayList;
 
-/**
- * This class represents common goal 5 where there should be three columns each consisting of
- * 6 tiles of one, two or three different types.
- * Different columns can have
- * Different combinations of tile types
- */
 public class CommonGoal_5 extends CommonGoal{
+    private static int goal_ID = 5;
 
-    /**
-     *This method saves tile colors to an arrayList if they were not already present.
-     *  If after going through the whole column, the size of the array is less than three, then I update the counter.
-     *  At the end the check is done to see if the counter has a value less than or equal to three.
-     * @return true if the common goal is completed
-     */
     public boolean checkGoal(PlayerGrid playerGrid)
     {
         int counter=0; //counter for row that verify the goal

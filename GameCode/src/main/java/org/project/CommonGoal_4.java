@@ -1,21 +1,10 @@
 package org.project;
 
-/**
- * method that represents the fourth common goal, that is, there must be six separate groups formed each
- * from two adjacent tiles of the same type.Tiles in a group can
- * be different from those of another group.
- */
+
 public class CommonGoal_4 extends CommonGoal{
 
-    /**
-     *This method first checks if there are tiles in the row that complete the objective,
-     *  if so I put the Boolean matrix in the positions of the tiles to true.
-     *  In the second cycle check if there are any tiles that complete the objective in the column.
-     *  In the first cycle the control is also done with the following configurations
-     *  $    |  $ |$$$ | $$$
-     *  $$$  |$$$ |$   |   $
-     * @return true if the common goal is completed
-     */
+    private static int goal_ID = 4;
+
     public boolean checkGoal(PlayerGrid playerGrid) {
         int counter=0; //counter for right pairs
         int i,j; //counter for matrix
@@ -49,28 +38,6 @@ public class CommonGoal_4 extends CommonGoal{
                         used[i][j]=true;
                         used[i][j+1]=true;
                         used[i+1][j+2]=true;
-                        used[i][j+2]=true;
-                    }else if(j+2<5 && i-1>0 && playerGrid.getSpot(new Coordinates(i,j+2)).isOccupied() &&
-                            playerGrid.getSpot(new Coordinates(i-1,j+2)).isOccupied() &&
-                            playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor().ordinal()==
-                                    playerGrid.getSpot(new Coordinates(i,j+2)).getTile().getColor().ordinal() &&
-                            playerGrid.getSpot(new Coordinates(i,j+2)).getTile().getColor().ordinal()==
-                                    playerGrid.getSpot(new Coordinates(i-1,j+2)).getTile().getColor().ordinal()){
-                        counter+=2;
-                        used[i][j]=true;
-                        used[i][j+1]=true;
-                        used[i-1][j+2]=true;
-                        used[i][j+2]=true;
-                    }else if(j+2<5 && i-1>0&& playerGrid.getSpot(new Coordinates(i,j+2)).isOccupied() &&
-                            playerGrid.getSpot(new Coordinates(i-1,j)).isOccupied() &&
-                            playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor().ordinal()==
-                                    playerGrid.getSpot(new Coordinates(i,j+2)).getTile().getColor().ordinal() &&
-                            playerGrid.getSpot(new Coordinates(i,j+2)).getTile().getColor().ordinal()==
-                                    playerGrid.getSpot(new Coordinates(i-1,j)).getTile().getColor().ordinal()){
-                        counter+=2;
-                        used[i][j]=true;
-                        used[i][j+1]=true;
-                        used[i-1][j]=true;
                         used[i][j+2]=true;
                     }else{
                         counter++;

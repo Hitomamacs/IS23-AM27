@@ -1,6 +1,7 @@
 package org.project;
 
 public class TopUpState implements GameState{
+    private final int stateID = 7;
     private GameOrchestrator gameOrchestrator;
 
     int selectedColumn;
@@ -15,11 +16,15 @@ public class TopUpState implements GameState{
     }
     @Override
     public void changeState() {
-        if(!gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty())
+        if(!gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
             gameOrchestrator.changeState(new TopUpState(gameOrchestrator, selectedColumn));
+            gameOrchestrator.setCurr_sate_id(7);
+
+        }
         else {
             gameOrchestrator.getCurrentPlayer().setSelectedColumn(-1);
             gameOrchestrator.changeState(new VerifyCommonGoalState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(9);
             gameOrchestrator.executeState();
         }
 
@@ -49,7 +54,6 @@ public class TopUpState implements GameState{
     public void topUp(){
 
         Tile tile;
-        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         int index = 0;
         if(selectedColumn == -1)
             selectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
@@ -60,21 +64,14 @@ public class TopUpState implements GameState{
             if (grid.spaceCheck(selectedColumn, n_picked_tiles)) {
                 index = gameOrchestrator.getCurrentPlayer().getTileIndex();
                 if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
-                    //Update the view
-                    Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
-                    gameOrchestrator.getGame().getView().updateView(pickedTiles, currentPlayer, index, selectedColumn);
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
                 }
             }
-            else {
-                selectedColumn = -1;
-                gameOrchestrator.getGame().getView().updateView(currentPlayer, "The selected column doesn't have enough space");
-            }
+            else selectedColumn = -1;
             //if the selected column doesn't have enough space the player has to change it, to allow
             //the player to change it the default state selectedColumn has to be set back to -1
         }
-        else gameOrchestrator.getGame().getView().updateView(currentPlayer, "You have to place tiles in the same column");
     }
 
 }

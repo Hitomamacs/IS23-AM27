@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class Game {
 
+    Persistencer persistencer;
+
     List<User> users;
     List<Player> players;
     GameOrchestrator orchestrator;
@@ -27,6 +29,7 @@ public class Game {
         users = new ArrayList<>();
         players = new ArrayList<>();
         commonGoals = new ArrayList<>();
+        persistencer = new Persistencer();
     }
     public void gameInit(int num_players){
         tileBag = new TileBag();

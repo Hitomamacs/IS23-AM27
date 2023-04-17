@@ -1,8 +1,11 @@
 package org.project;
 
+
 public class EndGameState implements GameState{
 
-    GameOrchestrator gameOrchestrator;
+    private final int stateID = 2;
+
+    transient GameOrchestrator  gameOrchestrator;
     public EndGameState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }

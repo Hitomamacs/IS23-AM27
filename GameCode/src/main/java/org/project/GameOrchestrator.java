@@ -42,6 +42,10 @@ public class GameOrchestrator {
         State = state;
     }
 
+    public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
+        this.selectedCGoal = selectedCGoal;
+    }
+
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;
@@ -140,6 +144,8 @@ public List<CommonGoal> getSelectedCGoal(){
     public List<Integer> get_selected_cgoal_int(){
         return this.selectedCGoal_int;
     }
+
+
 
     public void setCurr_sate_id(int curr_sate_id) {
         this.curr_sate_id = curr_sate_id;

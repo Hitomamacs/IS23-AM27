@@ -4,7 +4,11 @@ package org.project;
 
 public class CommonGoal_1 extends CommonGoal{
 
-    private static int goal_ID = 1;
+    private  int goal_ID = 1;
+
+    public Integer getGoalID() {
+        return goal_ID;
+    }
 //  Goal is x2   |= =|  2 distinct squares (separate from each other) of four same color tiles
 //               |= =|
 //Idea is to iterate through playerGrid and for each spot if not already visited

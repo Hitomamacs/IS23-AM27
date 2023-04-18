@@ -6,7 +6,11 @@ package org.project;
 //If each color appears it means it must appear just once
 public class CommonGoal_2 extends CommonGoal{
 
-    private static int goal_ID = 2;
+    private final int goal_ID = 2;
+
+    public Integer getGoalID() {
+        return goal_ID;
+    }
 
     public boolean checkGoal(PlayerGrid playerGrid) {
 

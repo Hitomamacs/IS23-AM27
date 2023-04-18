@@ -3,7 +3,10 @@ package org.project;
 
 public class CommonGoal_8 extends CommonGoal{
 
-    private static int goal_ID = 8;
+    private final int goal_ID = 8;
+    public Integer getGoalID() {
+        return goal_ID;
+    }
 
     public boolean checkGoal(PlayerGrid playerGrid){
 

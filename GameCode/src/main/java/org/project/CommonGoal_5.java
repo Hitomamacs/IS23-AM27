@@ -4,7 +4,10 @@ package org.project;
 import java.util.ArrayList;
 
 public class CommonGoal_5 extends CommonGoal{
-    private static int goal_ID = 5;
+    private final int goal_ID = 5;
+    public Integer getGoalID() {
+        return goal_ID;
+    }
 
     public boolean checkGoal(PlayerGrid playerGrid)
     {

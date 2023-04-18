@@ -41,6 +41,7 @@ class PersistencerTest {
     void load_all() {
         restored = persistencer.load_all("save_test");
         assertTrue(restored.getSelectedCGoal().get(0).getClass() == orchestrator.getSelectedCGoal().get(0).getClass());
+        assertTrue(restored.getPlayer(0).getMyPersonalGoal().getClass() == orchestrator.getPlayer(0).getMyPersonalGoal().getClass());
 
     }
 }

@@ -1,17 +1,11 @@
 package org.project;
 
-public class quitMessage {
+public class quitMessage extends Message{
     String username;
     MessageID messageID;
+   public quitMessage(String username){
 
-    public quitMessage(String username){
-        this.username = username;
-    }
-    public String getUsername(){
-        return username;
-    }
-    public MessageID getMessageID(){
-        return messageID;
-    }
-
+       super(username);
+       this.messageID = MessageID.PICK;
+   }
 }

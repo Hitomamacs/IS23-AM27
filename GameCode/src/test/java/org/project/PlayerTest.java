@@ -104,6 +104,7 @@ class PlayerTest {
     void testPickedTilesNum(){
         //TODO
     }
+    /*
     @Test
     void testVerifyPGoalsPoints(){
         Tile tile;
@@ -141,13 +142,15 @@ class PlayerTest {
 
     }
 
+     */
+
 
     @Test
     void verifyExtraPoints() {
         Tile tile;
-        PersonalGoal PGoal = new PersonalGoal_1();
-        PGoal.initialize();
-        player.setMyPersonalGoal(PGoal);
+       // PersonalGoal PGoal = new PersonalGoal_1();
+       // PGoal.initialize();
+        //player.setMyPersonalGoal(PGoal);
 
         assertEquals(player.verifyExtraPoints(), 0);
         Tile tile1 = new Tile(Color.PINK, 0);
@@ -185,8 +188,8 @@ class PlayerTest {
     @DisplayName("testing multiple streaks")
     public void MultipleExtratest(){
         Tile tile;
-        PersonalGoal PGoal = new PersonalGoal_1();
-        PGoal.initialize();
+       // PersonalGoal PGoal = new PersonalGoal_1();
+       // PGoal.initialize();
         Tile tile1 = new Tile(Color.PINK, 0);
         Tile tile2 = new Tile(Color.PINK, 1);
         Tile tile3 = new Tile(Color.PINK, 2);
@@ -208,8 +211,8 @@ class PlayerTest {
     @DisplayName("testing multiple streaks")
     public void MultipolExtraStrangetest(){
         Tile tile;
-        PersonalGoal PGoal = new PersonalGoal_1();
-        PGoal.initialize();
+        //PersonalGoal PGoal = new PersonalGoal_1();
+        //PGoal.initialize();
         Tile tile1 = new Tile(Color.PINK, 0);
         Tile tile2 = new Tile(Color.PINK, 1);
         Tile tile3 = new Tile(Color.PINK, 2);

@@ -69,6 +69,7 @@ class StartTurnStateTest {
         assertTrue(orchestrator.getGameBoard().checkBoard());
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
+        game.persistencer.saveGame(orchestrator, "saving");
     }
 
 }

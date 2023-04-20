@@ -93,11 +93,12 @@ public class Server {
     public boolean login(String username, boolean connectionType){
         //TODO checks once persistence has been implemented
         if(!game.getUsers().isEmpty()){
-            game.getUsers().add(new User(username, connectionType));
             for(int i = 0; i < game.getUsers().size(); i++){
                 if(game.getUsers().get(i).getUsername().equals(username))
                     return false;//Probably better if I throw exceptions instead to distinguish
-            }                   //the reasons the method was unsuccessful
+            }                    //the reasons the method was unsuccessful
+            game.getUsers().add(new User(username, connectionType));
+
             return true;
         }
         return false;

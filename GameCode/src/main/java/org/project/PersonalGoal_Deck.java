@@ -30,9 +30,10 @@ public class PersonalGoal_Deck {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            HashMap<Coordinates, Color> personalGoals_list = gson_parser.fromJson(reader, HashMap.class);
-            for(int i = 0; i< personalGoals_list.; i++){
-                //deck.add(new PersonalGoal(i, personalGoals_list.get(i)));
+
+            List<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(reader, List.class);
+            for(int i = 0; i< personalGoals_list.size(); i++){
+                deck.add(new PersonalGoal(i, personalGoals_list.get(i)));
             }
 
 

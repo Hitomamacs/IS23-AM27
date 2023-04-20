@@ -184,7 +184,7 @@ public class Player {
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints(){
 
-        HashMap<Coordinates,Color> colorMap;
+        Map<Coordinates,Color> colorMap;
         Tile tile;
         Coordinates coordinate;
         Color color;

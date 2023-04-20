@@ -3,14 +3,15 @@ package org.project;
 import com.google.gson.annotations.Expose;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public  class PersonalGoal {
 
     private int Pgoal_ID ;
     @Expose
-    private HashMap<Coordinates, Color> personalGoal;
+    private Map<Coordinates, Color> personalGoal;
 
-    public PersonalGoal(int Pgoal_ID, HashMap<Coordinates, Color> personalGoal) {
+    public PersonalGoal(int Pgoal_ID, Map<Coordinates, Color> personalGoal) {
         this.Pgoal_ID = Pgoal_ID;
         this.personalGoal = personalGoal;
     }
@@ -24,7 +25,7 @@ public  class PersonalGoal {
     public  void initialize(){
 
     };
-    public  HashMap<Coordinates, Color> getColoredGoal(){
+    public  Map<Coordinates, Color> getColoredGoal(){
         return personalGoal;
 
     }

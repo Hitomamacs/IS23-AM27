@@ -7,7 +7,7 @@ public class CommonGoal_4 extends CommonGoal{
     public Integer getGoalID() {
         return goal_ID;
     }
-    
+
     public boolean checkGoal(PlayerGrid playerGrid) {
 
 

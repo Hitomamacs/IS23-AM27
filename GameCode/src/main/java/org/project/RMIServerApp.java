@@ -5,6 +5,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.List;
 
 public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterface {
 
@@ -36,42 +37,57 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
     //METHODS INVOCATED BY CLIENTS
 
     /**
-     * method for logging in the player through the nickname.
+     * remote method for logging in the player through the nickname.
      * The method checks that the nickname is different for each logged in player.
      * @param nickname player's name
-     * @param client reference to the client that wants to execute the method
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, RMIClientInterface client) throws RemoteException{
-       server.login(nickname, new RMIClientApp ());
+    public void sendLogin(String nickname, boolean connectionType) throws RemoteException{
+        server.login(nickname, connectionType);
     }
 
     /**
-     *method called when a player wants to drop out. A message of the event that occurred is sent to all.
-     * @param client reference to the client that wants to execute the method
+     * remote method for logging the first player through the nickname.
+     * @param nickname player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @param numPlayers Number of players in the match
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendQuit(String nickname,RMIClientInterface client) throws RemoteException{
-        server.quit(nickname,new RMIClientApp());
+    public void sendLogin(String nickname, boolean connectionType, int numPlayers) throws RemoteException{
+        server.login(nickname,connectionType,numPlayers);
+    }
+
+
+    /**
+     *remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * @throws RemoteException if something goes wrong with the connection
+     */
+    public void sendQuit(String nickname) throws RemoteException{
+        server.quit(nickname);
     }
 
     /**
-     * method that allows the client to take tiles from the board
-     * @param client  reference to the client that wants to execute the method
+     * remote method that allows the client to take tiles from the board
+     * @param nickname player's name
+     * @param coordinates coordinates of the tiles to be taken
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendPickRequest(String nickname,RMIClientInterface client) throws RemoteException{
-        server.pick(nickname, new RMIClientApp());
+    public void sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException{
+        server.pick(nickname, coordinates);
     }
 
     /**
-     *method that given a column as input, puts the drawn tiles in that column of the player's grid
-     * @param client reference to the client that wants to execute the method
+     * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
+     * @param nickname player's name
+     * @param column Player's Choice Column
+     * @param tileIndex
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendTopUpRequest(String nickname,RMIClientInterface client) throws RemoteException{
-        server.topUp(nickname, new  RMIClientApp());
+    public void sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException{
+        server.topUp(nickname, column, tileIndex);
     }
+
 
     /**
      * send a chat message to all players

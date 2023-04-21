@@ -9,7 +9,12 @@ import java.util.List;
 
 public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterface {
 
-    private HashMap<String, RMIClientInterface> clientsRMI;
+    /**
+     * hash map che contiene tutti i giocatori RMI.
+     * La chiave è il riferimento al client
+     * String è l'username scelto
+     */
+    private final HashMap<RMIClientApp, String> clientsRMI;
 
     private final Server server;
 
@@ -18,7 +23,6 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @throws RemoteException if something goes wrong with the connection
      */
     public RMIServerApp(Server server) throws RemoteException{
-        //chiamo costruttore server totale
         this.clientsRMI = new HashMap<>();
         this.server = server;
     }
@@ -43,8 +47,12 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType) throws RemoteException{
-        server.login(nickname, connectionType);
+    public void sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException{
+        boolean check;
+        check=server.login(nickname, connectionType);
+        if(check==true){
+            clientsRMI.put(client, nickname);
+        }
     }
 
     /**
@@ -54,13 +62,18 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @param numPlayers Number of players in the match
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType, int numPlayers) throws RemoteException{
-        server.login(nickname,connectionType,numPlayers);
+    public void sendLogin(String nickname, boolean connectionType, RMIClientApp client,int numPlayers) throws RemoteException{
+        boolean check;
+        check=server.login(nickname,connectionType,numPlayers);
+        if(check==true){
+            clientsRMI.put(client, nickname);
+        }
     }
 
 
     /**
-     *remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * @param nickname player's name
      * @throws RemoteException if something goes wrong with the connection
      */
     public void sendQuit(String nickname) throws RemoteException{
@@ -96,7 +109,10 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @throws RemoteException if something goes wrong with the connection
      */
     public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException{
-        server.sendMessage(message);
+        server.sendMessage(clientsRMI.get(client), message);
     }
 
+    public HashMap<RMIClientApp, String> getClientsRMI() {
+        return clientsRMI;
+    }
 }

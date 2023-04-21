@@ -18,7 +18,7 @@ public class Player {
    private boolean[] CompletedCGoals;
     //TODO Pgoal ID
    private PersonalGoal myPersonalGoal;
-
+    @Expose
    private int personalGoalID;
     @Expose
    int selectedColumn;
@@ -71,7 +71,7 @@ public class Player {
     }
     public void setMyPersonalGoal(PersonalGoal personalGoal){
         myPersonalGoal = personalGoal;
-        personalGoalID = personalGoal.getPgoal_ID();
+        personalGoalID = myPersonalGoal.getPgoal_ID();
     }
 
     public int recoverPersonalGoal(){

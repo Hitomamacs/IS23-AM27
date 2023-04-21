@@ -3,7 +3,10 @@ package org.project;
 
 public class CommonGoal_11 extends CommonGoal{
 
-    private static int goal_ID = 11;
+    private final int goal_ID = 11;
+    public Integer getGoalID() {
+        return goal_ID;
+    }
     public boolean checkGoal(PlayerGrid playerGrid) {
         //counters for the matrix
         int i; //row

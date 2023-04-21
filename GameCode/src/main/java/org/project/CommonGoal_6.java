@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class CommonGoal_6 extends CommonGoal{
 
+    private final int goal_ID = 6;
+    public Integer getGoalID() {
+        return goal_ID;
+    }
+
     public boolean checkGoal(PlayerGrid playerGrid) {
         /*int counter=0; //counter for row that verify the goal
         int i=0, j=0; //counters for playergrid

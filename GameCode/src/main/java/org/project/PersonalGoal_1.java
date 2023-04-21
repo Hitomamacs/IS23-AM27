@@ -7,7 +7,12 @@ import java.util.HashMap;
 
 public class PersonalGoal_1 extends PersonalGoal{
 
-    private static int Pgoal_ID = 1;
+    @Override
+    public int getPgoal_ID() {
+        return Pgoal_ID;
+    }
+
+    private final int Pgoal_ID = 1;
     @Expose
     private  HashMap<Coordinates, Color> coloredGoal;
 

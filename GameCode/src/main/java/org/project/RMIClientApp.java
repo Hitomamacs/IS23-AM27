@@ -33,7 +33,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         this.rmiServer= (RMIServerInterface) registry.lookup("Server");
         final Scanner stdin= new Scanner(System.in);
         nickname=stdin.nextLine();
-        this.rmiServer.sendLogin(nickname, this);
+        this.rmiServer.sendLogin(nickname, false);
     }
 
     /**

@@ -10,12 +10,13 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Persistencer {
     static Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     //* This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file*/
-    public static void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
+    public void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
         String json = gson_parser.toJson(gameOrchestrator);
         try {
             PrintWriter out = new PrintWriter(new FileWriter(fileName + ".json"));
@@ -45,6 +46,7 @@ public class Persistencer {
     }
 
     public boolean load_states(GameOrchestrator gameOrchestrator) {
+        gameOrchestrator.setSelectedCGoal(new ArrayList<CommonGoal>());
         switch (gameOrchestrator.getCurr_sate_id()) {
             case 1:
                 gameOrchestrator.changeState(new ConnectionCheckState(gameOrchestrator));
@@ -92,6 +94,7 @@ public class Persistencer {
     }
 
     public boolean load_common_goals(GameOrchestrator gameOrchestrator) {
+
         for (int i = 0; i < gameOrchestrator.get_selected_cgoal_int().size(); i++) {
             switch (gameOrchestrator.get_selected_cgoal_int().get(i)) {
                 case 1:
@@ -143,10 +146,12 @@ public class Persistencer {
         }
     }
 
-    public void load_all(GameOrchestrator gameOrchestrator){
-        load_states(gameOrchestrator);
-        load_common_goals(gameOrchestrator);
-        load_pgoals(gameOrchestrator);
+    public GameOrchestrator load_all(String filename){
+        GameOrchestrator loaded = loadGame(filename);
+        load_states(loaded);
+        load_common_goals(loaded);
+        load_pgoals(loaded);
+        return loaded;
     }
 
 }

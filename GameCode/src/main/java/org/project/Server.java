@@ -8,16 +8,13 @@ public class Server {
 
     Game game;
     GameOrchestrator orchestrator;
-    /**
-     * LOCK to avoid the concurrency between players during login phase
-     */
-    private static final Object Login_lock= new Object();
 
     /**
-     * HashMap that contains all players
-     * string is player's username
+     * variabile per tener conto di quante persone ho aggiunto
      */
-    private HashMap<String, Player> players;
+    int count_players=0;
+
+    //TODO: DEVO METTERE RIFERIMENTI AL CLIENT
 
     /**
      * RMI server
@@ -33,7 +30,6 @@ public class Server {
      * constructor
      */
     public Server() throws RemoteException {
-        players= new HashMap<>();
         //socketServer= new SocketServer()
         rmiServer= new RMIServerApp();
     }
@@ -53,7 +49,7 @@ public class Server {
         try{
             Server server=new Server();
             rmiServer.startRMIServer(rmiPort);
-            //socketServer.startRMIServer(socketPort);
+            //socketServer.startSOCKETServer(socketPort);
         }catch(Exception e){
             e.printStackTrace();
         }

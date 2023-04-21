@@ -30,7 +30,9 @@ public class SocketServer {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketClientHandler(socket));
+                SocketClientHandler clientHandler = new SocketClientHandler(socket);
+
+                executor.submit(clientHandler);
             } catch(IOException e) {
                 break; // If server socket is closed
             }

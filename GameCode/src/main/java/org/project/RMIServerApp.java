@@ -17,10 +17,10 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * this is the constructor. Initialize the hash map.
      * @throws RemoteException if something goes wrong with the connection
      */
-    public RMIServerApp() throws RemoteException{
+    public RMIServerApp(Server server) throws RemoteException{
         //chiamo costruttore server totale
         this.clientsRMI = new HashMap<>();
-        this.server= new Server();
+        this.server = server;
     }
 
     /**

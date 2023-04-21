@@ -1,6 +1,7 @@
 package org.project;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,12 +16,14 @@ public class Server {
     int count_players=0;
 
     //TODO: DEVO METTERE RIFERIMENTI AL CLIENT
+    List<SocketClientHandler> socketClients;
+
 
     /**
      * RMI server
      */
     private static RMIServerApp rmiServer;
-
+    private static SocketServer socketServer;
     /**
      * SOCKET server
      */
@@ -30,16 +33,18 @@ public class Server {
      * constructor
      */
     public Server() throws RemoteException {
-        //socketServer= new SocketServer()
-        rmiServer= new RMIServerApp();
+        socketServer= new SocketServer(this, Settings.SOCKET_PORT);
+        rmiServer= new RMIServerApp(this);
+        socketClients = new ArrayList<>();
     }
 
     /**
      * MAIN
      */
     public static void main (String[] args) throws RemoteException {
-        int socketPort; //lo metto uguale al settings.socketport
+
         int rmiPort=Settings.RMI_PORT;
+        int socketPort = Settings.SOCKET_PORT;
 
         if(args.length!=0){
             socketPort=Integer.parseInt(args[0]);
@@ -49,7 +54,7 @@ public class Server {
         try{
             Server server=new Server();
             rmiServer.startRMIServer(rmiPort);
-            //socketServer.startSOCKETServer(socketPort);
+            socketServer.startSocketServer();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -115,6 +120,12 @@ public class Server {
 
     public void sendMessage (String message){
         //chiamo metodo sul client che mi stampa il messaggio
+    }
+    public int getCount_players(){
+        return count_players;
+    }
+    public void setCount_players(int count){
+        this.count_players = count;
     }
 
 

@@ -3,7 +3,7 @@ package org.project;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RMIClientInterface extends Remote {
+public interface RMIClientInterface extends Remote,ClientInterface {
 
     /**
      * method that shows the player a new message

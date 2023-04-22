@@ -35,6 +35,7 @@ public class Server {
     /**
      * constructor
      */
+    //TODO:devo passare game e game orchestrator
     public Server() throws RemoteException {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);

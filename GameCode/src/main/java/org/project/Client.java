@@ -65,16 +65,19 @@ public class Client {
             case "rmi":
                 try{
                     client= new RMIClientApp(rmiPort);
+                    client.startClient();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-            //case "socket":
-                /*
-                * try{
-                * client= new SocketClientApp();
-                * }catch(Exception e ){
-                * e.printStackTrace();
-                * }*/
+                break;
+            case "socket":
+                 try{
+                    client= new SocketClientApp();
+                    client.startClient();
+                 }catch(Exception e ){
+                    e.printStackTrace();
+                 }
+                break;
         }
 
     }

@@ -32,7 +32,7 @@ public class Player {
    int tileIndex;
 
     @Expose
-    ArrayList<HashMap<Coordinates, Color>> personalGoals_list;
+    List<HashMap<Coordinates, Color>> personalGoals_list;
 
    private Tile[] pickedTiles;
     public Player(String nickname) {
@@ -42,13 +42,25 @@ public class Player {
         pickedTiles = new Tile[3];
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get("PGoals" + ".json"));
+            reader = Files.newBufferedReader(Paths.get("test_1.json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         ArrayList<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(reader, ArrayList.class);
 
     }
+    public void personal_list_init(String filename){
+        Reader reader = null;
+        try {
+            reader = Files.newBufferedReader(Paths.get(filename));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+         personalGoals_list = gson_parser.fromJson(reader, List.class);
+    }
+
+
     public String getNickname() {
         return nickname;
     }

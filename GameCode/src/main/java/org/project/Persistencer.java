@@ -11,6 +11,8 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Persistencer {
     static Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -142,6 +144,7 @@ public class Persistencer {
 
     public void load_pgoals(GameOrchestrator gameOrchestrator){
         for(Player p : gameOrchestrator.getPlayers()){
+            p.personal_list_init("test_1.json");
             p.recoverPersonalGoal();
         }
     }
@@ -152,6 +155,21 @@ public class Persistencer {
         load_common_goals(loaded);
         load_pgoals(loaded);
         return loaded;
+    }
+
+    public String get_file_name(GameOrchestrator gameOrchestrator){
+        List<String> names = new ArrayList<>();
+        for(Player p : gameOrchestrator.getPlayers()){
+            names.add(p.getNickname());
+        }
+        List<String> sorted_list = names.stream().sorted().toList();
+        String file_name = "";
+        for(String s : sorted_list){
+            file_name += s;
+        }
+        return file_name;
+
+
     }
 
 }

@@ -34,6 +34,7 @@ public class TopUpState implements GameState{
     public void execute() {
   //      if(!disconnectChange())
             topUp();
+        gameOrchestrator.getGame().persistencer.saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
             changeState();
 
 

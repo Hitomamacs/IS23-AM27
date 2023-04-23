@@ -52,6 +52,7 @@ public class PickState implements GameState {
  //       if(!DisconnectState()){
         Pick();
         gameOrchestrator.flushCoordinates();
+        gameOrchestrator.getGame().persistencer.saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         changeState();
     }
 

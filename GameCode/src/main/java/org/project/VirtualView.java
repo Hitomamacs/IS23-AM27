@@ -1,6 +1,7 @@
 package org.project;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //The virtual view class contains the various view classes which will be both common to the server and
@@ -10,11 +11,12 @@ import java.util.List;
 //hello
 public class VirtualView {
 
-    BoardView boardView;
-    PointStackView pointStackView;
-    List<GridView> gridViews;
-    List<TilesView> tilesViews;
-    List<PopUpView> popUpViews;
+    private BoardView boardView;
+    private PointStackView pointStackView;
+    private List<GridView> gridViews;
+    private List<TilesView> tilesViews;
+    private List<PopUpView> popUpViews;
+    private ScoreBoardView scoreBoardView;
 
     public VirtualView(List<User> users){
         boardView = new BoardView();
@@ -44,8 +46,8 @@ public class VirtualView {
     //This first method updates popUpMessages
     public void updateView(String username, String popUpMessage){
         for(PopUpView pView : popUpViews){
-            if(pView.username.equals(username)){
-                pView.ErrorMessage = popUpMessage;
+            if(pView.getUsername().equals(username)){
+                pView.setErrorMessage(popUpMessage);
                 break;
             }
         }
@@ -68,7 +70,7 @@ public class VirtualView {
             }
         }
         for(TilesView tView : tilesViews){
-            if(tView.username.equals(username)){
+            if(tView.getUsername().equals(username)){
                 tView.removeTile(tileIndex);
             }
         }
@@ -113,7 +115,7 @@ public class VirtualView {
             }else pickedTilesStr[i] = "N";
         }
         for(TilesView tView : tilesViews){
-            if(tView.username.equals(username)){
+            if(tView.getUsername().equals(username)){
                 tView.updateTilesView(pickedTilesStr);
             }
         }
@@ -122,7 +124,30 @@ public class VirtualView {
         int newValue = pointAssigner.getStackList().get(position).peek();
         pointStackView.updatePointStackView(newValue, position);
     }
-    public void sendView(){
-        
+    public void updateView(HashMap<String, Integer> score){
+        scoreBoardView.updateScoreBoardView(score);
+    }
+    public BoardView getBoardView() {
+        return boardView;
+    }
+
+    public PointStackView getPointStackView() {
+        return pointStackView;
+    }
+
+    public List<GridView> getGridViews () {
+        return gridViews;
+    }
+
+    public List<TilesView> getTilesViews() {
+        return tilesViews;
+    }
+
+    public List<PopUpView> getPopUpViews() {
+        return popUpViews;
+    }
+
+    public ScoreBoardView getScoreBoardView() {
+        return scoreBoardView;
     }
 }

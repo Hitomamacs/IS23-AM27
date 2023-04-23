@@ -17,6 +17,8 @@ public class VerifyCommonGoalState implements GameState{
                     gameOrchestrator.getCurrentPlayer().modifyCompletedCGoals(i);
                     int points = gameOrchestrator.getPointAssigner().assignPoints(i);
                     gameOrchestrator.getCurrentPlayer().changeScore(points); //TODO add exception catches
+                    //Update view
+                    gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getPointAssigner(), i);
                 }
             }
         }

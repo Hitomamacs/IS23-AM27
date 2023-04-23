@@ -7,17 +7,13 @@ import java.util.List;
 
 public class Server {
 
-    Game game;
-    GameOrchestrator orchestrator;
+    private Game game;
+    private GameOrchestrator orchestrator;
 
     /**
      * variabile per tener conto di quante persone ho aggiunto
      */
     int count_players=0;
-
-    //TODO: DEVO METTERE RIFERIMENTI AL CLIENT
-    List<SocketClientHandler> socketClients;
-
 
     /**
      * RMI server
@@ -35,7 +31,6 @@ public class Server {
     public Server() throws RemoteException {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
-        socketClients = new ArrayList<>();
     }
 
     /**
@@ -128,5 +123,63 @@ public class Server {
         this.count_players = count;
     }
 
+    //Next are the methods for sending information to the clients, two smaller methods sendRMI and sendSocket
+    //and a more general method used for broadcasting messages to all the clients (which iterates on the two
+    //client hash maps and then calls the previously mentioned methods), when the message has to be sent to a
+    //single client we directly use the smaller methods
 
+    //Sent at the beginning of the game and updates the client view (Could be the one sent if we decide
+    //to implement a refresh view method called from the client)
+    public void sendSocket(SocketClientHandler socketClient,  VirtualView view){
+
+        String[][] board = view.getBoardView().getBoard();
+        List<Integer> pointStack = view.getPointStackView().getPointList();
+        HashMap<String, String[][]> gridsview = new HashMap<>();
+        HashMap<String, String[]> tilesview = new HashMap<>();
+        for(GridView gView : view.getGridViews()){
+            gridsview.put(gView.getUsername(), gView.grid);
+        }
+        for(TilesView tView : view.getTilesViews()){
+            tilesview.put(tView.getUsername(), tView.getPlayerTiles());
+        }
+        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
+        socketClient.send(message);
+    }
+    //Sends necessary stuff for update after a successful pick move
+    public void sendSocket(SocketClientHandler socketClient, BoardView boardView, TilesView tilesView){
+
+        String[][] board = boardView.getBoard();
+        String[] tiles = tilesView.getPlayerTiles();
+        String playername = tilesView.getUsername();
+
+        UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
+        socketClient.send(message);
+    }
+    //Sends necessary stuff after a successful topUp move
+    public void sendSocket(SocketClientHandler socketClient, GridView gridView, TilesView tilesView){
+
+        String[][] grid = gridView.getGridView();
+        String[] tiles = tilesView.getPlayerTiles();
+        String playername = tilesView.getUsername();
+
+        UpdateTopUPMsg message = new UpdateTopUPMsg(playername, tiles, grid);
+        socketClient.send(message);
+    }
+    //Sends necessary stuff to display a popUp message (after failed moves, final round alert, player has
+    //disconnected
+    public void sendSocket(SocketClientHandler socketClient, PopUpView popUpView){
+
+        String text = popUpView.getErrorMessage();
+
+        PopUpMsg message = new PopUpMsg(text);
+        socketClient.send(message);
+    }
+    //Sends necessary stuff to display final scoreBoard after game has ended
+    public void sendSocket(SocketClientHandler socketClient, ScoreBoardView scoreBoard){
+
+        HashMap<String, Integer> score = scoreBoard.getScoreBoard();
+
+        ScoreBoardMsg message = new ScoreBoardMsg(score);
+        socketClient.send(message);
+    }
 }

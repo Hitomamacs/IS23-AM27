@@ -1,8 +1,8 @@
 package org.project;
 
 public class TilesView {
-    String[] playerTiles;
-    String username;
+    private String[] playerTiles;
+    private String username;
     public TilesView(String username){
         this.username = username;
         playerTiles = new String[3];

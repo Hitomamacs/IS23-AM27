@@ -1,8 +1,8 @@
 package org.project;
 
 public class PopUpView {
-    String ErrorMessage;
-    String username;
+    private String ErrorMessage;
+    private String username;
 
     public PopUpView(String username){
         this.username = username;
@@ -15,4 +15,8 @@ public class PopUpView {
     }
 
     public String getUsername(){ return username; };
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

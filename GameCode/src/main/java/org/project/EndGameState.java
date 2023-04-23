@@ -1,6 +1,8 @@
 package org.project;
 
 
+import java.util.HashMap;
+
 public class EndGameState implements GameState{
 
     private final int stateID = 2;
@@ -12,7 +14,14 @@ public class EndGameState implements GameState{
 
     @Override
     public void execute() {
-
+        int points = 0;
+        HashMap<String, Integer> score = new HashMap<>();
+        for(Player p : gameOrchestrator.getPlayers()){
+            points = p.verifyExtraPoints() + p.verifyExtraPoints() + p.getScore();
+            score.put(p.getNickname(), points);
+        }
+        gameOrchestrator.getGame().getView().updateView(score);
+        //TODO will have to change some variable so that the server knows the game has ended and can close
     }
 
     @Override

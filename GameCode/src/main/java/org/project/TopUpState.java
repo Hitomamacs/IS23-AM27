@@ -55,6 +55,7 @@ public class TopUpState implements GameState{
 
         Tile tile;
         int index = 0;
+        String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         if(selectedColumn == -1)
             selectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
 
@@ -64,14 +65,18 @@ public class TopUpState implements GameState{
             if (grid.spaceCheck(selectedColumn, n_picked_tiles)) {
                 index = gameOrchestrator.getCurrentPlayer().getTileIndex();
                 if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
+                    //Update view
+                    Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
                 }
             }
             else selectedColumn = -1;
+            gameOrchestrator.getGame().getView().updateView(currentPlayer, "The selected column doesn't have enough space");
             //if the selected column doesn't have enough space the player has to change it, to allow
             //the player to change it the default state selectedColumn has to be set back to -1
         }
+        else gameOrchestrator.getGame().getView().updateView(currentPlayer, "You have to place tiles in the same column");
     }
 
 }

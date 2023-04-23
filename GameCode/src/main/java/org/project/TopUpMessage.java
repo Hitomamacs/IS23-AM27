@@ -1,14 +1,11 @@
 package org.project;
 
-public class topUpMessage extends Message{
-
-    MessageID messageID;
-    String username;
+public class TopUpMessage extends Message{
     int column;
     int tileIndex;
-    public topUpMessage(MessageID ID,String username, int column, int tileIndex) {
+    public TopUpMessage(MessageID ID,String username, int column, int tileIndex) {
         super(username);
-        this.messageID = MessageID.TOPUP;
+        this.setMessageID(MessageID.TOPUP);
         this.column = column;
         this.tileIndex = tileIndex;
     }

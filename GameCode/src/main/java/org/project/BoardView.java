@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class BoardView {
-    String[][] board;
+    private String[][] board;
     public BoardView(){
         board = new String[9][9];
     }
@@ -84,7 +84,7 @@ public class BoardView {
             }
         }
     }
-    public String[][] getBoardView(){
+    public String[][] getBoard(){
         return board;
     }
 }

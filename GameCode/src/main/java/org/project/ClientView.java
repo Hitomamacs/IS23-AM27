@@ -9,16 +9,18 @@ import java.util.List;
  */
 public class ClientView {
 
-    String[][] board;
-    List<Integer> pointStack;
-    HashMap<String, String[][] > gridsview;
-    HashMap<String,String[]> tilesview;
-    String errorMessage;
+    private String[][] board;
+    private List<Integer> pointStack;
+    private HashMap<String, String[][] > gridsview;
+    private HashMap<String,String[]> tilesview;
+    private String errorMessage;
+    private HashMap<String, Integer> scoreBoard;
 
     public ClientView() {
        pointStack=new ArrayList<>();
        gridsview= new HashMap<>();
        tilesview= new HashMap<>();
+       scoreBoard = new HashMap<>();
     }
 
 
@@ -40,5 +42,9 @@ public class ClientView {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public HashMap<String, Integer> getScoreBoard() {
+        return scoreBoard;
     }
 }

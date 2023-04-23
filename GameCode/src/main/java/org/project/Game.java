@@ -58,7 +58,7 @@ public class Game {
         pointAssigner.initialize(num_players, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
         view = new VirtualView(users);
-        filename = persistencer.get_file_name(orchestrator);
+        filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
 
     }
 

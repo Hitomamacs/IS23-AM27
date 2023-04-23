@@ -9,6 +9,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * auxiliary class used to create the json file for the personal goals
+ */
+
 public class POb_2Js {
 
     public static void to_json(POb_2Js pOb_2Js){

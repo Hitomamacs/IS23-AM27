@@ -1,28 +1,19 @@
 package org.project;
 
-public class topUpMessage {
+public class topUpMessage extends Message{
 
     MessageID messageID;
     String username;
-
     int column;
-
     int tileIndex;
-
-    public topUpMessage(String username, int column, int tileIndex) {
-        this.messageID = MessageID.PICK;
-        this.username = username;
+    public topUpMessage(MessageID ID,String username, int column, int tileIndex) {
+        super(username);
+        this.messageID = MessageID.TOPUP;
         this.column = column;
         this.tileIndex = tileIndex;
     }
-    public String getUsername(){
-        return username;
-    }
     public int getColumn(){
         return column;
-    }
-    public MessageID getMessageID(){
-        return messageID;
     }
     public int getTileIndex(){
         return tileIndex;

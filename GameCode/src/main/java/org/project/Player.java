@@ -3,7 +3,13 @@ package org.project;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static org.project.Persistencer.gson_parser;
 
 public class Player {
     @Expose
@@ -25,12 +31,22 @@ public class Player {
     @Expose
    int tileIndex;
 
+    @Expose
+    ArrayList<HashMap<Coordinates, Color>> personalGoals_list;
+
    private Tile[] pickedTiles;
     public Player(String nickname) {
         this.nickname = nickname;
         CompletedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
+        Reader reader = null;
+        try {
+            reader = Files.newBufferedReader(Paths.get("PGoals" + ".json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(reader, ArrayList.class);
 
     }
     public String getNickname() {
@@ -77,40 +93,40 @@ public class Player {
     public int recoverPersonalGoal(){
         switch (personalGoalID){
             case 1:
-                myPersonalGoal = new PersonalGoal_1();
+                myPersonalGoal = new PersonalGoal(1, personalGoals_list.get(0));
                 break;
             case 2:
-                myPersonalGoal = new PersonalGoal_2();
+                myPersonalGoal = new PersonalGoal(2, personalGoals_list.get(1));
                 break;
             case 3:
-                myPersonalGoal = new PersonalGoal_3();
+                myPersonalGoal = new PersonalGoal(3, personalGoals_list.get(2));
                 break;
             case 4:
-                myPersonalGoal = new PersonalGoal_4();
+                myPersonalGoal = new PersonalGoal(4, personalGoals_list.get(3));
                 break;
             case 5:
-                myPersonalGoal = new PersonalGoal_5();
+                myPersonalGoal = new PersonalGoal(5, personalGoals_list.get(4));
                 break;
             case 6:
-                myPersonalGoal = new PersonalGoal_6();
+                myPersonalGoal = new PersonalGoal(6, personalGoals_list.get(5));
                 break;
             case 7:
-                myPersonalGoal = new PersonalGoal_7();
+                myPersonalGoal = new PersonalGoal(7, personalGoals_list.get(6));
                 break;
             case 8:
-                myPersonalGoal = new PersonalGoal_8();
+                myPersonalGoal = new PersonalGoal(8, personalGoals_list.get(7));
                 break;
             case 9:
-                myPersonalGoal = new PersonalGoal_9();
+                myPersonalGoal = new PersonalGoal(9, personalGoals_list.get(8));
                 break;
             case 10:
-                myPersonalGoal = new PersonalGoal_10();
+                myPersonalGoal = new PersonalGoal(10, personalGoals_list.get(9));
                 break;
             case 11:
-                myPersonalGoal = new PersonalGoal_11();
+                myPersonalGoal = new PersonalGoal(11, personalGoals_list.get(10));
                 break;
             case 12:
-                myPersonalGoal = new PersonalGoal_12();
+                myPersonalGoal = new PersonalGoal(12, personalGoals_list.get(11));
                 break;
 
         }
@@ -168,7 +184,7 @@ public class Player {
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints(){
 
-        HashMap<Coordinates,Color> colorMap;
+        Map<Coordinates,Color> colorMap;
         Tile tile;
         Coordinates coordinate;
         Color color;

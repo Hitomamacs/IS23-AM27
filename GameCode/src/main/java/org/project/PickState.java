@@ -57,6 +57,7 @@ public class PickState implements GameState {
         gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
         gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
+        gameOrchestrator.getGame().persistencer.saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         changeState();
     }
 

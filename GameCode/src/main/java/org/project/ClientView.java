@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * classe che rappresenta la view lato client
+ * class representing the client side view
  */
 public class ClientView {
 

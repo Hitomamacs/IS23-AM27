@@ -24,6 +24,10 @@ public class Game {
 
     VirtualView view;
 
+    String filename;
+
+
+
     //TODO WHat happens if game terminates?
     public Game(){
         users = new ArrayList<>();
@@ -38,7 +42,7 @@ public class Game {
         commonGoalDeck = new CommonGoal_Deck();
         commonGoalDeck.fillDeck();
         personalGoalDeck = new PersonalGoal_Deck();
-        personalGoalDeck.fillDeck();
+        personalGoalDeck.fillDeck("test_1.json");
         commonGoals.add(commonGoalDeck.getRandom());
         commonGoals.add(commonGoalDeck.getRandom());
 
@@ -54,6 +58,8 @@ public class Game {
         pointAssigner.initialize(num_players, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
         view = new VirtualView(users);
+        filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
+
     }
 
 
@@ -73,4 +79,8 @@ public class Game {
     }
 
     public VirtualView getView(){ return view; }
+
+    public String getFilename() {
+        return filename;
+    }
 }

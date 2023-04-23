@@ -11,11 +11,21 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * This class is used to save and load a game
+ *
+ */
 public class Persistencer {
     static Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     //* This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file*/
+    /** This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file
+     * @param gameOrchestrator
+     * @param fileName
+     */
     public void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
         String json = gson_parser.toJson(gameOrchestrator);
         try {
@@ -34,6 +44,12 @@ public class Persistencer {
     }
 
     //function to load a game from a file
+
+    /**
+     * This method takes a file name and returns a GameOrchestrator object
+     * @param fileName
+     * @return
+     */
     public static GameOrchestrator loadGame(String fileName) {
         Reader reader = null;
         try {
@@ -45,6 +61,11 @@ public class Persistencer {
         return gameOrchestrator;
     }
 
+    /**
+     * Since the states are from an abstract class we need to load the states manually
+     * @param gameOrchestrator
+     * @return
+     */
     public boolean load_states(GameOrchestrator gameOrchestrator) {
         gameOrchestrator.setSelectedCGoal(new ArrayList<CommonGoal>());
         switch (gameOrchestrator.getCurr_sate_id()) {
@@ -93,6 +114,12 @@ public class Persistencer {
         return false;
     }
 
+    /**
+     * Since the C Goals are from an abstract class we need to load the states manually
+     * @param gameOrchestrator
+     * @return
+     */
+
     public boolean load_common_goals(GameOrchestrator gameOrchestrator) {
 
         for (int i = 0; i < gameOrchestrator.get_selected_cgoal_int().size(); i++) {
@@ -140,11 +167,23 @@ public class Persistencer {
         return true;
     }
 
+    /**
+     * Since the P Goals are from an abstract class we need to load the states manually we are using json files to store the personal goals
+     * this method loads the personal goals from the json files
+     * @param gameOrchestrator
+     */
     public void load_pgoals(GameOrchestrator gameOrchestrator){
         for(Player p : gameOrchestrator.getPlayers()){
+            p.personal_list_init("test_1.json");
             p.recoverPersonalGoal();
         }
     }
+
+    /**
+     * this method combines all the load methods
+     * @param filename
+     * @return
+     */
 
     public GameOrchestrator load_all(String filename){
         GameOrchestrator loaded = loadGame(filename);
@@ -152,6 +191,27 @@ public class Persistencer {
         load_common_goals(loaded);
         load_pgoals(loaded);
         return loaded;
+    }
+
+    /**
+     * this method creates the filename concatenating the players nicknames in alphabetical order
+     * @param gameOrchestrator
+     * @return
+     */
+
+    public String get_file_name(GameOrchestrator gameOrchestrator){
+        List<String> names = new ArrayList<>();
+        for(Player p : gameOrchestrator.getPlayers()){
+            names.add(p.getNickname());
+        }
+        List<String> sorted_list = names.stream().sorted().toList();
+        String file_name = "";
+        for(String s : sorted_list){
+            file_name += s;
+        }
+        return file_name;
+
+
     }
 
 }

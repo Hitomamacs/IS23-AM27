@@ -10,6 +10,7 @@ public class StartTurnState implements GameState{
     }
 
     public void execute(){
+        gameOrchestrator.getGame().persistencer.saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         changeState();
 
 

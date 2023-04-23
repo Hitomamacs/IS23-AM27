@@ -12,28 +12,34 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * reference to the server object
      */
     private RMIServerInterface rmiServer;
+    private int port;
     String nickname;
 
     /**
      * constructor
      * @throws RemoteException
      */
-    public RMIClientApp() throws RemoteException{}
+    public RMIClientApp(int port) throws RemoteException{
+        this.port=port;
+    }
 
     /**
      * method that opens a connection with the RMI server
      * @throws Exception
      */
-    public void startClientRMI() throws Exception{
+    public void startClient() throws Exception{
+        String nick;
         //Getting the registry
         Registry registry;
-        registry= LocateRegistry.getRegistry(Settings.SERVER_NAME,Settings.RMI_PORT);
+        registry= LocateRegistry.getRegistry(Settings.SERVER_NAME,port);
 
         //Looking up the registry for the remote object
         this.rmiServer= (RMIServerInterface) registry.lookup("Server");
-        final Scanner stdin= new Scanner(System.in);
-        nickname=stdin.nextLine();
-        this.rmiServer.sendLogin(nickname, false);
+        System.out.println("Connessione stabilita");
+        /*final Scanner stdin= new Scanner(System.in);
+        System.out.println("Quale nickname vuoi utilizzare?");
+        nick=stdin.nextLine();
+        this.rmiServer.sendLogin(nick, false,this);*/
     }
 
     /**

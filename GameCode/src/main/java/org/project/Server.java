@@ -28,6 +28,7 @@ public class Server {
     /**
      * constructor
      */
+    //TODO:devo passare game e game orchestrator
     public Server() throws RemoteException {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
@@ -58,6 +59,11 @@ public class Server {
 
     //METODI CHE IL CLIENT PUO CHIAMARE SUL SERVER
 
+    /**
+     * method that allows the client to take tiles from the board
+     * @param username player's name
+     * @param coordinates coordinates of the tiles to be taken
+     */
     public boolean pick(String username, List<Coordinates> coordinates){
         //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
         //his turn so this check is redundant)
@@ -72,6 +78,13 @@ public class Server {
         //valid input
         return false;
     }
+
+    /**
+     * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
+     * @param username player's name
+     * @param column Player's Choice Column
+     * @param tileIndex
+     */
     public boolean topUp(String username, int column, int tileIndex){
 
         int num_tiles = 0;
@@ -86,6 +99,12 @@ public class Server {
         }
         return false;
     }
+    /**
+     * method for logging in the player through the nickname.
+     * The method checks that the nickname is different for each logged in player.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     */
     public boolean login(String username, boolean connectionType){
         //TODO checks once persistence has been implemented
         if(!game.getUsers().isEmpty()){
@@ -99,6 +118,12 @@ public class Server {
         }
         return false;
     }
+    /**
+     * method for logging the FIRST player through the nickname.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @param numPlayers Number of players in the match
+     */
     public boolean login(String username, boolean connectionType, int numPlayers){
         if(game.getUsers().isEmpty()) {
             game.getUsers().add(new User(username, connectionType));
@@ -109,13 +134,35 @@ public class Server {
         //Should probably do another check to see if numPlayers is acceptable
         return false;
     }
+    /**
+     * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * @param username player's name
+     */
     public boolean quit(String username){
         return false;
     }
 
-    public void sendMessage (String message){
-        //chiamo metodo sul client che mi stampa il messaggio
+    /**
+     * send a chat message to all players
+     * @param username message sender
+     * @param message message you want to send
+     * @throws RemoteException if something goes wrong with the connection
+     */
+    public void sendMessage (String username,String message){
+        System.out.println("server received : "+ message);
+
+        //per i client RMI:
+        for(RMIClientApp rmiCl: rmiServer.getClientsRMI().keySet()){
+            try{rmiCl.printMsg(username,message);}
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        //per i client Socket:
     }
+
+   //METODI GET E SET
     public int getCount_players(){
         return count_players;
     }

@@ -75,3 +75,13 @@ Here are some useful commands to use with Maven:
 | Persistency             | ![YES][TICK]  |
 | Disconnection Recovery  | ![YES][TICK]  |
 | CHAT                    | ![NO][CROSS]  |
+
+
+## License
+
+[**My Shelfie**]([https://craniointernational.com/products/masters-of-renaissance](https://www.craniocreations.it/prodotto/my-shelfie)/) is property of [_Cranio Creations_] and all of the copyrighted graphical assets used in this project were supplied by [**Politecnico di Milano**] in collaboration with their rights' holders.
+
+[TICK]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/tick.png
+[CROSS]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/cross.png
+[_Cranio Creations_]: https://www.craniocreations.it/
+[**Politecnico di Milano**]: https://www.polimi.it/

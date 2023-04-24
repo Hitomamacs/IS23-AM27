@@ -42,7 +42,7 @@ public class Player {
         pickedTiles = new Tile[3];
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get("POb.json"));
+            reader = Files.newBufferedReader(Paths.get("test_1.json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

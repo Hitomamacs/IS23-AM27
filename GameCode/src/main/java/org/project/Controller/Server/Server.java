@@ -9,6 +9,7 @@ import org.project.Model.Coordinates;
 import org.project.RMIClientApp;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,8 +80,14 @@ public class Server {
             orchestrator.executeState();
             //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
             if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
+                //If successful the view has been updated so need to send it to all
+                BoardView boardView = game.getView().getBoardView();
+                //TODO double check the next two lines and test properly
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                send(boardView,tilesViews.get(0));
                 return true;
-            }
+            }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
+            else sendError(username);
         } //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
         //valid input
         return false;
@@ -101,8 +108,14 @@ public class Server {
             orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
             orchestrator.executeState();
             if(orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1){
+                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> !g.getUsername().equals(username)).toList();
+                GridView gridView = gridViews.get(0);
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                TilesView tilesView = tilesViews.get(0);
+                send(gridView, tilesView);
                 return true;
             }
+            else sendError(username);
         }
         return false;
     }
@@ -223,15 +236,6 @@ public class Server {
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //TODO sending to RMI clients
     }
-    //Sends necessary stuff to display a popUp message (after failed moves, final round alert, player has
-    //disconnected
-    public void sendSocket(SocketClientHandler socketClient, PopUpView popUpView){
-
-        String text = popUpView.getErrorMessage();
-
-        PopUpMsg message = new PopUpMsg(text);
-        socketClient.send(message);
-    }
     //Sends necessary stuff to display final scoreBoard after game has ended
     public void send(ScoreBoardView scoreBoard){
 
@@ -254,6 +258,24 @@ public class Server {
         PopUpMsg message = new PopUpMsg(text);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //TODO sending to RMI clients
+    }
+    //The other case is an error message which is sent directly to the interested player, the next method
+    //takes the username checks his connection and sends the popUp
+    public void sendError(String username){
+
+        List<User> users = game.getUsers().stream().filter(u -> !u.getUsername().equals(username)).toList();
+        User user = users.get(0);
+        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> !p.getUsername().equals(username)).toList();
+       PopUpView popUpView = popUpViews.get(0);
+        if(user.getConnectionType()){
+            String text = popUpView.getErrorMessage();
+            PopUpMsg message = new PopUpMsg(text);
+            socketServer.getSocketClients().get(username).send(message);
+        }
+        //TODO RMI sending
+        //else{
+        // }
+
     }
     
 }

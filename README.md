@@ -17,7 +17,7 @@ To run this project, you need to have Java and Maven installed on your machine.
 1. Clone the repository to your local machine using the following command:
 
     ```
-    git clone https://github.com/groupname/my-shelfie.git
+    git clone https://github.com/Hitomamacs/IS23-AM27/
     ```
 
 2. Navigate to the root directory of the project.

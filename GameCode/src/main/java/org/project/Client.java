@@ -1,5 +1,7 @@
 package org.project;
 
+import org.project.Controller.Server.Settings;
+
 import java.util.Scanner;
 
 /**

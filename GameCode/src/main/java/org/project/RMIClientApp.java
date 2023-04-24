@@ -1,10 +1,12 @@
 package org.project;
 
+import org.project.Controller.Server.RMIServerInterface;
+import org.project.Controller.Server.Settings;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 
 public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface {
 

@@ -54,4 +54,10 @@ public class MessageHandler {
             socketServer.getSocketClients().put(username, client);
         }
     }
+    public void send(Message message){
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        client.getOut().println(jsonStr);
+    }
+
 }

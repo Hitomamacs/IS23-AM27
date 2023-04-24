@@ -56,7 +56,8 @@ public class Server {
         }
 
         try{
-            Server server=new Server();
+            Server server = new Server();
+            server.game = new Game();
             rmiServer.startRMIServer(rmiPort);
             socketServer.startSocketServer();
         }catch(Exception e){

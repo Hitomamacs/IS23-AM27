@@ -6,7 +6,7 @@ import org.project.Controller.Messages.MessageID;
 public class TopUpMessage extends Message {
     int column;
     int tileIndex;
-    public TopUpMessage(MessageID ID, String username, int column, int tileIndex) {
+    public TopUpMessage(String username, int column, int tileIndex) {
         super(username);
         this.setMessageID(MessageID.TOPUP);
         this.column = column;

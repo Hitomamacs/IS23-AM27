@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SocketServer {
+public class SocketServer implements Runnable {
 
     private final Server server;
     int port;
@@ -24,6 +24,11 @@ public class SocketServer {
     }
     public HashMap<String, SocketClientHandler> getSocketClients(){
         return socketClients;
+    }
+
+    @Override
+    public void run() {
+        startSocketServer();
     }
     public void startSocketServer(){
         ExecutorService executor = Executors.newCachedThreadPool();
@@ -42,6 +47,7 @@ public class SocketServer {
                 Socket socket = serverSocket.accept();
                 SocketClientHandler clientHandler = new SocketClientHandler(socket, server, this);
                 executor.submit(clientHandler);
+                server.setConnectedPlayers(server.getConnectedPlayers() + 1);
             } catch(IOException e) {
                 break; // If server socket is closed
             }

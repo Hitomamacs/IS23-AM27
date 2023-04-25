@@ -9,8 +9,7 @@ import java.util.Set;
 public class GameBoard {
     @Expose
     private Spot[][] board;
-    @Expose
-    private int[][] negativeMatrix;
+
     @Expose
     private int[][] oneMatrix;
     @Expose
@@ -20,29 +19,17 @@ public class GameBoard {
 
     public GameBoard(int rows, int columns, int players){
         TrueM.addMatrix(TrueM.negativeMatrix1);
+        TrueM.addMatrix(TrueM.negativematrix2);
+        TrueM.addMatrix(TrueM.negativematrix3);
         //TODO add exception
         //code that searches for the first matrix that has rows == rows and columns == columns from the list NegativeMatrix.negativematrixlist
-        for(int i = 0; i< TrueM.negativeMatrixList.size(); i++){
-            int[] dim = TrueM.returndim(TrueM.negativeMatrixList.get(i));
-            if(dim[0] == rows && dim[1] == columns && TrueM.negativeMatrixList.get(i)[(rows-1)/2][(columns-1)/2] == players){
-                negativeMatrix = TrueM.negativeMatrixList.get(i);
-                break;}}
+        if(players == 4)
+            finalMatrix = TrueM.negativeMatrix1;
+        else if(players == 2)
+            finalMatrix = TrueM.negativematrix2;
+        else if(players == 3)
+            finalMatrix = TrueM.negativematrix3;
 
-
-        oneMatrix = new int[rows][columns];
-        for(int i=0; i<rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                oneMatrix[i][j] = 1;
-            }
-        }
-
-        //multiply oneMatrix with negativeMatrix and save result in finalMatrix
-        finalMatrix = new int[rows][columns];
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<columns; j++){
-                finalMatrix[i][j] = oneMatrix[i][j] * negativeMatrix[i][j];
-            }
-        }
 
         board = new Spot[rows][columns];
         for(int i=0; i<rows; i++){
@@ -113,8 +100,8 @@ public class GameBoard {
     }
 
     private ArrayList<Tile> get_adjcent(int i, int j){
-        int n = negativeMatrix.length;
-        int m = negativeMatrix[0].length;
+        int n = finalMatrix.length;
+        int m = finalMatrix[0].length;
         ArrayList<Tile> v = new ArrayList<Tile>();
 
 
@@ -185,8 +172,8 @@ public class GameBoard {
     /**this function verigy taht the tile at coordinates c has at east 1 free sid and can be picked
      this function will be called on maximum 3 tiles and after it returns true for al the tiles they will be picked */
     public boolean verifyPickable(Coordinates c){
-        int n = negativeMatrix.length;
-        int m = negativeMatrix[0].length;
+        int n = finalMatrix.length;
+        int m = finalMatrix[0].length;
         int i = c.getX();
         int j = c.getY();
 
@@ -315,13 +302,9 @@ public class GameBoard {
         this.board = board;
     }
 
-    public int[][] getNegativeMatrix() {
-        return negativeMatrix;
-    }
 
-    public void setNegativeMatrix(int[][] negativeMatrix) {
-        this.negativeMatrix = negativeMatrix;
-    }
+
+
 
     public int[][] getOneMatrix() {
         return oneMatrix;

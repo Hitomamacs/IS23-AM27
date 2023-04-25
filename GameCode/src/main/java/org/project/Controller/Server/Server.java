@@ -17,6 +17,7 @@ public class Server {
 
     private Game game;
     private GameOrchestrator orchestrator;
+    private int connectedPlayers;
 
     /**
      * variabile per tener conto di quante persone ho aggiunto
@@ -33,6 +34,14 @@ public class Server {
      */
     //aggiungo un socket
 
+    public int getConnectedPlayers() {
+        return connectedPlayers;
+    }
+
+    public void setConnectedPlayers(int connectedPlayers) {
+        this.connectedPlayers = connectedPlayers;
+    }
+
     /**
      * constructor
      */
@@ -40,6 +49,7 @@ public class Server {
     public Server() throws RemoteException {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
+        connectedPlayers=0;
     }
 
     /**
@@ -59,7 +69,14 @@ public class Server {
             Server server = new Server();
             server.game = new Game();
             rmiServer.startRMIServer(rmiPort);
-            socketServer.startSocketServer();
+            new Thread(socketServer).start();
+            //socketServer.startSocketServer();
+            while (server.game.getUsersSize() != server.game.getNumPlayers()) {
+                Thread.sleep(1000);
+            }
+            server.game.gameInit(server.game.getNumPlayers());
+            server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
+            int a = 1;
         }catch(Exception e){
             e.printStackTrace();
         }

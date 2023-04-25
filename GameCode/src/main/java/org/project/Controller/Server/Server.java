@@ -71,10 +71,11 @@ public class Server {
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
             //socketServer.startSocketServer();
+            /*
             while (server.game.getUsersSize() != server.game.getNumPlayers()) {
                 Thread.sleep(1000);
-            }
-            server.game.gameInit(server.game.getNumPlayers());
+            }*/
+            server.game.gameInit(2);
             server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
             int a = 1;
         }catch(Exception e){

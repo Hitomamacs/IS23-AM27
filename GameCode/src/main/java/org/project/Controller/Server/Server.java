@@ -70,13 +70,13 @@ public class Server {
             server.game = new Game();
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
-            //socketServer.startSocketServer();
-            /*
+
             while (server.game.getUsersSize() != server.game.getNumPlayers()) {
                 Thread.sleep(1000);
-            }*/
-            server.game.gameInit(2);
+            }
+            server.game.gameInit( server.game.getNumPlayers());
             server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
+            server.orchestrator.executeState();
             int a = 1;
         }catch(Exception e){
             e.printStackTrace();
@@ -97,6 +97,7 @@ public class Server {
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
             orchestrator.setPickedCoordinates(coordinates);
             orchestrator.executeState();
+            int a = 3;
             //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
             if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
                 //If successful the view has been updated so need to send it to all

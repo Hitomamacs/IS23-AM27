@@ -1,6 +1,7 @@
 package org.project.Controller.Messages;
 
 public class LoginMessage extends Message {
+
     int numPlayers;
     boolean connectionType;
 

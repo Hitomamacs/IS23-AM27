@@ -9,6 +9,7 @@ import org.project.Model.Coordinates;
 import org.project.RMIClientApp;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class Server {
         }
 
         try{
-            Server server=new Server();
+            Server server = new Server();
+            server.game = new Game();
             rmiServer.startRMIServer(rmiPort);
             socketServer.startSocketServer();
         }catch(Exception e){
@@ -79,8 +81,14 @@ public class Server {
             orchestrator.executeState();
             //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
             if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
+                //If successful the view has been updated so need to send it to all
+                BoardView boardView = game.getView().getBoardView();
+                //TODO double check the next two lines and test properly
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                send(boardView,tilesViews.get(0));
                 return true;
-            }
+            }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
+            else sendError(username);
         } //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
         //valid input
         return false;
@@ -101,8 +109,14 @@ public class Server {
             orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
             orchestrator.executeState();
             if(orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1){
+                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> !g.getUsername().equals(username)).toList();
+                GridView gridView = gridViews.get(0);
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                TilesView tilesView = tilesViews.get(0);
+                send(gridView, tilesView);
                 return true;
             }
+            else sendError(username);
         }
         return false;
     }
@@ -183,8 +197,9 @@ public class Server {
     //single client we directly use the smaller methods
 
     //Sent at the beginning of the game and updates the client view (Could be the one sent if we decide
-    //to implement a refresh view method called from the client)
-    public void sendSocket(SocketClientHandler socketClient, VirtualView view){
+    //to implement a refresh view method called from the client, in this case though it should be sent just
+    //to the client who has requested it)
+    public void send(VirtualView view){
 
         String[][] board = view.getBoardView().getBoard();
         List<Integer> pointStack = view.getPointStackView().getPointList();
@@ -196,44 +211,72 @@ public class Server {
         for(TilesView tView : view.getTilesViews()){
             tilesview.put(tView.getUsername(), tView.getPlayerTiles());
         }
+        //Sending to socket clients
         RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
-        socketClient.send(message);
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //TODO sending to RMI clients
     }
     //Sends necessary stuff for update after a successful pick move
-    public void sendSocket(SocketClientHandler socketClient, BoardView boardView, TilesView tilesView){
-
+    public void send(BoardView boardView, TilesView tilesView){
         String[][] board = boardView.getBoard();
         String[] tiles = tilesView.getPlayerTiles();
         String playername = tilesView.getUsername();
-
+        //Sending to socket clients
         UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
-        socketClient.send(message);
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //TODO sending to RMI clients
     }
     //Sends necessary stuff after a successful topUp move
-    public void sendSocket(SocketClientHandler socketClient, GridView gridView, TilesView tilesView){
+    public void send(GridView gridView, TilesView tilesView){
 
         String[][] grid = gridView.getGridView();
         String[] tiles = tilesView.getPlayerTiles();
         String playername = tilesView.getUsername();
-
+        //Sending to socket clients
         UpdateTopUPMsg message = new UpdateTopUPMsg(playername, tiles, grid);
-        socketClient.send(message);
-    }
-    //Sends necessary stuff to display a popUp message (after failed moves, final round alert, player has
-    //disconnected
-    public void sendSocket(SocketClientHandler socketClient, PopUpView popUpView){
-
-        String text = popUpView.getErrorMessage();
-
-        PopUpMsg message = new PopUpMsg(text);
-        socketClient.send(message);
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //TODO sending to RMI clients
     }
     //Sends necessary stuff to display final scoreBoard after game has ended
-    public void sendSocket(SocketClientHandler socketClient, ScoreBoardView scoreBoard){
+    public void send(ScoreBoardView scoreBoard){
 
         HashMap<String, Integer> score = scoreBoard.getScoreBoard();
-
+        //Sending to socket clients
         ScoreBoardMsg message = new ScoreBoardMsg(score);
-        socketClient.send(message);
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //TODO sending to RMI clients
     }
+    //Now for Pop Up messages these are broadcast in cases such as player disconnection, final round
+    //warning etc. but are sent to the client individually in case of error, so we need two separate
+    //methods
+
+    //Broadcast PopUp send, the method just takes one PopUpView as parameter, but in this case the text
+    //displayed will be the same for all PopUpViews so, it's alright
+    public void send(PopUpView popUpView){
+
+        String text = popUpView.getErrorMessage();
+        //Sending to socket clients
+        PopUpMsg message = new PopUpMsg(text);
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //TODO sending to RMI clients
+    }
+    //The other case is an error message which is sent directly to the interested player, the next method
+    //takes the username checks his connection and sends the popUp
+    public void sendError(String username){
+
+        List<User> users = game.getUsers().stream().filter(u -> !u.getUsername().equals(username)).toList();
+        User user = users.get(0);
+        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> !p.getUsername().equals(username)).toList();
+       PopUpView popUpView = popUpViews.get(0);
+        if(user.getConnectionType()){
+            String text = popUpView.getErrorMessage();
+            PopUpMsg message = new PopUpMsg(text);
+            socketServer.getSocketClients().get(username).send(message);
+        }
+        //TODO RMI sending
+        //else{
+        // }
+
+    }
+    
 }

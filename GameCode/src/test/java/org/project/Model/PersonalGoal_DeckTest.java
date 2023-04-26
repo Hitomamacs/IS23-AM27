@@ -17,7 +17,7 @@ class PersonalGoal_DeckTest {
     }
     @Test
     void fillDeck() {
-        deck.fillDeck("test_1.json");
+        deck.fillDeck("POb.json");
         assertTrue(deck.deck.size() == 12);
     }
 

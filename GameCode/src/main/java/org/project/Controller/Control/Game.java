@@ -47,7 +47,7 @@ public class Game {
         commonGoalDeck = new CommonGoal_Deck();
         commonGoalDeck.fillDeck();
         personalGoalDeck = new PersonalGoal_Deck();
-        personalGoalDeck.fillDeck("test_1.json");
+        personalGoalDeck.fillDeck("POb.json");
         commonGoals.add(commonGoalDeck.getRandom());
         commonGoals.add(commonGoalDeck.getRandom());
 

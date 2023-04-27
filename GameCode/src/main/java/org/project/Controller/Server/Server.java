@@ -65,7 +65,43 @@ public class Server {
 
     }
 
-    //METODI CHE IL CLIENT PUO CHIAMARE SUL SERVER
+    //METODI DEL SERVER CHIAMATI DA RMI/SOCKET SERVER
+
+    /**
+     * method for logging in the player through the nickname.
+     * The method checks that the nickname is different for each logged in player.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     */
+    public boolean login(String username, boolean connectionType){
+        //TODO checks once persistence has been implemented
+        if(!game.getUsers().isEmpty()){
+            for(int i = 0; i < game.getUsers().size(); i++){
+                if(game.getUsers().get(i).getUsername().equals(username))
+                    return false;//Probably better if I throw exceptions instead to distinguish
+            }                    //the reasons the method was unsuccessful
+            game.getUsers().add(new User(username, connectionType));
+
+            return true;
+        }
+        return false;
+    }
+    /**
+     * method for logging the FIRST player through the nickname.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @param numPlayers Number of players in the match
+     */
+    public boolean login(String username, boolean connectionType, int numPlayers){
+        if(game.getUsers().isEmpty()) {
+            game.getUsers().add(new User(username, connectionType));
+            game.setNumPlayers(numPlayers);
+            return true;
+        }
+        //Means a game has already been created
+        //Should probably do another check to see if numPlayers is acceptable
+        return false;
+    }
 
     /**
      * method that allows the client to take tiles from the board
@@ -119,41 +155,7 @@ public class Server {
         }
         return false;
     }
-    /**
-     * method for logging in the player through the nickname.
-     * The method checks that the nickname is different for each logged in player.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     */
-    public boolean login(String username, boolean connectionType){
-        //TODO checks once persistence has been implemented
-        if(!game.getUsers().isEmpty()){
-            for(int i = 0; i < game.getUsers().size(); i++){
-                if(game.getUsers().get(i).getUsername().equals(username))
-                    return false;//Probably better if I throw exceptions instead to distinguish
-            }                    //the reasons the method was unsuccessful
-            game.getUsers().add(new User(username, connectionType));
 
-            return true;
-        }
-        return false;
-    }
-    /**
-     * method for logging the FIRST player through the nickname.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     * @param numPlayers Number of players in the match
-     */
-    public boolean login(String username, boolean connectionType, int numPlayers){
-        if(game.getUsers().isEmpty()) {
-            game.getUsers().add(new User(username, connectionType));
-            game.setNumPlayers(numPlayers);
-            return true;
-        }
-        //Means a game has already been created
-        //Should probably do another check to see if numPlayers is acceptable
-        return false;
-    }
     /**
      * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
      * @param username player's name

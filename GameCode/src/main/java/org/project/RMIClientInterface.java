@@ -31,18 +31,19 @@ public interface RMIClientInterface extends Remote, ClientInterface {
      * metodo invocato dal server dopo una pick avvenuta con successo
      * @param board nuova board di gioco
      * @param tilesView lista delle tessere prese
+     * @param playername username del giocatore
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyPick(String[][] board,String[] tilesView)throws RemoteException;
+    public void notifyPick(String[][] board,String[] tilesView,String playername)throws RemoteException;
 
     /**
      * metodo invocato dal server dopo una topUp avvenuta con successo
      * @param grid nuova libreria del giocatore
-     * @param tiles array delle tessere prese
+     * @param tilesView array delle tessere prese
      * @param playername username del giocatore
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyTopUp(String[][] grid,String[] tiles,String playername) throws RemoteException;
+    public void notifyTopUp(String[][] grid,String[] tilesView,String playername) throws RemoteException;
 
     /**
      * metodo invocato dal server per notificare al client il punteggio finale di ogni giocatore

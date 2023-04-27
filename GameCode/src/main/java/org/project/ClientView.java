@@ -47,4 +47,8 @@ public class ClientView {
     public HashMap<String, Integer> getScoreBoard() {
         return scoreBoard;
     }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

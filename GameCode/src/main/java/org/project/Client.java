@@ -86,24 +86,100 @@ public class Client implements IClient {
 
     }
     //METODI INVOCATI SUL MAIN CLIENT
+    /**
+     * method that notify the player a new message
+     *@param nickname nickname of the author of the message
+     *@param message message text
+     */
     public void PrintMessageChat(String nickname, String message){
 
     }
+
+    /**
+     * metodo che imposta la view iniziale
+     * @param board rappresenta la board di gioco
+     * @param pointStack rappresenta i punteggi per gli obiettivi comuni
+     * @param gridsView rappresenta la libreria di ogni giocatore
+     * @param tilesView in questa lista sono presenti le tessere scelte
+     */
     public void UpdateInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView){
-        
-    }
-    public void UpdatePick(String[][] board,String[] tilesView){
 
-    }
-    public void UpdateTopUp(String[][] grid,String[] tiles,String playername){
+        int i,j;
 
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
+            }
+        }
+
+        for(i=0;i< pointStack.size(); i++ ){
+            clientView.getPointStack().add(pointStack.get(i));
+        }
+
+        clientView.getGridsview().putAll(gridsView);
+
+        clientView.getTilesview().putAll(tilesView);
     }
+
+    /**
+     * metodo che aggiorna la view dopo una pick avvenuta con successo
+     * @param board nuova board di gioco
+     * @param tilesView lista delle tessere prese
+     * @param playername username del giocatore
+     */
+    public void UpdatePick(String[][] board,String[] tilesView, String playername){
+
+        int i,j;
+
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
+            }
+        }
+
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+    }
+
+    /**
+     * metodo che aggiorna la view dopo una topUp avvenuta con successo
+     * @param grid nuova libreria del giocatore
+     * @param tilesView array delle tessere prese
+     * @param playername username del giocatore
+     */
+    public void UpdateTopUp(String[][] grid,String[] tilesView,String playername){
+        int i,j;
+
+        for(i=0;i<6;i++){
+            for(j=0;j<5;j++){
+                clientView.getGridsview().get(playername)[i][j]=grid[i][j];
+            }
+        }
+
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+    }
+
+    /**
+     * metodo che comunica il punteggio finale di ogni giocatore
+     * @param score punteggi finali
+     */
     public void UpdateScoreBoard (HashMap<String, Integer> score){
-
+        clientView.getScoreBoard().putAll(score);
     }
+
+    /**
+     * metodo invocato per stampare errori o altre cose sul client
+     * @param text testo dell'errore
+     */
     public void UpdatePopUpView (String text){
-
+        clientView.setErrorMessage(text);
     }
+
+    // METODI  CHE CHIAMANO IL SERVER
+
 
 
     //GETTER
@@ -131,7 +207,6 @@ public class Client implements IClient {
         return gameStarted;
     }
 
-    //  METODI CHE CHIAMANO IL SERVER
 
 
 }

@@ -41,4 +41,16 @@ public class SocketClientApp implements ClientInterface{
         }
 
     }
+    public void sendLoginRequest(String nickname){
+
+    }
+    public void sendMessage(String message){
+
+    }
+    public void sendPickRequest(){
+
+    }
+    public void sendTopUpRequest(){
+
+    }
 }

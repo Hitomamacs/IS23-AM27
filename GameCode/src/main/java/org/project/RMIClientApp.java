@@ -57,8 +57,20 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         nick=stdin.nextLine();
         this.rmiServer.sendLogin(nick, false,this);*/
     }
+    public void sendLoginRequest(String nickname){
 
-    //METODI DELL'INTERFACCIA RMICLIENT
+    }
+    public void sendMessage(String message){
+
+    }
+    public void sendPickRequest(){
+
+    }
+    public void sendTopUpRequest(){
+
+    }
+
+    //METODI DELL'INTERFACCIA RMICLIENTINTERFACE
 
     /**
      * method that shows the player a new message on chat
@@ -78,7 +90,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * @param tilesView in questa lista sono presenti le tessere scelte
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView){
+    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView) throws RemoteException{
         mainClient.UpdateInitialGameView(board,pointStack,gridsView,tilesView);
     }
 
@@ -86,21 +98,22 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * metodo invocato dal server dopo una pick avvenuta con successo
      * @param board nuova board di gioco
      * @param tilesView lista delle tessere prese
+     * @param playername username del giocatore
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyPick(String[][] board,String[] tilesView){
-        mainClient.UpdatePick(board, tilesView);
+    public void notifyPick(String[][] board,String[] tilesView, String playername) throws RemoteException{
+        mainClient.UpdatePick(board, tilesView, playername);
     }
 
     /**
      * metodo invocato dal server dopo una topUp avvenuta con successo
      * @param grid nuova libreria del giocatore
-     * @param tiles array delle tessere prese
+     * @param tilesView array delle tessere prese
      * @param playername username del giocatore
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyTopUp(String[][] grid,String[] tiles,String playername){
-        mainClient.UpdateTopUp(grid,tiles,playername);
+    public void notifyTopUp(String[][] grid,String[] tilesView,String playername) throws RemoteException{
+        mainClient.UpdateTopUp(grid,tilesView,playername);
     }
 
     /**
@@ -108,7 +121,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * @param score punteggi finali
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyScoreBoard (HashMap<String, Integer> score){
+    public void notifyScoreBoard (HashMap<String, Integer> score) throws RemoteException{
         mainClient.UpdateScoreBoard(score);
     }
 
@@ -117,7 +130,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * @param text testo dell'errore
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyPopUpView (String text){
+    public void notifyPopUpView (String text) throws RemoteException{
         mainClient.UpdatePopUpView(text);
     }
 

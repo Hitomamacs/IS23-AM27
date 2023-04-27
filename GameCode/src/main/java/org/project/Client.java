@@ -2,13 +2,15 @@ package org.project;
 
 import org.project.Controller.Server.Settings;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * client of the game
  */
 
-public class Client {
+public class Client implements IClient {
 
     /**
      * porta socket
@@ -49,7 +51,7 @@ public class Client {
     /**
      * MAIN
      */
-    public static void main(String args[]){
+    public void main(String args[]){
 
         String connessione;
         final Scanner stdin= new Scanner(System.in);
@@ -66,7 +68,7 @@ public class Client {
         switch(connessione){
             case "rmi":
                 try{
-                    client= new RMIClientApp(rmiPort);
+                    client= new RMIClientApp(rmiPort,this);
                     client.startClient();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -83,6 +85,26 @@ public class Client {
         }
 
     }
+    //METODI INVOCATI SUL MAIN CLIENT
+    public void PrintMessageChat(String nickname, String message){
+
+    }
+    public void UpdateInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView){
+        
+    }
+    public void UpdatePick(String[][] board,String[] tilesView){
+
+    }
+    public void UpdateTopUp(String[][] grid,String[] tiles,String playername){
+
+    }
+    public void UpdateScoreBoard (HashMap<String, Integer> score){
+
+    }
+    public void UpdatePopUpView (String text){
+
+    }
+
 
     //GETTER
     public static int getSocketPort() {
@@ -108,6 +130,9 @@ public class Client {
     public boolean isGameStarted() {
         return gameStarted;
     }
+
+    //  METODI CHE CHIAMANO IL SERVER
+
 
 }
 

@@ -27,11 +27,10 @@ public class Server {
      * RMI server
      */
     private static RMIServerApp rmiServer;
-    private static SocketServer socketServer;
     /**
      * SOCKET server
      */
-    //aggiungo un socket
+    private static SocketServer socketServer;
 
     /**
      * constructor
@@ -174,7 +173,7 @@ public class Server {
 
         //per i client RMI:
         for(RMIClientApp rmiCl: rmiServer.getClientsRMI().keySet()){
-            try{rmiCl.printMsg(username,message);}
+            try{rmiCl.printMsgChat(username,message);}
             catch(Exception e){
                 e.printStackTrace();
             }

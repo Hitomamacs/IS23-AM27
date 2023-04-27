@@ -179,30 +179,49 @@ public class Client implements IClient {
     }
 
     // METODI  CHE CHIAMANO IL SERVER
-
+    //TODO: avrò i metodi di login, send chat message e metodi per fare le mosse, questi metodi chiameranno i metodi presenti in RMI/SOCKET client che chismeranno i metodi del server
 
 
     //GETTER
+
+    /**
+     * metodo getter che ritorna la socket port scelta
+     */
     public static int getSocketPort() {
         return socketPort;
     }
 
+    /**
+     *metodo che ritorna il client
+     */
     public static ClientInterface getClient() {
         return client;
     }
 
+    /**
+     * metodo che ritorna la porta rmi scelta
+     */
     public static int getRmiPort() {
         return rmiPort;
     }
 
+    /**
+     *metodo che ritorna il nickname finale
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * metodo che ritorna la client view
+     */
     public ClientView getClientView() {
         return clientView;
     }
 
+    /**
+     *metodo che ritorna il flag che mi dice se una partita è già iniziata
+     */
     public boolean isGameStarted() {
         return gameStarted;
     }

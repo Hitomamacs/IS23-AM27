@@ -51,7 +51,7 @@ public class Client implements IClient {
     /**
      * MAIN
      */
-    public void main(String args[]){
+    public static void main(String args[]){
 
         String connessione;
         final Scanner stdin= new Scanner(System.in);
@@ -68,7 +68,7 @@ public class Client implements IClient {
         switch(connessione){
             case "rmi":
                 try{
-                    client= new RMIClientApp(rmiPort,this);
+                    //client= new RMIClientApp(rmiPort,this);
                     client.startClient();
                 }catch(Exception e){
                     e.printStackTrace();

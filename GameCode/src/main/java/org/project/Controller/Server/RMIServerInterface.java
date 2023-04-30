@@ -61,5 +61,5 @@ public interface RMIServerInterface extends Remote {
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException;
+    public void sendMessageRequest(RMIClientApp client, String message) throws RemoteException;
 }

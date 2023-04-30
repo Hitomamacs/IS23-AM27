@@ -135,7 +135,7 @@ public class Server {
      * @param column Player's Choice Column
      * @param tileIndex
      */
-    public boolean topUp(String username, int column, int tileIndex){
+    public boolean topUp(String username, int column, int tileIndex) {
 
         int num_tiles = 0;
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
@@ -174,7 +174,7 @@ public class Server {
         System.out.println("server received : "+ message);
 
         //per i client RMI:
-        for(RMIClientApp rmiCl: rmiServer.getClientsRMI().keySet()){
+        for(RMIClientApp rmiCl: rmiServer.getClientsRMI().values()){
             try{rmiCl.printMsgChat(username,message);}
             catch(Exception e){
                 e.printStackTrace();
@@ -191,6 +191,8 @@ public class Server {
     public void setCount_players(int count){
         this.count_players = count;
     }
+
+    //METODI PER LA VIEW
 
     //Next are the methods for sending information to the clients, two smaller methods sendRMI and sendSocket
     //and a more general method used for broadcasting messages to all the clients (which iterates on the two
@@ -215,7 +217,15 @@ public class Server {
         //Sending to socket clients
         RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
-        //TODO sending to RMI clients
+        //Sending to RMI clients
+        rmiServer.getClientsRMI().forEach((username,client)-> {
+            try {
+                client.notifyInitialGameView(board,pointStack,gridsview,tilesview);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
     //Sends necessary stuff for update after a successful pick move
     public void send(BoardView boardView, TilesView tilesView){
@@ -225,7 +235,14 @@ public class Server {
         //Sending to socket clients
         UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
-        //TODO sending to RMI clients
+        //Sending to rmi clients
+        rmiServer.getClientsRMI().forEach((username, client)-> {
+            try {
+                client.notifyPick(board,tiles,playername);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     //Sends necessary stuff after a successful topUp move
     public void send(GridView gridView, TilesView tilesView){
@@ -236,7 +253,14 @@ public class Server {
         //Sending to socket clients
         UpdateTopUPMsg message = new UpdateTopUPMsg(playername, tiles, grid);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
-        //TODO sending to RMI clients
+        //Sending to RMI clients
+        rmiServer.getClientsRMI().forEach((username,client)-> {
+            try {
+                client.notifyTopUp(grid,tiles,playername);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     //Sends necessary stuff to display final scoreBoard after game has ended
     public void send(ScoreBoardView scoreBoard){
@@ -245,7 +269,14 @@ public class Server {
         //Sending to socket clients
         ScoreBoardMsg message = new ScoreBoardMsg(score);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
-        //TODO sending to RMI clients
+        //Sending to RMI clients
+        rmiServer.getClientsRMI().forEach((username, client)-> {
+            try {
+                client.notifyScoreBoard(score);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     //Now for Pop Up messages these are broadcast in cases such as player disconnection, final round
     //warning etc. but are sent to the client individually in case of error, so we need two separate
@@ -258,12 +289,19 @@ public class Server {
         String text = popUpView.getErrorMessage();
         //Sending to socket clients
         PopUpMsg message = new PopUpMsg(text);
-        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
-        //TODO sending to RMI clients
+        socketServer.getSocketClients().forEach((username,client) -> client.send(message));
+        //Sending to RMI clients
+        rmiServer.getClientsRMI().forEach((username,client)-> {
+            try {
+                client.notifyPopUpView(text);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     //The other case is an error message which is sent directly to the interested player, the next method
     //takes the username checks his connection and sends the popUp
-    public void sendError(String username){
+    public void sendError(String username) {
 
         List<User> users = game.getUsers().stream().filter(u -> !u.getUsername().equals(username)).toList();
         User user = users.get(0);
@@ -274,9 +312,15 @@ public class Server {
             PopUpMsg message = new PopUpMsg(text);
             socketServer.getSocketClients().get(username).send(message);
         }
-        //TODO RMI sending
-        //else{
-        // }
+        else{
+            String text = popUpView.getErrorMessage();
+            try{
+                rmiServer.getClientsRMI().get(username).notifyPopUpView(text);
+            }catch(RemoteException e){
+                throw new RuntimeException(e);
+            }
+
+        }
 
     }
     

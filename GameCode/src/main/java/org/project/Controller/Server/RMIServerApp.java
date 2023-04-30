@@ -18,7 +18,7 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * La chiave è il riferimento al client
      * String è l'username scelto
      */
-    private final HashMap<RMIClientApp, String> clientsRMI;
+    private final HashMap<String, RMIClientApp> clientsRMI;
 
     private final Server server;
 
@@ -55,7 +55,7 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
         boolean check;
         check=server.login(nickname, connectionType);
         if(check==true){
-            clientsRMI.put(client, nickname);
+            clientsRMI.put(nickname,client);
         }
     }
 
@@ -70,7 +70,7 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
         boolean check;
         check=server.login(nickname,connectionType,numPlayers);
         if(check==true){
-            clientsRMI.put(client, nickname);
+            clientsRMI.put(nickname, client);
         }
     }
 
@@ -112,11 +112,12 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException{
-        server.sendMessage(clientsRMI.get(client), message);
+    public void sendMessageRequest(RMIClientApp client, String message) throws RemoteException{
+        server.sendMessage(client.getNickname(), message);
     }
 
-    public HashMap<RMIClientApp, String> getClientsRMI() {
+
+    public HashMap<String, RMIClientApp> getClientsRMI() {
         return clientsRMI;
     }
 }

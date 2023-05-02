@@ -31,6 +31,10 @@ public class Game {
 
     private String filename;
 
+    public int getUsersSize(){
+        return users.size();
+    }
+
 
 
     //TODO WHat happens if game terminates?
@@ -39,6 +43,7 @@ public class Game {
         players = new ArrayList<>();
         commonGoals = new ArrayList<>();
         persistencer = new Persistencer();
+        numPlayers = 2;
     }
     public void gameInit(int num_players){
         tileBag = new TileBag();
@@ -47,7 +52,7 @@ public class Game {
         commonGoalDeck = new CommonGoal_Deck();
         commonGoalDeck.fillDeck();
         personalGoalDeck = new PersonalGoal_Deck();
-        personalGoalDeck.fillDeck("POb.json");
+        personalGoalDeck.fillDeck("test_1.json");
         commonGoals.add(commonGoalDeck.getRandom());
         commonGoals.add(commonGoalDeck.getRandom());
 

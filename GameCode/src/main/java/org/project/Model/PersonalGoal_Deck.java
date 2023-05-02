@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,10 @@ public class PersonalGoal_Deck {
 
             Reader reader = null;
             try {
-                reader = Files.newBufferedReader(Paths.get(filename));
+
+                Path pathToFile = Paths.get(filename);
+                System.out.println(pathToFile.toAbsolutePath());
+                reader = Files.newBufferedReader(pathToFile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

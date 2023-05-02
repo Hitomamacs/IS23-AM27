@@ -21,7 +21,7 @@ public class MessageHandler {
     public void handle(String jsonStr){
         Gson gson = new Gson();
 
-        JsonElement jelement = new JsonParser().parse(jsonStr);
+        JsonElement jelement =  JsonParser.parseString(jsonStr).getAsJsonObject();
         JsonObject jsObject = jelement.getAsJsonObject();
         JsonElement id = jsObject.get("messageID");
         MessageID ID = gson.fromJson(id, MessageID.class);
@@ -47,7 +47,7 @@ public class MessageHandler {
         String username = loginMsg.getUsername();
         boolean connection = loginMsg.getConnectionType();
         int num_players = loginMsg.getNumPlayers();
-        if(!(num_players == 0)){
+        if(!(num_players == 0)){//TODO absolutely change
             if(server.login(username, connection, num_players)){
                 socketServer.getSocketClients().put(username, client);
                 int a = 1;

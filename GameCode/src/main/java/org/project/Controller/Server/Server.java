@@ -17,6 +17,7 @@ public class Server {
 
     private Game game;
     private GameOrchestrator orchestrator;
+    private int connectedPlayers;
 
     /**
      * variabile per tener conto di quante persone ho aggiunto
@@ -32,6 +33,14 @@ public class Server {
      */
     private static SocketServer socketServer;
 
+    public int getConnectedPlayers() {
+        return connectedPlayers;
+    }
+
+    public void setConnectedPlayers(int connectedPlayers) {
+        this.connectedPlayers = connectedPlayers;
+    }
+
     /**
      * constructor
      */
@@ -39,6 +48,7 @@ public class Server {
     public Server() throws RemoteException {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
+        connectedPlayers=0;
     }
 
     /**
@@ -58,7 +68,15 @@ public class Server {
             Server server = new Server();
             server.game = new Game();
             rmiServer.startRMIServer(rmiPort);
-            socketServer.startSocketServer();
+            new Thread(socketServer).start();
+
+            while (server.game.getUsersSize() != server.game.getNumPlayers()) {
+                Thread.sleep(1000);
+            }
+            server.game.gameInit( server.game.getNumPlayers());
+            server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
+            server.orchestrator.executeState();
+            int a = 1;
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -114,6 +132,7 @@ public class Server {
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
             orchestrator.setPickedCoordinates(coordinates);
             orchestrator.executeState();
+            int a = 3;
             //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
             if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
                 //If successful the view has been updated so need to send it to all

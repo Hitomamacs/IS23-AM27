@@ -7,6 +7,7 @@ org\project\Model\CommonGoals\CommonGoal_2Test.class
 org\project\Model\PlayerTest.class
 org\project\Model\CommonGoals\CommonGoal_10Test.class
 org\project\Controller\States\VerifyGrillableStateTest.class
+org\project\Controller\Control\GameTest.class
 org\project\Model\CommonGoals\CommonGoal_4Test.class
 org\project\Model\CommonGoals\CommonGoal_12Test.class
 org\project\Model\SpotTest.class

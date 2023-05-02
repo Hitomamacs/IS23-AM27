@@ -1,74 +1,74 @@
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\Player.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\MessageHandler.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\SocketClientHandler.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\TileBag.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\ScoreBoardMsg.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\SocketClientApp.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_9.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\FullGridState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\GameBoard.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\ClientView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_4.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\PersonalGoal.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\Spot.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\GameState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\TrueM.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\TopUpMessage.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\Tile.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\UpdatePickMsg.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\QuitMessage.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyGrillableState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\MessageID.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Client.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\User.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\GridView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\UpdateTopUPMsg.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\Game.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\StartTurnState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_12.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\PointAssigner.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\LoginMessage.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\PickMessage.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_Deck.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\PersonalGoal_Deck.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\EndGameState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\TopUpState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_3.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_6.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\NotToRefillBoardExc.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\Coordinates.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\RMIClientApp.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\PopUpView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\POb_2Js.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\ConnectionCheckState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\TilesView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\ClientInterface.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_7.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_1.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_10.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\GameOrchestrator.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\Settings.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\PopUpMsg.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_11.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\ScoreBoardView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\RMIClientInterface.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\Server.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\BoardView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyBoardableState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_8.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\Persistencer.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_5.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\SocketServer.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_2.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\RMIServerInterface.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\Message.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\PickState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\RefillState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyCommonGoalState.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\RefreshMsg.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\PointStackView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\VirtualView.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\PlayerGrid.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\RMIServerApp.java
-C:\Users\maryc\OneDrive - Politecnico di Milano\Desktop\ing_sw2\IS23-AM27\GameCode\src\main\java\org\project\Model\Color.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Client.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\Persistencer.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\PickMessage.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\PopUpMsg.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\TilesView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_3.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\MessageHandler.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\PopUpView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\Settings.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\ConnectionCheckState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyBoardableState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\NotToRefillBoardExc.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\Server.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\Player.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyGrillableState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\QuitMessage.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\Color.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_9.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\UpdatePickMsg.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\ClientInterface.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\RMIClientApp.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\PointAssigner.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\StartTurnState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\PlayerGrid.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\RefreshMsg.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\LoginMessage.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\MessageID.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\GridView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\Game.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\GameOrchestrator.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\VerifyCommonGoalState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\RefillState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\TrueM.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_4.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\UpdateTopUPMsg.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_7.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\GameBoard.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\PointStackView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\ScoreBoardView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\TileBag.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_Deck.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\GameState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\PersonalGoal.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_1.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\RMIClientInterface.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\Coordinates.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_12.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_11.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\RMIServerApp.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\PersonalGoal_Deck.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\RMIServerInterface.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_6.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\Tile.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\EndGameState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\ScoreBoardMsg.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\Spot.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_2.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Control\User.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\FullGridState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_8.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\ClientView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\VirtualView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\View\BoardView.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\SocketServer.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_5.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Server\SocketClientHandler.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\TopUpMessage.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\TopUpState.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\POb_2Js.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\SocketClientApp.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\Messages\Message.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Model\CommonGoals\CommonGoal_10.java
+C:\Users\macsd\Desktop\Dynamis\SW_DP14Git\IS23-AM27\GameCode\src\main\java\org\project\Controller\States\PickState.java

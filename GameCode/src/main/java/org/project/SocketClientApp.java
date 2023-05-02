@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class SocketClientApp implements ClientInterface, Runnable {
     private  ClientView clientView = new ClientView();
-    private Scanner in;
+    private BufferedReader in;
     public void startClient() throws Exception{
         String hostName = "127.0.0.1";
         int portNumber = 5678;
@@ -34,7 +34,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         new BufferedReader(
                                 new InputStreamReader(System.in))
         ) {
-            this.in = new Scanner(echoSocket.getInputStream());
+            this.in = new BufferedReader(new InputStreamReader((echoSocket.getInputStream())));
             new Thread(this).start();
             while (true) {
                 System.out.println("Enter Message Type: ");
@@ -114,11 +114,16 @@ public class SocketClientApp implements ClientInterface, Runnable {
     }
     public void run() {
         Gson gson = new Gson();
-
+        String line = null;
         while (true) {
-            String line = null;
-            line = in.nextLine();
-            if (line != null) {
+            try {
+                line = in.readLine() ;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(line != null)
+                    System.out.println(line);
 
                 JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
                 JsonObject jsObject = jelement.getAsJsonObject();
@@ -134,7 +139,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
                 ;
 
             }
-        }
+
     }
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){

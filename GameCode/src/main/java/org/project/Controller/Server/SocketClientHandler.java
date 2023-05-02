@@ -23,7 +23,8 @@ public class SocketClientHandler implements Runnable {
             this.socket = socket;
             this.socketServer = socketServer;
             this.in = new Scanner(socket.getInputStream());
-            this.out = new PrintWriter(socket.getOutputStream());
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("Connected to server");
             messageHandler = new MessageHandler(server, socketServer, this);
             connected = true;
         } catch (IOException e) {

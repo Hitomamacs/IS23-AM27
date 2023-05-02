@@ -3,7 +3,7 @@ package org.project;
 /**
  * interfaccia usata per poter utilizzare qualsiasi tipo di connessione (SOCKET o RMI)
  */
-public interface ClientInterface {
+public interface ClientInterface extends Runnable {
 
     /**
      * metodo che apre una connessione con il server

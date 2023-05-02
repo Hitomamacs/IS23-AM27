@@ -38,6 +38,9 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         this.mainClient=client;
     }
 
+    public void run(){
+
+    }
     /**
      * method that opens a connection with the RMI server
      * @throws Exception

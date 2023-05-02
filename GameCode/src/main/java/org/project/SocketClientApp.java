@@ -1,7 +1,11 @@
 package org.project;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.project.Controller.Messages.*;
+import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
 
 import java.io.BufferedReader;
@@ -13,11 +17,98 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class SocketClientApp implements ClientInterface{
-    public void startClient() throws Exception{
+public class SocketClientApp implements ClientInterface, Runnable{
+
+    private String hostName;
+    private int portNumber;
+
+    private Scanner in;
+
+   private  Socket echoSocket;
+
+    private ClientView clientView;
+
+
+    public SocketClientApp() throws IOException {
         String hostName = "127.0.0.1";
+        clientView = new ClientView();
         int portNumber = 5678;
+        echoSocket = new Socket(hostName, portNumber);
+        try {
+            this.in = new Scanner(echoSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+
+
+    public void run() {
+        Gson gson = new Gson();
+        while (true) {
+            String line = in.nextLine();
+            JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
+            JsonObject jsObject = jelement.getAsJsonObject();
+            JsonElement id = jsObject.get("messageID");
+            MessageID ID = gson.fromJson(id, MessageID.class);
+            switch (ID) {
+                case TOPUP_UPDATE -> this.handleTopUpUpdate(gson.fromJson(line, UpdateTopUPMsg.class));
+                case PICK_UPDATE -> this.handlePickUpdate(gson.fromJson(line, UpdatePickMsg.class));
+                case POP_UP -> this.handlePopUp(gson.fromJson(line, PopUpMsg.class));
+                case SCORE_UPDATE -> this.handleScoreUpdate(gson.fromJson(line, ScoreBoardMsg.class));
+                case REFRESH_UPDATE -> this.handleRefreshUpdate(gson.fromJson(line, RefreshMsg.class));
+            }
+            ;
+
+        }
+    }
+
+    public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.getGridsview().put(message.getPlayerName(), message.getGrid());
+        ;
+    }
+
+    public void handlePickUpdate(UpdatePickMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.getTilesview().put(message.getPlayerName(), message.getTiles());
+        for(int i = 0; i<message.getBoard().length; i++){
+            for(int j = 0; j<message.getBoard()[0].length; j++){
+                if(message.getBoard()[i][j] != null){
+                    System.out.println(message.getBoard()[i][j]);
+                    System.out.println(" ");
+                }
+            }
+            System.out.println("\n");
+        }
+        ;
+    }
+
+    public void handlePopUp(PopUpMsg message){
+        clientView.setErrorMessage(message.getText());
+        ;
+    }
+
+    public void handleScoreUpdate(ScoreBoardMsg message){
+        clientView.setScoreBoard(message.getScoreBoard());
+        ;
+    }
+
+    public void handleRefreshUpdate(RefreshMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.setTilesview(message.getTilesview());
+        clientView.setGridsview(message.getGridsview());
+        clientView.setPointStack(message.getPointStack());
+        ;
+    }
+
+
+
+    public void startClient() throws Exception{
         Scanner sc=new Scanner(System.in);
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);

@@ -5,6 +5,8 @@ import org.project.Controller.Server.Settings;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * client of the game
@@ -77,6 +79,8 @@ public class Client implements IClient {
             case "socket":
                  try{
                     client= new SocketClientApp();
+                     ExecutorService executor = Executors.newCachedThreadPool();
+                     executor.submit( client);
                     client.startClient();
                  }catch(Exception e ){
                     e.printStackTrace();

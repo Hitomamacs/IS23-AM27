@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
-public interface RMIClientInterface extends Remote, ClientInterface {
+public interface RMIClientInterface extends Remote {
 
     /**
      * method that shows the player a new message

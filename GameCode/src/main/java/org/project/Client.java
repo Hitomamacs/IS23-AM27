@@ -85,6 +85,8 @@ public class Client implements IClient {
         }
 
     }
+    //METODI PER AVVIARE RMI O SOCKET
+
     //METODI INVOCATI SUL MAIN CLIENT
     /**
      * method that notify the player a new message

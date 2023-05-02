@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.List;
 
-public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface {
+public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface, ClientInterface {
 
     /**
      * reference to the server object

@@ -122,8 +122,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
                 throw new RuntimeException(e);
             }
 
-            if(line != null)
-                    System.out.println(line);
+
 
                 JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
                 JsonObject jsObject = jelement.getAsJsonObject();
@@ -153,11 +152,11 @@ public class SocketClientApp implements ClientInterface, Runnable {
         for(int i = 0; i<message.getBoard().length; i++){
             for(int j = 0; j<message.getBoard()[0].length; j++){
                 if(message.getBoard()[i][j] != null){
-                    System.out.println(message.getBoard()[i][j]);
-                    System.out.println(" ");
+                    System.out.print(message.getBoard()[i][j]);
+                    System.out.print(" ");
                 }
             }
-            System.out.println("\n");
+            System.out.println();
         }
         ;
     }

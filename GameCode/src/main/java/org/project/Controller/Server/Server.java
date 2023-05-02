@@ -57,7 +57,7 @@ public class Server {
      */
     public static void main (String[] args) throws RemoteException {
 
-        int rmiPort=Settings.RMI_PORT;
+        int rmiPort=2345;
         int socketPort = Settings.SOCKET_PORT;
 
         if(args.length!=0){

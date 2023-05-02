@@ -1,6 +1,9 @@
 package org.project;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.project.Controller.Messages.*;
 import org.project.Model.Coordinates;
 
@@ -14,13 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class SocketClientApp implements ClientInterface{
+public class SocketClientApp implements ClientInterface, Runnable {
+    private  ClientView clientView = new ClientView();
+    private BufferedReader in;
     public void startClient() throws Exception{
         String hostName = "127.0.0.1";
         int portNumber = 5678;
         Scanner sc=new Scanner(System.in);
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);
+
                 PrintWriter out =
                         new PrintWriter(echoSocket.getOutputStream(), true);
                 BufferedReader in =
@@ -29,7 +35,7 @@ public class SocketClientApp implements ClientInterface{
                 BufferedReader stdIn =
                         new BufferedReader(
                                 new InputStreamReader(System.in))
-        ) {
+        ) { new Thread(this).start();
             while (true) {
                 System.out.println("Enter Message Type: ");
                 String userInput;
@@ -105,5 +111,68 @@ public class SocketClientApp implements ClientInterface{
             System.exit(1);
         }
 
+    }
+    public void run() {
+        Gson gson = new Gson();
+
+        while (true) {
+            String line = null;
+            try {
+                line = in.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
+            JsonObject jsObject = jelement.getAsJsonObject();
+            JsonElement id = jsObject.get("messageID");
+            MessageID ID = gson.fromJson(id, MessageID.class);
+            switch (ID) {
+                case TOPUP_UPDATE -> this.handleTopUpUpdate(gson.fromJson(line, UpdateTopUPMsg.class));
+                case PICK_UPDATE -> this.handlePickUpdate(gson.fromJson(line, UpdatePickMsg.class));
+                case POP_UP -> this.handlePopUp(gson.fromJson(line, PopUpMsg.class));
+                case SCORE_UPDATE -> this.handleScoreUpdate(gson.fromJson(line, ScoreBoardMsg.class));
+                case REFRESH_UPDATE -> this.handleRefreshUpdate(gson.fromJson(line, RefreshMsg.class));
+            }
+            ;
+
+        }
+    }
+
+    public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.getGridsview().put(message.getPlayerName(), message.getGrid());
+        ;
+    }
+
+    public void handlePickUpdate(UpdatePickMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.getTilesview().put(message.getPlayerName(), message.getTiles());
+        for(int i = 0; i<message.getBoard().length; i++){
+            for(int j = 0; j<message.getBoard()[0].length; j++){
+                if(message.getBoard()[i][j] != null){
+                    System.out.println(message.getBoard()[i][j]);
+                    System.out.println(" ");
+                }
+            }
+            System.out.println("\n");
+        }
+        ;
+    }
+
+    public void handlePopUp(PopUpMsg message){
+        clientView.setErrorMessage(message.getText());
+        ;
+    }
+
+    public void handleScoreUpdate(ScoreBoardMsg message){
+        clientView.setScoreBoard(message.getScoreBoard());
+        ;
+    }
+
+    public void handleRefreshUpdate(RefreshMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.setTilesview(message.getTilesview());
+        clientView.setGridsview(message.getGridsview());
+        clientView.setPointStack(message.getPointStack());
+        ;
     }
 }

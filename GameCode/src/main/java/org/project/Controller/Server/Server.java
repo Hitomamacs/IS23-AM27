@@ -7,6 +7,7 @@ import org.project.Controller.Messages.*;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
 import org.project.RMIClientApp;
+import org.project.RMIClientInterface;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -183,17 +184,18 @@ public class Server {
         return false;
     }
 
+
     /**
      * send a chat message to all players
      * @param username message sender
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
-     */
+    */
     public void sendMessage (String username,String message){
         System.out.println("server received : "+ message);
 
         //per i client RMI:
-        for(RMIClientApp rmiCl: rmiServer.getClientsRMI().values()){
+        for(RMIClientInterface rmiCl: rmiServer.getClientsRMI().values()){
             try{rmiCl.printMsgChat(username,message);}
             catch(Exception e){
                 e.printStackTrace();

@@ -1,8 +1,8 @@
 package org.project.Controller.Server;
 
 import org.project.RMIClientApp;
-import org.project.RMIClientInterface;
 import org.project.Model.Coordinates;
+import org.project.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -20,16 +20,18 @@ public interface RMIServerInterface extends Remote {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException;
+    public boolean sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException;
 
     /**
      * remote method for logging the first player through the nickname.
-     * @param nickname player's name
+     *
+     * @param nickname       player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     * @param numPlayers Number of players in the match
+     * @param numPlayers     Number of players in the match
+     * @return
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType,RMIClientApp client ,int numPlayers) throws RemoteException;
+    public boolean sendLogin(String nickname, boolean connectionType , int numPlayers) throws RemoteException;
 
 
     /**
@@ -61,5 +63,5 @@ public interface RMIServerInterface extends Remote {
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendMessageRequest(RMIClientApp client, String message) throws RemoteException;
+    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException;
 }

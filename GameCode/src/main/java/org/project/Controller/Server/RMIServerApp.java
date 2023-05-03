@@ -1,9 +1,11 @@
 package org.project.Controller.Server;
 
 import org.project.RMIClientApp;
-import org.project.RMIClientInterface;
 import org.project.Model.Coordinates;
+import org.project.RMIClientInterface;
 
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -11,14 +13,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.List;
 
-public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterface {
+public class RMIServerApp implements RMIServerInterface {
 
     /**
      * hash map che contiene tutti i giocatori RMI.
      * La chiave è il riferimento al client
      * String è l'username scelto
      */
-    private final HashMap<String, RMIClientApp> clientsRMI;
+    private final HashMap<String, RMIClientInterface> clientsRMI;
 
     private final Server server;
 
@@ -34,11 +36,29 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
     /**
      * method called by the main server to start the RMI server
      * @param port port the server is listening on
-     * @throws Exception
      */
-    public void startRMIServer(int port) throws Exception{
-        Registry registry= LocateRegistry.createRegistry(port);
-        registry.bind("Server", this);
+    public void startRMIServer(int port) {
+        RMIServerInterface stub= null;
+        try {
+            stub = (RMIServerInterface) UnicastRemoteObject.exportObject(this, port);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        Registry registry= null;
+        try {
+            registry = LocateRegistry.createRegistry(port);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            registry.bind("Server", stub);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (AlreadyBoundException e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println("RMI server bound and ready");
     }
 
@@ -51,27 +71,55 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException{
+    public boolean sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException{
         boolean check;
         check=server.login(nickname, connectionType);
         if(check==true){
             clientsRMI.put(nickname,client);
+            return true;
         }
+
+        return false;
     }
 
     /**
      * remote method for logging the first player through the nickname.
-     * @param nickname player's name
+     *
+     * @param nickname       player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     * @param numPlayers Number of players in the match
+     * @param numPlayers     Number of players in the match
+     * @return
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendLogin(String nickname, boolean connectionType, RMIClientApp client,int numPlayers) throws RemoteException{
+    public boolean sendLogin(String nickname, boolean connectionType, int numPlayers) throws RemoteException{
         boolean check;
         check=server.login(nickname,connectionType,numPlayers);
         if(check==true){
-            clientsRMI.put(nickname, client);
+            clientsRMI.put(nickname, getRmiClient());
+            return true;
         }
+        return false;
+    }
+
+    private RMIClientInterface getRmiClient () {
+        Registry registry = null;
+        try {
+            registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Looking up the registry for the remote object
+        RMIClientInterface client;
+        try {
+            client = (RMIClientInterface) registry.lookup("ClientRMI");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return client;
     }
 
 
@@ -106,18 +154,27 @@ public class RMIServerApp extends UnicastRemoteObject implements RMIServerInterf
     }
 
 
+
     /**
      * send a chat message to all players
      * @param client message sender
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendMessageRequest(RMIClientApp client, String message) throws RemoteException{
+
+    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException{
         server.sendMessage(client.getNickname(), message);
     }
 
 
+    public HashMap<String, RMIClientInterface> getClientsRMI() {
+        return clientsRMI;
+    }
+
+/*
     public HashMap<String, RMIClientApp> getClientsRMI() {
         return clientsRMI;
     }
+
+ */
 }

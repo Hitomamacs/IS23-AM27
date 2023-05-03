@@ -67,9 +67,8 @@ public class Client implements IClient {
         connessione= stdin.nextLine();
         switch(connessione){
             case "rmi":
-                //startRMIConnection(rmiPort);
                 try{
-                    //client= new RMIClientApp(rmiPort,this);
+                    client= new RMIClientApp(rmiPort);
                     client.startClient();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -85,15 +84,6 @@ public class Client implements IClient {
                 break;
         }
 
-    }
-    //METODI PER AVVIARE RMI O SOCKET
-    public void startRMIConnection(int rmiPort){
-        try{
-            client= new RMIClientApp(rmiPort,this);
-            client.startClient();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     //METODI INVOCATI SUL MAIN CLIENT

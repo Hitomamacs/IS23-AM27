@@ -15,21 +15,21 @@ public interface ClientInterface {
      *prova a fare una login al server con il nome scelto
      * @param nickname nome scelto per fare la login
      */
-    public void sendLoginRequest(String nickname);
+   // public void sendLoginRequest(String nickname);
 
     /**
      *Invia un messaggio nella chat comune
      * @param message messaggio da inviare
      */
-    public void sendMessage(String message);
+   // public void sendMessage(String message);
 
     /**
      *invia al server la richiesta di prendere delle tessere nella board
      */
-    public void sendPickRequest();
+   // public void sendPickRequest();
 
     /**
      *invia al server la colonna scelta per posizionare le tessere scelte
      */
-    public void sendTopUpRequest();
+   // public void sendTopUpRequest();
 }

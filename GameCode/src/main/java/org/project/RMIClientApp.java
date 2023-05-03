@@ -30,15 +30,15 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
     /**
      * riferimento alla classe Client
      */
-    private final IClient mainClient;
+   // private final IClient mainClient;
 
     /**
      * constructor
      * @throws RemoteException
      */
-    public RMIClientApp(int port, IClient client) throws RemoteException{
+    public RMIClientApp(int port) throws RemoteException{
         this.port=port;
-        this.mainClient=client;
+       // this.mainClient=client;
     }
 
     /**
@@ -108,7 +108,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
 
     }
 
-    public void sendLoginRequest(String nickname){
+   /* public void sendLoginRequest(String nickname){
 
     }
     public void sendMessage(String message){
@@ -119,7 +119,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
     }
     public void sendTopUpRequest(){
 
-    }
+    }*/
 
     //METODI DELL'INTERFACCIA RMI CLIENT INTETRFACE
     /**

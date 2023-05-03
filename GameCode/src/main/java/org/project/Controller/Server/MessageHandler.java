@@ -61,6 +61,7 @@ public class MessageHandler {
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         client.getOut().println(jsonStr);
+        System.out.println("\nMessage sent (Message Handler send method)");
     }
 
 }

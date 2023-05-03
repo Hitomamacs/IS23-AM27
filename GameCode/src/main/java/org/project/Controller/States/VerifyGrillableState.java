@@ -27,7 +27,9 @@ public class VerifyGrillableState implements GameState {
     @Override
     public void changeState() {
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
+        System.out.println("Grillable test");
         if(verifyGrillable()) {
+            System.out.println("Grillable passed");
             gameOrchestrator.changeState(new VerifyBoardableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(8);
             gameOrchestrator.executeState();

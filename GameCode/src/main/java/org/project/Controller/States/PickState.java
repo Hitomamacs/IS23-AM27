@@ -43,7 +43,8 @@ public class PickState implements GameState {
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(6);
         }
-        else {gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+        else {System.out.println("Entering TopUpState waiting for player " + gameOrchestrator.getCurrentPlayer().getNickname() + " to move");
+              gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
               gameOrchestrator.setCurr_sate_id(7);
         }
 
@@ -54,7 +55,9 @@ public class PickState implements GameState {
     @Override
     public void execute() {
  //       if(!DisconnectState()){
+        System.out.println("Pick executing: ");
         Pick();
+        System.out.println("-> model changed");
         //Now we update the Virtual View
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
@@ -62,6 +65,7 @@ public class PickState implements GameState {
         gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
+        System.out.println("-> VirtualView updated ");
         changeState();
     }
 

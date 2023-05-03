@@ -25,8 +25,11 @@ public class VerifyBoardableState implements GameState {
     }
     @Override
     public void changeState() {
+
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
+        System.out.println("Boardable test");
         if(verifyBoardable()) {
+            System.out.println("Boardable passed");
             gameOrchestrator.changeState(new PickState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(4);
             gameOrchestrator.executeState();

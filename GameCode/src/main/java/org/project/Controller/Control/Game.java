@@ -46,6 +46,7 @@ public class Game {
         numPlayers = 2;
     }
     public void gameInit(int num_players){
+        System.out.println("\nInitializing game (Game method gameInit)");
         tileBag = new TileBag();
         tileBag.initializeBag();
         gameBoard = new GameBoard(9,9,num_players);

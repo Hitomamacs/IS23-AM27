@@ -143,12 +143,12 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.getGridsview().put(message.getPlayerName(), message.getGrid());
-        ;
     }
 
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());
         clientView.getTilesview().put(message.getPlayerName(), message.getTiles());
+        System.out.println("\nPrinting updated board");
         for(int i = 0; i<message.getBoard().length; i++){
             for(int j = 0; j<message.getBoard()[0].length; j++){
                 if(message.getBoard()[i][j] != null){
@@ -158,7 +158,12 @@ public class SocketClientApp implements ClientInterface, Runnable {
             }
             System.out.println();
         }
-        ;
+        System.out.println("\nPrinting " + message.getPlayerName() + " updated tiles");
+        String[] tiles = clientView.getTilesview().get(message.getPlayerName());
+        for (String tile : tiles) {
+            System.out.println(tile + " ");
+        }
+
     }
 
     public void handlePopUp(PopUpMsg message){

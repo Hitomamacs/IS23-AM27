@@ -44,6 +44,7 @@ public class SocketClientHandler implements Runnable {
 
     public void send(Message message){
         messageHandler.send(message);
+
     }
     public void closeEverything(Socket socket, Scanner in, PrintWriter out){
 

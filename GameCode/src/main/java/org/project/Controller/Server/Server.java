@@ -92,9 +92,11 @@ public class Server {
      * @param coordinates coordinates of the tiles to be taken
      */
     public boolean pick(String username, List<Coordinates> coordinates){
+        System.out.println("\nServer handling pick message (Server pick method)");
         //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
         //his turn so this check is redundant)
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
+            System.out.println("\nPick message from correct player checking validity...  (Server pick method) ");
             orchestrator.setPickedCoordinates(coordinates);
             orchestrator.executeState();
             int a = 3;
@@ -103,13 +105,14 @@ public class Server {
                 //If successful the view has been updated so need to send it to all
                 BoardView boardView = game.getView().getBoardView();
                 //TODO double check the next two lines and test properly
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
                 send(boardView,tilesViews.get(0));
                 return true;
             }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
             else sendError(username);
         } //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
         //valid input
+        System.out.println("\nWrong player for pick  (Server pick method)");
         return false;
     }
 
@@ -146,16 +149,19 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
     public boolean login(String username, boolean connectionType){
+        System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
         //TODO checks once persistence has been implemented
         if(!game.getUsers().isEmpty()){
             for(int i = 0; i < game.getUsers().size(); i++){
-                if(game.getUsers().get(i).getUsername().equals(username))
-                    return false;//Probably better if I throw exceptions instead to distinguish
+                if(game.getUsers().get(i).getUsername().equals(username)){
+                    System.out.println("\n" + username + " is already in use in the game  (Server login method)");
+                    return false;}//Probably better if I throw exceptions instead to distinguish
             }                    //the reasons the method was unsuccessful
             game.getUsers().add(new User(username, connectionType));
-
+            System.out.println("\n" + username + " added to game  (Server login method)");
             return true;
         }
+        System.out.println("\n" + "A game needs to be created first  (Server login method)");
         return false;
     }
     /**
@@ -165,13 +171,16 @@ public class Server {
      * @param numPlayers Number of players in the match
      */
     public boolean login(String username, boolean connectionType, int numPlayers){
+        System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
         if(game.getUsers().isEmpty()) {
             game.getUsers().add(new User(username, connectionType));
             game.setNumPlayers(numPlayers);
+            System.out.println("\nServer has created new game  (Server login method)");
             return true;
         }
         //Means a game has already been created
         //Should probably do another check to see if numPlayers is acceptable
+        System.out.println("\nAlready an existing game  (Server login method)");
         return false;
     }
     /**
@@ -242,6 +251,7 @@ public class Server {
         String playername = tilesView.getUsername();
         //Sending to socket clients
         UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
+        System.out.println("\nServer has created UpdatePickMsg to send (Server send method 2nd overload)");
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //TODO sending to RMI clients
     }

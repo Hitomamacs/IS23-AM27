@@ -20,7 +20,7 @@ public interface RMIServerInterface extends Remote {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException;
+    public boolean sendLogin(String nickname, boolean connectionType) throws RemoteException;
 
     /**
      * remote method for logging the first player through the nickname.
@@ -59,9 +59,9 @@ public interface RMIServerInterface extends Remote {
 
     /**
      * remote method that send a chat message to all players
-     * @param client message sender
+     * @param nickname message sender
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException;
+    public void sendMessageRequest(String nickname, String message) throws RemoteException;
 }

@@ -195,7 +195,7 @@ public class Server {
         System.out.println("server received : "+ message);
 
         //per i client RMI:
-        for(RMIClientInterface rmiCl: rmiServer.getClientsRMI().values()){
+        for(RMIClientInterface rmiCl: rmiServer.getClientsRMI().values()){  //MI SA FOR SBAGLIATO
             try{rmiCl.printMsgChat(username,message);}
             catch(Exception e){
                 e.printStackTrace();

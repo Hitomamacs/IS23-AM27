@@ -17,8 +17,8 @@ public class RMIServerApp implements RMIServerInterface {
 
     /**
      * hash map che contiene tutti i giocatori RMI.
-     * La chiave è il riferimento al client
-     * String è l'username scelto
+     * La chiave è l'username
+     * il secondo parametro è il riferimento al client
      */
     private final HashMap<String, RMIClientInterface> clientsRMI;
 
@@ -62,7 +62,32 @@ public class RMIServerApp implements RMIServerInterface {
         System.out.println("RMI server bound and ready");
     }
 
-    //METHODS INVOCATED BY CLIENTS
+    /**
+     * metodo che serve per comunicare con il client
+     * @return il client
+     */
+    private RMIClientInterface getRmiClient () {
+        Registry registry = null;
+        try {
+            registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Looking up the registry for the remote object
+        RMIClientInterface client;
+        try {
+            client = (RMIClientInterface) registry.lookup("ClientRMI");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return client;
+    }
+
+    //METHODS INVOCATED BY CLIENTS--SONO I METODI DELL'RMI INTERFACE
 
     /**
      * remote method for logging in the player through the nickname.
@@ -71,11 +96,11 @@ public class RMIServerApp implements RMIServerInterface {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType, RMIClientApp client) throws RemoteException{
+    public boolean sendLogin(String nickname, boolean connectionType) throws RemoteException{
         boolean check;
         check=server.login(nickname, connectionType);
         if(check==true){
-            clientsRMI.put(nickname,client);
+            clientsRMI.put(nickname,getRmiClient());
             return true;
         }
 
@@ -100,28 +125,6 @@ public class RMIServerApp implements RMIServerInterface {
         }
         return false;
     }
-
-    private RMIClientInterface getRmiClient () {
-        Registry registry = null;
-        try {
-            registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-        //Looking up the registry for the remote object
-        RMIClientInterface client;
-        try {
-            client = (RMIClientInterface) registry.lookup("ClientRMI");
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        return client;
-    }
-
 
     /**
      * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
@@ -157,13 +160,13 @@ public class RMIServerApp implements RMIServerInterface {
 
     /**
      * send a chat message to all players
-     * @param client message sender
+     * @param nickname message sender
      * @param message message you want to send
      * @throws RemoteException if something goes wrong with the connection
      */
 
-    public void sendMessageRequest(RMIClientInterface client, String message) throws RemoteException{
-        server.sendMessage(client.getNickname(), message);
+    public void sendMessageRequest(String nickname, String message) throws RemoteException{
+        server.sendMessage(nickname, message);
     }
 
 
@@ -171,10 +174,4 @@ public class RMIServerApp implements RMIServerInterface {
         return clientsRMI;
     }
 
-/*
-    public HashMap<String, RMIClientApp> getClientsRMI() {
-        return clientsRMI;
-    }
-
- */
 }

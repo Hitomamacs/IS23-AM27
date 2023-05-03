@@ -13,18 +13,65 @@ import java.util.HashMap;
 import java.util.List;
 
 //AGGIUNGI CLIENT INTERFACE
-public class RMIClientApp implements RMIClientInterface {
+public class RMIClientApp implements RMIClientInterface, ClientInterface{
 
     /**
      * reference to the server object
      */
-    private static RMIServerInterface rmiServer;
+    private RMIServerInterface rmiServer;
+    /**
+     * porta di utilizzo per la comunicazione
+     */
+    private int port;
+    /**
+     * nickname usato dal giocatore per connettersi
+     */
+    String nickname;
+    /**
+     * riferimento alla classe Client
+     */
+    private final IClient mainClient;
 
-    private String nickname;
-    public RMIClientApp() throws RemoteException{}
+    /**
+     * constructor
+     * @throws RemoteException
+     */
+    public RMIClientApp(int port, IClient client) throws RemoteException{
+        this.port=port;
+        this.mainClient=client;
+    }
 
+    /**
+     * metodo per preparsri alla connessione con un server
+     */
+    private void prepareForRmiConnection () {
+        RMIClientInterface scheleton= null;
+        try {
+            scheleton = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 1099);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
-    public void start () {
+        Registry registry= null;
+        try {
+            registry = LocateRegistry.createRegistry(1099);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            registry.bind("ClientRMI", scheleton);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (AlreadyBoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //METODI ESTESI DALLA CLIENT INTERFACE
+    /**
+     * method that opens a connection with the RMI SERVER
+     */
+    public void startClient () {
         boolean nome;
         int port=Settings.RMI_PORT;
         Registry registry = null;
@@ -61,29 +108,20 @@ public class RMIClientApp implements RMIClientInterface {
 
     }
 
-    private void prepareForRmiConnection () {
-        RMIClientInterface scheleton= null;
-        try {
-            scheleton = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+    public void sendLoginRequest(String nickname){
 
-        Registry registry= null;
-        try {
-            registry = LocateRegistry.createRegistry(1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            registry.bind("ClientRMI", scheleton);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyBoundException e) {
-            throw new RuntimeException(e);
-        }
+    }
+    public void sendMessage(String message){
+
+    }
+    public void sendPickRequest(){
+
+    }
+    public void sendTopUpRequest(){
+
     }
 
+    //METODI DELL'INTERFACCIA RMI CLIENT INTETRFACE
     /**
      * method that shows the player a new message on chat
      * @param nickname nickname of the author of the message

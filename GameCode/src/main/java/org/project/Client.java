@@ -67,6 +67,7 @@ public class Client implements IClient {
         connessione= stdin.nextLine();
         switch(connessione){
             case "rmi":
+                //startRMIConnection(rmiPort);
                 try{
                     //client= new RMIClientApp(rmiPort,this);
                     client.startClient();
@@ -86,6 +87,14 @@ public class Client implements IClient {
 
     }
     //METODI PER AVVIARE RMI O SOCKET
+    public void startRMIConnection(int rmiPort){
+        try{
+            client= new RMIClientApp(rmiPort,this);
+            client.startClient();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //METODI INVOCATI SUL MAIN CLIENT
     /**
@@ -94,7 +103,7 @@ public class Client implements IClient {
      *@param message message text
      */
     public void PrintMessageChat(String nickname, String message){
-
+        System.out.println(message);
     }
 
     /**
@@ -177,7 +186,7 @@ public class Client implements IClient {
      * @param text testo dell'errore
      */
     public void UpdatePopUpView (String text){
-        clientView.setErrorMessage(text);
+        clientView.setPopUpErrorMessage(text);
     }
 
     // METODI  CHE CHIAMANO IL SERVER

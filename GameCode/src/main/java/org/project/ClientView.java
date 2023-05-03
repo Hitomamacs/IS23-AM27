@@ -13,7 +13,7 @@ public class ClientView {
     private List<Integer> pointStack;
     private HashMap<String, String[][] > gridsview;
     private HashMap<String,String[]> tilesview;
-    private String errorMessage;
+    private String popUpErrorMessage;
     private HashMap<String, Integer> scoreBoard;
 
     public ClientView() {
@@ -40,15 +40,15 @@ public class ClientView {
         return tilesview;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getPopUpErrorMessage() {
+        return popUpErrorMessage;
     }
 
     public HashMap<String, Integer> getScoreBoard() {
         return scoreBoard;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setPopUpErrorMessage(String popUpErrorMessage) {
+        this.popUpErrorMessage = popUpErrorMessage;
     }
 }

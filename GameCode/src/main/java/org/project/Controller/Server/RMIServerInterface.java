@@ -38,7 +38,7 @@ public interface RMIServerInterface extends Remote {
      *remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendQuit(String nickname) throws RemoteException;
+    public boolean sendQuit(String nickname) throws RemoteException;
 
     /**
      * remote method that allows the client to take tiles from the board
@@ -46,7 +46,7 @@ public interface RMIServerInterface extends Remote {
      * @param coordinates coordinates of the tiles to be taken
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException;
+    public boolean sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException;
 
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
@@ -55,7 +55,7 @@ public interface RMIServerInterface extends Remote {
      * @param tileIndex
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException;
+    public boolean sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException;
 
     /**
      * remote method that send a chat message to all players

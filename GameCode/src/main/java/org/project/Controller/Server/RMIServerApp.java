@@ -131,8 +131,13 @@ public class RMIServerApp implements RMIServerInterface {
      * @param nickname player's name
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendQuit(String nickname) throws RemoteException{
-        server.quit(nickname);
+    public boolean sendQuit(String nickname) throws RemoteException{
+        boolean check;
+        check=server.quit(nickname);
+        if(check){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -141,8 +146,13 @@ public class RMIServerApp implements RMIServerInterface {
      * @param coordinates coordinates of the tiles to be taken
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException{
-        server.pick(nickname, coordinates);
+    public boolean sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException{
+        boolean check;
+        check=server.pick(nickname, coordinates);
+        if(check){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -152,8 +162,13 @@ public class RMIServerApp implements RMIServerInterface {
      * @param tileIndex
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException{
-        server.topUp(nickname, column, tileIndex);
+    public boolean sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException{
+        boolean check;
+        check=server.topUp(nickname, column, tileIndex);
+        if(check){
+            return true;
+        }
+        return false;
     }
 
 

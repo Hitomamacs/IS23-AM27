@@ -2,6 +2,7 @@ package org.project;
 
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
+import org.project.Model.Coordinates;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
@@ -9,8 +10,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 //AGGIUNGI CLIENT INTERFACE
 public class RMIClientApp implements RMIClientInterface, ClientInterface{
@@ -73,6 +76,8 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      */
     public void startClient () {
         boolean nome;
+        boolean successo;
+        final Scanner stdin= new Scanner(System.in);
         int port=Settings.RMI_PORT;
         Registry registry = null;
         try {
@@ -94,17 +99,69 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
 
         prepareForRmiConnection();
 
-        try {
-            nome=rmiServer.sendLogin("mary",false,4);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        while(true){
+            System.out.println("cosa vuoi");
+            String input;
+            input=stdin.nextLine();
+            switch(input){
+                case "login":
+                    try {
+                        nome=rmiServer.sendLogin("silvia",false,2);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(nome){
+                        System.out.println("LOGGATO");
+                    }else {
+                        System.out.println("ERRORE");
+                    }
+                    break;
+                case "pick":
+                    String username;
+                    System.out.println("Inserisci username: ");
+                    username= stdin.nextLine();
+                    int x,y;
+                    List<Coordinates> Coordinates= new ArrayList<>();
+                    System.out.println("Enter x coordinate: ");
+                    x=stdin.nextInt();
+                    System.out.println("Enter y coordinate: ");
+                    y=stdin.nextInt();
+                    Coordinates.add(new Coordinates(x,y));
+                    try {
+                        successo=rmiServer.sendPickRequest(username,Coordinates);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(successo){
+                        System.out.println("PICK SUCCESSO");
+                    }else {
+                        System.out.println("PICK ERRORE");
+                    }
+                    break;
+                case "topup":
+                    String nickname;
+                    System.out.println("Inserisci username: ");
+                    nickname= stdin.nextLine();
+                    int column, tileIndex;
+                    System.out.println("Inserisci colonna :  ");
+                    column=stdin.nextInt();
+                    System.out.println("Inserisci tile index : ");
+                    tileIndex=stdin.nextInt();
+                    try {
+                        successo=rmiServer.sendTopUpRequest(nickname,column,tileIndex);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(successo){
+                        System.out.println("TOP UP SUCCESSO");
+                    }else {
+                        System.out.println("TOP UP ERRORE");
+                    }
+                    break;
+
+            }
         }
-        System.out.println("ok");
-        if(nome){
-            System.out.println("LOGGATO");
-        }else{
-            System.out.println("ERROIRE");
-        }
+
 
     }
 

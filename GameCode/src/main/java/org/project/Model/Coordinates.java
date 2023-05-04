@@ -3,7 +3,9 @@ package org.project.Model;
 
 import com.google.gson.annotations.Expose;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     @Expose
     private int x;
     @Expose

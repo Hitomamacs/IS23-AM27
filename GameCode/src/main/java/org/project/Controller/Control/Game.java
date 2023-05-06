@@ -12,6 +12,14 @@ import java.util.Random;
 
 public class Game {
 
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
     private Server server;
     private Persistencer persistencer;
 

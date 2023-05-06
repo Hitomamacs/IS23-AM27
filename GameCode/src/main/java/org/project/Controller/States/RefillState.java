@@ -29,6 +29,7 @@ public class RefillState implements GameState {
             try {
                 int needed_tiles = gameOrchestrator.getGameBoard().boardCheckNum();
                 gameOrchestrator.getGameBoard().fillBoard(gameOrchestrator.getTileBag().randomPick(needed_tiles));
+                gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
                 System.out.println("Refilled board");
             } catch (Exception e) {
                 e.printStackTrace();

@@ -72,9 +72,13 @@ public class TopUpState implements GameState {
                 if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
                     //Update view
                     Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
+                    Tile[] pickedTilesCopy = new Tile[4];
+                    for (int i = 0; i < pickedTiles.length; i++) {
+                        pickedTilesCopy[i] = pickedTiles[i];
+                    }
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
-                    gameOrchestrator.getGame().getView().updateView(pickedTiles, currentPlayer, index ,selectedColumn);
+                    gameOrchestrator.getGame().getView().updateView(pickedTilesCopy, currentPlayer, index ,selectedColumn);
                 }
             }
             else selectedColumn = -1;

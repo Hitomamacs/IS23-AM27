@@ -55,7 +55,7 @@ public class Server {
     /**
      * MAIN
      */
-    public static void main (String[] args) throws RemoteException {
+    public static void main(String[] args) throws RemoteException {
 
         int rmiPort=2345;
         int socketPort = Settings.SOCKET_PORT;
@@ -67,7 +67,7 @@ public class Server {
 
         try{
             Server server = new Server();
-            server.game = new Game();
+            server.game = new Game(server);
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
 

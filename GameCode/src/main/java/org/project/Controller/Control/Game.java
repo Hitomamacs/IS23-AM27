@@ -1,5 +1,6 @@
 package org.project.Controller.Control;
 
+import org.project.Controller.Server.Server;
 import org.project.Controller.View.VirtualView;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 public class Game {
 
+    private Server server;
     private Persistencer persistencer;
 
     private List<User> users;
@@ -45,8 +47,17 @@ public class Game {
         persistencer = new Persistencer();
         numPlayers = 2;
     }
+    public Game(Server server){
+        this.server = server;
+        users = new ArrayList<>();
+        players = new ArrayList<>();
+        commonGoals = new ArrayList<>();
+        persistencer = new Persistencer();
+        this.numPlayers = 4;
+    }
     public void gameInit(int num_players){
         System.out.println("\nInitializing game (Game method gameInit)");
+        this.numPlayers = num_players;
         tileBag = new TileBag();
         tileBag.initializeBag();
         gameBoard = new GameBoard(9,9,num_players);

@@ -24,6 +24,8 @@ public class Game {
     private Persistencer persistencer;
 
     private List<User> users;
+
+    private boolean gameStarted;
     private List<Player> players;
     private GameOrchestrator orchestrator;
     private GameBoard gameBoard;
@@ -66,6 +68,7 @@ public class Game {
     public void gameInit(int num_players){
         System.out.println("\nInitializing game (Game method gameInit)");
         this.numPlayers = num_players;
+        gameStarted = true;
         tileBag = new TileBag();
         tileBag.initializeBag();
         gameBoard = new GameBoard(9,9,num_players);
@@ -148,5 +151,9 @@ public class Game {
 
     public CommonGoal_Deck getCommonGoalDeck() {
         return commonGoalDeck;
+    }
+
+    public boolean getGameStarted() {
+        return gameStarted;
     }
 }

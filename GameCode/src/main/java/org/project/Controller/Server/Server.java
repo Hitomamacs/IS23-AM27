@@ -4,6 +4,9 @@ import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
 import org.project.Controller.Messages.*;
+import org.project.Controller.States.PickState;
+import org.project.Controller.States.TopUpState;
+import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
 import org.project.RMIClientApp;
@@ -93,27 +96,38 @@ public class Server {
      * @param coordinates coordinates of the tiles to be taken
      */
     public boolean pick(String username, List<Coordinates> coordinates){
-        System.out.println("Server handling pick message (Server pick method)");
-        //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
-        //his turn so this check is redundant)
-        if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
-            System.out.println("Pick message from correct player checking validity...  (Server pick method) ");
-            orchestrator.setPickedCoordinates(coordinates);
-            orchestrator.executeState();
-            int a = 3;
-            //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
-            if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
-                //If successful the view has been updated so need to send it to all
-                BoardView boardView = game.getView().getBoardView();
-                //TODO double check the next two lines and test properly
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
-                send(boardView,tilesViews.get(0));
-                return true;
-            }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
-            else sendError(username);
-        } //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
-        //valid input
-        System.out.println("\nWrong player for pick  (Server pick method)");
+        if(game.getGameStarted()) {
+            System.out.println("Server handling pick message (Server pick method)");
+            //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
+            //his turn so this check is redundant)
+            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
+                //Have to check if the model is actually in VerifyGrillableState waiting for pick move
+                if (orchestrator.getState() instanceof VerifyGrillableState) {
+                    System.out.println("Pick message from correct player checking validity...  (Server pick method) ");
+                    orchestrator.setPickedCoordinates(coordinates);
+                    orchestrator.executeState();
+                    int a = 3;
+                    //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
+                    if (!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
+                        //If successful the view has been updated so need to send it to all
+                        BoardView boardView = game.getView().getBoardView();
+                        //TODO double check the next two lines and test properly
+                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
+                        send(boardView, tilesViews.get(0));
+                        return true;
+                    }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
+                    else sendError(username);
+                } else {
+                    System.out.println("Pick request ignored from current player as it is not the current state  (Server pick method)");
+                    return false;
+                  }
+            }
+            //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
+            //valid input
+            System.out.println("Wrong player for pick  (Server pick method)");
+            return false;
+        }
+        else System.out.println("Pick request ignored as game has not started yet  (Server pick method)");
         return false;
     }
 
@@ -124,25 +138,34 @@ public class Server {
      * @param tileIndex
      */
     public boolean topUp(String username, int column, int tileIndex){
-        System.out.println("Server handling topUp message (Server topUp method)");
-        int num_tiles = 0;
-        if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
-            num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
-            orchestrator.getCurrentPlayer().setSelectedColumn(column);
-            orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
-            orchestrator.executeState();
-            System.out.println("Correct player for topUp  (Server topUp method)");
-            if(orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1){
-                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
-                GridView gridView = gridViews.get(0);
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
-                TilesView tilesView = tilesViews.get(0);
-                send(gridView, tilesView);
-                return true;
+        if(game.getGameStarted()) {
+            System.out.println("Server handling topUp message (Server topUp method)");
+            int num_tiles = 0;
+            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
+                if (orchestrator.getState() instanceof TopUpState) {
+                    num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
+                    orchestrator.getCurrentPlayer().setSelectedColumn(column);
+                    orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
+                    orchestrator.executeState();
+                    System.out.println("Correct player for topUp  (Server topUp method)");
+                    if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
+                        List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
+                        GridView gridView = gridViews.get(0);
+                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
+                        TilesView tilesView = tilesViews.get(0);
+                        send(gridView, tilesView);
+                        return true;
+                    } else sendError(username);
+                } else {
+                    System.out.println("Ignoring topUp request from current player as it is not the current state  (Server topUp method)");
+                    return false;
+                }
+            } else {
+                System.out.println("Wrong player for topUp (Server topUp method)");
+                return false;
             }
-            else sendError(username);
-        }
 
+        }System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
     }
     /**

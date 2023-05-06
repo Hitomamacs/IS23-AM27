@@ -47,7 +47,7 @@ public class MessageHandler {
         String username = loginMsg.getUsername();
         boolean connection = loginMsg.getConnectionType();
         int num_players = loginMsg.getNumPlayers();
-        if(!(num_players == 0)){//TODO absolutely change
+        if(!(num_players == 0)){//TODO decide if we keep single login message or divide in create_game and join_game
             if(server.login(username, connection, num_players)){
                 socketServer.getSocketClients().put(username, client);
                 int a = 1;

@@ -41,7 +41,6 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.setCurr_sate_id(10);
             //Update view
             gameOrchestrator.getGame().getView().updateView(currentPlayer, "Tiles must be adjacent and have at least one free side");
-            gameOrchestrator.getGame().getServer().sendError(currentPlayer);
         }
 
     }

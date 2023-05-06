@@ -143,6 +143,16 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.getGridsview().put(message.getPlayerName(), message.getGrid());
+        String[][] grid = clientView.getGridsview().get(message.getPlayerName());
+        for (int i = 0; i<6; i++ ){
+            for (int j = 0; j<5; j++){
+                if(message.getGrid()[i][j] != null){
+                    System.out.print(grid[i][j]);
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
     }
 
     public void handlePickUpdate(UpdatePickMsg message){
@@ -168,7 +178,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     public void handlePopUp(PopUpMsg message){
         clientView.setErrorMessage(message.getText());
-        ;
+        System.out.println(message.getText());
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){
@@ -181,6 +191,16 @@ public class SocketClientApp implements ClientInterface, Runnable {
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
+        for(int i = 0; i<message.getBoard().length; i++){
+            for(int j = 0; j<message.getBoard()[0].length; j++){
+                if(message.getBoard()[i][j] != null){
+                    System.out.print(message.getBoard()[i][j]);
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("Printing Just Board (Refresh message), Start Game");
         ;
     }
 }

@@ -41,6 +41,7 @@ public class Player {
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
         Reader reader = null;
+        selectedColumn = -1;
         this.isConnected = true;
         try {
             reader = Files.newBufferedReader(Paths.get("test_1.json"));

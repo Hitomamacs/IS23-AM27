@@ -74,6 +74,7 @@ public class TopUpState implements GameState {
                     Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
+                    gameOrchestrator.getGame().getView().updateView(pickedTiles, currentPlayer, index ,selectedColumn);
                 }
             }
             else selectedColumn = -1;

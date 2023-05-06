@@ -13,7 +13,7 @@ public class StartTurnState implements GameState {
 
     public void execute(){
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
-        System.out.println("\nIt is player " + gameOrchestrator.getCurrentPlayer().getNickname() + " turn  (StartTurnState execute method)" );
+        System.out.println("It is player " + gameOrchestrator.getCurrentPlayer().getNickname() + " turn  (StartTurnState execute method)" );
         changeState();
 
 

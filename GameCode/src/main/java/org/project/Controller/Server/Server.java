@@ -77,6 +77,7 @@ public class Server {
             server.game.gameInit( server.game.getNumPlayers());
             server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
             server.orchestrator.executeState();
+            server.send(server.game.getView());
             int a = 1;
         }catch(Exception e){
             e.printStackTrace();
@@ -92,11 +93,11 @@ public class Server {
      * @param coordinates coordinates of the tiles to be taken
      */
     public boolean pick(String username, List<Coordinates> coordinates){
-        System.out.println("\nServer handling pick message (Server pick method)");
+        System.out.println("Server handling pick message (Server pick method)");
         //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
         //his turn so this check is redundant)
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
-            System.out.println("\nPick message from correct player checking validity...  (Server pick method) ");
+            System.out.println("Pick message from correct player checking validity...  (Server pick method) ");
             orchestrator.setPickedCoordinates(coordinates);
             orchestrator.executeState();
             int a = 3;
@@ -123,23 +124,25 @@ public class Server {
      * @param tileIndex
      */
     public boolean topUp(String username, int column, int tileIndex){
-
+        System.out.println("Server handling topUp message (Server topUp method)");
         int num_tiles = 0;
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
             num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
             orchestrator.getCurrentPlayer().setSelectedColumn(column);
             orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
             orchestrator.executeState();
+            System.out.println("Correct player for topUp  (Server topUp method)");
             if(orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1){
-                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> !g.getUsername().equals(username)).toList();
+                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
                 GridView gridView = gridViews.get(0);
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
+                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
                 TilesView tilesView = tilesViews.get(0);
                 send(gridView, tilesView);
                 return true;
             }
             else sendError(username);
         }
+
         return false;
     }
     /**

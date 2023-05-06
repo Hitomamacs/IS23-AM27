@@ -22,6 +22,7 @@ public class RefillState implements GameState {
     }
 
     @Override
+    //TODO refresh view (update)
     public void execute() {
         System.out.println("Checking if board needs refilling  (RefillState) ");
         if(gameOrchestrator.getGameBoard().checkBoard()){

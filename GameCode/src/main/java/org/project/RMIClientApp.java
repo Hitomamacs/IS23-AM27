@@ -31,9 +31,10 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      */
     String nickname;
     /**
-     * riferimento alla classe Client
+     * riferimento alla view del client
      */
-   // private final IClient mainClient;
+    private ClientView clientView= new ClientView();
+
 
     /**
      * constructor
@@ -121,14 +122,14 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
                     System.out.println("Inserisci username: ");
                     username= stdin.nextLine();
                     int x,y;
-                    List<Coordinates> Coordinates= new ArrayList<>();
+                    List<Coordinates> coordinates= new ArrayList<>();
                     System.out.println("Enter x coordinate: ");
                     x=stdin.nextInt();
                     System.out.println("Enter y coordinate: ");
                     y=stdin.nextInt();
-                    Coordinates.add(new Coordinates(x,y));
+                    coordinates.add(new Coordinates(x,y));
                     try {
-                        successo=rmiServer.sendPickRequest(username,Coordinates);
+                        successo=rmiServer.sendPickRequest(username,coordinates);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -178,7 +179,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
 
     }*/
 
-    //METODI DELL'INTERFACCIA RMI CLIENT INTETRFACE
+    //METODI DELL'INTERFACCIA RMI CLIENT INTERFACE
     /**
      * method that shows the player a new message on chat
      * @param nickname nickname of the author of the message
@@ -198,7 +199,21 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView) throws RemoteException{
-        //mainClient.UpdateInitialGameView(board,pointStack,gridsView,tilesView);
+        int i,j;
+
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
+            }
+        }
+
+        for(i=0;i< pointStack.size(); i++ ){
+            clientView.getPointStack().add(pointStack.get(i));
+        }
+
+        clientView.getGridsview().putAll(gridsView);
+
+        clientView.getTilesview().putAll(tilesView);
     }
 
     /**
@@ -209,7 +224,17 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyPick(String[][] board,String[] tilesView, String playername) throws RemoteException{
-        //mainClient.UpdatePick(board, tilesView, playername);
+        int i,j;
+
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
+            }
+        }
+
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
     }
 
     /**
@@ -220,7 +245,17 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyTopUp(String[][] grid,String[] tilesView,String playername) throws RemoteException{
-        //mainClient.UpdateTopUp(grid,tilesView,playername);
+        int i,j;
+
+        for(i=0;i<6;i++){
+            for(j=0;j<5;j++){
+                clientView.getGridsview().get(playername)[i][j]=grid[i][j];
+            }
+        }
+
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
     }
 
     /**
@@ -229,7 +264,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyScoreBoard (HashMap<String, Integer> score) throws RemoteException{
-        //mainClient.UpdateScoreBoard(score);
+        clientView.getScoreBoard().putAll(score);
     }
 
     /**
@@ -238,7 +273,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyPopUpView (String text) throws RemoteException{
-        //mainClient.UpdatePopUpView(text);
+        clientView.setPopUpErrorMessage(text);
     }
 
 

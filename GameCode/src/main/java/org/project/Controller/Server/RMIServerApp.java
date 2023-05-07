@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -148,7 +149,7 @@ public class RMIServerApp implements RMIServerInterface {
      */
     public boolean sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException{
         boolean check;
-        check=server.pick(nickname, coordinates);
+        check=server.pick(nickname,coordinates);
         if(check){
             return true;
         }

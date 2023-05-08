@@ -2,15 +2,13 @@ package org.project;
 
 import org.project.Controller.Server.Settings;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  * client of the game
  */
 
-public class Client implements IClient {
+public class Client {
 
     /**
      * porta socket

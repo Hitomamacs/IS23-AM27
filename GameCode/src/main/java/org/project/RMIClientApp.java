@@ -76,11 +76,14 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         while(true){
             System.out.println("cosa vuoi");
             String input;
+            String nickname;
             input=stdin.nextLine();
             switch(input){
                 case "login":
                     try {
-                        nome=rmiServer.sendLogin("silvia",false,2, this);
+                        System.out.println("Inserisci nome");
+                        nickname=stdin.nextLine();
+                        nome=rmiServer.sendLogin(nickname,false,2, this);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -88,6 +91,11 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
                         System.out.println("LOGGATO");
                     }else {
                         System.out.println("ERRORE");
+                        try {
+                            nome=rmiServer.sendLogin(nickname,false, this);
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     break;
                 case "pick":
@@ -113,7 +121,6 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
                     }
                     break;
                 case "topup":
-                    String nickname;
                     System.out.println("Inserisci username: ");
                     nickname= stdin.nextLine();
                     int column, tileIndex;
@@ -198,6 +205,15 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      */
     public void notifyPick(String[][] board,String[] tilesView, String playername) throws RemoteException{
         int i,j;
+
+        if(board==null)
+        {
+            System.out.println("BOARD");
+        } else if (tilesView==null) {
+            System.out.println("TILE");
+        }else{
+            System.out.println("GIUSTO");
+        }
 
         for(i=0;i<9;i++){
             for(j=0;j<9;j++){

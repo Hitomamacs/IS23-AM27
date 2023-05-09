@@ -20,6 +20,8 @@ import java.util.Scanner;
 public class SocketClientApp implements ClientInterface, Runnable {
     private  ClientView clientView = new ClientView();
     private BufferedReader in;
+
+    private String username;
     public void startClient() throws Exception{
         String hostName = "127.0.0.1";
         int portNumber = 5678;
@@ -41,12 +43,12 @@ public class SocketClientApp implements ClientInterface, Runnable {
                 String userInput;
                 userInput = stdIn.readLine();
                 switch (userInput) {
-                    case "login" -> {
-                        String username;
+                    case "create_game" -> {
                         boolean connectionType;
                         int numPlayers;
                         System.out.println("Enter username: ");
                         username = stdIn.readLine();
+
                         System.out.println("Enter number of players: ");
                         numPlayers = sc.nextInt();
                         LoginMessage message = new LoginMessage(username, true, numPlayers);
@@ -55,10 +57,16 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         out.println(jsonStr);
                         break;
                     }
-                    case "quit" -> {
-                        String username;
+                    case "login" -> {
                         System.out.println("Enter username: ");
                         username = stdIn.readLine();
+                        LoginMessage message = new LoginMessage(username, true);
+                        Gson gson = new Gson();
+                        String jsonStr = gson.toJson(message);
+                        out.println(jsonStr);
+                        break;
+                    }
+                    case "quit" -> {
                         QuitMessage message = new QuitMessage(username);
                         Gson gson = new Gson();
                         String jsonStr = gson.toJson(message);
@@ -67,16 +75,17 @@ public class SocketClientApp implements ClientInterface, Runnable {
                     }
                     case "pick" -> {
                         Gson gson = new Gson();
-                        String username;
-                        System.out.println("Enter username: ");
-                        username = stdIn.readLine();
-                        int x, y;
+                        int x, y, num_tiles;
                         List<Coordinates> Coordinates = new ArrayList<>();
-                        System.out.println("Enter x coordinate: ");
-                        x = sc.nextInt();
-                        System.out.println("Enter y coordinate: ");
-                        y = sc.nextInt();
-                        Coordinates.add(new Coordinates(x, y));
+                        System.out.println("Enter number of tiles: ");
+                        num_tiles = sc.nextInt();
+                        for(int i = 0; i <= num_tiles - 1; i++) {
+                            System.out.println("Enter x coordinate: ");
+                            x = sc.nextInt();
+                            System.out.println("Enter y coordinate: ");
+                            y = sc.nextInt();
+                            Coordinates.add(new Coordinates(x, y));
+                        }
                         PickMessage message = new PickMessage(username, Coordinates);
                         String jsonStr = gson.toJson(message);
                         out.println(jsonStr);
@@ -84,9 +93,6 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
                     case "topup" -> {
                         Gson gson = new Gson();
-                        String username;
-                        System.out.println("Enter username: ");
-                        username = stdIn.readLine();
                         int column, tileIndex;
                         System.out.println("Enter column: ");
                         column = sc.nextInt();
@@ -153,6 +159,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public void handlePickUpdate(UpdatePickMsg message){
@@ -168,12 +175,13 @@ public class SocketClientApp implements ClientInterface, Runnable {
             }
             System.out.println();
         }
+        System.out.println("\n");
         System.out.println("\nPrinting " + message.getPlayerName() + " updated tiles");
         String[] tiles = clientView.getTilesview().get(message.getPlayerName());
         for (String tile : tiles) {
             System.out.println(tile + " ");
         }
-
+        System.out.println();
     }
 
     public void handlePopUp(PopUpMsg message){

@@ -1,14 +1,12 @@
 package org.project.Controller.View;
 
 import org.project.Controller.Control.User;
-import org.project.Model.Color;
-import org.project.Model.GameBoard;
-import org.project.Model.PointAssigner;
-import org.project.Model.Tile;
+import org.project.Model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //The virtual view class contains the various view classes which will be both common to the server and
 //client however the virtual view class its self is just on the server, so a few methods do take model parts
@@ -19,24 +17,24 @@ public class VirtualView {
 
     private BoardView boardView;
     private PointStackView pointStackView;
-    private List<GridView> gridViews;
-    private List<TilesView> tilesViews;
-    private List<PopUpView> popUpViews;
+    private HashMap<String, GridView> gridViews;
+    private HashMap<String, TilesView> tilesViews;
+    private HashMap<String, PopUpView> popUpViews;
     private ScoreBoardView scoreBoardView;
 
     public VirtualView(List<User> users){
         boardView = new BoardView();
         pointStackView = new PointStackView();
-        gridViews = new ArrayList<>();
-        tilesViews = new ArrayList<>();
-        popUpViews = new ArrayList<>();
+        gridViews = new HashMap<>();
+        tilesViews = new HashMap<>();
+        popUpViews = new HashMap<>();
 
         int numPlayers = users.size();
         for (User user : users) {
             String username = user.getUsername();
-            gridViews.add(new GridView(username));
-            tilesViews.add(new TilesView(username));
-            popUpViews.add(new PopUpView(username));
+            gridViews.put(username, new GridView(username));
+            tilesViews.put(username, new TilesView(username));
+            popUpViews.put(username, new PopUpView(username));
         }
         //Next line is repeated twice assuming common goals are always two, otherwise the number of common
         //goals is needed
@@ -51,12 +49,7 @@ public class VirtualView {
 
     //This first method updates popUpMessages
     public void updateView(String username, String popUpMessage){
-        for(PopUpView pView : popUpViews){
-            if(pView.getUsername().equals(username)){
-                pView.setErrorMessage(popUpMessage);
-                break;
-            }
-        }
+        popUpViews.get(username).setErrorMessage(popUpMessage);
     }
     //This method updates the players GridView and tilesView, so is needed in top up
     public void updateView(Tile[] pickedTiles, String username, int tileIndex, int column){
@@ -69,17 +62,8 @@ public class VirtualView {
             case AZURE -> "A";
             case PINK -> "P";
         };
-
-        for(GridView gView : gridViews){
-            if(gView.username.equals(username)){
-                gView.updateGridView(tileStr, column);
-            }
-        }
-        for(TilesView tView : tilesViews){
-            if(tView.getUsername().equals(username)){
-                tView.removeTile(tileIndex);
-            }
-        }
+        gridViews.get(username).updateGridView(tileStr, column);
+        tilesViews.get(username).removeTile(tileIndex);
     }
     //This method updates the board by passing the current instance of the board to the class
     //the method than creates a simplified data structure representing the board which is then passed
@@ -120,11 +104,7 @@ public class VirtualView {
                 };
             }else pickedTilesStr[i] = "N";
         }
-        for(TilesView tView : tilesViews){
-            if(tView.getUsername().equals(username)){
-                tView.updateTilesView(pickedTilesStr);
-            }
-        }
+        tilesViews.get(username).updateTilesView(pickedTilesStr);
     }
     public void updateView(PointAssigner pointAssigner, int position){
         int newValue = pointAssigner.getStackList().get(position).peek();
@@ -141,15 +121,15 @@ public class VirtualView {
         return pointStackView;
     }
 
-    public List<GridView> getGridViews () {
+    public HashMap<String, GridView> getGridViews () {
         return gridViews;
     }
 
-    public List<TilesView> getTilesViews() {
+    public HashMap<String, TilesView> getTilesViews() {
         return tilesViews;
     }
 
-    public List<PopUpView> getPopUpViews() {
+    public HashMap<String, PopUpView> getPopUpViews() {
         return popUpViews;
     }
 

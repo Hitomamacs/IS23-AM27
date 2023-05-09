@@ -22,8 +22,10 @@ public class PickState implements GameState {
         List<Tile> pickedTiles = new ArrayList<Tile>();
         for (Coordinates c : coordinates) {
             pickedTiles.add(gameOrchestrator.getGameBoard().pick(c));
+            gameOrchestrator.getGame().getSupport().firePropertyChange("board", null, gameOrchestrator.getGameBoard());
         }
         gameOrchestrator.getCurrentPlayer().modifyPickedTiles(pickedTiles);
+        gameOrchestrator.getGame().getSupport().firePropertyChange("playerTiles",null, gameOrchestrator.getCurrentPlayer());
     }
 
     /*
@@ -54,16 +56,21 @@ public class PickState implements GameState {
 
     @Override
     public void execute() {
- //       if(!DisconnectState()){
+
         System.out.println("Pick executing: ");
         Pick();
         System.out.println("-> model changed");
         //Now we update the Virtual View
+        /* Teoricamente ora questo è gestito da listener
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
         gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
         gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
+        */
         gameOrchestrator.flushCoordinates();
+        String username = gameOrchestrator.getCurrentPlayer().getNickname();
+        gameOrchestrator.getGame().getView().updateView(username,"Completed pick move, proceed with top up");
+        gameOrchestrator.getGame().getSupport().firePropertyChange("pickSuccessful", null, gameOrchestrator.getGame().getView());
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         System.out.println("-> VirtualView updated ");
         changeState();

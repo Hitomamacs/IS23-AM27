@@ -8,6 +8,7 @@ import org.project.Controller.States.PickState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.*;
+import org.project.Model.Color;
 import org.project.Model.Coordinates;
 import org.project.Model.Player;
 import org.project.RMIClientApp;
@@ -17,6 +18,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Server {
 
@@ -54,6 +56,10 @@ public class Server {
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
         connectedPlayers=0;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     /**
@@ -114,6 +120,11 @@ public class Server {
     public boolean pick(String username, List<Coordinates> coordinates){
         if(game.getGameStarted()) {
             System.out.println("Server handling pick message (Server pick method)");
+            getGame().getOrchestrator().pick(username, coordinates);
+            if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
+                return true;
+            }
+            /*
             //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
             //his turn so this check is redundant)
             if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
@@ -142,6 +153,7 @@ public class Server {
             //valid input
             else{System.out.println("Wrong player for pick  (Server pick method)");
             return false;}
+        */
         }
         else System.out.println("Pick request ignored as game has not started yet  (Server pick method)");
         return false;
@@ -155,6 +167,7 @@ public class Server {
      */
     public boolean topUp(String username, int column, int tileIndex) {
         if (game.getGameStarted()) {
+            /*
             System.out.println("Server handling topUp message (Server topUp method)");
             int num_tiles = 0;
             if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
@@ -181,7 +194,7 @@ public class Server {
                 System.out.println("Wrong player for topUp (Server topUp method)");
                 return false;
             }
-
+        */
         }
         System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
@@ -295,11 +308,15 @@ public class Server {
         List<Integer> pointStack = view.getPointStackView().getPointList();
         HashMap<String, String[][]> gridsview = new HashMap<>();
         HashMap<String, String[]> tilesview = new HashMap<>();
-        for(GridView gView : view.getGridViews()){
-            gridsview.put(gView.getUsername(), gView.getGridView());
+        for(Map.Entry<String, GridView> mapElement : view.getGridViews().entrySet()){
+            String username = mapElement.getKey();
+            GridView gridView = mapElement.getValue();
+            gridsview.put(username, gridView.getGridView());
         }
-        for(TilesView tView : view.getTilesViews()){
-            tilesview.put(tView.getUsername(), tView.getPlayerTiles());
+        for(Map.Entry<String, TilesView> mapElement : view.getTilesViews().entrySet()){
+            String username = mapElement.getKey();
+            TilesView tileView = mapElement.getValue();
+            tilesview.put(username, tileView.getPlayerTiles());
         }
         //Sending to socket clients
         RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
@@ -390,18 +407,17 @@ public class Server {
     //The other case is an error message which is sent directly to the interested player, the next method
     //takes the username checks his connection and sends the popUp
     public void sendError(String username) {
+        PopUpView view = game.getView().getPopUpViews().get(username);
+        //remember game.getUserfromName returns null if no user with such name (clearly should not happen)
+        User user = game.getUserfromName(username);
 
-        List<User> users = game.getUsers().stream().filter(u -> u.getUsername().equals(username)).toList();
-        User user = users.get(0);
-        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> p.getUsername().equals(username)).toList();
-       PopUpView popUpView = popUpViews.get(0);
         if(user.getConnectionType()){
-            String text = popUpView.getErrorMessage();
+            String text = view.getErrorMessage();
             PopUpMsg message = new PopUpMsg(text);
             socketServer.getSocketClients().get(username).send(message);
         }
         else{
-            String text = popUpView.getErrorMessage();
+            String text = view.getErrorMessage();
             try{
                 rmiServer.getClientsRMI().get(username).notifyPopUpView(text);
             }catch(RemoteException e){

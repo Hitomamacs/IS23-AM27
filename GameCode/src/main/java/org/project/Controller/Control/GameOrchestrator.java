@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import org.project.Controller.Control.Game;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
+import org.project.Controller.States.VerifyGrillableState;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
 
@@ -149,10 +150,15 @@ public List<CommonGoal> getSelectedCGoal(){
     public List<Integer> get_selected_cgoal_int(){
         return this.selectedCGoal_int;
     }
-
-
-
     public void setCurr_sate_id(int curr_sate_id) {
         this.curr_sate_id = curr_sate_id;
+    }
+    public void pick(String username, List<Coordinates> coordinates){
+        if(getCurrentPlayer().getNickname().equals(username)){
+            if(getState() instanceof VerifyGrillableState){
+                setPickedCoordinates(coordinates);
+                getGame().getSupport().firePropertyChange("coordinates", null, coordinates);
+            }
+        }
     }
 }

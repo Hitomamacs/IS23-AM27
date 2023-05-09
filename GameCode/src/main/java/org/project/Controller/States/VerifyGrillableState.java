@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.View.PopUpView;
 import org.project.Model.PlayerGrid;
 
 public class VerifyGrillableState implements GameState {
@@ -40,6 +41,8 @@ public class VerifyGrillableState implements GameState {
             gameOrchestrator.setCurr_sate_id(10);
             //Update view
             gameOrchestrator.getGame().getView().updateView(currentPlayer, "Not enough space for the selected tiles");
+            PopUpView view = gameOrchestrator.getGame().getView().getPopUpViews().get(currentPlayer);
+            gameOrchestrator.getGame().getSupport().firePropertyChange("popUp",null, view);
         }
 
     }

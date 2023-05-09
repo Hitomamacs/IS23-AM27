@@ -222,28 +222,14 @@ public class Player {
                 }
             }
         }
-        switch(count){//switch to determine how many points are assigned based on number of correct tiles
-            case 0:
-                result = 0;
-                break;
-            case 1:
-                result = 1;
-                break;
-            case 2:
-                result = 2;
-                break;
-            case 3:
-                result = 4;
-                break;
-            case 4:
-                result = 6;
-                break;
-            case 5:
-                result = 9;
-                break;
-            case 6:
-                result = 12;
-                break;
+        switch (count) {//switch to determine how many points are assigned based on number of correct tiles
+            case 0 -> result = 0;
+            case 1 -> result = 1;
+            case 2 -> result = 2;
+            case 3 -> result = 4;
+            case 4 -> result = 6;
+            case 5 -> result = 9;
+            case 6 -> result = 12;
         }
         return result;
     }

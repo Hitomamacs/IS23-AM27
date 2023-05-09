@@ -1,25 +1,21 @@
 package org.project.Controller.Control;
 
 import org.project.Controller.Server.Server;
-import org.project.Controller.View.VirtualView;
+import org.project.Controller.View.*;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.CommonGoals.CommonGoal_Deck;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Game {
 
-    public Server getServer() {
-        return server;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
+    private PropertyChangeSupport support;
     private Server server;
     private Persistencer persistencer;
 
@@ -63,7 +59,13 @@ public class Game {
         players = new ArrayList<>();
         commonGoals = new ArrayList<>();
         persistencer = new Persistencer();
+        this.support = new PropertyChangeSupport(this);
         this.numPlayers = 4;
+        addPropertyChangeListener(coordinateListener);
+        addPropertyChangeListener(popUpListener);
+        addPropertyChangeListener(PlayerTilesListener);
+        addPropertyChangeListener(BoardListener);
+        addPropertyChangeListener(PickComplete);
     }
     public void gameInit(int num_players){
         System.out.println("\nInitializing game (Game method gameInit)");
@@ -94,6 +96,9 @@ public class Game {
         filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
 
     }
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        support.addPropertyChangeListener(listener);
+    }
 
 
     public GameOrchestrator getOrchestrator() {
@@ -105,6 +110,13 @@ public class Game {
     }
     public void setNumPlayers(int numPlayers){
         this.numPlayers = numPlayers;
+    }
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public void setOrchestrator(GameOrchestrator orchestrator) {
@@ -137,6 +149,14 @@ public class Game {
         return numPlayers;
     }
 
+    public User getUserfromName(String username){
+        for (User user : users) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
+
     public PersonalGoal_Deck getPersonalGoalDeck() {
         return personalGoalDeck;
     }
@@ -156,4 +176,59 @@ public class Game {
     public boolean getGameStarted() {
         return gameStarted;
     }
+
+    public PropertyChangeSupport getSupport(){
+        return this.support;
+    }
+    private PropertyChangeListener coordinateListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("coordinates".equals(evt.getPropertyName())){
+                getOrchestrator().executeState();
+            }
+        }
+    };
+    private PropertyChangeListener popUpListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("popUp".equals(evt.getPropertyName())){
+                PopUpView view = (PopUpView) evt.getNewValue();
+                String username = view.getUsername();
+                getServer().sendError(username);
+            }
+        }
+    };
+    private PropertyChangeListener BoardListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("board".equals(evt.getPropertyName())){
+                GameBoard board = (GameBoard)evt.getNewValue();
+                getView().updateView(board);
+            }
+        }
+    };
+    private PropertyChangeListener PlayerTilesListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("playerTiles".equals(evt.getPropertyName())){
+                 Player player = (Player)evt.getNewValue();
+                 getView().updateView(player.getPickedTiles(),player.getNickname());
+            }
+        }
+    };
+    private PropertyChangeListener PickComplete = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("pickSuccessful".equals(evt.getPropertyName())){
+                String username = getOrchestrator().getCurrentPlayer().getNickname();
+                VirtualView view = (VirtualView) evt.getNewValue();
+                TilesView tileView = view.getTilesViews().get(username);
+                BoardView boardView = view.getBoardView();
+                PopUpView popUpView = view.getPopUpViews().get(username);
+                getServer().send(boardView, tileView);
+                getServer().sendError(username);
+            }
+        }
+    };
+
 }

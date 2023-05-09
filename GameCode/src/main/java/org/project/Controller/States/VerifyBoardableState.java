@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.View.PopUpView;
 import org.project.Model.Coordinates;
 
 import java.util.List;
@@ -41,6 +42,8 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.setCurr_sate_id(10);
             //Update view
             gameOrchestrator.getGame().getView().updateView(currentPlayer, "Tiles must be adjacent and have at least one free side");
+            PopUpView view = gameOrchestrator.getGame().getView().getPopUpViews().get(currentPlayer);
+            gameOrchestrator.getGame().getSupport().firePropertyChange("popUp", null, view);
         }
 
     }

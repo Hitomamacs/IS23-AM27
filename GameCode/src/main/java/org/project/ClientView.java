@@ -48,7 +48,27 @@ public class ClientView {
         return scoreBoard;
     }
 
-    public void setPopUpErrorMessage(String popUpErrorMessage) {
-        this.popUpErrorMessage = popUpErrorMessage;
+    public void setBoard(String[][] board) {
+        this.board = board;
+    }
+
+    public void setPointStack(List<Integer> pointStack) {
+        this.pointStack = pointStack;
+    }
+
+    public void setGridsview(HashMap<String, String[][]> gridsview) {
+        this.gridsview = gridsview;
+    }
+
+    public void setTilesview(HashMap<String, String[]> tilesview) {
+        this.tilesview = tilesview;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void setScoreBoard(HashMap<String, Integer> scoreBoard) {
+        this.scoreBoard = scoreBoard;
     }
 }

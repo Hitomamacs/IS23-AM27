@@ -41,6 +41,8 @@ public class Player {
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
         Reader reader = null;
+        selectedColumn = -1;
+        this.isConnected = true;
         try {
             reader = Files.newBufferedReader(Paths.get("test_1.json"));
         } catch (IOException e) {
@@ -63,6 +65,11 @@ public class Player {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public boolean setIsConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+        return isConnected;
     }
     public int getScore() {
         return score;

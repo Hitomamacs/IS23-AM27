@@ -177,7 +177,7 @@ public class GameBoard {
         int i = c.getX();
         int j = c.getY();
 
-        if ((isValidPos(i - 1, j, n, m) && !board[i-1][j].isOccupied()|| !isValidPos(i -1, j, n, m))) {
+        if (((isValidPos(i - 1, j, n, m) && !board[i-1][j].isOccupied()|| !isValidPos(i -1, j, n, m))) && board[i][j].isOccupied()) {
             for (i = i-1; i>=0; i--){
                 if (board[i][j].isOccupied())
                     return false;
@@ -188,7 +188,7 @@ public class GameBoard {
 
         }
 
-        if ((isValidPos(i, j - 1, n, m)&&!board[i][j-1].isOccupied()) || !isValidPos(i, j - 1, n, m)) {
+        if (((isValidPos(i, j - 1, n, m)&&!board[i][j-1].isOccupied()) || !isValidPos(i, j - 1, n, m))&& board[i][j].isOccupied()) {
             for (j = j-1; j>=0; j--){
                 if (board[i][j].isOccupied())
                     return false;
@@ -196,7 +196,7 @@ public class GameBoard {
             return true;
         }
 
-        if ((isValidPos(i, j + 1, n, m)&&!board[i][j+1].isOccupied()) || !isValidPos(i, j + 1, n, m)) {
+        if (((isValidPos(i, j + 1, n, m)&&!board[i][j+1].isOccupied()) || !isValidPos(i, j + 1, n, m))&& board[i][j].isOccupied()) {
             for (j = j+1; j<board[0].length; j++){
                 if (board[i][j].isOccupied())
                     return false;
@@ -204,7 +204,7 @@ public class GameBoard {
             return true;
         }
 
-        if (isValidPos(i + 1, j, n, m)&&!board[i+1][j].isOccupied() || !isValidPos(i + 1, j, n, m)) {
+        if ((isValidPos(i + 1, j, n, m)&&!board[i+1][j].isOccupied() || !isValidPos(i + 1, j, n, m))&& board[i][j].isOccupied()) {
             for (i = i+1; i<board.length; i++){
                 if (board[i][j].isOccupied())
                     return false;

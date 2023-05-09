@@ -36,10 +36,9 @@ public class TopUpState implements GameState {
 
     @Override
     public void execute() {
-  //      if(!disconnectChange())
-            topUp();
+        topUp();
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
-            changeState();
+        changeState();
 
 
     }
@@ -72,12 +71,17 @@ public class TopUpState implements GameState {
                 if(gameOrchestrator.getCurrentPlayer().getPickedTiles()[index] != null) {
                     //Update view
                     Tile[] pickedTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
+                    Tile[] pickedTilesCopy = new Tile[3];
+                    for (int i = 0; i < pickedTiles.length; i++) {
+                        pickedTilesCopy[i] = pickedTiles[i];
+                    }
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
-                }
+                    gameOrchestrator.getGame().getView().updateView(pickedTilesCopy, currentPlayer, index ,selectedColumn);
+                }else{gameOrchestrator.getGame().getView().updateView(currentPlayer, "Selected tile index not valid");}
             }
-            else selectedColumn = -1;
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "The selected column doesn't have enough space");
+            else{ selectedColumn = -1;
+            gameOrchestrator.getGame().getView().updateView(currentPlayer, "The selected column doesn't have enough space");}
             //if the selected column doesn't have enough space the player has to change it, to allow
             //the player to change it the default state selectedColumn has to be set back to -1
         }

@@ -1,6 +1,9 @@
 package org.project;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.project.Controller.Messages.*;
 import org.project.Model.Coordinates;
 
@@ -10,26 +13,45 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class SocketClientApp implements ClientInterface{
+public class SocketClientApp implements ClientInterface, Runnable {
+    private  ClientView clientView = new ClientView();
+    private BufferedReader in;
+
+    private PrintWriter out;
+
+    //add a function called keep alive that sens over socket a keep alive evry second using a timer
+
+    public void keepAlive(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                out.println("V");
+            }
+        }, 0, 1000);
+    }
+
+
     public void startClient() throws Exception{
         String hostName = "127.0.0.1";
         int portNumber = 5678;
         Scanner sc=new Scanner(System.in);
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);
+
                 PrintWriter out =
                         new PrintWriter(echoSocket.getOutputStream(), true);
-                BufferedReader in =
-                        new BufferedReader(
-                                new InputStreamReader(echoSocket.getInputStream()));
+
                 BufferedReader stdIn =
                         new BufferedReader(
                                 new InputStreamReader(System.in))
         ) {
+            this.out = out;
+            this.in = new BufferedReader(new InputStreamReader((echoSocket.getInputStream())));
+
+            new Thread(this).start();
             while (true) {
                 System.out.println("Enter Message Type: ");
                 String userInput;
@@ -47,6 +69,7 @@ public class SocketClientApp implements ClientInterface{
                         Gson gson = new Gson();
                         String jsonStr = gson.toJson(message);
                         out.println(jsonStr);
+                        this.keepAlive();
                         break;
                     }
                     case "quit" -> {
@@ -106,16 +129,95 @@ public class SocketClientApp implements ClientInterface{
         }
 
     }
-    public void sendLoginRequest(String nickname){
+    public void run() {
+        Gson gson = new Gson();
+        String line = null;
+        while (true) {
+            try {
+                line = in.readLine() ;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+                JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
+                JsonObject jsObject = jelement.getAsJsonObject();
+                JsonElement id = jsObject.get("messageID");
+                MessageID ID = gson.fromJson(id, MessageID.class);
+                switch (ID) {
+                    case TOPUP_UPDATE -> this.handleTopUpUpdate(gson.fromJson(line, UpdateTopUPMsg.class));
+                    case PICK_UPDATE -> this.handlePickUpdate(gson.fromJson(line, UpdatePickMsg.class));
+                    case POP_UP -> this.handlePopUp(gson.fromJson(line, PopUpMsg.class));
+                    case SCORE_UPDATE -> this.handleScoreUpdate(gson.fromJson(line, ScoreBoardMsg.class));
+                    case REFRESH_UPDATE -> this.handleRefreshUpdate(gson.fromJson(line, RefreshMsg.class));
+                }
+                ;
+
+            }
 
     }
-    public void sendMessage(String message){
+
+    public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.getGridsview().put(message.getPlayerName(), message.getGrid());
+        String[][] grid = clientView.getGridsview().get(message.getPlayerName());
+        for (int i = 0; i<6; i++ ){
+            for (int j = 0; j<5; j++){
+                if(message.getGrid()[i][j] != null){
+                    System.out.print(grid[i][j]);
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void handlePickUpdate(UpdatePickMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.getTilesview().put(message.getPlayerName(), message.getTiles());
+        System.out.println("\nPrinting updated board");
+        for(int i = 0; i<message.getBoard().length; i++){
+            for(int j = 0; j<message.getBoard()[0].length; j++){
+                if(message.getBoard()[i][j] != null){
+                    System.out.print(message.getBoard()[i][j]);
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("\nPrinting " + message.getPlayerName() + " updated tiles");
+        String[] tiles = clientView.getTilesview().get(message.getPlayerName());
+        for (String tile : tiles) {
+            System.out.println(tile + " ");
+        }
 
     }
-    public void sendPickRequest(){
 
+    public void handlePopUp(PopUpMsg message){
+        clientView.setErrorMessage(message.getText());
+        System.out.println(message.getText());
     }
-    public void sendTopUpRequest(){
 
+    public void handleScoreUpdate(ScoreBoardMsg message){
+        clientView.setScoreBoard(message.getScoreBoard());
+        ;
+    }
+
+    public void handleRefreshUpdate(RefreshMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.setTilesview(message.getTilesview());
+        clientView.setGridsview(message.getGridsview());
+        clientView.setPointStack(message.getPointStack());
+        for(int i = 0; i<message.getBoard().length; i++){
+            for(int j = 0; j<message.getBoard()[0].length; j++){
+                if(message.getBoard()[i][j] != null){
+                    System.out.print(message.getBoard()[i][j]);
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("Printing Just Board (Refresh message), Start Game");
+        ;
     }
 }

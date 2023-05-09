@@ -4,8 +4,12 @@ import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
 import org.project.Controller.Messages.*;
+import org.project.Controller.States.PickState;
+import org.project.Controller.States.TopUpState;
+import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
+import org.project.Model.Player;
 import org.project.RMIClientApp;
 import org.project.RMIClientInterface;
 
@@ -55,9 +59,9 @@ public class Server {
     /**
      * MAIN
      */
-    public static void main (String[] args) throws RemoteException {
+    public static void main(String[] args) throws RemoteException {
 
-        int rmiPort=Settings.RMI_PORT;
+        int rmiPort=2345;
         int socketPort = Settings.SOCKET_PORT;
 
         if(args.length!=0){
@@ -67,7 +71,7 @@ public class Server {
 
         try{
             Server server = new Server();
-            server.game = new Game();
+            server.game = new Game(server);
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
 
@@ -77,6 +81,7 @@ public class Server {
             server.game.gameInit( server.game.getNumPlayers());
             server.orchestrator = (server.game.getOrchestrator()); //FA CAGARE AVERE SOLO UN RIFERIMENTO
             server.orchestrator.executeState();
+            server.send(server.game.getView());
             int a = 1;
         }catch(Exception e){
             e.printStackTrace();
@@ -128,34 +133,38 @@ public class Server {
      * @param coordinates coordinates of the tiles to be taken
      */
     public boolean pick(String username, List<Coordinates> coordinates){
-        //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
-        //his turn so this check is redundant)
-        if (orchestrator == null) {
-            System.out.println("orchestrator");
-        } else if (orchestrator.getCurrentPlayer() == null) {
-            System.out.println("player");
-        } else if (orchestrator.getCurrentPlayer().getNickname() == null) {
-            System.out.println("nickname");
-        } else {
-            System.out.println("Tutto ok");
+        if(game.getGameStarted()) {
+            System.out.println("Server handling pick message (Server pick method)");
+            //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
+            //his turn so this check is redundant)
+            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
+                //Have to check if the model is actually in VerifyGrillableState waiting for pick move
+                if (orchestrator.getState() instanceof VerifyGrillableState) {
+                    System.out.println("Pick message from correct player checking validity...  (Server pick method) ");
+                    orchestrator.setPickedCoordinates(coordinates);
+                    orchestrator.executeState();
+                    int a = 3;
+                    //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
+                    if (!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
+                        //If successful the view has been updated so need to send it to all
+                        BoardView boardView = game.getView().getBoardView();
+                        //TODO double check the next two lines and test properly
+                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
+                        send(boardView, tilesViews.get(0));
+                        return true;
+                    }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
+                    else sendError(username);
+                } else {
+                    System.out.println("Pick request ignored from current player as it is not the current state  (Server pick method)");
+                    return false;
+                  }
+            }
+            //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
+            //valid input
+            else{System.out.println("Wrong player for pick  (Server pick method)");
+            return false;}
         }
-
-        if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
-            orchestrator.setPickedCoordinates(coordinates);
-            orchestrator.executeState();
-            int a = 3;
-            //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
-            if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()){
-                //If successful the view has been updated so need to send it to all
-                BoardView boardView = game.getView().getBoardView();
-                //TODO double check the next two lines and test properly
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
-                send(boardView,tilesViews.get(0));
-                return true;
-            }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
-            else sendError(username);
-        } //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
-        //valid input
+        else System.out.println("Pick request ignored as game has not started yet  (Server pick method)");
         return false;
     }
 
@@ -166,26 +175,94 @@ public class Server {
      * @param tileIndex
      */
     public boolean topUp(String username, int column, int tileIndex) {
-
-        int num_tiles = 0;
-        if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
-            num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
-            orchestrator.getCurrentPlayer().setSelectedColumn(column);
-            orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
-            orchestrator.executeState();
-            if(orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1){
-                List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> !g.getUsername().equals(username)).toList();
-                GridView gridView = gridViews.get(0);
-                List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> !t.getUsername().equals(username)).toList();
-                TilesView tilesView = tilesViews.get(0);
-                send(gridView, tilesView);
-                return true;
+        if (game.getGameStarted()) {
+            System.out.println("Server handling topUp message (Server topUp method)");
+            int num_tiles = 0;
+            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
+                if (orchestrator.getState() instanceof TopUpState) {
+                    System.out.println("Correct player for topUp  (Server topUp method)");
+                    num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
+                    orchestrator.getCurrentPlayer().setSelectedColumn(column);
+                    orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
+                    orchestrator.executeState();
+                    if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
+                        List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
+                        GridView gridView = gridViews.get(0);
+                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
+                        TilesView tilesView = tilesViews.get(0);
+                        System.out.println("Valid topUp sending update (Server topUp method)");
+                        send(gridView, tilesView);
+                        return true;
+                    } else sendError(username);
+                } else {
+                    System.out.println("Ignoring topUp request from current player as it is not the current state  (Server topUp method)");
+                    return false;
+                }
+            } else {
+                System.out.println("Wrong player for topUp (Server topUp method)");
+                return false;
             }
-            else sendError(username);
+
         }
+        System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
+
     }
 
+    void set_player_disconnected(String username){
+        List<Player> players = game.getPlayers();
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getNickname().equals(username)){
+                players.get(i).setIsConnected(false);
+                connectedPlayers--;
+                count_players--;
+                break;
+            }
+        }
+    }
+
+    /**
+     * method for logging in the player through the nickname.
+     * The method checks that the nickname is different for each logged in player.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     */
+    public boolean login(String username, boolean connectionType){
+        System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
+        //TODO checks once persistence has been implemented
+        if(!game.getUsers().isEmpty()){
+            for(int i = 0; i < game.getUsers().size(); i++){
+                if(game.getUsers().get(i).getUsername().equals(username)){
+                    System.out.println("\n" + username + " is already in use in the game  (Server login method)");
+                    return false;}//Probably better if I throw exceptions instead to distinguish
+            }                    //the reasons the method was unsuccessful
+            game.getUsers().add(new User(username, connectionType));
+            System.out.println("\n" + username + " added to game  (Server login method)");
+
+            return true;
+        }
+        System.out.println("\n" + "A game needs to be created first  (Server login method)");
+        return false;
+    }
+    /**
+     * method for logging the FIRST player through the nickname.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @param numPlayers Number of players in the match
+     */
+    public boolean login(String username, boolean connectionType, int numPlayers){
+        System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
+        if(game.getUsers().isEmpty()) {
+            game.getUsers().add(new User(username, connectionType));
+            game.setNumPlayers(numPlayers);
+            System.out.println("\nServer has created new game  (Server login method)");
+            return true;
+        }
+        //Means a game has already been created
+        //Should probably do another check to see if numPlayers is acceptable
+        System.out.println("\nAlready an existing game  (Server login method)");
+        return false;
+    }
     /**
      * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
      * @param username player's name
@@ -265,6 +342,7 @@ public class Server {
         String playername = tilesView.getUsername();
         //Sending to socket clients
         UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
+        System.out.println("\nServer has created UpdatePickMsg to send (Server send method 2nd overload)");
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //Sending to rmi clients
         rmiServer.getClientsRMI().forEach((username, client)-> {
@@ -334,9 +412,9 @@ public class Server {
     //takes the username checks his connection and sends the popUp
     public void sendError(String username) {
 
-        List<User> users = game.getUsers().stream().filter(u -> !u.getUsername().equals(username)).toList();
+        List<User> users = game.getUsers().stream().filter(u -> u.getUsername().equals(username)).toList();
         User user = users.get(0);
-        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> !p.getUsername().equals(username)).toList();
+        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> p.getUsername().equals(username)).toList();
        PopUpView popUpView = popUpViews.get(0);
         if(user.getConnectionType()){
             String text = popUpView.getErrorMessage();

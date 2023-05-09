@@ -19,6 +19,8 @@ public class SocketClientApp implements ClientInterface, Runnable {
     private  ClientView clientView = new ClientView();
     private BufferedReader in;
 
+    private String username;
+
     private PrintWriter out;
 
     //add a function called keep alive that sens over socket a keep alive evry second using a timer

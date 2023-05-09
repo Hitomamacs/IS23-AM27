@@ -23,15 +23,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     //add a function called keep alive that sens over socket a keep alive evry second using a timer
 
-    public void keepAlive(){
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                out.println("V");
-            }
-        }, 0, 1000);
-    }
+
 
 
     public void startClient() throws Exception{
@@ -69,7 +61,6 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         Gson gson = new Gson();
                         String jsonStr = gson.toJson(message);
                         out.println(jsonStr);
-                        this.keepAlive();
                         break;
                     }
                     case "quit" -> {

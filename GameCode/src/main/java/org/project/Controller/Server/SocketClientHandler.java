@@ -35,27 +35,7 @@ public class SocketClientHandler implements Runnable {
 
 
 
-    public void keepAlive(){
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (keep_alive_counter < 3 && username!=null){
-                    System.out.println("Client disconnected");
-                    server.set_player_disconnected(username);
-                    connected = false;
-                    closeEverything(socket, in, out);
 
-
-                }
-                else
-                    keep_alive_counter = 0;
-
-
-
-            }
-        }, 0, 50000);
-    }
 
 
     public SocketClientHandler(Socket socket, Server server, SocketServer socketServer) {
@@ -68,20 +48,23 @@ public class SocketClientHandler implements Runnable {
             //out.println("Connected to server");
             messageHandler = new MessageHandler(server, socketServer, this);
             connected = true;
-            keepAlive();
         } catch (IOException e) {
             closeEverything(socket, in, out);
         }
     }
     public void run() {
         while (connected) {
-            String line = in.nextLine();
-            if(line.equals("V")){
-                keep_alive_counter++;
-            }
-            else{
+            try {
+                String line = in.nextLine();
                 messageHandler.handle(line);
+            }catch (Exception e){
+                System.out.println("Client disconnected");
+                server.set_player_disconnected(username);
+                connected = false;
+                closeEverything(socket, in, out);
             }
+
+
 
         }
     }

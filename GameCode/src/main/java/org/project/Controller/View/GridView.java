@@ -16,13 +16,11 @@ public class GridView {
         }
     }
     public void updateGridView(String tile, int column) {
-        int i = 0;
-        if (grid[i][column] == "N") {
-            while (grid[i][column] == "N" && i < 5) {
-                i++;
-            }
-            grid[i][column] = tile;
+        int i = 5;
+        while(grid[i][column] != "N"){
+            i--;
         }
+        grid[i][column] = tile;
     }
     public String getUsername(){
         return username;

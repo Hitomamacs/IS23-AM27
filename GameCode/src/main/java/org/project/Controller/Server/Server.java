@@ -125,8 +125,8 @@ public class Server {
             }
             //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
             //valid input
-            System.out.println("Wrong player for pick  (Server pick method)");
-            return false;
+            else{System.out.println("Wrong player for pick  (Server pick method)");
+            return false;}
         }
         else System.out.println("Pick request ignored as game has not started yet  (Server pick method)");
         return false;
@@ -138,22 +138,23 @@ public class Server {
      * @param column Player's Choice Column
      * @param tileIndex
      */
-    public boolean topUp(String username, int column, int tileIndex){
-        if(game.getGameStarted()) {
+    public boolean topUp(String username, int column, int tileIndex) {
+        if (game.getGameStarted()) {
             System.out.println("Server handling topUp message (Server topUp method)");
             int num_tiles = 0;
             if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
                 if (orchestrator.getState() instanceof TopUpState) {
+                    System.out.println("Correct player for topUp  (Server topUp method)");
                     num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
                     orchestrator.getCurrentPlayer().setSelectedColumn(column);
                     orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
                     orchestrator.executeState();
-                    System.out.println("Correct player for topUp  (Server topUp method)");
                     if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
                         List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
                         GridView gridView = gridViews.get(0);
                         List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
                         TilesView tilesView = tilesViews.get(0);
+                        System.out.println("Valid topUp sending update (Server topUp method)");
                         send(gridView, tilesView);
                         return true;
                     } else sendError(username);
@@ -166,8 +167,10 @@ public class Server {
                 return false;
             }
 
-        }System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
+        }
+        System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
+
     }
 
     void set_player_disconnected(String username){
@@ -334,9 +337,9 @@ public class Server {
     //takes the username checks his connection and sends the popUp
     public void sendError(String username){
 
-        List<User> users = game.getUsers().stream().filter(u -> !u.getUsername().equals(username)).toList();
+        List<User> users = game.getUsers().stream().filter(u -> u.getUsername().equals(username)).toList();
         User user = users.get(0);
-        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> !p.getUsername().equals(username)).toList();
+        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> p.getUsername().equals(username)).toList();
        PopUpView popUpView = popUpViews.get(0);
         if(user.getConnectionType()){
             String text = popUpView.getErrorMessage();

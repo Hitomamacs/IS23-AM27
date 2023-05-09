@@ -130,6 +130,16 @@ public class Server {
     public boolean pick(String username, List<Coordinates> coordinates){
         //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
         //his turn so this check is redundant)
+        if (orchestrator == null) {
+            System.out.println("orchestrator");
+        } else if (orchestrator.getCurrentPlayer() == null) {
+            System.out.println("player");
+        } else if (orchestrator.getCurrentPlayer().getNickname() == null) {
+            System.out.println("nickname");
+        } else {
+            System.out.println("Tutto ok");
+        }
+
         if(orchestrator.getCurrentPlayer().getNickname().equals(username)){
             orchestrator.setPickedCoordinates(coordinates);
             orchestrator.executeState();

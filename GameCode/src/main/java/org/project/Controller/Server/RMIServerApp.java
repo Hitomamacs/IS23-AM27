@@ -67,26 +67,6 @@ public class RMIServerApp implements RMIServerInterface {
      * metodo che serve per comunicare con il client
      * @return il client
      */
-    private RMIClientInterface getRmiClient () {
-        Registry registry = null;
-        try {
-            registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-        //Looking up the registry for the remote object
-        RMIClientInterface client;
-        try {
-            client = (RMIClientInterface) registry.lookup("ClientRMI");
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        return client;
-    }
 
     //METHODS INVOCATED BY CLIENTS--SONO I METODI DELL'RMI INTERFACE
 
@@ -97,11 +77,11 @@ public class RMIServerApp implements RMIServerInterface {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType) throws RemoteException{
+    public boolean sendLogin(String nickname, boolean connectionType, RMIClientInterface client) throws RemoteException{
         boolean check;
         check=server.login(nickname, connectionType);
         if(check==true){
-            clientsRMI.put(nickname,getRmiClient());
+            clientsRMI.put(nickname,client);
             return true;
         }
 
@@ -117,11 +97,11 @@ public class RMIServerApp implements RMIServerInterface {
      * @return
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType, int numPlayers) throws RemoteException{
+    public boolean sendLogin(String nickname, boolean connectionType, int numPlayers, RMIClientInterface client) throws RemoteException{
         boolean check;
         check=server.login(nickname,connectionType,numPlayers);
         if(check==true){
-            clientsRMI.put(nickname, getRmiClient());
+            clientsRMI.put(nickname, client);
             return true;
         }
         return false;

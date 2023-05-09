@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //AGGIUNGI CLIENT INTERFACE
-public class RMIClientApp implements RMIClientInterface, ClientInterface{
+public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface, ClientInterface{
 
     /**
      * reference to the server object
@@ -45,31 +45,6 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
        // this.mainClient=client;
     }
 
-    /**
-     * metodo per preparsri alla connessione con un server
-     */
-    private void prepareForRmiConnection () {
-        RMIClientInterface scheleton= null;
-        try {
-            scheleton = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-
-        Registry registry= null;
-        try {
-            registry = LocateRegistry.createRegistry(1099);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            registry.bind("ClientRMI", scheleton);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyBoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     //METODI ESTESI DALLA CLIENT INTERFACE
     /**
@@ -98,8 +73,6 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
 
         System.out.println("Connessione stabilita con successo");
 
-        prepareForRmiConnection();
-
         while(true){
             System.out.println("cosa vuoi");
             String input;
@@ -107,7 +80,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
             switch(input){
                 case "login":
                     try {
-                        nome=rmiServer.sendLogin("silvia",false,2);
+                        nome=rmiServer.sendLogin("silvia",false,2, this);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -129,7 +102,7 @@ public class RMIClientApp implements RMIClientInterface, ClientInterface{
                     y=stdin.nextInt();
                     coordinates.add(new Coordinates(x,y));
                     try {
-                        successo=rmiServer.sendPickRequest(username,coordinates);
+                        successo=rmiServer.sendPickRequest(username, coordinates);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }

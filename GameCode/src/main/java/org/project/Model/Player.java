@@ -66,6 +66,11 @@ public class Player {
     public String getNickname() {
         return nickname;
     }
+
+    public boolean setIsConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+        return isConnected;
+    }
     public int getScore() {
         return score;
     }

@@ -13,13 +13,27 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class SocketClientApp implements ClientInterface, Runnable {
     private  ClientView clientView = new ClientView();
     private BufferedReader in;
+
+    private PrintWriter out;
+
+    //add a function called keep alive that sens over socket a keep alive evry second using a timer
+
+    public void keepAlive(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                out.println("V");
+            }
+        }, 0, 1000);
+    }
+
+
     public void startClient() throws Exception{
         String hostName = "127.0.0.1";
         int portNumber = 5678;
@@ -34,7 +48,9 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         new BufferedReader(
                                 new InputStreamReader(System.in))
         ) {
+            this.out = out;
             this.in = new BufferedReader(new InputStreamReader((echoSocket.getInputStream())));
+
             new Thread(this).start();
             while (true) {
                 System.out.println("Enter Message Type: ");
@@ -53,6 +69,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         Gson gson = new Gson();
                         String jsonStr = gson.toJson(message);
                         out.println(jsonStr);
+                        this.keepAlive();
                         break;
                     }
                     case "quit" -> {

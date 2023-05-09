@@ -9,6 +9,7 @@ import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
+import org.project.Model.Player;
 import org.project.RMIClientApp;
 
 import java.rmi.RemoteException;
@@ -168,6 +169,19 @@ public class Server {
         }System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
     }
+
+    void set_player_disconnected(String username){
+        List<Player> players = game.getPlayers();
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getNickname().equals(username)){
+                players.get(i).setIsConnected(false);
+                connectedPlayers--;
+                count_players--;
+                break;
+            }
+        }
+    }
+
     /**
      * method for logging in the player through the nickname.
      * The method checks that the nickname is different for each logged in player.
@@ -185,6 +199,7 @@ public class Server {
             }                    //the reasons the method was unsuccessful
             game.getUsers().add(new User(username, connectionType));
             System.out.println("\n" + username + " added to game  (Server login method)");
+
             return true;
         }
         System.out.println("\n" + "A game needs to be created first  (Server login method)");

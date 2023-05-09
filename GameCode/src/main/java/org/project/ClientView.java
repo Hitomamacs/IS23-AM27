@@ -65,7 +65,7 @@ public class ClientView {
     }
 
     public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.popUpErrorMessage = errorMessage;
     }
 
     public void setScoreBoard(HashMap<String, Integer> scoreBoard) {

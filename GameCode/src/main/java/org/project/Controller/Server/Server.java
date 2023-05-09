@@ -97,35 +97,14 @@ public class Server {
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
-    public boolean login(String username, boolean connectionType){
-        //TODO checks once persistence has been implemented
-        if(!game.getUsers().isEmpty()){
-            for(int i = 0; i < game.getUsers().size(); i++){
-                if(game.getUsers().get(i).getUsername().equals(username))
-                    return false;//Probably better if I throw exceptions instead to distinguish
-            }                    //the reasons the method was unsuccessful
-            game.getUsers().add(new User(username, connectionType));
 
-            return true;
-        }
-        return false;
-    }
     /**
      * method for logging the FIRST player through the nickname.
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public boolean login(String username, boolean connectionType, int numPlayers){
-        if(game.getUsers().isEmpty()) {
-            game.getUsers().add(new User(username, connectionType));
-            game.setNumPlayers(numPlayers);
-            return true;
-        }
-        //Means a game has already been created
-        //Should probably do another check to see if numPlayers is acceptable
-        return false;
-    }
+
 
     /**
      * method that allows the client to take tiles from the board

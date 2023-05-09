@@ -43,8 +43,8 @@ public class MessageHandler {
         client.disconnect();
     }
     public void handleLogin(LoginMessage loginMsg){
-
         String username = loginMsg.getUsername();
+        client.setUsername(username);
         boolean connection = loginMsg.getConnectionType();
         int num_players = loginMsg.getNumPlayers();
         if(!(num_players == 0)){//TODO decide if we keep single login message or divide in create_game and join_game

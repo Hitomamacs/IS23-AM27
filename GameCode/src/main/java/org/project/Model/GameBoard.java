@@ -5,7 +5,6 @@ import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 public class GameBoard {
     @Expose
@@ -19,19 +18,29 @@ public class GameBoard {
     private ArrayList<Tile> adjcecent = new ArrayList<Tile>();
 
     public GameBoard(int rows, int columns, int players){
-        finalMatrix = TrueM.getMatrixByPlayers(players);
-        board = new Spot[rows][columns];
-        IntStream.range(0, rows).forEach(i -> IntStream.range(0, columns)
-                .forEach(j -> board[i][j] = new Spot(false, null)));
-    }
+        TrueM.addMatrix(TrueM.negativeMatrix1);
+        TrueM.addMatrix(TrueM.negativematrix2);
+        TrueM.addMatrix(TrueM.negativematrix3);
+        //TODO add exception
+        //code that searches for the first matrix that has rows == rows and columns == columns from the list NegativeMatrix.negativematrixlist
+        if(players == 4)
+            finalMatrix = TrueM.negativeMatrix1;
+        else if(players == 2)
+            finalMatrix = TrueM.negativematrix2;
+        else if(players == 3)
+            finalMatrix = TrueM.negativematrix3;
 
-    public void printM() {
-        for (int[] row : finalMatrix) {
-            for (int cell : row) {
-                System.out.print(cell + " ");
+
+        board = new Spot[rows][columns];
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<columns; j++){
+                board[i][j] = new Spot(false, null);
             }
-            System.out.println();
+
+
         }
+
+
     }
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -51,6 +60,15 @@ public class GameBoard {
     }
 
     //code that prints final matrix in console
+    public void printM(){
+        for(int i = 0; i< returndim()[0]; i++){
+            for (int j = 0; j< returndim()[1]; j++){
+
+                System.out.print(finalMatrix[i][j] + " ");
+            }
+            System.out.println(); //change line on console as row comes to end in the matrix.
+        }
+    }
     /** functions that prints the board and the tile rappresented by the number 2 == tiles 1 == valid Spot */
     public boolean printMwithTiles() {
         for(int i = 0; i< returndim()[0]; i++){

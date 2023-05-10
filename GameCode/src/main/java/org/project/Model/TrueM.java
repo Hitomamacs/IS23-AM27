@@ -1,9 +1,13 @@
 package org.project.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TrueM {
+
+
     static final int[][] negativeMatrix1= {
             {0, 0, 0, 1, 1, 0, 0, 0, 0},
             {0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -37,6 +41,18 @@ public class TrueM {
             {0,0,0,0,1,1,0,0,0},
             {0,0,0,0,0,1,0,0,0}};
     static final List<int[][]> negativeMatrixList = new ArrayList<int[][]>();
+
+    private static Map<Integer, int[][]> matrixByPlayers = new HashMap<>();
+
+    static {
+        matrixByPlayers.put(2, negativeMatrix1);
+        matrixByPlayers.put(3, negativematrix2);
+        matrixByPlayers.put(4, negativematrix3);
+    }
+
+    public static int[][] getMatrixByPlayers(int players) {
+        return matrixByPlayers.getOrDefault(players, null);
+    }
 
 
     public static int[] returndim(int[][] matrix) {

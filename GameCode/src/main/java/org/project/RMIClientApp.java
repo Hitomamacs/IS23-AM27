@@ -73,35 +73,36 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
 
         System.out.println("Connessione stabilita con successo");
 
+        System.out.println("fai login");
+        try {
+            System.out.println("Inserisci nome");
+            nickname=stdin.nextLine();
+            nome=rmiServer.sendLogin(nickname,false,2, this);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        if(nome){
+            System.out.println("LOGGATO");
+        }else {
+            try {
+                nome=rmiServer.sendLogin(nickname,false, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            if(nome) {
+                System.out.println("LOGGATO");
+            }else{
+                System.out.println("ERRORE");
+            }
+        }
+
+
         while(true){
             System.out.println("cosa vuoi");
             String input;
-            String nickname;
             input=stdin.nextLine();
             switch(input){
-                case "login":
-                    try {
-                        System.out.println("Inserisci nome");
-                        nickname=stdin.nextLine();
-                        nome=rmiServer.sendLogin(nickname,false,2, this);
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if(nome){
-                        System.out.println("LOGGATO");
-                    }else {
-                        System.out.println("ERRORE");
-                        try {
-                            nome=rmiServer.sendLogin(nickname,false, this);
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    break;
                 case "pick":
-                    String username;
-                    System.out.println("Inserisci username: ");
-                    username= stdin.nextLine();
                     int x,y;
                     List<Coordinates> coordinates= new ArrayList<>();
                     System.out.println("Enter x coordinate: ");
@@ -110,7 +111,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
                     y=stdin.nextInt();
                     coordinates.add(new Coordinates(x,y));
                     try {
-                        successo=rmiServer.sendPickRequest(username, coordinates);
+                        successo=rmiServer.sendPickRequest(nickname, coordinates);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -121,8 +122,6 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
                     }
                     break;
                 case "topup":
-                    System.out.println("Inserisci username: ");
-                    nickname= stdin.nextLine();
                     int column, tileIndex;
                     System.out.println("Inserisci colonna :  ");
                     column=stdin.nextInt();
@@ -181,7 +180,12 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView) throws RemoteException{
         int i,j;
 
-        for(i=0;i<9;i++){
+        clientView.setBoard(board);
+        clientView.setPointStack(pointStack);
+        clientView.setGridsview(gridsView);
+        clientView.setTilesview(tilesView);
+
+       /* for(i=0;i<9;i++){
             for(j=0;j<9;j++){
                 clientView.getBoard()[i][j]=board[i][j];
             }
@@ -193,7 +197,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
 
         clientView.getGridsview().putAll(gridsView);
 
-        clientView.getTilesview().putAll(tilesView);
+        clientView.getTilesview().putAll(tilesView);*/
     }
 
     /**

@@ -116,6 +116,10 @@ public class Server {
             System.out.println("Server handling pick message (Server pick method)");
             //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
             //his turn so this check is redundant)
+            String u;
+            u=orchestrator.getCurrentPlayer().getNickname();
+            System.out.println(u);
+            System.out.println(username);
             if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
                 //Have to check if the model is actually in VerifyGrillableState waiting for pick move
                 if (orchestrator.getState() instanceof VerifyGrillableState) {
@@ -295,6 +299,7 @@ public class Server {
         List<Integer> pointStack = view.getPointStackView().getPointList();
         HashMap<String, String[][]> gridsview = new HashMap<>();
         HashMap<String, String[]> tilesview = new HashMap<>();
+
         for(GridView gView : view.getGridViews()){
             gridsview.put(gView.getUsername(), gView.getGridView());
         }
@@ -305,6 +310,7 @@ public class Server {
         RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //Sending to RMI clients
+
         rmiServer.getClientsRMI().forEach((username,client)-> {
             try {
                 client.notifyInitialGameView(board,pointStack,gridsview,tilesview);
@@ -319,6 +325,11 @@ public class Server {
         String[][] board = boardView.getBoard();
         String[] tiles = tilesView.getPlayerTiles();
         String playername = tilesView.getUsername();
+        if(board==null){
+            System.out.println("BOARD");
+        } else if (tiles==null) {
+            System.out.println("TILES");
+        }
         //Sending to socket clients
         UpdatePickMsg message = new UpdatePickMsg(playername, tiles, board);
         System.out.println("\nServer has created UpdatePickMsg to send (Server send method 2nd overload)");
@@ -338,6 +349,11 @@ public class Server {
         String[][] grid = gridView.getGridView();
         String[] tiles = tilesView.getPlayerTiles();
         String playername = tilesView.getUsername();
+        if(grid==null){
+            System.out.println("GRID");
+        } else if (tiles==null) {
+            System.out.println("TILES");
+        }
         //Sending to socket clients
         UpdateTopUPMsg message = new UpdateTopUPMsg(playername, tiles, grid);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));

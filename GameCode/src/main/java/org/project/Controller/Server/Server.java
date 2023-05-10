@@ -196,7 +196,7 @@ public class Server {
         List<Player> players = game.getPlayers();
         for(int i = 0; i < players.size(); i++){
             if(players.get(i).getNickname().equals(username)){
-                players.get(i).setIsConnected(false);
+                players.get(i).setConnected(false);
                 connectedPlayers--;
                 count_players--;
                 break;

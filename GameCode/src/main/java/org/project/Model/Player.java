@@ -1,172 +1,144 @@
 package org.project.Model;
 
-
 import com.google.gson.annotations.Expose;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import static org.project.Controller.Control.Persistencer.gson_parser;
 
 public class Player {
+
     @Expose
     private String nickname;
-    @Expose
-   private boolean isConnected;
-    @Expose
-   private int score;
-    @Expose
-   private PlayerGrid playerGrid;
-    @Expose
-   private boolean[] CompletedCGoals;
-    //TODO Pgoal ID
-   private PersonalGoal myPersonalGoal;
-    @Expose
-   private int personalGoalID;
-    @Expose
-   int selectedColumn;
-    @Expose
-   int tileIndex;
 
     @Expose
-    List<HashMap<Coordinates, Color>> personalGoals_list;
+    private boolean isConnected;
 
-   private Tile[] pickedTiles;
+    @Expose
+    private int score;
+
+    @Expose
+    private PlayerGrid playerGrid;
+
+    @Expose
+    private boolean[] completedCGoals;
+
+    // Personal Goal ID
+    private PersonalGoal myPersonalGoal;
+
+    @Expose
+    private int personalGoalID;
+
+    @Expose
+    private int selectedColumn;
+
+    @Expose
+    private int tileIndex;
+
+    @Expose
+    private List<HashMap<Coordinates, Color>> personalGoalsList;
+
+    private Tile[] pickedTiles;
+
     public Player(String nickname) {
         this.nickname = nickname;
-        CompletedCGoals = new boolean[2];
+        completedCGoals = new boolean[2];
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
-        Reader reader = null;
         selectedColumn = -1;
-        this.isConnected = true;
+        isConnected = true;
+        Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get("test_1.json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(reader, ArrayList.class);
-
+        personalGoalsList = gson_parser.fromJson(reader, ArrayList.class);
     }
-    public void personal_list_init(String filename){
+
+    public void personalListInit(String filename) {
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(filename));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-         personalGoals_list = gson_parser.fromJson(reader, List.class);
+        personalGoalsList = gson_parser.fromJson(reader, List.class);
     }
-
 
     public String getNickname() {
         return nickname;
     }
 
-    public boolean setIsConnected(boolean isConnected) {
-        this.isConnected = isConnected;
-        return isConnected;
-    }
-    public int getScore() {
-        return score;
-    }
     public boolean isConnected() {
         return isConnected;
     }
-    public PlayerGrid getPlayerGrid() {
-        return playerGrid;
-    }
-    public boolean[] getCompletedCGoals() {
-        return CompletedCGoals;
-    }
-    public PersonalGoal getMyPersonalGoal() {
-        return myPersonalGoal;
-    }
-    public Tile[] getPickedTiles() {
-        return pickedTiles;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+
     public void setConnected(boolean connected) {
         isConnected = connected;
     }
+
+    public int getScore() {
+        return score;
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
-    public void setPlayerGrid(PlayerGrid playerGrid) {
-        this.playerGrid = playerGrid;
-    }
-    public void setCompletedCGoals(boolean[] completedCGoals) {
-        CompletedCGoals = completedCGoals;
-    }
-    public void setMyPersonalGoal(PersonalGoal personalGoal){
-        myPersonalGoal = personalGoal;
-        personalGoalID = myPersonalGoal.getPgoal_ID();
+
+    public PlayerGrid getPlayerGrid() {
+        return playerGrid;
+
     }
 
-    public int recoverPersonalGoal(){
-        switch (personalGoalID){
-            case 1:
-                myPersonalGoal = new PersonalGoal(1, personalGoals_list.get(0));
-                break;
-            case 2:
-                myPersonalGoal = new PersonalGoal(2, personalGoals_list.get(1));
-                break;
-            case 3:
-                myPersonalGoal = new PersonalGoal(3, personalGoals_list.get(2));
-                break;
-            case 4:
-                myPersonalGoal = new PersonalGoal(4, personalGoals_list.get(3));
-                break;
-            case 5:
-                myPersonalGoal = new PersonalGoal(5, personalGoals_list.get(4));
-                break;
-            case 6:
-                myPersonalGoal = new PersonalGoal(6, personalGoals_list.get(5));
-                break;
-            case 7:
-                myPersonalGoal = new PersonalGoal(7, personalGoals_list.get(6));
-                break;
-            case 8:
-                myPersonalGoal = new PersonalGoal(8, personalGoals_list.get(7));
-                break;
-            case 9:
-                myPersonalGoal = new PersonalGoal(9, personalGoals_list.get(8));
-                break;
-            case 10:
-                myPersonalGoal = new PersonalGoal(10, personalGoals_list.get(9));
-                break;
-            case 11:
-                myPersonalGoal = new PersonalGoal(11, personalGoals_list.get(10));
-                break;
-            case 12:
-                myPersonalGoal = new PersonalGoal(12, personalGoals_list.get(11));
-                break;
-
-        }
-        return 1;
-    }
-    public void setPickedTiles(Tile[] pickedTiles) {
-        this.pickedTiles = pickedTiles;
-    }
-    //changeScore is the method used to increment the score in player. Score can only increase so if a negative
-    //int is passed it throws an exception
     public void changeScore(int points){
         if (points < 0)
             throw new IllegalArgumentException("Points can only be added");
         score = score + points;
     }
-    //modifyCompletedCGoals is a method that allows me to change the boolean that indicates if a player
-    //has already accomplished a certain common goal
-    public void modifyCompletedCGoals(int position){
-        if(position < 0 || position > 1)
+
+    public boolean[] getCompletedCGoals() {
+        return completedCGoals;
+    }
+
+    public void modifyCompletedCGoals(int position) {
+        if (position < 0 || position > 1) {
             throw new IllegalArgumentException("Position must be in {0,1}");
-        CompletedCGoals[position] = !CompletedCGoals[position];
+        }
+        completedCGoals[position] = !completedCGoals[position];
+    }
+
+    public PersonalGoal getMyPersonalGoal() {
+        return myPersonalGoal;
+    }
+
+    public void setMyPersonalGoal(PersonalGoal personalGoal) {
+        myPersonalGoal = personalGoal;
+        personalGoalID = myPersonalGoal.getPgoal_ID();
+    }
+
+    public int recoverPersonalGoal() {
+        int[] pGoalIds = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        for (int i = 0; i < pGoalIds.length; i++) {
+            if (personalGoalID == pGoalIds[i]) {
+                myPersonalGoal = new PersonalGoal(pGoalIds[i], personalGoalsList.get(i));
+                break;
+            }
+        }
+        return 1;
+    }
+
+    public Tile[] getPickedTiles() {
+        return pickedTiles;
+    }
+
+    public void setPickedTiles(Tile[] pickedTiles) {
+        this.pickedTiles = pickedTiles;
     }
     //modifypickedTiles allows me to put the set of picked tiles returned by the pick state in the
     //player pickedTiles array, don't need to worry about the set being bigger than 3 as that check is made

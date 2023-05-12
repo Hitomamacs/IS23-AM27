@@ -73,7 +73,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
 
         System.out.println("Connessione stabilita con successo");
 
-        System.out.println("fai login");
+        System.out.println("stai facendo il login");
         try {
             System.out.println("Inserisci nome");
             nickname=stdin.nextLine();
@@ -185,19 +185,17 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         clientView.setGridsview(gridsView);
         clientView.setTilesview(tilesView);
 
-       /* for(i=0;i<9;i++){
+        System.out.println("the game is started");
+
+        //stampa board iniziale
+        for(i=0;i<9;i++){
             for(j=0;j<9;j++){
-                clientView.getBoard()[i][j]=board[i][j];
+                System.out.print(clientView.getBoard()[i][j]);
+                System.out.print(" ");
             }
+            System.out.println();
         }
 
-        for(i=0;i< pointStack.size(); i++ ){
-            clientView.getPointStack().add(pointStack.get(i));
-        }
-
-        clientView.getGridsview().putAll(gridsView);
-
-        clientView.getTilesview().putAll(tilesView);*/
     }
 
     /**
@@ -210,24 +208,31 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     public void notifyPick(String[][] board,String[] tilesView, String playername) throws RemoteException{
         int i,j;
 
-        if(board==null)
-        {
-            System.out.println("BOARD");
-        } else if (tilesView==null) {
-            System.out.println("TILE");
-        }else{
-            System.out.println("GIUSTO");
-        }
-
+        //aggiorno board
         for(i=0;i<9;i++){
             for(j=0;j<9;j++){
                 clientView.getBoard()[i][j]=board[i][j];
             }
         }
-
+        //aggiorno tiles view
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];
         }
+
+        System.out.println("\nPrinting updated board");
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                System.out.print(clientView.getBoard()[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("Printing " + playername + " tiles");
+        for (String tile : tilesView) {
+            System.out.println(tile + " ");
+        }
+
     }
 
     /**
@@ -249,6 +254,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];
         }
+        
     }
 
     /**

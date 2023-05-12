@@ -22,8 +22,8 @@ public class PickState implements GameState {
         List<Tile> pickedTiles = new ArrayList<Tile>();
         for (Coordinates c : coordinates) {
             pickedTiles.add(gameOrchestrator.getGameBoard().pick(c));
-            gameOrchestrator.getGame().getSupport().firePropertyChange("board", null, gameOrchestrator.getGameBoard());
         }
+        gameOrchestrator.getGame().getSupport().firePropertyChange("board", null, gameOrchestrator.getGameBoard());
         gameOrchestrator.getCurrentPlayer().modifyPickedTiles(pickedTiles);
         gameOrchestrator.getGame().getSupport().firePropertyChange("playerTiles",null, gameOrchestrator.getCurrentPlayer());
     }

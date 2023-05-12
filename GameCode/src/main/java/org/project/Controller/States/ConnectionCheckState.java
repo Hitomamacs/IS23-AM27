@@ -7,6 +7,7 @@ package org.project.Controller.States;
 //the board needs refilling
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.View.PopUpView;
 
 public class ConnectionCheckState implements GameState {
 
@@ -21,12 +22,20 @@ public class ConnectionCheckState implements GameState {
     public void changeState() {
         if(gameOrchestrator.getCurrentPlayer().isConnected()){
             if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
+                String username = gameOrchestrator.getCurrentPlayer().getNickname();
+                gameOrchestrator.getGame().getView().updateView("It is " + username + " turn to pick");
+                PopUpView view = gameOrchestrator.getGame().getView().getPopUpViews().get(username);
+                gameOrchestrator.getGame().getSupport().firePropertyChange("popUpBroadcast", null, view);
                 gameOrchestrator.changeState(new RefillState(gameOrchestrator));
                 gameOrchestrator.setCurr_sate_id(5);
                 gameOrchestrator.executeState();
             }
             else{
                 int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
+                String username = gameOrchestrator.getCurrentPlayer().getNickname();
+                gameOrchestrator.getGame().getView().updateView("It is " + username + " turn to top up");
+                PopUpView view = gameOrchestrator.getGame().getView().getPopUpViews().get(username);
+                gameOrchestrator.getGame().getSupport().firePropertyChange("popUpBroadcast", null, view);
                 gameOrchestrator.changeState(new TopUpState(gameOrchestrator, previousSelectedColumn));
                 gameOrchestrator.setCurr_sate_id(7);
                 //Otherwise if player had disconnected in between TopUps he could place remaining tiles in

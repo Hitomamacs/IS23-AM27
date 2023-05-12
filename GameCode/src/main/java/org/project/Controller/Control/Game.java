@@ -62,10 +62,12 @@ public class Game {
         this.support = new PropertyChangeSupport(this);
         this.numPlayers = 4;
         addPropertyChangeListener(coordinateListener);
-        addPropertyChangeListener(popUpListener);
+        addPropertyChangeListener(popUpSingle);
         addPropertyChangeListener(PlayerTilesListener);
         addPropertyChangeListener(BoardListener);
         addPropertyChangeListener(PickComplete);
+        addPropertyChangeListener(RefillUpdate);
+        addPropertyChangeListener(popUpBroadcast);
     }
     public void gameInit(int num_players){
         System.out.println("\nInitializing game (Game method gameInit)");
@@ -188,7 +190,7 @@ public class Game {
             }
         }
     };
-    private PropertyChangeListener popUpListener = new PropertyChangeListener() {
+    private PropertyChangeListener popUpSingle = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if("popUp".equals(evt.getPropertyName())){
@@ -230,5 +232,24 @@ public class Game {
             }
         }
     };
+    private PropertyChangeListener RefillUpdate = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("refill".equals(evt.getPropertyName())){
+               BoardView board = (BoardView) evt.getNewValue();
+               getServer().send(board);
+            }
+        }
+    };
+    private PropertyChangeListener popUpBroadcast = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("popUpBroadcast".equals(evt.getPropertyName())){
+                PopUpView view = (PopUpView)evt.getNewValue();
+                getServer().send(view);
+            }
+        }
+    };
+
 
 }

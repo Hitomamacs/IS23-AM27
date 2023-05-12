@@ -51,6 +51,9 @@ public class VirtualView {
     public void updateView(String username, String popUpMessage){
         popUpViews.get(username).setErrorMessage(popUpMessage);
     }
+    public void updateView(String popUpMessage){
+        getPopUpViews().forEach((username, popUpView) ->popUpView.setErrorMessage(popUpMessage) );
+    }
     //This method updates the players GridView and tilesView, so is needed in top up
     public void updateView(Tile[] pickedTiles, String username, int tileIndex, int column){
         Tile tile = pickedTiles[tileIndex];

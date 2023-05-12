@@ -2,6 +2,7 @@ package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.View.PopUpView;
+import org.project.Controller.View.VirtualView;
 import org.project.Model.PlayerGrid;
 
 public class VerifyGrillableState implements GameState {

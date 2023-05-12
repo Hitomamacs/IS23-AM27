@@ -383,6 +383,21 @@ public class Server {
             }
         });
     }
+    public void send(BoardView boardView){
+        String[][] board = boardView.getBoard();
+        //Sending to socket clients
+        RefillUpdateMsg message = new RefillUpdateMsg(boardView.getBoard());
+        socketServer.getSocketClients().forEach((username, client) -> client.send(message));
+        //Sending to rmi clients
+        /*rmiServer.getClientsRMI().forEach((username, client)-> {
+            try {
+                client.notifyPick(board,tiles,playername);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        })
+        */
+    }
     //Now for Pop Up messages these are broadcast in cases such as player disconnection, final round
     //warning etc. but are sent to the client individually in case of error, so we need two separate
     //methods

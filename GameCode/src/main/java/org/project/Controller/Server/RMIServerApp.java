@@ -79,7 +79,7 @@ public class RMIServerApp implements RMIServerInterface {
      */
     public boolean sendLogin(String nickname, boolean connectionType, RMIClientInterface client) throws RemoteException{
         boolean check;
-        check=server.login(nickname, connectionType);
+        check=server.join(nickname, connectionType);
         if(check==true){
             clientsRMI.put(nickname,client);
             return true;
@@ -99,7 +99,7 @@ public class RMIServerApp implements RMIServerInterface {
      */
     public boolean sendLogin(String nickname, boolean connectionType, int numPlayers, RMIClientInterface client) throws RemoteException{
         boolean check;
-        check=server.login(nickname,connectionType,numPlayers);
+        check=server.create_game(nickname,connectionType,numPlayers);
         if(check==true){
             clientsRMI.put(nickname, client);
             return true;

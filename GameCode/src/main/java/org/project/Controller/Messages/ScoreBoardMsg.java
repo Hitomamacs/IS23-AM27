@@ -1,17 +1,13 @@
 package org.project.Controller.Messages;
 
-import org.project.Controller.Messages.Message;
 import org.project.Controller.Messages.MessageID;
 
 import java.util.HashMap;
 
-public class ScoreBoardMsg extends Message {
-
+public class ScoreBoardMsg extends Message{
     private HashMap<String, Integer> scoreBoard;
-
     public ScoreBoardMsg(HashMap<String, Integer> scoreBoard){
-        super();
-        this.setMessageID(MessageID.SCORE_UPDATE);
+        super(MessageID.SCORE_UPDATE);
         this.scoreBoard = scoreBoard;
     }
 

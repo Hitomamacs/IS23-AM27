@@ -2,6 +2,7 @@ package org.project.Controller.States;
 
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class FullGridState implements GameState {
 
@@ -17,7 +18,11 @@ public class FullGridState implements GameState {
     public void changeState() {
         gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
         gameOrchestrator.setCurr_sate_id(6);
-        gameOrchestrator.executeState();
+        try {
+            gameOrchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

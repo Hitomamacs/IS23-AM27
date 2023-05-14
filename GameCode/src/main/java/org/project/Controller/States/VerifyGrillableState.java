@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Model.PlayerGrid;
 
 public class VerifyGrillableState implements GameState {
@@ -25,7 +26,7 @@ public class VerifyGrillableState implements GameState {
     
 
     @Override
-    public void changeState() {
+    public void changeState() throws InvalidMoveException {
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         System.out.println("Grillable test");
         if(verifyGrillable()) {
@@ -38,13 +39,12 @@ public class VerifyGrillableState implements GameState {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(10);
-            //Update view
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Not enough space for the selected tiles");
+            throw new InvalidMoveException("Not enough space in grid");
         }
 
     }
     @Override
-    public void execute() {
+    public void execute() throws InvalidMoveException {
         changeState();
     }
 }

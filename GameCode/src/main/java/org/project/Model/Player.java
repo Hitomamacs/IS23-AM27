@@ -2,6 +2,7 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
+import org.project.ObservableObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -11,7 +12,7 @@ import java.util.*;
 
 import static org.project.Controller.Control.Persistencer.gson_parser;
 
-public class Player {
+public class Player extends ObservableObject {
     @Expose
     private String nickname;
     @Expose

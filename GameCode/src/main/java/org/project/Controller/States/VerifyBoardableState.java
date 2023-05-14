@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Model.Coordinates;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class VerifyBoardableState implements GameState {
 
     }
     @Override
-    public void changeState() {
+    public void changeState() throws InvalidMoveException {
 
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         System.out.println("Boardable test");
@@ -39,14 +40,13 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(10);
-            //Update view
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "Tiles must be adjacent and have at least one free side");
+            throw new InvalidMoveException("Tiles must be adjacent and have at least on free side");
         }
 
     }
 
     @Override
-    public void execute() {
+    public void execute() throws InvalidMoveException {
         changeState();
     }
 

@@ -57,7 +57,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
                 String userInput;
                 userInput = stdIn.readLine();
                 switch (userInput) {
-                    case "login" -> {
+                    case "create_game" -> {
                         String username;
                         boolean connectionType;
                         int numPlayers;
@@ -65,7 +65,19 @@ public class SocketClientApp implements ClientInterface, Runnable {
                         username = stdIn.readLine();
                         System.out.println("Enter number of players: ");
                         numPlayers = sc.nextInt();
-                        LoginMessage message = new LoginMessage(username, true, numPlayers);
+                        CreateGame_Message message = new CreateGame_Message(username, true, numPlayers);
+                        Gson gson = new Gson();
+                        String jsonStr = gson.toJson(message);
+                        out.println(jsonStr);
+                        this.keepAlive();
+                        break;
+                    }
+                    case "join" -> {
+                        String username;
+                        boolean connectionType;
+                        System.out.println("Enter username: ");
+                        username = stdIn.readLine();
+                        JoinMessage message = new JoinMessage(username, true);
                         Gson gson = new Gson();
                         String jsonStr = gson.toJson(message);
                         out.println(jsonStr);
@@ -143,7 +155,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
                 JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
                 JsonObject jsObject = jelement.getAsJsonObject();
-                JsonElement id = jsObject.get("messageID");
+                JsonElement id = jsObject.get("ID");
                 MessageID ID = gson.fromJson(id, MessageID.class);
                 switch (ID) {
                     case TOPUP_UPDATE -> this.handleTopUpUpdate(gson.fromJson(line, UpdateTopUPMsg.class));

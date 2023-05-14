@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class StartTurnState implements GameState {
 
@@ -24,13 +25,21 @@ public class StartTurnState implements GameState {
         if(gameOrchestrator.getFinalRoundFlag() && gameOrchestrator.CurrentPlayerIndex() == 0){
             gameOrchestrator.changeState(new EndGameState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(2);
-            gameOrchestrator.executeState();
+            try {
+                gameOrchestrator.executeState();
+            } catch (InvalidMoveException e) {
+                throw new RuntimeException(e);
+            }
 
         }
         else{
             gameOrchestrator.changeState(new ConnectionCheckState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(1);
-            gameOrchestrator.executeState();
+            try {
+                gameOrchestrator.executeState();
+            } catch (InvalidMoveException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

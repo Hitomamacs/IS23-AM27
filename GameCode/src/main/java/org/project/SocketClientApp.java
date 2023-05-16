@@ -88,7 +88,7 @@ public class SocketClientApp extends AbstractClientApp {
             sendMessage(createTopUpMessage());
             // Remove the placed tile from the user's tiles
             String[] updatedUserTiles = new String[userTiles.length - 1];
-            for (int j = 0, k = 0; j <= userTiles.length; j++) {
+            for (int j = 0, k = 0; j < userTiles.length; j++) {
                 if (j == get_tile_index()) continue;
                 updatedUserTiles[k++] = userTiles[j];
             }

@@ -88,14 +88,14 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
 
                 System.out.println("Enter the index of the tile you want to place: ");
                  this.tileIndex = sc.nextInt();
-                if(tileIndex < 0 || tileIndex >= 5) {
+                if(this.tileIndex < 0 || this.tileIndex >= 5) {
                     System.out.println("Invalid tile index. Please try again.");
                 }
 
                 // Check if the tile index is valid
 
 
-                TopUpMessage message = new TopUpMessage(username, firstTime, tileIndex);
+                TopUpMessage message = new TopUpMessage(this.username, this.firstTime, this.tileIndex);
                 Gson gson = new Gson();
                 String jsonStr = gson.toJson(message);
 

@@ -25,7 +25,7 @@ public interface RMIClientInterface extends Remote {
      * @param tilesView in questa lista sono presenti le tessere scelte
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView) throws RemoteException;
+    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String,Integer> pGoalView, List<Integer> cGoalView) throws RemoteException;
 
     /**
      * metodo invocato dal server dopo una pick avvenuta con successo

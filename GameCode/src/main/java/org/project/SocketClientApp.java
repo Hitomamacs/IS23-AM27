@@ -18,6 +18,13 @@ import java.util.*;
 
 public class SocketClientApp implements ClientInterface, Runnable {
     private  ClientView clientView = new ClientView();
+
+    private Timer keepAlive;
+
+    private static final int KEEP_ALIVE_INTERVAL = 5 * 1000;  // in milliseconds
+
+    private long lastKeepAliveReceivedTime;
+    private Timer keepAliveTimer;
     private BufferedReader in;
 
     private PrintWriter out;
@@ -47,6 +54,13 @@ public class SocketClientApp implements ClientInterface, Runnable {
             this.in = new BufferedReader(new InputStreamReader((echoSocket.getInputStream())));
 
             new Thread(this).start();
+            keepAlive = new Timer();
+            keepAlive.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    out.println("KEEP_ALIVE");
+                }
+            }, 0, 1000);
             processInput(stdIn);
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
@@ -186,17 +200,40 @@ public class SocketClientApp implements ClientInterface, Runnable {
     }
     public void run() {
         Gson gson = new Gson();
-        String line = null;
+        String line;
+        startKeepAliveCheck();
         while (true) {
             try {
                 line = in.readLine();
+                if (line.equals("KEEP_ALIVE")) {
+                    lastKeepAliveReceivedTime = System.currentTimeMillis();
+                    continue;
+                }
+
                 processReceivedMessage(line);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
         }
+    }
+
+
+    private void startKeepAliveCheck() {
+        keepAliveTimer = new Timer();
+        keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastKeepAliveReceivedTime > KEEP_ALIVE_INTERVAL) {
+                    disconnect();  // replace this with your disconnect function
+                }
+            }
+        }, KEEP_ALIVE_INTERVAL, KEEP_ALIVE_INTERVAL);
+    }
+
+    private void disconnect() {
+        // Implement  disconnect function here!!!!
+        System.out.println("Disconnected from server");
     }
     private void processReceivedMessage(String line) {
         if (line != null) {
@@ -220,6 +257,9 @@ public class SocketClientApp implements ClientInterface, Runnable {
                 case REFRESH_UPDATE:
                     handleRefreshUpdate(gson.fromJson(line, RefreshMsg.class));
                     break;
+
+                    default:
+                        break;
             }
         }
     }

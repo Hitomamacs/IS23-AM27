@@ -1,6 +1,8 @@
 package org.project.Controller.Control;
 
-public class User {
+import org.project.ObservableObject;
+
+public class User extends ObservableObject {
 
     private String username;
     private boolean connectionType;
@@ -31,6 +33,7 @@ public class User {
 
     public void setConnected(boolean connected) {
         isConnected = connected;
+        firePropertyChange("ConnectionUpdate", this);
     }
 }
 

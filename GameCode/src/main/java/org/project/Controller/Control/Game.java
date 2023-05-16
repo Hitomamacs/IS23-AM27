@@ -106,4 +106,13 @@ public class Game {
     public boolean getGameStarted() {
         return gameStarted;
     }
+
+    public Player getPlayerFromUsername(String username){
+        for(Player player : this.getPlayers()){
+            if(player.getNickname().equals(username)){
+                return player;
+            }
+        }
+        return null;
+    }
 }

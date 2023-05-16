@@ -8,9 +8,13 @@ import org.project.Controller.View.BoardView;
 import org.project.Controller.View.GridView;
 import org.project.Controller.View.TilesView;
 import org.project.Controller.View.VirtualView;
+import org.project.Model.Color;
 import org.project.Model.Coordinates;
 import org.project.Model.Player;
+import org.project.Model.Tile;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +91,9 @@ public class Controller {
     public boolean create_game(String username, boolean connectionType, int numPlayers){
         System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
         if(lobby.isEmpty()) {
-            lobby.add(new User(username, connectionType));
+            User user = new User(username, connectionType);
+            user.addPropertyChangeListener(this.UserConnectionListener);
+            lobby.add(user);
             game.setNumPlayers(numPlayers);
             this.numPlayers = numPlayers;
 
@@ -109,7 +115,9 @@ public class Controller {
                     return false;
                 }
             }
-            lobby.add(new User(username, connectionType));
+            User user = new User(username, connectionType);
+            user.addPropertyChangeListener(this.UserConnectionListener);
+            lobby.add(user);
             System.out.println("\n" + username + " added to game  (Server login method)");
 
             return true;
@@ -202,6 +210,21 @@ public class Controller {
         String info = e.getMessage();
         server.sendInfo(info, getUser(username));
     }
+    PropertyChangeListener UserConnectionListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if ("ConnectionUpdate".equals(evt.getPropertyName())) {
+                User user = (User)evt.getNewValue();
+                String username = user.getUsername();
+
+                Player player = game.getPlayerFromUsername(username);
+                if(player != null){
+                    player.setConnected(user.isConnected());
+                }
+            }
+        }
+
+    };
     public static void main(String[] args){
         try {
             Controller controller = new Controller();

@@ -94,7 +94,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
         // Get the user's tiles
         String[] userTiles = clientView.getTilesview().get(username);
-        int numTiles = userTiles.length;
+        long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
 
         for (int i = 0; i < numTiles; i++) {
             System.out.println("Enter the index of the tile you want to place: ");
@@ -133,13 +133,23 @@ public class SocketClientApp implements ClientInterface, Runnable {
         String jsonStr = gson.toJson(message);
         out.println(jsonStr);
     }
-    private void createLoginMessage() {
+    private void createCreateGameMessage() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter username: ");
         String username = sc.nextLine();
         System.out.println("Enter number of players: ");
         int numPlayers = sc.nextInt();
-        LoginMessage message = new LoginMessage(username, true, numPlayers);
+        CreateGame_Message message = new CreateGame_Message(username, true, numPlayers);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        out.println(jsonStr);
+    }
+
+    private void createJoinMessage() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter username: ");
+        String username = sc.nextLine();
+        JoinMessage message = new JoinMessage(username, true);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         out.println(jsonStr);
@@ -152,8 +162,11 @@ public class SocketClientApp implements ClientInterface, Runnable {
             Message message = null;
 
             switch (userInput) {
-                case "login":
-                    createLoginMessage();
+                case "join":
+                    createJoinMessage();
+                    break;
+                case "create_game":
+                    createCreateGameMessage();
                     break;
                 case "quit":
                     createQuitMessage();
@@ -188,7 +201,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
         if (line != null) {
             JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
             JsonObject jsObject = jelement.getAsJsonObject();
-            JsonElement id = jsObject.get("messageID");
+            JsonElement id = jsObject.get("ID");
             MessageID ID = gson.fromJson(id, MessageID.class);
             switch (ID) {
                 case TOPUP_UPDATE:

@@ -159,7 +159,7 @@ public class Server {
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
-    public boolean join(String username, boolean connectionType){
+    public synchronized boolean join(String username, boolean connectionType){
         return controller.join(username, connectionType);
     }
     /**
@@ -168,7 +168,7 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public boolean create_game(String username, boolean connectionType, int numPlayers){
+    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers){
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**
@@ -176,7 +176,7 @@ public class Server {
      * @param username player's name
      */
     public boolean quit(String username){
-        return false;
+        return controller.quit(username);
     }
 
 

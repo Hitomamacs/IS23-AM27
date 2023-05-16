@@ -22,7 +22,7 @@ public class ClientView {
     private HashMap<String, PGoalView> personalGoalViews;
     private ArrayList<CGoalView> commonGoalView;
 
-    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RESET = "\u001b[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
 
     private static final Map<String, String> colorMap;
@@ -34,8 +34,21 @@ public class ClientView {
         colorMap.put("P", "\u001B[35m");
         colorMap.put("A", "\u001B[36m");
         colorMap.put("W", "\u001B[37m");
-        colorMap.put("y", "\u001B[33m");
+        colorMap.put("Y", "\u001B[33m");
         // Add more colors as needed
+    }
+
+    private static final Map<String, String> backgroundColorMap;
+    static {
+        backgroundColorMap = new HashMap<>();
+        backgroundColorMap.put("I", "\u001b[40m");  //red dove non puoi prendere le cose
+        backgroundColorMap.put("G", "\u001b[42m");  //green
+        backgroundColorMap.put("B", "\u001b[44m");  //blue
+        backgroundColorMap.put("P", "\u001b[45m");  //pink
+        backgroundColorMap.put("A", "\u001b[46m");  //azure
+        backgroundColorMap.put("W", "\u001b[47m");  //white
+        backgroundColorMap.put("Y", "\u001b[43m");  //yellow
+        backgroundColorMap.put("N", "\u001b[40m");  //black quando hai già pescato la tile e il posto diventa vuoto
     }
 
     public int getNum_tiles() {
@@ -110,28 +123,35 @@ public class ClientView {
     public void setScoreBoard(HashMap<String, Integer> scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
+
     public void printGrid(String username) {
         String[][] grid = this.getGridsview().get(username);
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] == null) {
-                    System.out.print(ANSI_BROWN + "□" + ANSI_RESET);
+                    System.out.print(ANSI_BROWN + "   " + ANSI_RESET);
                 } else {
-                    String color = colorMap.get(grid[i][j]);
-                    if (color == null) color = ANSI_BROWN; // Default to brown if color not found
-                    System.out.print(color + "■" + ANSI_RESET);
+                    String backgroundColor = backgroundColorMap.get(grid[i][j]);
+                    if (backgroundColor == null) backgroundColor = ANSI_BROWN; // Default to brown if color not found, usless check
+                    System.out.print(backgroundColor + "   " + ANSI_RESET);
                 }
             }
             System.out.println();
         }
+        System.out.println(" 0  1  2  3  4");
     }
 
     public void printBoard() {
         System.out.println("\nPrinting updated board:");
+        System.out.println("   0  1  2  3  4  5  6  7  8");
         for(int i = 0; i < board.length; i++){
+            //System.out.println(i);
+            System.out.print(i + " ");
             for(int j = 0; j < board[0].length; j++){
                 if(board[i][j] != null){
-                    System.out.print(board[i][j] + " ");
+                    //System.out.println(j);
+                    String backgroundColor = backgroundColorMap.get(board[i][j]);
+                    System.out.print(backgroundColor + "   " + ANSI_RESET);
                 }
             }
             System.out.println();
@@ -139,10 +159,13 @@ public class ClientView {
     }
 
     public void printTiles(String playerName) {
+        int count = 0;
         System.out.println("\nPrinting " + playerName + " updated tiles");
         String[] tiles = tilesview.get(playerName);
         for (String tile : tiles) {
-            System.out.println(tile + " ");
+            String backgroundColor = backgroundColorMap.get(tile);
+            System.out.println(count + " " + backgroundColor + "   " + ANSI_RESET);
+            count++;
         }
     }
 

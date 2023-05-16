@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.project.Controller.Messages.*;
+import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
 
 import java.io.BufferedReader;
@@ -29,8 +30,8 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
 
     public void startClient() throws Exception{
-        String hostName = "127.0.0.1";
-        int portNumber = 5678;
+        String hostName = Settings.SERVER_NAME;
+        int portNumber = 5679;
         Scanner sc=new Scanner(System.in);
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);

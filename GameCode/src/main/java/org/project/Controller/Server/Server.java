@@ -65,7 +65,7 @@ public class Server {
      * MAIN
      */
     public void serverInit() {
-        int rmiPort = 1234;
+        int rmiPort = Settings.RMI_PORT;
         int socketPort = Settings.SOCKET_PORT;
 
         try {

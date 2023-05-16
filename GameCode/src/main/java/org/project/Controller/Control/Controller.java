@@ -66,6 +66,8 @@ public class Controller {
         }
         this.game.gameInit(numPlayers);
         this.linkModel2View();
+        this.game.pickCommonGoals();
+        this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
         //Next try and catch we don't really expect any exceptions as the executeState() method will
         //be passing in between states that don't throw exceptions
@@ -78,15 +80,14 @@ public class Controller {
         this.server.send(this.view);
 
     }
-
-
-
     public void linkModel2View(){
         for(Player player : game.getPlayers()){
             player.addPropertyChangeListener(view.getTilesUpdateListener());
             player.addPropertyChangeListener(view.getGridUpdateListener());
+            player.addPropertyChangeListener(view.getPGoalUpdateListener());
         }
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
+        game.addPropertyChangeListener(view.getCGoalUpdateListener());
     }
     public boolean create_game(String username, boolean connectionType, int numPlayers){
         System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");

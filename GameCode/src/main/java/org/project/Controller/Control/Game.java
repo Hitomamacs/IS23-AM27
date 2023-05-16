@@ -4,11 +4,15 @@ import org.project.Controller.View.VirtualView;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.CommonGoals.CommonGoal_Deck;
+import org.project.ObservableObject;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Game {
+public class Game extends ObservableObject{
     public Server getServer() {
         return server;
     }
@@ -53,11 +57,6 @@ public class Game {
         commonGoalDeck.fillDeck();
         personalGoalDeck = new PersonalGoal_Deck();
         personalGoalDeck.fillDeck("test_1.json");
-        commonGoals.add(commonGoalDeck.getRandom());
-        commonGoals.add(commonGoalDeck.getRandom());
-        for(Player player : players){
-            player.setMyPersonalGoal(personalGoalDeck.getRandom());
-        }
         pointAssigner = new PointAssigner();
         pointAssigner.initialize(num_players, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
@@ -106,7 +105,17 @@ public class Game {
     public boolean getGameStarted() {
         return gameStarted;
     }
-
+    public void pickPersonalGoals(){
+        for(Player player : players){
+            player.setMyPersonalGoal(personalGoalDeck.getRandom());
+            player.firePropertyChange("PGoalUpdate", player);
+        }
+    }
+    public void pickCommonGoals(){
+        commonGoals.add(commonGoalDeck.getRandom());
+        commonGoals.add(commonGoalDeck.getRandom());
+        this.firePropertyChange("CGoalUpdate", this);
+    }
     public Player getPlayerFromUsername(String username){
         for(Player player : this.getPlayers()){
             if(player.getNickname().equals(username)){

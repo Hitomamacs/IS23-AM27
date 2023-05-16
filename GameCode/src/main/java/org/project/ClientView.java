@@ -166,6 +166,17 @@ public class ClientView {
         }
     }
 
+    public void printPersonalGoal(String playerName){
+        System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
+    }
+
+    public void printCommonGoal(){
+        System.out.println("\n Printing common goals ");
+        for(Integer id: commonGoalView){
+            System.out.println(id + " ");
+        }
+    }
+
 
     public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;

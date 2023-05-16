@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Model.PlayerGrid;
 import org.project.Model.Tile;
 
@@ -29,13 +30,17 @@ public class TopUpState implements GameState {
             gameOrchestrator.getCurrentPlayer().setSelectedColumn(-1);
             gameOrchestrator.changeState(new VerifyCommonGoalState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(9);
-            gameOrchestrator.executeState();
+            try {
+                gameOrchestrator.executeState();
+            } catch (InvalidMoveException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
 
     @Override
-    public void execute() {
+    public void execute() throws InvalidMoveException {
         topUp();
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         changeState();
@@ -55,7 +60,7 @@ public class TopUpState implements GameState {
     }
 
  */
-    public void topUp(){
+    public void topUp() throws InvalidMoveException {
 
         Tile tile;
         int index = 0;
@@ -77,15 +82,18 @@ public class TopUpState implements GameState {
                     }
                     tile = gameOrchestrator.getCurrentPlayer().selectTile(index);
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
-                    gameOrchestrator.getGame().getView().updateView(pickedTilesCopy, currentPlayer, index ,selectedColumn);
-                }else{gameOrchestrator.getGame().getView().updateView(currentPlayer, "Selected tile index not valid");}
+                    gameOrchestrator.getCurrentPlayer().firePropertyChange("gridUpdate",gameOrchestrator.getCurrentPlayer());
+                    gameOrchestrator.getCurrentPlayer().firePropertyChange("tilesUpdate", gameOrchestrator.getCurrentPlayer());
+                }else{throw new InvalidMoveException("Selected tile index not valid");}
             }
-            else{ selectedColumn = -1;
-            gameOrchestrator.getGame().getView().updateView(currentPlayer, "The selected column doesn't have enough space");}
+            else{
+                selectedColumn = -1;
+                throw new InvalidMoveException("Selected column doesn't have enough space");
+            }
             //if the selected column doesn't have enough space the player has to change it, to allow
             //the player to change it the default state selectedColumn has to be set back to -1
         }
-        else gameOrchestrator.getGame().getView().updateView(currentPlayer, "You have to place tiles in the same column");
+        else throw new InvalidMoveException("Tiles must be placed in the same column");
     }
 
 }

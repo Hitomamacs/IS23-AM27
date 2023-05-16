@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Model.PlayerGrid;
 
 public class VerifyCommonGoalState implements GameState {
@@ -21,7 +22,7 @@ public class VerifyCommonGoalState implements GameState {
                     int points = gameOrchestrator.getPointAssigner().assignPoints(i);
                     gameOrchestrator.getCurrentPlayer().changeScore(points); //TODO add exception catches
                     //Update view
-                    gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getPointAssigner(), i);
+                    //gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getPointAssigner(), i);
                 }
             }
         }
@@ -31,7 +32,11 @@ public class VerifyCommonGoalState implements GameState {
     public void changeState() {
         gameOrchestrator.changeState(new FullGridState(gameOrchestrator));
         gameOrchestrator.setCurr_sate_id(3);
-        gameOrchestrator.executeState();
+        try {
+            gameOrchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

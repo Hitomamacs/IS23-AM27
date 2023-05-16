@@ -1,11 +1,7 @@
 package org.project.Controller.Server;
 
 import com.google.gson.*;
-import netscape.javascript.JSObject;
 import org.project.Controller.Messages.*;
-import org.project.Controller.Server.Server;
-import org.project.Controller.Server.SocketClientHandler;
-import org.project.Controller.Server.SocketServer;
 
 public class MessageHandler {
 
@@ -23,13 +19,14 @@ public class MessageHandler {
 
         JsonElement jelement =  JsonParser.parseString(jsonStr).getAsJsonObject();
         JsonObject jsObject = jelement.getAsJsonObject();
-        JsonElement id = jsObject.get("messageID");
+        JsonElement id = jsObject.get("ID");
         MessageID ID = gson.fromJson(id, MessageID.class);
         switch (ID){
             case PICK -> this.handlePick(gson.fromJson(jsonStr, PickMessage.class));
             case QUIT -> this.handleQuit(gson.fromJson(jsonStr, QuitMessage.class));
-            case LOGIN -> this.handleLogin(gson.fromJson(jsonStr, LoginMessage.class));
+            case CREATE_GAME -> this.handleCreateGame(gson.fromJson(jsonStr, CreateGame_Message.class));
             case TOPUP -> this.handleTopUp(gson.fromJson(jsonStr, TopUpMessage.class));
+            case JOIN -> this.handleJoin(gson.fromJson(jsonStr, JoinMessage.class));
         };
     }
     public void handlePick(PickMessage pickMsg){
@@ -42,20 +39,37 @@ public class MessageHandler {
         server.quit(quitMessage.getUsername());
         client.disconnect();
     }
-    public void handleLogin(LoginMessage loginMsg){
-        String username = loginMsg.getUsername();
+    public void handleCreateGame(CreateGame_Message create_gameMsg){
+        String username = create_gameMsg.getUsername();
         client.setUsername(username);
-        boolean connection = loginMsg.getConnectionType();
-        int num_players = loginMsg.getNumPlayers();
-        if(!(num_players == 0)){//TODO decide if we keep single login message or divide in create_game and join_game
-            if(server.login(username, connection, num_players)){
+        PopUpMsg popUpMsg = new PopUpMsg();
+        boolean connection = create_gameMsg.getConnectionType();
+        int num_players = create_gameMsg.getNumPlayers();
+        if(num_players >= 2 && num_players <= 4) {
+            if (server.create_game(username, connection, num_players)) {
                 socketServer.getSocketClients().put(username, client);
-                int a = 1;
+                popUpMsg.setText("Game has been created");
+                send(popUpMsg);
+                return;
             }
+            popUpMsg.setText("Already an existing game");
+            return;
         }
-        else if(server.login(username, connection)){
+        popUpMsg.setText("Number of players is not valid, has to be between 2 and 4");
+    }
+    public void handleJoin(JoinMessage joinMsg){
+        String username = joinMsg.getUsername();
+        client.setUsername(username);
+        PopUpMsg popUpMsg = new PopUpMsg();
+        boolean connection = joinMsg.getConnectionType();
+        if (server.join(username, connection)) {
             socketServer.getSocketClients().put(username, client);
+            popUpMsg.setText("Successfully joined the game");
+            send(popUpMsg);
+            return;
         }
+        popUpMsg.setText("Already an existing player with the same username");
+
     }
     public void send(Message message){
         Gson gson = new Gson();

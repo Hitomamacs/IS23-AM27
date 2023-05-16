@@ -1,16 +1,19 @@
 package org.project.Controller.Messages;
 
-import org.project.Controller.Messages.Message;
 import org.project.Controller.Messages.MessageID;
 
 public class TopUpMessage extends Message {
-    int column;
-    int tileIndex;
+    private int column;
+    private int tileIndex;
+    private String username;
     public TopUpMessage(String username, int column, int tileIndex) {
-        super(username);
-        this.setMessageID(MessageID.TOPUP);
+        super(MessageID.TOPUP);
+        this.username = username;
         this.column = column;
         this.tileIndex = tileIndex;
+    }
+    public String getUsername(){
+        return username;
     }
     public int getColumn(){
         return column;

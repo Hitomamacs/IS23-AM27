@@ -1,5 +1,6 @@
 package org.project.Controller.Server;
 
+import org.project.Controller.Control.Controller;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
@@ -17,10 +18,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Server {
 
     private Game game;
+    private Controller controller;
     private GameOrchestrator orchestrator;
     private int connectedPlayers;
 
@@ -50,7 +53,9 @@ public class Server {
      * constructor
      */
     //TODO:devo passare game e game orchestrator
-    public Server() throws RemoteException {
+    public Server(Controller controller) throws RemoteException {
+
+        this.controller = controller;
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
         connectedPlayers=0;
@@ -59,7 +64,26 @@ public class Server {
     /**
      * MAIN
      */
-    public static void main(String[] args) throws RemoteException {
+    public void serverInit() {
+        int rmiPort = 1234;
+        int socketPort = Settings.SOCKET_PORT;
+
+        try {
+            rmiServer.startRMIServer(rmiPort);
+            new Thread(socketServer).start();
+
+            while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
+                Thread.sleep(1000);//TODO possibly make it wait on notify from socket server and rmi server
+            }
+            this.controller.startGame();
+            int a = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+
+        }
+    }
+ /*   public void serverInit(String[] args) throws RemoteException {
 
         int rmiPort=1234;
         int socketPort = Settings.SOCKET_PORT;
@@ -70,8 +94,6 @@ public class Server {
         }
 
         try{
-            Server server = new Server();
-            server.game = new Game(server);
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
 
@@ -88,8 +110,9 @@ public class Server {
         }
 
     }
-
+*/
     //METODI DEL SERVER CHIAMATI DA RMI/SOCKET SERVER
+
 
     /**
      * method for logging in the player through the nickname.
@@ -112,45 +135,8 @@ public class Server {
      * @param coordinates coordinates of the tiles to be taken
      */
     public boolean pick(String username, List<Coordinates> coordinates){
-        if(game.getGameStarted()) {
-            System.out.println("Server handling pick message (Server pick method)");
-            //Check if it's actually the players turn (we will make sure client can't send moves if it isn't
-            //his turn so this check is redundant)
-            String u;
-            u=orchestrator.getCurrentPlayer().getNickname();
-            System.out.println(u);
-            System.out.println(username);
-            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
-                //Have to check if the model is actually in VerifyGrillableState waiting for pick move
-                if (orchestrator.getState() instanceof VerifyGrillableState) {
-                    System.out.println("Pick message from correct player checking validity...  (Server pick method) ");
-                    orchestrator.setPickedCoordinates(coordinates);
-                    orchestrator.executeState();
-                    int a = 3;
-                    //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
-                    if (!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
-                        //If successful the view has been updated so need to send it to all
-                        BoardView boardView = game.getView().getBoardView();
-                        //TODO double check the next two lines and test properly
-                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
-                        send(boardView, tilesViews.get(0));
-                        return true;
-                    }//Otherwise the move wasn't successful and the error is written in the popUpView text field;
-                    else sendError(username);
-                } else {
-                    System.out.println("Pick request ignored from current player as it is not the current state  (Server pick method)");
-                    return false;
-                  }
-            }
-            //else it either wasn't players turn or the coordinates weren't valid and are still waiting for
-            //valid input
-            else{System.out.println("Wrong player for pick  (Server pick method)");
-            return false;}
-        }
-        else System.out.println("Pick request ignored as game has not started yet  (Server pick method)");
-        return false;
+        return controller.pick(username, coordinates);
     }
-
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
      * @param username player's name
@@ -158,38 +144,7 @@ public class Server {
      * @param tileIndex
      */
     public boolean topUp(String username, int column, int tileIndex) {
-        if (game.getGameStarted()) {
-            System.out.println("Server handling topUp message (Server topUp method)");
-            int num_tiles = 0;
-            if (orchestrator.getCurrentPlayer().getNickname().equals(username)) {
-                if (orchestrator.getState() instanceof TopUpState) {
-                    System.out.println("Correct player for topUp  (Server topUp method)");
-                    num_tiles = orchestrator.getCurrentPlayer().pickedTilesNum();
-                    orchestrator.getCurrentPlayer().setSelectedColumn(column);
-                    orchestrator.getCurrentPlayer().setTileIndex(tileIndex);
-                    orchestrator.executeState();
-                    if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
-                        List<GridView> gridViews = game.getView().getGridViews().stream().filter(g -> g.getUsername().equals(username)).toList();
-                        GridView gridView = gridViews.get(0);
-                        List<TilesView> tilesViews = game.getView().getTilesViews().stream().filter(t -> t.getUsername().equals(username)).toList();
-                        TilesView tilesView = tilesViews.get(0);
-                        System.out.println("Valid topUp sending update (Server topUp method)");
-                        send(gridView, tilesView);
-                        return true;
-                    } else sendError(username);
-                } else {
-                    System.out.println("Ignoring topUp request from current player as it is not the current state  (Server topUp method)");
-                    return false;
-                }
-            } else {
-                System.out.println("Wrong player for topUp (Server topUp method)");
-                return false;
-            }
-
-        }
-        System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
-        return false;
-
+        return controller.topUp(username, column, tileIndex);
     }
 
     void set_player_disconnected(String username){
@@ -210,22 +165,8 @@ public class Server {
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
-    public boolean login(String username, boolean connectionType){
-        System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
-        //TODO checks once persistence has been implemented
-        if(!game.getUsers().isEmpty()){
-            for(int i = 0; i < game.getUsers().size(); i++){
-                if(game.getUsers().get(i).getUsername().equals(username)){
-                    System.out.println("\n" + username + " is already in use in the game  (Server login method)");
-                    return false;}//Probably better if I throw exceptions instead to distinguish
-            }                    //the reasons the method was unsuccessful
-            game.getUsers().add(new User(username, connectionType));
-            System.out.println("\n" + username + " added to game  (Server login method)");
-
-            return true;
-        }
-        System.out.println("\n" + "A game needs to be created first  (Server login method)");
-        return false;
+    public boolean join(String username, boolean connectionType){
+        return controller.join(username, connectionType);
     }
     /**
      * method for logging the FIRST player through the nickname.
@@ -233,18 +174,8 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public boolean login(String username, boolean connectionType, int numPlayers){
-        System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
-        if(game.getUsers().isEmpty()) {
-            game.getUsers().add(new User(username, connectionType));
-            game.setNumPlayers(numPlayers);
-            System.out.println("\nServer has created new game  (Server login method)");
-            return true;
-        }
-        //Means a game has already been created
-        //Should probably do another check to see if numPlayers is acceptable
-        System.out.println("\nAlready an existing game  (Server login method)");
-        return false;
+    public boolean create_game(String username, boolean connectionType, int numPlayers){
+        return controller.create_game(username, connectionType, numPlayers);
     }
     /**
      * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
@@ -299,12 +230,15 @@ public class Server {
         List<Integer> pointStack = view.getPointStackView().getPointList();
         HashMap<String, String[][]> gridsview = new HashMap<>();
         HashMap<String, String[]> tilesview = new HashMap<>();
-
-        for(GridView gView : view.getGridViews()){
-            gridsview.put(gView.getUsername(), gView.getGridView());
+        for(Map.Entry<String, GridView> mapElement : view.getGridViews().entrySet()){
+            String username = mapElement.getKey();
+            GridView gridView = mapElement.getValue();
+            gridsview.put(username, gridView.getGridView());
         }
-        for(TilesView tView : view.getTilesViews()){
-            tilesview.put(tView.getUsername(), tView.getPlayerTiles());
+        for(Map.Entry<String, TilesView> mapElement : view.getTilesViews().entrySet()){
+            String username = mapElement.getKey();
+            TilesView tileView = mapElement.getValue();
+            tilesview.put(username, tileView.getPlayerTiles());
         }
         //Sending to socket clients
         RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
@@ -382,50 +316,36 @@ public class Server {
             }
         });
     }
-    //Now for Pop Up messages these are broadcast in cases such as player disconnection, final round
-    //warning etc. but are sent to the client individually in case of error, so we need two separate
-    //methods
+    //Rewriting server methods
 
-    //Broadcast PopUp send, the method just takes one PopUpView as parameter, but in this case the text
-    //displayed will be the same for all PopUpViews so, it's alright
-    public void send(PopUpView popUpView){
+    //Method to send text information to a single user
+    public void sendInfo(String info, User user){
+        PopUpMsg message = new PopUpMsg(info);
+        String username = user.getUsername();
+        if(user.getConnectionType()){
+            socketServer.getSocketClients().get(username).send(message);
+        }
+        else{
+            RMIClientInterface client = rmiServer.getClientsRMI().get(username);
+            try{
+                client.notifyPopUpView(info);
+            }catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-        String text = popUpView.getErrorMessage();
-        //Sending to socket clients
-        PopUpMsg message = new PopUpMsg(text);
+    }
+    //Method to send text information to all players
+    public void sendInfo(String info){
+
+        PopUpMsg message = new PopUpMsg(info);
         socketServer.getSocketClients().forEach((username,client) -> client.send(message));
-        //Sending to RMI clients
         rmiServer.getClientsRMI().forEach((username,client)-> {
             try {
-                client.notifyPopUpView(text);
+                client.notifyPopUpView(info);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         });
     }
-    //The other case is an error message which is sent directly to the interested player, the next method
-    //takes the username checks his connection and sends the popUp
-    public void sendError(String username) {
-
-        List<User> users = game.getUsers().stream().filter(u -> u.getUsername().equals(username)).toList();
-        User user = users.get(0);
-        List<PopUpView> popUpViews = game.getView().getPopUpViews().stream().filter(p -> p.getUsername().equals(username)).toList();
-       PopUpView popUpView = popUpViews.get(0);
-        if(user.getConnectionType()){
-            String text = popUpView.getErrorMessage();
-            PopUpMsg message = new PopUpMsg(text);
-            socketServer.getSocketClients().get(username).send(message);
-        }
-        else{
-            String text = popUpView.getErrorMessage();
-            try{
-                rmiServer.getClientsRMI().get(username).notifyPopUpView(text);
-            }catch(RemoteException e){
-                throw new RuntimeException(e);
-            }
-
-        }
-
-    }
-    
 }

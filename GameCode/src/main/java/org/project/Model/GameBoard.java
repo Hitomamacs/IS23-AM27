@@ -2,12 +2,13 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
+import org.project.ObservableObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-public class GameBoard {
+public class GameBoard extends ObservableObject {
     @Expose
     private Spot[][] board;
 

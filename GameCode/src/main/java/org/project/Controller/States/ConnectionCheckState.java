@@ -7,6 +7,7 @@ package org.project.Controller.States;
 //the board needs refilling
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class ConnectionCheckState implements GameState {
 
@@ -23,7 +24,11 @@ public class ConnectionCheckState implements GameState {
             if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
                 gameOrchestrator.changeState(new RefillState(gameOrchestrator));
                 gameOrchestrator.setCurr_sate_id(5);
-                gameOrchestrator.executeState();
+                try {
+                    gameOrchestrator.executeState();
+                } catch (InvalidMoveException e) {
+                    throw new RuntimeException(e);
+                }
             }
             else{
                 int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
@@ -41,7 +46,11 @@ public class ConnectionCheckState implements GameState {
             gameOrchestrator.nextPlayer();
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(6);
-            gameOrchestrator.executeState();
+            try {
+                gameOrchestrator.executeState();
+            } catch (InvalidMoveException e) {
+                throw new RuntimeException(e);
+            }
         }
 
 

@@ -15,12 +15,10 @@ public class GridView {
             }
         }
     }
-    public void updateGridView(String tile, int column) {
-        int i = 5;
-        while(grid[i][column] != "N"){
-            i--;
+    public void updateGridView(String[][] newGrid) {
+        for(int i = 0; i < 6; i++){
+            System.arraycopy(newGrid[i], 0, grid[i], 0, 5);
         }
-        grid[i][column] = tile;
     }
     public String getUsername(){
         return username;

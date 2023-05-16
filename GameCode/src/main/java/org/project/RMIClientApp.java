@@ -298,6 +298,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      */
     public void notifyPopUpView (String text) throws RemoteException{
         clientView.setErrorMessage(text);
+        System.out.println(text);
     }
 
 

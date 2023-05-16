@@ -16,6 +16,8 @@ public class ClientView {
     private HashMap<String,String[]> tilesview;
     private String popUpErrorMessage;
     private HashMap<String, Integer> scoreBoard;
+    private HashMap<String, Integer> personalGoalViews;
+    private ArrayList<Integer> commonGoalView;
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
@@ -139,5 +141,22 @@ public class ClientView {
         for (String tile : tiles) {
             System.out.println(tile + " ");
         }
+    }
+
+
+    public HashMap<String, Integer> getPersonalGoalViews() {
+        return personalGoalViews;
+    }
+
+    public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
+        this.personalGoalViews = personalGoalViews;
+    }
+
+    public ArrayList<Integer> getCommonGoalView() {
+        return commonGoalView;
+    }
+
+    public void setCommonGoalView(ArrayList<Integer> commonGoalView) {
+        this.commonGoalView = commonGoalView;
     }
 }

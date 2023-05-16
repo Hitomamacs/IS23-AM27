@@ -2,12 +2,14 @@ package org.project.Controller.Control;
 
 public class User {
 
-    String username;
-    boolean connectionType;
+    private String username;
+    private boolean connectionType;
+    private boolean isConnected;
 
     public User(String username, boolean connectionType){
         this.username = username;
         this.connectionType = connectionType;
+        this.isConnected=true;
     }
 
     public void setUsername(String username) {
@@ -21,6 +23,14 @@ public class User {
     }
     public boolean getConnectionType(){
         return connectionType;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
     }
 }
 

@@ -23,6 +23,13 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     private static final int KEEP_ALIVE_INTERVAL = 5 * 1000;  // in milliseconds
 
+
+    private final Scanner scanner = new Scanner(System.in);
+
+
+
+    private static final int MAX_TILES = 3;
+
     private long lastKeepAliveReceivedTime;
     private Timer keepAliveTimer;
     private BufferedReader in;
@@ -36,64 +43,52 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
 
 
-    public void startClient() throws Exception{
-        String hostName = Settings.SERVER_NAME;
-        int portNumber = Settings.SOCKET_PORT;
-        Scanner sc=new Scanner(System.in);
-        try (
-                Socket echoSocket = new Socket(hostName, portNumber);
-
-                PrintWriter out =
-                        new PrintWriter(echoSocket.getOutputStream(), true);
-
-                BufferedReader stdIn =
-                        new BufferedReader(
-                                new InputStreamReader(System.in))
-        ) {
-            this.out = out;
-            this.in = new BufferedReader(new InputStreamReader((echoSocket.getInputStream())));
+    public void startClient() {
+        try {
+            Socket echoSocket = new Socket(Settings.SERVER_NAME, Settings.SOCKET_PORT);
+            out = new PrintWriter(echoSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
 
             new Thread(this).start();
-            keepAlive = new Timer();
-            keepAlive.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    out.println("KEEP_ALIVE");
-                }
-            }, 0, 1000);
-            processInput(stdIn);
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " +
-                    hostName);
-            System.exit(1);
-        }
+            startKeepAlive();
 
+            processInput();
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + Settings.SERVER_NAME);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + Settings.SERVER_NAME);
+        }
+    }
+
+    private void startKeepAlive() {
+        Timer keepAlive = new Timer();
+        keepAlive.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                out.println("KEEP_ALIVE");
+            }
+        }, 0, 1000);
     }
 
     private void createPickMessage() {
-        Scanner sc = new Scanner(System.in);
         List<Coordinates> coordinates = new ArrayList<>();
         System.out.println("Enter username: ");
-        String username = sc.nextLine();
+        String username = scanner.nextLine();
 
-        System.out.println("Enter the number of tiles you want to pick (up to 3):");
-        int numTiles = sc.nextInt();
+        System.out.println("Enter the number of tiles you want to pick (up to " + MAX_TILES + "):");
+        int numTiles = scanner.nextInt();
         clientView.setNum_tiles(numTiles);
-        numTiles = Math.min(numTiles, 3); // Ensure the number of tiles doesn't exceed 3
+        numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
 
         for (int i = 0; i < numTiles; i++) {
             System.out.println("Enter x coordinate for tile " + (i + 1) + ":");
-            int x = sc.nextInt();
+            int x = scanner.nextInt();
             System.out.println("Enter y coordinate for tile " + (i + 1) + ":");
-            int y = sc.nextInt();
+            int y = scanner.nextInt();
             coordinates.add(new Coordinates(x, y));
         }
 
-        PickMessage message = new PickMessage(username, coordinates);
-        Gson gson = new Gson();
+        PickMessage message = new PickMessage(username, coordinates);;
         String jsonStr = gson.toJson(message);
         out.println(jsonStr);
     }
@@ -116,7 +111,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
             int tileIndex = sc.nextInt();
 
             // Check if the tile index is valid
-            if(tileIndex < 0 || tileIndex >= userTiles.length) {
+            if(tileIndex < 0 || tileIndex >= 5) {
                 System.out.println("Invalid tile index. Please try again.");
                 i--; // Ask again for a valid tile index
                 continue;
@@ -170,11 +165,10 @@ public class SocketClientApp implements ClientInterface, Runnable {
         out.println(jsonStr);
     }
 
-    private void processInput(BufferedReader stdIn) throws IOException {
+    private void processInput() throws IOException {
         while (true) {
             System.out.println("Enter Message Type: ");
-            String userInput = stdIn.readLine();
-            Message message = null;
+            String userInput = scanner.nextLine();
 
             switch (userInput) {
                 case "join":
@@ -235,7 +229,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
         // Implement  disconnect function here!!!!
         System.out.println("Disconnected from server");
     }
-    private void processReceivedMessage(String line) {
+    private synchronized  void processReceivedMessage(String line) {
         if (line != null) {
             JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
             JsonObject jsObject = jelement.getAsJsonObject();

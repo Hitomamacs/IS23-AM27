@@ -2,6 +2,7 @@ package org.project.Controller.Control;
 
 import org.project.Controller.Server.Server;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
+import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.BoardView;
@@ -117,6 +118,7 @@ public class Controller {
                 } else if (user.getUsername().equals(username) && !user.isConnected()) {
                     System.out.println("\nplayer"+ username+ "has reconnected");
                     user.setConnected(true);
+                    server.refresh(username, view);
                     return true;
                 }
             }
@@ -236,6 +238,23 @@ public class Controller {
                 Player player = game.getPlayerFromUsername(username);
                 if(player != null){
                     player.setConnected(user.isConnected());
+                }
+                if(user.isConnected()){
+                    server.sendInfo("Player "+ username + " has joined the game");
+                }else {
+                    server.sendInfo("Player " + username + " has disconnected");
+                }
+                if(game.getGameStarted() && correctPlayer(username)){
+                    GameOrchestrator orchestrator = game.getOrchestrator();
+                    orchestrator.changeState(new StartTurnState(orchestrator));
+                    while(!orchestrator.getCurrentPlayer().isConnected()){
+                        orchestrator.nextPlayer();
+                    }
+                    try {
+                        orchestrator.executeState();
+                    } catch (InvalidMoveException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }

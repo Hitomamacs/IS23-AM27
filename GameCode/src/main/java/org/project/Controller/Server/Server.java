@@ -65,7 +65,7 @@ public class Server {
      * MAIN
      */
     public void serverInit() {
-        int rmiPort = 1234;
+        int rmiPort = 5678;
         int socketPort = Settings.SOCKET_PORT;
 
         try {
@@ -150,7 +150,7 @@ public class Server {
     void set_player_disconnected(String username){
         controller.getUser(username).setConnected(false);
         connectedPlayers--;
-                
+
     }
 
     /**

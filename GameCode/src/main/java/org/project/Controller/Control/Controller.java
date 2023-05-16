@@ -74,6 +74,9 @@ public class Controller {
         this.server.send(this.view);
 
     }
+
+
+
     public void linkModel2View(){
         for(Player player : game.getPlayers()){
             player.addPropertyChangeListener(view.getTilesUpdateListener());

@@ -31,7 +31,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
 
     public void startClient() throws Exception{
         String hostName = Settings.SERVER_NAME;
-        int portNumber = 5679;
+        int portNumber = Settings.SOCKET_PORT;
         Scanner sc=new Scanner(System.in);
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);

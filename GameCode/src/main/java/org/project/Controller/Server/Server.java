@@ -30,7 +30,7 @@ public class Server {
     /**
      * variabile per tener conto di quante persone ho aggiunto
      */
-    int count_players=0;
+
 
     /**
      * RMI server
@@ -148,15 +148,9 @@ public class Server {
     }
 
     void set_player_disconnected(String username){
-        List<Player> players = game.getPlayers();
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getNickname().equals(username)){
-                players.get(i).setIsConnected(false);
-                connectedPlayers--;
-                count_players--;
-                break;
-            }
-        }
+        controller.getUser(username).setConnected(false);
+        connectedPlayers--;
+
     }
 
     /**
@@ -207,12 +201,8 @@ public class Server {
     }
 
    //METODI GET E SET
-    public int getCount_players(){
-        return count_players;
-    }
-    public void setCount_players(int count){
-        this.count_players = count;
-    }
+   
+
 
     //METODI PER LA VIEW
 

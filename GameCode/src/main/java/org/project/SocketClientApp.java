@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 
-public class SocketClientApp implements ClientInterface, Runnable {
+public class SocketClientApp extends AbstractClientApp {
     private  ClientView clientView = new ClientView();
 
     private Timer keepAlive;
@@ -70,121 +70,65 @@ public class SocketClientApp implements ClientInterface, Runnable {
         }, 0, 1000);
     }
 
-    private void createPickMessage() {
-        List<Coordinates> coordinates = new ArrayList<>();
-        System.out.println("Enter username: ");
-        String username = scanner.nextLine();
+    protected void sendMessage(String message) {
+        out.println(message);
+    }
 
-        System.out.println("Enter the number of tiles you want to pick (up to " + MAX_TILES + "):");
-        int numTiles = scanner.nextInt();
-        clientView.setNum_tiles(numTiles);
-        numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
-
-        for (int i = 0; i < numTiles; i++) {
-            System.out.println("Enter x coordinate for tile " + (i + 1) + ":");
-            int x = scanner.nextInt();
-            System.out.println("Enter y coordinate for tile " + (i + 1) + ":");
-            int y = scanner.nextInt();
-            coordinates.add(new Coordinates(x, y));
-        }
-
-        PickMessage message = new PickMessage(username, coordinates);;
-        String jsonStr = gson.toJson(message);
-        out.println(jsonStr);
+    public void SendPickMessage() {
+        sendMessage(createPickMessage());
     }
 
 
-    private void createTopUpMessage() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-
-        System.out.println("Enter the column where you want to place tiles: ");
-        int column = sc.nextInt();
+    public void SendTopUpMessage() {
 
         // Get the user's tiles
-        String[] userTiles = clientView.getTilesview().get(username);
+        String[] userTiles = clientView.getTilesview().get(getUsername());
         long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
-
         for (int i = 0; i < numTiles; i++) {
-            System.out.println("Enter the index of the tile you want to place: ");
-            int tileIndex = sc.nextInt();
-
-            // Check if the tile index is valid
-            if(tileIndex < 0 || tileIndex >= 5) {
-                System.out.println("Invalid tile index. Please try again.");
-                i--; // Ask again for a valid tile index
-                continue;
-            }
-
-            TopUpMessage message = new TopUpMessage(username, column, tileIndex);
-            Gson gson = new Gson();
-            String jsonStr = gson.toJson(message);
-            out.println(jsonStr);
-
+            sendMessage(createTopUpMessage());
             // Remove the placed tile from the user's tiles
             String[] updatedUserTiles = new String[userTiles.length - 1];
-            for (int j = 0, k = 0; j < userTiles.length; j++) {
-                if (j == tileIndex) continue;
+            for (int j = 0, k = 0; j <= userTiles.length; j++) {
+                if (j == get_tile_index()) continue;
                 updatedUserTiles[k++] = userTiles[j];
             }
             userTiles = updatedUserTiles;
-            clientView.getTilesview().put(username, userTiles);
+            clientView.getTilesview().put(getUsername(), userTiles);
         }
     }
 
 
-    private void createQuitMessage() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        QuitMessage message = new QuitMessage(username);
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(message);
-        out.println(jsonStr);
+    public void SendQuitMessage() {
+        sendMessage(createQuitMessage());
     }
-    private void createCreateGameMessage() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        System.out.println("Enter number of players: ");
-        int numPlayers = sc.nextInt();
-        CreateGame_Message message = new CreateGame_Message(username, true, numPlayers);
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(message);
-        out.println(jsonStr);
+    public void SendCreateGameMessage() {
+        sendMessage(createCreateGameMessage(true));
     }
 
-    private void createJoinMessage() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        JoinMessage message = new JoinMessage(username, true);
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(message);
-        out.println(jsonStr);
+    public void SendJoinMessage() {
+        sendMessage(createJoinMessage(true));
     }
 
-    private void processInput() throws IOException {
+    protected void processInput() throws IOException {
         while (true) {
             System.out.println("Enter Message Type: ");
             String userInput = scanner.nextLine();
 
             switch (userInput) {
                 case "join":
-                    createJoinMessage();
+                    SendJoinMessage();
                     break;
                 case "create_game":
-                    createCreateGameMessage();
+                    SendCreateGameMessage();
                     break;
                 case "quit":
-                    createQuitMessage();
+                    SendQuitMessage();
                     break;
                 case "pick":
-                    createPickMessage();
+                    SendPickMessage();
                     break;
                 case "topup":
-                    createTopUpMessage();
+                    SendTopUpMessage();
                     break;
                 default:
                     System.out.println("Invalid message type");
@@ -199,7 +143,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
         while (true) {
             try {
                 line = in.readLine();
-                if (line.equals("KEEP_ALIVE")) {
+                if (line!= null && line.equals("KEEP_ALIVE")) {
                     lastKeepAliveReceivedTime = System.currentTimeMillis();
                     continue;
                 }
@@ -229,7 +173,7 @@ public class SocketClientApp implements ClientInterface, Runnable {
         // Implement  disconnect function here!!!!
         System.out.println("Disconnected from server");
     }
-    private synchronized  void processReceivedMessage(String line) {
+    public synchronized  void processReceivedMessage(String line) {
         if (line != null) {
             JsonElement jelement = JsonParser.parseString(line).getAsJsonObject();
             JsonObject jsObject = jelement.getAsJsonObject();

@@ -2,11 +2,13 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
+import org.project.ObservableObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 
-public class GameBoard {
+public class GameBoard extends ObservableObject {
     @Expose
     private Spot[][] board;
 
@@ -172,51 +174,41 @@ public class GameBoard {
     /**this function verigy taht the tile at coordinates c has at east 1 free sid and can be picked
      this function will be called on maximum 3 tiles and after it returns true for al the tiles they will be picked */
     public boolean verifyPickable(Coordinates c){
-        int n = finalMatrix.length;
-        int m = finalMatrix[0].length;
         int i = c.getX();
         int j = c.getY();
-
-        if (((isValidPos(i - 1, j, n, m) && !board[i-1][j].isOccupied()|| !isValidPos(i -1, j, n, m))) && board[i][j].isOccupied()) {
-            for (i = i-1; i>=0; i--){
-                if (board[i][j].isOccupied())
-                    return false;
-
-            }
-            return true;
-
-
+        if (!board[i][j].isOccupied()) {
+            return false;
         }
 
-        if (((isValidPos(i, j - 1, n, m)&&!board[i][j-1].isOccupied()) || !isValidPos(i, j - 1, n, m))&& board[i][j].isOccupied()) {
-            for (j = j-1; j>=0; j--){
-                if (board[i][j].isOccupied())
-                    return false;
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, Down, Left, Right
+        for (int[] dir : directions) {
+            if (isUnoccupiedInDirection(i, j, dir[0], dir[1])) {
+                return true;
             }
-            return true;
         }
-
-        if (((isValidPos(i, j + 1, n, m)&&!board[i][j+1].isOccupied()) || !isValidPos(i, j + 1, n, m))&& board[i][j].isOccupied()) {
-            for (j = j+1; j<board[0].length; j++){
-                if (board[i][j].isOccupied())
-                    return false;
-            }
-            return true;
-        }
-
-        if ((isValidPos(i + 1, j, n, m)&&!board[i+1][j].isOccupied() || !isValidPos(i + 1, j, n, m))&& board[i][j].isOccupied()) {
-            for (i = i+1; i<board.length; i++){
-                if (board[i][j].isOccupied())
-                    return false;
-            }
-            return true;
-        }
-
-
-
         return false;
-
     }
+
+    private boolean isUnoccupiedInDirection(int i, int j, int di, int dj) {
+        int n = board.length;
+        int m = board[0].length;
+        i += di;
+        j += dj;
+        if (!isValidPos(i, j, n, m) || !board[i][j].isOccupied()) {
+            while (isValidPos(i, j, n, m)) {
+                if (board[i][j].isOccupied()) {
+                    return false;
+                }
+                i += di;
+                j += dj;
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
 
     public Tile pick(Coordinates c) {
 
@@ -232,21 +224,23 @@ public class GameBoard {
 
     }
 
-    public void fillBoard(Set<Tile> tiles){
+    public void fillBoard(Set<Tile> tiles) {
         int[] dim = returndim();
         int rows = dim[0];
         int columns = dim[1];
-            for(int i=0; i<rows; i++){
-                for(int j=0; j<columns; j++){
-                    if(finalMatrix[i][j] != 0 && !board[i][j].isOccupied())
-                        while (!tiles.isEmpty()) {
-                            board[i][j].placeTile(tiles.iterator().next());
-                            tiles.remove(tiles.iterator().next());
-                            break;
-                        }
+
+        Iterator<Tile> tileIterator = tiles.iterator();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (finalMatrix[i][j] != 0 && !board[i][j].isOccupied() && tileIterator.hasNext()) {
+                    Tile tileToPlace = tileIterator.next();
+                    board[i][j].placeTile(tileToPlace);
+                    tileIterator.remove();
                 }
             }
         }
+    }
+
     //print colored game Board
     public void printBoardColor(){
         int[] dim = returndim();

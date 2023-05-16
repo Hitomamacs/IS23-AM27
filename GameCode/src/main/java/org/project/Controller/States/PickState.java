@@ -22,8 +22,10 @@ public class PickState implements GameState {
         List<Tile> pickedTiles = new ArrayList<Tile>();
         for (Coordinates c : coordinates) {
             pickedTiles.add(gameOrchestrator.getGameBoard().pick(c));
+            gameOrchestrator.getGameBoard().firePropertyChange("boardUpdate",gameOrchestrator.getGameBoard());
         }
         gameOrchestrator.getCurrentPlayer().modifyPickedTiles(pickedTiles);
+        gameOrchestrator.getCurrentPlayer().firePropertyChange("tilesUpdate", gameOrchestrator.getCurrentPlayer());
     }
 
     /*
@@ -61,8 +63,8 @@ public class PickState implements GameState {
         //Now we update the Virtual View
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
-        gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
-        gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
+        //gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
+        //gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         System.out.println("-> VirtualView updated ");

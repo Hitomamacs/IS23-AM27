@@ -23,7 +23,7 @@ public class EndGameState implements GameState {
             points = p.verifyExtraPoints() + p.verifyExtraPoints() + p.getScore();
             score.put(p.getNickname(), points);
         }
-        gameOrchestrator.getGame().getView().updateView(score);
+        //gameOrchestrator.getGame().getView().updateView(score);
         //TODO will have to change some variable so that the server knows the game has ended and can close
     }
 

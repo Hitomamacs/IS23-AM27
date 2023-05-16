@@ -2,6 +2,7 @@ package org.project.Controller.Control;
 
 import com.google.gson.annotations.Expose;
 import org.project.Controller.Control.Game;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Model.*;
@@ -72,7 +73,7 @@ public class GameOrchestrator {
         this.State=state;
     }
 
-    public void executeState(){
+    public void executeState()throws InvalidMoveException {
         this.State.execute();
     }
 

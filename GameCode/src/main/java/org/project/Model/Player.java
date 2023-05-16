@@ -2,6 +2,7 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
+import org.project.ObservableObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -11,7 +12,7 @@ import java.util.*;
 
 import static org.project.Controller.Control.Persistencer.gson_parser;
 
-public class Player {
+public class Player extends ObservableObject {
     @Expose
     private String nickname;
     @Expose
@@ -109,48 +110,14 @@ public class Player {
         personalGoalID = myPersonalGoal.getPgoal_ID();
     }
 
-    public int recoverPersonalGoal(){
-        switch (personalGoalID){
-            case 1:
-                myPersonalGoal = new PersonalGoal(1, personalGoals_list.get(0));
-                break;
-            case 2:
-                myPersonalGoal = new PersonalGoal(2, personalGoals_list.get(1));
-                break;
-            case 3:
-                myPersonalGoal = new PersonalGoal(3, personalGoals_list.get(2));
-                break;
-            case 4:
-                myPersonalGoal = new PersonalGoal(4, personalGoals_list.get(3));
-                break;
-            case 5:
-                myPersonalGoal = new PersonalGoal(5, personalGoals_list.get(4));
-                break;
-            case 6:
-                myPersonalGoal = new PersonalGoal(6, personalGoals_list.get(5));
-                break;
-            case 7:
-                myPersonalGoal = new PersonalGoal(7, personalGoals_list.get(6));
-                break;
-            case 8:
-                myPersonalGoal = new PersonalGoal(8, personalGoals_list.get(7));
-                break;
-            case 9:
-                myPersonalGoal = new PersonalGoal(9, personalGoals_list.get(8));
-                break;
-            case 10:
-                myPersonalGoal = new PersonalGoal(10, personalGoals_list.get(9));
-                break;
-            case 11:
-                myPersonalGoal = new PersonalGoal(11, personalGoals_list.get(10));
-                break;
-            case 12:
-                myPersonalGoal = new PersonalGoal(12, personalGoals_list.get(11));
-                break;
-
+    public int recoverPersonalGoal() {
+        if (personalGoalID < 0 || personalGoalID > 12) {
+            throw new IllegalArgumentException("Invalid personal goal ID: " + personalGoalID);
         }
+        myPersonalGoal = new PersonalGoal(personalGoalID, personalGoals_list.get(personalGoalID ));
         return 1;
     }
+
     public void setPickedTiles(Tile[] pickedTiles) {
         this.pickedTiles = pickedTiles;
     }
@@ -201,51 +168,37 @@ public class Player {
         return tile;
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal
-    public int verifyPGoalPoints(){
+    public int verifyPGoalPoints() {
+        Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
 
-        Map<Coordinates,Color> colorMap;
-        Tile tile;
-        Coordinates coordinate;
-        Color color;
-        int count = 0;
-        int result = 0;
-        colorMap = myPersonalGoal.getColoredGoal();
-        //for loop iterates on hash map and checks for each coordinate if there is a tile and if the color is correct
-        //in which case count is incremented
-        for (Map.Entry<Coordinates, Color> mapElement : colorMap.entrySet()){
-            coordinate = mapElement.getKey();
-            color = mapElement.getValue();
-            if(playerGrid.getSpot(coordinate).isOccupied()){
-                tile = playerGrid.getSpot(coordinate).getTile();
-                if(tile.getColor() == color){
-                    count++;
-                }
-            }
-        }
-        switch(count){//switch to determine how many points are assigned based on number of correct tiles
-            case 0:
-                result = 0;
-                break;
+        long count = colorMap.entrySet().stream()
+                .filter(entry -> {
+                    Spot spot = playerGrid.getSpot(entry.getKey());
+                    return spot.isOccupied() && spot.getTile().getColor() == entry.getValue();
+                })
+                .count();
+
+        return calculateResult((int) count);
+    }
+
+
+    private int calculateResult(int count) {
+        switch(count){
             case 1:
-                result = 1;
-                break;
+                return 1;
             case 2:
-                result = 2;
-                break;
+                return 2;
             case 3:
-                result = 4;
-                break;
+                return 4;
             case 4:
-                result = 6;
-                break;
+                return 6;
             case 5:
-                result = 9;
-                break;
+                return 9;
             case 6:
-                result = 12;
-                break;
+                return 12;
+            default:
+                return 0;
         }
-        return result;
     }
 
     //verifyExtraPoints is the method that checks how many points to assign for groups of same colored tiles
@@ -254,63 +207,58 @@ public class Player {
     //if you have in a grid 2 groups of 3 tiles of the same color you get 4 points.
     //in verifyextrapoint helper we need also to verify if we are in an ammissible position in the grid and if the tile is occupied
     // we are using the class coordinates to represent the position in the grid
-    public int verifyExtraPoints(){
-        boolean[][] visited;
-        int i,j;
-        int count = 0;
+    public int verifyExtraPoints() {
+        boolean[][] visited = new boolean[6][5];
         int result = 0;
-        Color color;
-        visited = new boolean[6][5];
-        for(i = 0; i < 6; i++){
-            for(j = 0; j < 5; j++){
-                visited[i][j] = false;
-            }
-        }
-        for(i = 0; i < 6; i++){
-            for(j = 0; j < 5; j++){
-                if(playerGrid.getSpot(new Coordinates(i,j)).isOccupied() && !visited[i][j]){
-                    color = playerGrid.getSpot(new Coordinates(i,j)).getTile().getColor();
-                    count = verifyExtraPointHelper(i,j,color,visited);
-                    if(count >= 3){
-                        if(count == 3)
-                            result = result + 2;
-                        else if(count == 4)
-                            result = result + 3;
-                        else if(count == 5)
-                            result = result + 5;
-                        else
-                            result = result + 8;
-                    }
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                Spot spot = getSpot(i, j);
+                if (spot.isOccupied() && !visited[i][j]) {
+                    int count = verifyExtraPointHelper(i, j, spot.getTile().getColor(), visited);
+                    result += calculatePoints(count);
                 }
             }
         }
         return result;
     }
 
-    public int verifyExtraPointHelper(int i, int j, Color color, boolean[][] visited){
-        int count = 1;
+    private Spot getSpot(int i, int j) {
+        return playerGrid.getSpot(new Coordinates(i, j));
+    }
+
+    private int calculatePoints(int count) {
+        if (count == 3)
+            return 2;
+        else if (count == 4)
+            return 3;
+        else if (count == 5)
+            return 5;
+        else if (count > 5)
+            return 8;
+        return 0;
+    }
+
+    public int verifyExtraPointHelper(int i, int j, Color color, boolean[][] visited) {
+        if (!isValidPos(i, j, playerGrid.getGrid().length, playerGrid.getGrid()[0].length)) {
+            return 0;
+        }
+        Spot spot = getSpot(i, j);
+        if (!spot.isOccupied() || spot.getTile().getColor() != color || visited[i][j]) {
+            return 0;
+        }
+
         visited[i][j] = true;
-        if(isValidPos(i + 1,j,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i+1,j)).isOccupied() && playerGrid.getSpot(new Coordinates(i+1,j)).getTile().getColor() == color && !visited[i + 1][j]){
-            count = count + verifyExtraPointHelper(i + 1,j,color,visited);
-        }
-        if(isValidPos(i - 1,j,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i-1,j)).isOccupied() && playerGrid.getSpot(new Coordinates(i-1,j)).getTile().getColor() == color && !visited[i - 1][j]){
-            count = count + verifyExtraPointHelper(i - 1,j,color,visited);
-        }
-        if(isValidPos(i,j + 1,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i,j+1)).isOccupied() && playerGrid.getSpot(new Coordinates(i,j+1)).getTile().getColor() == color && !visited[i][j + 1]){
-            count = count + verifyExtraPointHelper(i,j + 1,color,visited);
-        }
-        if(isValidPos(i,j - 1,playerGrid.getGrid().length,playerGrid.getGrid()[0].length) && playerGrid.getSpot(new Coordinates(i,j-1)).isOccupied() && playerGrid.getSpot(new Coordinates(i,j-1)).getTile().getColor() == color && !visited[i][j - 1]){
-            count = count + verifyExtraPointHelper(i,j - 1,color,visited);
-        }
-        return count;
+        return 1 +
+                verifyExtraPointHelper(i + 1, j, color, visited) +
+                verifyExtraPointHelper(i - 1, j, color, visited) +
+                verifyExtraPointHelper(i, j + 1, color, visited) +
+                verifyExtraPointHelper(i, j - 1, color, visited);
     }
-    static boolean isValidPos(int i, int j, int n, int m)
-    {
-        if (i < 0 || j < 0 || i > n - 1 || j > m - 1) {
-            return false;
-        }
-        return true;
+
+    static boolean isValidPos(int i, int j, int n, int m) {
+        return i >= 0 && j >= 0 && i < n && j < m;
     }
+
 
     public int getSelectedColumn() {
         return selectedColumn;

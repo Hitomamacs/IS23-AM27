@@ -138,7 +138,17 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
                         System.out.println("TOP UP ERRORE");
                     }
                     break;
-
+                case "quit":
+                    try {
+                        successo=rmiServer.sendQuit(nickname);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(successo){
+                        System.out.println("QUIT SUCCESSO");
+                    }else {
+                        System.out.println("QUIT ERRORE");
+                    }
             }
         }
 
@@ -233,6 +243,16 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
             System.out.println(tile + " ");
         }
 
+        String[][] grid = clientView.getGridsview().get(playername);
+        System.out.println("This is "+playername+" grid");
+        for ( i = 0; i<6; i++ ){
+            for ( j = 0; j<5; j++){
+                System.out.print(grid[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+
     }
 
     /**
@@ -245,16 +265,21 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     public void notifyTopUp(String[][] grid,String[] tilesView,String playername) throws RemoteException{
         int i,j;
 
+        //aggiorna grid view e stampa grid
+        System.out.println("This is "+playername+ " grid now");
         for(i=0;i<6;i++){
             for(j=0;j<5;j++){
                 clientView.getGridsview().get(playername)[i][j]=grid[i][j];
+                System.out.print(grid[i][j]);
+                System.out.print(" ");
             }
+            System.out.println();
         }
 
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];
         }
-        
+
     }
 
     /**

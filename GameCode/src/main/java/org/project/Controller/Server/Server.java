@@ -159,7 +159,7 @@ public class Server {
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
-    public boolean join(String username, boolean connectionType){
+    public synchronized boolean join(String username, boolean connectionType){
         return controller.join(username, connectionType);
     }
     /**
@@ -168,7 +168,7 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public boolean create_game(String username, boolean connectionType, int numPlayers){
+    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers){
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**
@@ -176,7 +176,7 @@ public class Server {
      * @param username player's name
      */
     public boolean quit(String username){
-        return false;
+        return controller.quit(username);
     }
 
 
@@ -220,6 +220,9 @@ public class Server {
         List<Integer> pointStack = view.getPointStackView().getPointList();
         HashMap<String, String[][]> gridsview = new HashMap<>();
         HashMap<String, String[]> tilesview = new HashMap<>();
+        HashMap<String, Integer> personalGoalview=new HashMap<>();
+        List<Integer> commonGoalview= view.getCommonGoalsView();
+
         for(Map.Entry<String, GridView> mapElement : view.getGridViews().entrySet()){
             String username = mapElement.getKey();
             GridView gridView = mapElement.getValue();
@@ -230,14 +233,20 @@ public class Server {
             TilesView tileView = mapElement.getValue();
             tilesview.put(username, tileView.getPlayerTiles());
         }
+        for(Map.Entry<String, Integer> mapElement : view.getPersonalGoalViews().entrySet()){
+            String username = mapElement.getKey();
+            Integer pgoalView = mapElement.getValue();
+            personalGoalview.put(username,pgoalView);
+        }
+
         //Sending to socket clients
-        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
+        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview,personalGoalview,commonGoalview);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //Sending to RMI clients
 
         rmiServer.getClientsRMI().forEach((username,client)-> {
             try {
-                client.notifyInitialGameView(board,pointStack,gridsview,tilesview);
+                client.notifyInitialGameView(board,pointStack,gridsview,tilesview,personalGoalview,commonGoalview);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

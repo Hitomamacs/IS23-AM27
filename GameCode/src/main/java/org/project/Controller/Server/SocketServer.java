@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,6 +15,13 @@ public class SocketServer implements Runnable {
 
     private final Server server;
     int port;
+
+    public HashMap<String, Timer> getKeepAliveTimers() {
+        return keepAliveTimers;
+    }
+
+    private HashMap<String, Timer> keepAliveTimers = new HashMap<>();
+
 
     private HashMap<String, SocketClientHandler> socketClients;
 

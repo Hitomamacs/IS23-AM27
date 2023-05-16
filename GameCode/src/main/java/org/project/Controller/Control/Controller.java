@@ -111,11 +111,16 @@ public class Controller {
         //TODO checks once persistence has been implemented
         if(!lobby.isEmpty()){
             for (User user : lobby) {
-                if (user.getUsername().equals(username)) {
+                if (user.getUsername().equals(username) && user.isConnected()) {
                     System.out.println("\n" + username + " is already in use in the game  (Server login method)");
                     return false;
+                } else if (user.getUsername().equals(username) && !user.isConnected()) {
+                    System.out.println("\nplayer"+ username+ "has reconnected");
+                    user.setConnected(true);
+                    return true;
                 }
             }
+
             User user = new User(username, connectionType);
             user.addPropertyChangeListener(this.UserConnectionListener);
             lobby.add(user);
@@ -193,7 +198,17 @@ public class Controller {
         System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
     }
-    public boolean quit(){
+    public boolean quit(String username){
+        if(game.getGameStarted()){
+            System.out.println("Server handling quit message (Server quit method)");
+            for (User user : lobby) {
+                if (user.getUsername().equals(username) && user.isConnected()) {
+                    user.setConnected(false);
+                }
+            }
+            String text=username+"quitted";
+            server.sendInfo(text);
+        }
         return false;
     }
     public boolean correctPlayer(String username){

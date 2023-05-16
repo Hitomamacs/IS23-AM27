@@ -194,17 +194,21 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         clientView.setPointStack(pointStack);
         clientView.setGridsview(gridsView);
         clientView.setTilesview(tilesView);
+        clientView.setCommonGoalView(cGoalView);
+        clientView.setPersonalGoalViews(pGoalView);
 
-        System.out.println("the game is started");
+        System.out.println("The game is started");
 
         //stampa board iniziale
-        for(i=0;i<9;i++){
-            for(j=0;j<9;j++){
-                System.out.print(clientView.getBoard()[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
+        System.out.println("The game is printing the board");
+
+        clientView.printBoard();
+
+        //stampa common goal
+        clientView.printCommonGoal();
+
+        //stampa personal goal
+
 
     }
 
@@ -230,28 +234,14 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         }
 
         System.out.println("\nPrinting updated board");
-        for(i=0;i<9;i++){
-            for(j=0;j<9;j++){
-                System.out.print(clientView.getBoard()[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
+        clientView.printBoard();
 
         System.out.println("Printing " + playername + " tiles");
-        for (String tile : tilesView) {
-            System.out.println(tile + " ");
-        }
+        clientView.printTiles(playername);
 
         String[][] grid = clientView.getGridsview().get(playername);
         System.out.println("This is "+playername+" grid");
-        for ( i = 0; i<6; i++ ){
-            for ( j = 0; j<5; j++){
-                System.out.print(grid[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
+        clientView.printGrid(playername);
 
     }
 
@@ -266,15 +256,14 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         int i,j;
 
         //aggiorna grid view e stampa grid
-        System.out.println("This is "+playername+ " grid now");
         for(i=0;i<6;i++){
             for(j=0;j<5;j++){
                 clientView.getGridsview().get(playername)[i][j]=grid[i][j];
-                System.out.print(grid[i][j]);
-                System.out.print(" ");
             }
-            System.out.println();
         }
+        System.out.println("This is "+playername+ " grid now");
+        clientView.printGrid(playername);
+
 
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];

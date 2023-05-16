@@ -24,8 +24,8 @@ public class VirtualView {
     private HashMap<String, GridView> gridViews;
     private HashMap<String, TilesView> tilesViews;
     private ScoreBoardView scoreBoardView;
-    private HashMap<String, PGoalView> personalGoalViews;
-    private ArrayList<CGoalView> commonGoalView;
+    private HashMap<String, Integer> personalGoalViews;
+    private ArrayList<Integer> commonGoalsView;
 
 
 
@@ -36,7 +36,7 @@ public class VirtualView {
         gridViews = new HashMap<>();
         tilesViews = new HashMap<>();
         personalGoalViews=new HashMap<>();
-        commonGoalView=new ArrayList<>();
+        commonGoalsView=new ArrayList<>();
 
         int numPlayers = users.size();
         for (User user : users) {
@@ -168,19 +168,20 @@ public class VirtualView {
 
     };
 
-    public HashMap<String, PGoalView> getPersonalGoalViews() {
+
+    public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;
     }
 
-    public void setPersonalGoalViews(HashMap<String, PGoalView> personalGoalViews) {
+    public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
         this.personalGoalViews = personalGoalViews;
     }
 
-    public ArrayList<CGoalView> getCommonGoalView() {
-        return commonGoalView;
+    public ArrayList<Integer> getCommonGoalsView() {
+        return commonGoalsView;
     }
 
-    public void setCommonGoalView(ArrayList<CGoalView> commonGoalView) {
-        this.commonGoalView = commonGoalView;
+    public void setCommonGoalsView(ArrayList<Integer> commonGoalViews) {
+        this.commonGoalsView = commonGoalViews;
     }
 }

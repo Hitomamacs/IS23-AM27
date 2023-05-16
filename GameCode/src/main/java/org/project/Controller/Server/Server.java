@@ -220,6 +220,9 @@ public class Server {
         List<Integer> pointStack = view.getPointStackView().getPointList();
         HashMap<String, String[][]> gridsview = new HashMap<>();
         HashMap<String, String[]> tilesview = new HashMap<>();
+        HashMap<String, Integer> personalGoalview=new HashMap<>();
+        List<Integer> commonGoalview= view.getCommonGoalsView();
+
         for(Map.Entry<String, GridView> mapElement : view.getGridViews().entrySet()){
             String username = mapElement.getKey();
             GridView gridView = mapElement.getValue();
@@ -230,14 +233,20 @@ public class Server {
             TilesView tileView = mapElement.getValue();
             tilesview.put(username, tileView.getPlayerTiles());
         }
+        for(Map.Entry<String, Integer> mapElement : view.getPersonalGoalViews().entrySet()){
+            String username = mapElement.getKey();
+            Integer pgoalView = mapElement.getValue();
+            personalGoalview.put(username,pgoalView);
+        }
+
         //Sending to socket clients
-        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview);
+        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview,personalGoalview,commonGoalview);
         socketServer.getSocketClients().forEach((username, client) -> client.send(message));
         //Sending to RMI clients
 
         rmiServer.getClientsRMI().forEach((username,client)-> {
             try {
-                client.notifyInitialGameView(board,pointStack,gridsview,tilesview);
+                client.notifyInitialGameView(board,pointStack,gridsview,tilesview,personalGoalview,commonGoalview);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

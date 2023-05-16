@@ -1,8 +1,5 @@
 package org.project;
 
-import org.project.Controller.View.CGoalView;
-import org.project.Controller.View.PGoalView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +16,8 @@ public class ClientView {
     private HashMap<String,String[]> tilesview;
     private String popUpErrorMessage;
     private HashMap<String, Integer> scoreBoard;
-    private HashMap<String, PGoalView> personalGoalViews;
-    private ArrayList<CGoalView> commonGoalView;
+    private HashMap<String, Integer> personalGoalViews;
+    private ArrayList<Integer> commonGoalView;
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
@@ -146,19 +143,20 @@ public class ClientView {
         }
     }
 
-    public HashMap<String, PGoalView> getPersonalGoalViews() {
+
+    public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;
     }
 
-    public void setPersonalGoalViews(HashMap<String, PGoalView> personalGoalViews) {
+    public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
         this.personalGoalViews = personalGoalViews;
     }
 
-    public ArrayList<CGoalView> getCommonGoalView() {
+    public ArrayList<Integer> getCommonGoalView() {
         return commonGoalView;
     }
 
-    public void setCommonGoalView(ArrayList<CGoalView> commonGoalView) {
+    public void setCommonGoalView(ArrayList<Integer> commonGoalView) {
         this.commonGoalView = commonGoalView;
     }
 }

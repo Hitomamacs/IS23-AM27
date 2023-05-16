@@ -77,7 +77,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         try {
             System.out.println("Inserisci nome");
             nickname=stdin.nextLine();
-            nome=rmiServer.sendLogin(nickname,false,2, this);
+            nome=rmiServer.sendCreateGame(nickname,false,2, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -85,7 +85,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
             System.out.println("LOGGATO");
         }else {
             try {
-                nome=rmiServer.sendLogin(nickname,false, this);
+                nome=rmiServer.sendJoin(nickname,false, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

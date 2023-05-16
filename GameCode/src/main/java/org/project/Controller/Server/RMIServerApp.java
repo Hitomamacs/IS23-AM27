@@ -77,7 +77,7 @@ public class RMIServerApp implements RMIServerInterface {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType, RMIClientInterface client) throws RemoteException{
+    public boolean sendJoin(String nickname, boolean connectionType, RMIClientInterface client) throws RemoteException{
         boolean check;
         check=server.join(nickname, connectionType);
         if(check==true){
@@ -97,7 +97,7 @@ public class RMIServerApp implements RMIServerInterface {
      * @return
      * @throws RemoteException if something goes wrong with the connection
      */
-    public boolean sendLogin(String nickname, boolean connectionType, int numPlayers, RMIClientInterface client) throws RemoteException{
+    public boolean sendCreateGame(String nickname, boolean connectionType, int numPlayers, RMIClientInterface client) throws RemoteException{
         boolean check;
         check=server.create_game(nickname,connectionType,numPlayers);
         if(check==true){

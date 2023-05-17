@@ -113,22 +113,6 @@ public class Server {
 */
     //METODI DEL SERVER CHIAMATI DA RMI/SOCKET SERVER
 
-
-    /**
-     * method for logging in the player through the nickname.
-     * The method checks that the nickname is different for each logged in player.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     */
-
-    /**
-     * method for logging the FIRST player through the nickname.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     * @param numPlayers Number of players in the match
-     */
-
-
     /**
      * method that allows the client to take tiles from the board
      * @param username player's name
@@ -137,6 +121,7 @@ public class Server {
     public boolean pick(String username, List<Coordinates> coordinates){
         return controller.pick(username, coordinates);
     }
+
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
      * @param username player's name
@@ -172,7 +157,7 @@ public class Server {
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**
-     * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * method called when a player wants to drop out. A message of the event that occurred is sent to all.
      * @param username player's name
      */
     public boolean quit(String username){

@@ -113,22 +113,6 @@ public class Server {
 */
     //METODI DEL SERVER CHIAMATI DA RMI/SOCKET SERVER
 
-
-    /**
-     * method for logging in the player through the nickname.
-     * The method checks that the nickname is different for each logged in player.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     */
-
-    /**
-     * method for logging the FIRST player through the nickname.
-     * @param username player's name
-     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
-     * @param numPlayers Number of players in the match
-     */
-
-
     /**
      * method that allows the client to take tiles from the board
      * @param username player's name
@@ -137,6 +121,7 @@ public class Server {
     public boolean pick(String username, List<Coordinates> coordinates){
         return controller.pick(username, coordinates);
     }
+
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
      * @param username player's name
@@ -172,7 +157,7 @@ public class Server {
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**
-     * remote method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * method called when a player wants to drop out. A message of the event that occurred is sent to all.
      * @param username player's name
      */
     public boolean quit(String username){
@@ -252,6 +237,46 @@ public class Server {
             }
         });
 
+    }
+    public void refresh(String playername, VirtualView view){
+
+        String[][] board = view.getBoardView().getBoard();
+        List<Integer> pointStack = view.getPointStackView().getPointList();
+        HashMap<String, String[][]> gridsview = new HashMap<>();
+        HashMap<String, String[]> tilesview = new HashMap<>();
+        HashMap<String, Integer> personalGoalview=new HashMap<>();
+        List<Integer> commonGoalview= view.getCommonGoalsView();
+
+        for(Map.Entry<String, GridView> mapElement : view.getGridViews().entrySet()){
+            String username = mapElement.getKey();
+            GridView gridView = mapElement.getValue();
+            gridsview.put(username, gridView.getGridView());
+        }
+        for(Map.Entry<String, TilesView> mapElement : view.getTilesViews().entrySet()){
+            String username = mapElement.getKey();
+            TilesView tileView = mapElement.getValue();
+            tilesview.put(username, tileView.getPlayerTiles());
+        }
+        for(Map.Entry<String, Integer> mapElement : view.getPersonalGoalViews().entrySet()){
+            String username = mapElement.getKey();
+            Integer pgoalView = mapElement.getValue();
+            personalGoalview.put(username,pgoalView);
+        }
+        RefreshMsg message = new RefreshMsg(board, pointStack, gridsview, tilesview,personalGoalview,commonGoalview);
+        boolean connectionType = controller.getUser(playername).getConnectionType();
+        //If client is socket
+        if(connectionType){
+            socketServer.getSocketClients().get(playername).send(message);
+        }
+        //If client is RMI
+        else {
+            try {
+                rmiServer.getClientsRMI().get(playername).notifyInitialGameView(board, pointStack, gridsview, tilesview, personalGoalview, commonGoalview);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
     //Sends necessary stuff for update after a successful pick move
     public void send(BoardView boardView, TilesView tilesView){

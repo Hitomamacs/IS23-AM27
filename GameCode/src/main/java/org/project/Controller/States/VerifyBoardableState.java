@@ -16,13 +16,26 @@ public class VerifyBoardableState implements GameState {
 
     public boolean verifyBoardable(){
         List<Coordinates> pickedCoordinates = gameOrchestrator.getPickedCoordinates();
+        if(!checkAligned(pickedCoordinates)) {
+            return false;
+        }
         for(Coordinates c : pickedCoordinates){
             if(!gameOrchestrator.getGameBoard().verifyPickable(c)){
                 return false;
             }
         }
         return true;
-
+    }
+    public boolean checkAligned(List<Coordinates> coordinates){
+        boolean same_X = true;
+        boolean same_Y = true;
+        for(int i = 0; i < coordinates.size() - 1; i++){
+            if(!(coordinates.get(i).getX() == coordinates.get(i + 1).getX()))
+                same_X = false;
+            if(!(coordinates.get(i).getY() == coordinates.get(i + 1).getY()))
+                same_Y = false;
+        }
+        return(same_X || same_Y);
     }
     @Override
     public void changeState() throws InvalidMoveException {
@@ -40,7 +53,7 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(10);
-            throw new InvalidMoveException("Tiles must be adjacent and have at least on free side");
+            throw new InvalidMoveException("Tiles must be adjacent, aligned and have at least on free side");
         }
 
     }

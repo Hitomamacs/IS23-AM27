@@ -3,6 +3,7 @@ package org.project.Controller.View;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.User;
 import org.project.Model.*;
+import org.project.Model.CommonGoals.CommonGoal;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -35,8 +36,8 @@ public class VirtualView {
         pointStackView = new PointStackView();
         gridViews = new HashMap<>();
         tilesViews = new HashMap<>();
-        personalGoalViews=new HashMap<>();
-        commonGoalsView=new ArrayList<>();
+        personalGoalViews = new HashMap<>();
+        commonGoalsView = new ArrayList<>();
 
         int numPlayers = users.size();
         for (User user : users) {
@@ -58,6 +59,17 @@ public class VirtualView {
     public void updateView(HashMap<String, Integer> score){
         scoreBoardView.updateScoreBoardView(score);
     }
+    public void updateView(String username, PersonalGoal PGoal){
+        personalGoalViews.put(username, PGoal.getPgoal_ID());
+    }
+    public void updateView(List<CommonGoal> commonGoals){
+        ArrayList<Integer> copyList = new ArrayList<>();
+        for(CommonGoal cGoal : commonGoals){
+            copyList.add(cGoal.getGoalID());
+        }
+        commonGoalsView = copyList;
+    }
+
     public BoardView getBoardView() {
         return boardView;
     }
@@ -81,6 +93,12 @@ public class VirtualView {
     }
     public PropertyChangeListener getTilesUpdateListener(){
         return this.tilesUpdateListener;
+    }
+    public PropertyChangeListener getPGoalUpdateListener(){
+        return this.PGoalUpdateListener;
+    }
+    public PropertyChangeListener getCGoalUpdateListener(){
+        return this.CGoalUpdateListener;
     }
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
@@ -167,7 +185,24 @@ public class VirtualView {
         }
 
     };
-
+    PropertyChangeListener PGoalUpdateListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("PGoalUpdate".equals(evt.getPropertyName())){
+                Player player = (Player) evt.getNewValue();
+                updateView(player.getNickname(), player.getMyPersonalGoal());
+            }
+        }
+    };
+    PropertyChangeListener CGoalUpdateListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("CGoalUpdate".equals(evt.getPropertyName())){
+                Game game = (Game) evt.getNewValue();
+                updateView(game.getCommonGoals());
+            }
+        }
+    };
 
     public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;
@@ -181,7 +216,7 @@ public class VirtualView {
         return commonGoalsView;
     }
 
-    public void setCommonGoalsView(ArrayList<Integer> commonGoalViews) {
-        this.commonGoalsView = commonGoalViews;
+    public void setCommonGoalsView(ArrayList<Integer> commonGoalsView) {
+        this.commonGoalsView = commonGoalsView;
     }
 }

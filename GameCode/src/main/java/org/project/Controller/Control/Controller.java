@@ -2,6 +2,7 @@ package org.project.Controller.Control;
 
 import org.project.Controller.Server.Server;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
+import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.BoardView;
@@ -66,6 +67,8 @@ public class Controller {
         }
         this.game.gameInit(numPlayers);
         this.linkModel2View();
+        this.game.pickCommonGoals();
+        this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
         //Next try and catch we don't really expect any exceptions as the executeState() method will
         //be passing in between states that don't throw exceptions
@@ -78,16 +81,23 @@ public class Controller {
         this.server.send(this.view);
 
     }
-
-
-
     public void linkModel2View(){
         for(Player player : game.getPlayers()){
             player.addPropertyChangeListener(view.getTilesUpdateListener());
             player.addPropertyChangeListener(view.getGridUpdateListener());
+            player.addPropertyChangeListener(view.getPGoalUpdateListener());
         }
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
+        game.addPropertyChangeListener(view.getCGoalUpdateListener());
     }
+
+    /**
+     * method for logging the FIRST player through the nickname.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @param numPlayers Number of players in the match
+     * @return true if the action was successful
+     */
     public boolean create_game(String username, boolean connectionType, int numPlayers){
         System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
         if(lobby.isEmpty()) {
@@ -105,6 +115,18 @@ public class Controller {
         System.out.println("\nAlready an existing game  (Server login method)");
         return false;
     }
+
+    /**
+     * method to join the game: if it is the first time you connect,
+     * you do a real login in which you add the client reference to the players list,
+     * otherwise it means that the player wants to reconnect and in this case if the
+     * username inserted corresponds to the username of a player who is in the list and
+     * whose boolean connected is set to false, then the action is accepted
+     * The method checks that the nickname is different for each logged in player.
+     * @param username player's name
+     * @param connectionType =0 if connection is RMI, =1 if connection is Socket
+     * @return true if the action was successful
+     */
     public boolean join(String username, boolean connectionType){
         System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
         //TODO checks once persistence has been implemented
@@ -116,6 +138,7 @@ public class Controller {
                 } else if (user.getUsername().equals(username) && !user.isConnected()) {
                     System.out.println("\nplayer"+ username+ "has reconnected");
                     user.setConnected(true);
+                    server.refresh(username, view);
                     return true;
                 }
             }
@@ -130,6 +153,13 @@ public class Controller {
         System.out.println("\n" + "A game needs to be created first  (Server login method)");
         return false;
     }
+
+    /**
+     * method that allows the client to take tiles from the board
+     * @param username player's name
+     * @param coordinates coordinates of the tiles to be taken
+     * @return true if the action was successful
+     */
     public boolean pick(String username, List<Coordinates> coordinates){
         if(game.getGameStarted()) {
             System.out.println("Server handling pick message (Server pick method)");
@@ -165,6 +195,14 @@ public class Controller {
         return false;
 
     }
+
+    /**
+     * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
+     * @param username player's name
+     * @param column Player's Choice Column
+     * @param tileIndex
+     * @return true if the action was successful
+     */
     public boolean topUp(String username, int column, int tileIndex){
         if (game.getGameStarted()) {
             System.out.println("Server handling topUp message (Server topUp method)");
@@ -197,18 +235,29 @@ public class Controller {
         System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
         return false;
     }
+
+    /**
+     * method called when a player wants to drop out. A message of the event that occurred is sent to all.
+     * @param username player's name
+     */
     public boolean quit(String username){
-        if(game.getGameStarted()){
-            System.out.println("Server handling quit message (Server quit method)");
-            for (User user : lobby) {
-                if (user.getUsername().equals(username) && user.isConnected()) {
+        System.out.println("Server handling quit message (Server quit method)");
+        for (User user : lobby) {
+            if (user.getUsername().equals(username) && user.isConnected()) {
+                if(game.getGameStarted()) {
                     user.setConnected(false);
                 }
+                else{
+                    lobby.remove(user);
+                    //TODO remove from everywhere (SocketClients / RMIClients / eventually common clients hashmap)
+                    //TODO remember methods calling this quit method have to then close the corresponding connection
+                    //TODO also has to restore count keeping track of number of players missing for game to start
+                }
             }
-            String text=username+"quitted";
-            server.sendInfo(text);
         }
-        return false;
+        String text = username + " quitted";
+        server.sendInfo(text);
+        return true;
     }
     public boolean correctPlayer(String username){
         return orchestrator.getCurrentPlayer().getNickname().equals(username);
@@ -235,6 +284,23 @@ public class Controller {
                 Player player = game.getPlayerFromUsername(username);
                 if(player != null){
                     player.setConnected(user.isConnected());
+                }
+                if(user.isConnected()){
+                    server.sendInfo("Player "+ username + " has joined the game");
+                }else {
+                    server.sendInfo("Player " + username + " has disconnected");
+                }
+                if(game.getGameStarted() && correctPlayer(username)){
+                    GameOrchestrator orchestrator = game.getOrchestrator();
+                    orchestrator.changeState(new StartTurnState(orchestrator));
+                    while(!orchestrator.getCurrentPlayer().isConnected()){
+                        orchestrator.nextPlayer();
+                    }
+                    try {
+                        orchestrator.executeState();
+                    } catch (InvalidMoveException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }

@@ -1,6 +1,5 @@
 package org.project.Controller.Server;
 
-
 import org.project.Controller.Messages.Message;
 
 import java.io.IOException;
@@ -13,90 +12,33 @@ import java.util.TimerTask;
 public class SocketClientHandler implements Runnable {
 
     private static final int KEEP_ALIVE_INTERVAL = 5;
-
     private Server server;
     private Socket socket;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     private String username = null;
-
-
     private SocketServer socketServer;
-
     private Scanner in;
-
     private PrintWriter out;
     private MessageHandler messageHandler;
     private boolean connected;
-
-    Timer keepAlive = null;
-
-    Timer keepAliveTimer;
-
-
-
-
-
+    private Timer keepAlive;
+    private Timer keepAliveTimer;
 
     public SocketClientHandler(Socket socket, Server server, SocketServer socketServer) {
+        this.server = server;
+        this.socket = socket;
+        this.socketServer = socketServer;
+
         try {
-            this.server = server;
-            this.socket = socket;
-            this.socketServer = socketServer;
-            resetKeepAliveTimer();
             this.in = new Scanner(socket.getInputStream());
             this.out = new PrintWriter(socket.getOutputStream(), true);
+            this.messageHandler = new MessageHandler(server, socketServer, this);
             startKeepAlive();
-            this.out = out;
-            //out.println("Connected to server");
-            messageHandler = new MessageHandler(server, socketServer, this);
+            resetKeepAliveTimer();
             connected = true;
         } catch (IOException e) {
-            closeEverything(socket, in, out);
+            disconnect();
         }
     }
-
-    public void resetKeepAliveTimer() {
-        synchronized(this) {
-            if(keepAlive != null) {
-                keepAlive.cancel();
-            }
-            keepAlive = new Timer();
-
-            keepAlive.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("No keep-alive signal received for " + KEEP_ALIVE_INTERVAL + " seconds. Disconnecting...");
-                    disconnect();  // Call your custom disconnect function here
-                }
-            }, KEEP_ALIVE_INTERVAL * 1000);
-        }
-    }
-
-    private void startKeepAlive() {
-        keepAliveTimer = new Timer();
-        keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                out.println("KEEP_ALIVE");
-            }
-        }, 0,  1000);
-    }
-
-    public void stopKeepAlive() {
-        if (keepAliveTimer != null) {
-            keepAliveTimer.cancel();
-            keepAliveTimer = null;
-        }
-    }
-
 
     public void run() {
         while (connected) {
@@ -107,37 +49,57 @@ public class SocketClientHandler implements Runnable {
                 } else {
                     messageHandler.handle(line);
                 }
-            }catch (Exception e){
-                System.out.println("Client disconnected");
-                server.set_player_disconnected(username);
-                connected = false;
-                closeEverything(socket, in, out);
+            } catch (Exception e){
+                disconnect();
             }
-
-
-
-        }
-    }
-    public void disconnect() {
-        Timer timer = socketServer.getKeepAliveTimers().remove(getUsername());
-        System.out.println("Keep alive timer cancelled");
-        if (timer != null) {
-            timer.cancel();
-        }
-        if (connected) {
-            server.set_player_disconnected(username);
-            connected = false;
-            closeEverything(socket, in, out);
         }
     }
 
     public void send(Message message){
         messageHandler.send(message);
-
     }
-    public void closeEverything(Socket socket, Scanner in, PrintWriter out){
 
-        try{
+    public void disconnect() {
+        stopKeepAlive();
+        server.set_player_disconnected(username);
+        connected = false;
+        closeResources();
+    }
+
+    private void startKeepAlive() {
+        keepAliveTimer = new Timer();
+        keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                out.println("KEEP_ALIVE");
+            }
+        }, 0, 1000);
+    }
+
+    private void stopKeepAlive() {
+        if (keepAliveTimer != null) {
+            keepAliveTimer.cancel();
+            keepAliveTimer = null;
+        }
+    }
+
+    private void resetKeepAliveTimer() {
+        synchronized(this) {
+            if(keepAlive != null) {
+                keepAlive.cancel();
+            }
+            keepAlive = new Timer();
+            keepAlive.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    disconnect();
+                }
+            }, KEEP_ALIVE_INTERVAL * 1000);
+        }
+    }
+
+    private void closeResources() {
+        try {
             if(in != null){
                 in.close();
             }
@@ -147,9 +109,18 @@ public class SocketClientHandler implements Runnable {
             if(socket != null) {
                 socket.close();
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // getters and setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Server getServer() {
@@ -180,4 +151,3 @@ public class SocketClientHandler implements Runnable {
         return connected;
     }
 }
-

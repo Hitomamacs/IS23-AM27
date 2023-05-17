@@ -24,15 +24,15 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      */
     private RMIServerInterface rmiServer;
     /**
-     * porta di utilizzo per la comunicazione
+     * port for the communication
      */
     private int port;
     /**
-     * nickname usato dal giocatore per connettersi
+     * nickname chosen by the player
      */
     String nickname;
     /**
-     * riferimento alla view del client
+     * reference to the client view
      */
     private ClientView clientView= new ClientView();
 
@@ -181,11 +181,13 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
     /**
-     * metodo invocato dal server per inizializzare la view del client quando inizia una partita
-     * @param board rappresenta la board di gioco
-     * @param pointStack rappresenta i punteggi per gli obiettivi comuni
-     * @param gridsView rappresenta la libreria di ogni giocatore
-     * @param tilesView in questa lista sono presenti le tessere scelte
+     * method invoked by the server to send the initial view
+     * @param board represents the game board
+     * @param pointStack represents scores for common goals
+     * @param gridsView represents each player's grid
+     * @param tilesView the chosen tiles are present in this list
+     * @param pGoalView in this list there are the personal goals fished
+     * @param cGoalView in this list there are the common goals fished
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String,Integer> pGoalView, List<Integer> cGoalView) throws RemoteException{
@@ -218,10 +220,10 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
     /**
-     * metodo invocato dal server dopo una pick avvenuta con successo
-     * @param board nuova board di gioco
-     * @param tilesView lista delle tessere prese
-     * @param playername username del giocatore
+     * method invoked by the server after a successful pick
+     * @param board new game board
+     * @param tilesView the chosen tiles are present in this list
+     * @param playername player's username
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyPick(String[][] board,String[] tilesView, String playername) throws RemoteException{
@@ -251,10 +253,10 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
     /**
-     * metodo invocato dal server dopo una topUp avvenuta con successo
-     * @param grid nuova libreria del giocatore
-     * @param tilesView array delle tessere prese
-     * @param playername username del giocatore
+     * method invoked by the server after a successful topUp
+     * @param grid new player's grid
+     * @param tilesView the chosen tiles are present in this list
+     * @param playername player's username
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyTopUp(String[][] grid,String[] tilesView,String playername) throws RemoteException{
@@ -277,8 +279,8 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
     /**
-     * metodo invocato dal server per notificare al client il punteggio finale di ogni giocatore
-     * @param score punteggi finali
+     * method invoked by the server to notify the client of each player's final score
+     * @param score final scores
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyScoreBoard (HashMap<String, Integer> score) throws RemoteException{
@@ -286,8 +288,8 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
     /**
-     * metodo invocato per stampare errori o altre cose sul client
-     * @param text testo dell'errore
+     * method invoked to print errors or other warnings to the client
+     * @param text text
      * @throws RemoteException if something goes wrong with the connection
      */
     public void notifyPopUpView (String text) throws RemoteException{
@@ -296,6 +298,10 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     }
 
 
+    /**
+     * method that returns the player's nickname
+     * @return player's nickname
+     */
     public String getNickname() {
         return nickname;
     }

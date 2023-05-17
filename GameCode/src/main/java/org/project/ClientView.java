@@ -1,9 +1,9 @@
 package org.project;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.io.File;
+
 
 /**
  * class representing the client side view
@@ -18,6 +18,9 @@ public class ClientView {
     private HashMap<String, Integer> scoreBoard;
     private HashMap<String, Integer> personalGoalViews;
     private List<Integer> commonGoalView;
+
+    //agg
+    private Cli_Images imagine;
 
     private static final String ANSI_RESET = "\u001b[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
@@ -38,7 +41,7 @@ public class ClientView {
     private static final Map<String, String> backgroundColorMap;
     static {
         backgroundColorMap = new HashMap<>();
-        backgroundColorMap.put("I", "\u001b[40m");  //red dove non puoi prendere le cose
+        backgroundColorMap.put("I", "\u001b[40m");  //black dove non puoi prendere le tiles
         backgroundColorMap.put("G", "\u001b[42m");  //green
         backgroundColorMap.put("B", "\u001b[44m");  //blue
         backgroundColorMap.put("P", "\u001b[45m");  //pink
@@ -166,6 +169,23 @@ public class ClientView {
         }
     }
 
+    //TODO: questo metodo deve essere chiamato PRIMA di qualsiasi altra cosa, è il metodo di benvenuto e dopo si sceglie rmi/socket, cli/gui
+    public void printStartImage() {
+        imagine = new Cli_Images();
+        imagine.printFirstImage();
+    }
+
+    //TODO: fare in modo che i giocatori vedano solo la PROPRIA personal goal card
+    public void printPersonalGoalCard(int idCard){
+        switch (idCard){
+            case 0:
+
+                break;
+            case 1:
+        }
+
+
+    }
     public void printPersonalGoal(String playerName){
         System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
     }

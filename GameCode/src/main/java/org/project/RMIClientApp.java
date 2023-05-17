@@ -4,6 +4,7 @@ import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
 
+import java.io.FileNotFoundException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -197,6 +198,10 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         clientView.setCommonGoalView(cGoalView);
         clientView.setPersonalGoalViews(pGoalView);
 
+
+        clientView.printStartImage();
+
+
         System.out.println("The game is started");
 
         //stampa board iniziale
@@ -208,7 +213,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         clientView.printCommonGoal();
 
         //stampa personal goal
-
+        //clientView.printPersonalGoalCard();
 
     }
 

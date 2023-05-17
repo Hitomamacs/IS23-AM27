@@ -201,17 +201,23 @@ public class Controller {
         return false;
     }
     public boolean quit(String username){
-        if(game.getGameStarted()){
-            System.out.println("Server handling quit message (Server quit method)");
-            for (User user : lobby) {
-                if (user.getUsername().equals(username) && user.isConnected()) {
+        System.out.println("Server handling quit message (Server quit method)");
+        for (User user : lobby) {
+            if (user.getUsername().equals(username) && user.isConnected()) {
+                if(game.getGameStarted()) {
                     user.setConnected(false);
                 }
+                else{
+                    lobby.remove(user);
+                    //TODO remove from everywhere (SocketClients / RMIClients / eventually common clients hashmap)
+                    //TODO remember methods calling this quit method have to then close the corresponding connection
+                    //TODO also has to restore count keeping track of number of players missing for game to start
+                }
             }
-            String text=username+"quitted";
-            server.sendInfo(text);
         }
-        return false;
+        String text = username + " quitted";
+        server.sendInfo(text);
+        return true;
     }
     public boolean correctPlayer(String username){
         return orchestrator.getCurrentPlayer().getNickname().equals(username);

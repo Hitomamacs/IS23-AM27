@@ -217,6 +217,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         //stampa personal goal
         //clientView.printPersonalGoalCard();
 
+
     }
 
     /**

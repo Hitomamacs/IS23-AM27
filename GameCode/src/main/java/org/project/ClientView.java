@@ -145,7 +145,6 @@ public class ClientView {
         System.out.println("\nPrinting updated board:");
         System.out.println("   0  1  2  3  4  5  6  7  8");
         for(int i = 0; i < board.length; i++){
-            //System.out.println(i);
             System.out.print(i + " ");
             for(int j = 0; j < board[0].length; j++){
                 if(board[i][j] != null){
@@ -176,12 +175,429 @@ public class ClientView {
     }
 
     //TODO: fare in modo che i giocatori vedano solo la PROPRIA personal goal card
+    //NOTA PER CHI DEVE USARE IL METODO: funziona, le carte vengono stampate in modo corretto, ho fatto la prova
     public void printPersonalGoalCard(int idCard){
         switch (idCard){
             case 0:
-
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 0 && j == 0){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);
+                        }
+                        else if(i == 0 && j == 2){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);
+                        }
+                        else if(i == 1 && j == 4){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);
+                        }
+                        else if(i == 2 && j == 3){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);
+                        }
+                        else if(i == 3 && j == 1){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);
+                        }
+                        else if(i == 5 && j == 2){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
                 break;
+
             case 1:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 2 && j == 0){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 1 && j == 1){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 5 && j == 4){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 3 && j == 4){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 2 && j == 2){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 4 && j == 3){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 2:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 3 && j == 1){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 2 && j == 2){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 1 && j == 0){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 5 && j == 0){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 1 && j == 3){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 3 && j == 4){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 3:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 4 && j == 2){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 3 && j == 3){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 2 && j == 2){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 4 && j == 1){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 0 && j == 4){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 2 && j == 0){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 4:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 5 && j == 3){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 4 && j == 4){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 3 && j == 1){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 3 && j == 2){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 5 && j == 0){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 1 && j == 1){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 5:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 0 && j == 4){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 5 && j == 0){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 4 && j == 3){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 2 && j == 3){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 4 && j == 1){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 0 && j == 2){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 6:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 0 && j == 0){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 2 && j == 1){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 1 && j == 3){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 5 && j == 2){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 4 && j == 4){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 3 && j == 0){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 7:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 1 && j == 1){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 3 && j == 0){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 0 && j == 4){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 4 && j == 3){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 5 && j == 3){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 2 && j == 2){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 8:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 2 && j == 2){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 4 && j == 4){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 5 && j == 0){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 3 && j == 4){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 0 && j == 2){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 4 && j == 1){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 9:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 3 && j == 3){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 5 && j == 3){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 4 && j == 1){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 2 && j == 0){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 1 && j == 1){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 0 && j == 4){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 10:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 4 && j == 4){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 0 && j == 2){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 3 && j == 2){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 1 && j == 1){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 2 && j == 0){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 5 && j == 3){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
+            case 11:
+                System.out.println("La tua Personal Goal Card è la seguente: \n");
+                System.out.println("   0  1  2  3  4");
+                for(int i = 0; i < 6; i++){
+                    System.out.print(i + " ");
+                    for(int j = 0; j < 5; j++){
+                        if(i == 5 && j == 0){
+                            System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                        }
+                        else if(i == 1 && j == 1){
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        else if(i == 2 && j == 2){
+                            System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                        }
+                        else if(i == 0 && j == 2){
+                            System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                        }
+                        else if(i == 4 && j == 4){
+                            System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                        }
+                        else if(i == 3 && j == 3){
+                            System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                        }
+                        else {
+                            System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                System.out.println("Caselle completate:  1   2   3   4   5   6");
+                System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
+                break;
+
         }
 
 
@@ -191,9 +607,243 @@ public class ClientView {
     }
 
     public void printCommonGoal(){
-        System.out.println("\n Printing common goals ");
+        System.out.println("\nPrinting Common Goals Card");
         for(Integer id: commonGoalView){
-            System.out.println(id + " ");
+            System.out.println(id + ": ");
+            System.out.println();
+            switch (id) {
+                case 1 -> {
+                    //
+                    System.out.println("   0  1");
+                    for (int i = 0; i < 2; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 2; j++) {
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("    x2   ");
+                    System.out.println();
+                    System.out.println("Due gruppi separati di 4 tessere dello stesso colore che formano un quadrato 2x2 in qualsiasi punto all'interno della griglia giocatore.\nLe tessere di due gruppi devono essere dello stesso colore.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 2 -> {
+                    //2
+                    for (int i = 0; i < 6; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 1; j++) {
+                            if (i == 0) {
+                                System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                            } else if (i == 1) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 2) {
+                                System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                            } else if (i == 3) {
+                                System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                            } else if (i == 4) {
+                                System.out.print("\u001b[43m" + "   " + ANSI_RESET);  //yellow
+                            } else if (i == 5) {
+                                System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("   x2   ");
+                    System.out.println();
+                    System.out.println("Due colonne formate ciascuna da 6 tessere diverse.\n" +
+                            "(L'ordine con cui sono posizionate le tessere in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 3 -> {
+                    //3
+                    for (int i = 0; i < 4; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 1; j++) {
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("   x4   ");
+                    System.out.println();
+                    System.out.println("Quattro gruppi separati formati ciascuno da quattro tessere adiacenti dello stesso colore, ma non necessariamente come mostrato in figura.\n" +
+                            "Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 4 -> {
+                    //4
+                    for (int i = 0; i < 2; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 1; j++) {
+                            System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("   x6   ");
+                    System.out.println();
+                    System.out.println("Sei gruppi separati formati ciascuno da quattro tessere adiacenti dello stesso colore, ma non necessariamente come mostrato in figura.\n" +
+                            "Le tessere di un gruppo possono essere diverse da quelle di un altro gruppo.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 5 -> {
+                    //5
+                    for (int i = 0; i < 6; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 1; j++) {
+                            System.out.print("\u001b[47;1m" + "   " + ANSI_RESET);  //BrightWhite (è uguale al bianco normale)
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("   x3   ");
+                    System.out.println();
+                    System.out.println("MAX 3 COLORI DIVERSI!");
+                    System.out.println("Tre colonne formate ciascuna da 6 tessere di uno, due o tre colori differenti.\n" +
+                            "Colonne diverse possono avere combinazioni diverse di colori di tessere.");
+                    System.out.println();
+                }
+                case 6 -> {
+                    //6
+                    System.out.println("   0  1  2  3  4");
+                    for (int i = 0; i < 1; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 5; j++) {
+                            if (j == 0) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (j == 1) {
+                                System.out.print("\u001b[42m" + "   " + ANSI_RESET);  //green
+                            } else if (j == 2) {
+                                System.out.print("\u001b[44m" + "   " + ANSI_RESET);  //blue
+                            } else if (j == 3) {
+                                System.out.print("\u001b[47m" + "   " + ANSI_RESET);  //white
+                            } else if (j == 4) {
+                                System.out.print("\u001b[46m" + "   " + ANSI_RESET);  //azure
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("         x2   ");
+                    System.out.println();
+                    System.out.println("Due righe formate ciascuna da 5 diversi colori di tessere.\n" +
+                            "(L'ordine con cui sono posizionate le tessere in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 7 -> {
+                    //7
+                    System.out.println("   0  1  2  3  4");
+                    for (int i = 0; i < 1; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 5; j++) {
+                            System.out.print("\u001b[47;1m" + "   " + ANSI_RESET);  //BrightWhite (è uguale al bianco normale)
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("         x4   ");
+                    System.out.println();
+                    System.out.println("MAX 3 COLORI DIVERSI!");
+                    System.out.println("Quattro righe formate ciascuna da 5 tessere di uno, due o tre colori differenti.\n" +
+                            "Righe diverse possono avere combinazioni diverse di colori di tessere.");
+                    System.out.println();
+                }
+                case 8 -> {
+                    //8
+                    System.out.println("   0  1  2  3  4");
+                    for (int i = 0; i < 6; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 5; j++) {
+                            if (i == 0 && j == 0) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 0 && j == 4) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 5 && j == 0) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 5 && j == 4) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else {
+                                System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println();
+                    System.out.println("Quattro tessere dello stesso colore ai quattro angoli della libreria.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 9 -> {
+                    //9
+                    System.out.println("Otto tessere dello stesso colore.\n" +
+                            "Non ci sono restrizioni sulla posizione di queste tessere.");
+                    System.out.println();
+                }
+                case 10 -> {
+                    //10
+                    System.out.println("   0  1  2");
+                    for (int i = 0; i < 3; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 3; j++) {
+                            if (i == 0 && j == 0) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 0 && j == 2) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 1 && j == 1) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 2 && j == 0) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else if (i == 2 && j == 2) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else {
+                                System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println();
+                    System.out.println("Cinque tessere dello stesso colore che formano una X.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 11 -> {
+                    //11
+                    System.out.println("   0  1  2  3  4");
+                    for (int i = 0; i < 5; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 5; j++) {
+                            if (i == j) {
+                                System.out.print("\u001b[45m" + "   " + ANSI_RESET);  //pink
+                            } else {
+                                System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println();
+                    System.out.println("Cinque tessere dello stesso colore che formano una diagonale.\n" +
+                            "(Il colore usato in questa grafica è solo un esempio).");
+                    System.out.println();
+                }
+                case 12 -> {
+                    //12
+                    System.out.println("   0  1  2  3  4");
+                    for (int i = 0; i < 5; i++) {
+                        System.out.print(i + " ");
+                        for (int j = 0; j < 5; j++) {
+                            if (i >= j) {
+                                System.out.print("\u001b[47;1m" + "   " + ANSI_RESET);  //BrightWhite (è uguale al bianco normale)
+                            } else {
+                                System.out.print("\u001b[40m" + "   " + ANSI_RESET);
+                            }
+                        }
+                        System.out.println();
+                    }
+                    System.out.println();
+                    System.out.println("Ciqnue colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, " +
+                            "ogni colonna successiva deve essere formata da una tessera in più.\n" +
+                            "Le tessere possono essere di qualsiasi colore.");
+                    System.out.println();
+                }
+            }
         }
     }
 

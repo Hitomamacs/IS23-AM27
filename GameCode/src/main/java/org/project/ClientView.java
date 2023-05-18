@@ -35,7 +35,6 @@ public class ClientView {
         colorMap.put("A", "\u001B[36m");
         colorMap.put("W", "\u001B[37m");
         colorMap.put("Y", "\u001B[33m");
-        // Add more colors as needed
     }
 
     private static final Map<String, String> backgroundColorMap;
@@ -602,10 +601,12 @@ public class ClientView {
 
 
     }
+
     public void printPersonalGoal(String playerName){
         System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
     }
 
+    //TODO: si stampano all'inizio del gioco, sarebbe però carino che quando un giocatore le vuole vedere schiaccia un comando che gliele fa vedere sul momento
     public void printCommonGoal(){
         System.out.println("\nPrinting Common Goals Card");
         for(Integer id: commonGoalView){

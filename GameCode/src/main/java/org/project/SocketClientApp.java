@@ -86,14 +86,7 @@ public class SocketClientApp extends AbstractClientApp {
         long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         for (int i = 0; i < numTiles; i++) {
             sendMessage(createTopUpMessage());
-            // Remove the placed tile from the user's tiles
-            String[] updatedUserTiles = new String[userTiles.length - 1];
-            for (int j = 0, k = 0; j < userTiles.length; j++) {
-                if (j == get_tile_index()) continue;
-                updatedUserTiles[k++] = userTiles[j];
-            }
-            userTiles = updatedUserTiles;
-            clientView.getTilesview().put(getUsername(), userTiles);
+
         }
     }
 

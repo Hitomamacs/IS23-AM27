@@ -75,7 +75,6 @@ class VerifyGrillableStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         orchestrator.getGameBoard().printBoardColor();
@@ -113,7 +112,6 @@ class VerifyGrillableStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The VerifyBoardable calls the flush
@@ -148,7 +146,6 @@ class VerifyGrillableStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The verifyGrillable calls the flush

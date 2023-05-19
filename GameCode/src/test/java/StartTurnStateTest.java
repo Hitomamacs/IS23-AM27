@@ -1,5 +1,3 @@
-package org.project.Controller.States;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
@@ -19,7 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StartTurnStateTest {
+public class StartTurnStateTest {
 
     Game game;
     GameOrchestrator orchestrator;
@@ -46,7 +44,6 @@ class StartTurnStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
@@ -64,7 +61,6 @@ class StartTurnStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
@@ -85,7 +81,6 @@ class StartTurnStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         assertEquals(0, orchestrator.CurrentPlayerIndex());

@@ -2,8 +2,10 @@ package org.project.Model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,9 +30,12 @@ public class PersonalGoal_Deck {
             Reader reader = null;
             try {
 
-                Path pathToFile = Paths.get(filename);
-                System.out.println(pathToFile.toAbsolutePath());
-                reader = Files.newBufferedReader(pathToFile);
+                URL url = this.getClass()
+                        .getClassLoader()
+                        .getResource("test_1.json");
+                File file = new File(url.getPath());
+                //open file as buffer reader
+                reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

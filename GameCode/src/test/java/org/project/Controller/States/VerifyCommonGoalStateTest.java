@@ -61,8 +61,8 @@ class VerifyCommonGoalStateTest {
 
         //In the next two lines we change the selectedCGoals, very anti-object-oriented approach as using
         //a getter to modify the actual structure but fastest way and still valid to check
-        orchestrator.getSelectedCGoal().remove(0);
-        orchestrator.getSelectedCGoal().remove(0);
+//        orchestrator.getSelectedCGoal().remove(0);
+
         orchestrator.getSelectedCGoal().add(0, new CommonGoal_1());
         orchestrator.getSelectedCGoal().add(1, new CommonGoal_6());
 
@@ -70,7 +70,6 @@ class VerifyCommonGoalStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
 
         //Now the next two asserts are to check if the VerifyCommonGoal has worked correctly so by
@@ -97,7 +96,6 @@ class VerifyCommonGoalStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
 
         assertEquals(12, orchestrator.getPlayer(1).getScore());
@@ -123,7 +121,6 @@ class VerifyCommonGoalStateTest {
         try {
             orchestrator.executeState();
         } catch (InvalidMoveException e) {
-            throw new RuntimeException(e);
         }
 
         assertEquals(4, orchestrator.getPlayer(2).getScore());

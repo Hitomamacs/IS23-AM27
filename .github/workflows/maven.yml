@@ -25,9 +25,9 @@ jobs:
         run: mvn -B package --file GameCode/pom.xml
 
       - name: Generate Test Report
-        run: mvn site --file GameCode/pom.xml
+        run: mvn test --file GameCode/pom.xml
       - name: Archive Test Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Test Report
           path: target/site/surefire-report.html

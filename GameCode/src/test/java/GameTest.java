@@ -1,9 +1,10 @@
-package org.project.Controller.Control;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Test;
+import org.project.Controller.Control.Game;
 import org.project.Model.Player;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertTrue;
+
 
 class GameTest {
 

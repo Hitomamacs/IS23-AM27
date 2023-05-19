@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
@@ -47,10 +48,18 @@ class TopUpStateTest {
         coordinates.add(c1);
         coordinates.add(c2);
 
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.setPickedCoordinates(coordinates);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(orchestrator.getState() instanceof TopUpState);
         System.out.print(orchestrator.CurrentPlayerIndex());
@@ -66,7 +75,11 @@ class TopUpStateTest {
 
         orchestrator.getCurrentPlayer().setSelectedColumn(0);
         orchestrator.getCurrentPlayer().setTileIndex(0);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         orchestrator.getCurrentPlayer().getPlayerGrid().printColorPlayerGrid();
         System.out.print("\n");
@@ -79,7 +92,11 @@ class TopUpStateTest {
         assertEquals(0, ((TopUpState) orchestrator.getState()).selectedColumn);
         orchestrator.getCurrentPlayer().setSelectedColumn(1);
         orchestrator.getCurrentPlayer().setTileIndex(1);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         orchestrator.getCurrentPlayer().getPlayerGrid().printColorPlayerGrid();
         System.out.print("\n");
@@ -93,7 +110,11 @@ class TopUpStateTest {
         //crashing in case the client is not working correctly
         orchestrator.getCurrentPlayer().setSelectedColumn(0);
         orchestrator.getCurrentPlayer().setTileIndex(0);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         orchestrator.getCurrentPlayer().getPlayerGrid().printColorPlayerGrid();
         System.out.print("\n");
@@ -108,7 +129,11 @@ class TopUpStateTest {
         orchestrator.getCurrentPlayer().setTileIndex(1);
 
 
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         System.out.print(orchestrator.CurrentPlayerIndex());
         System.out.print("\n");
 
@@ -134,22 +159,38 @@ class TopUpStateTest {
 
         orchestrator.getCurrentPlayer().setSelectedColumn(0);
         orchestrator.getCurrentPlayer().setTileIndex(0);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(orchestrator.getState() instanceof TopUpState);
         assertEquals(((TopUpState) orchestrator.getState()).selectedColumn, -1);
 
         orchestrator.getCurrentPlayer().setSelectedColumn(1);
         orchestrator.getCurrentPlayer().setTileIndex(0);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         orchestrator.getCurrentPlayer().setSelectedColumn(0);
         orchestrator.getCurrentPlayer().setTileIndex(1);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         assertEquals(((TopUpState) orchestrator.getState()).selectedColumn, 1);
         orchestrator.getCurrentPlayer().setSelectedColumn(1);
         orchestrator.getCurrentPlayer().setTileIndex(1);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
 
         orchestrator.getPlayer(0).getPlayerGrid().printColorPlayerGrid();

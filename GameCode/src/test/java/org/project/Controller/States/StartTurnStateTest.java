@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
@@ -41,7 +42,11 @@ class StartTurnStateTest {
     //just started. So the next state will be the verifyGrillable state and the board will have been refilled
     @Test
     void goesToRefill(){
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
@@ -55,7 +60,11 @@ class StartTurnStateTest {
     @Test
     void goesToNextStartTurn(){
         orchestrator.getCurrentPlayer().setConnected(false);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
@@ -72,7 +81,11 @@ class StartTurnStateTest {
         tiles.add(new Tile(Color.BLUE, 3));
 
         orchestrator.getCurrentPlayer().modifyPickedTiles(tiles);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         assertEquals(0, orchestrator.CurrentPlayerIndex());
         assertTrue(orchestrator.getGameBoard().checkBoard());

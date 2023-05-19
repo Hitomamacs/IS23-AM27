@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.VerifyCommonGoalState;
@@ -65,7 +66,11 @@ class VerifyCommonGoalStateTest {
         orchestrator.getSelectedCGoal().add(1, new CommonGoal_6());
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         //Now the next two asserts are to check if the VerifyCommonGoal has worked correctly so by
         //changing them, changing the playerGrid, changing the common goals and changing the stacks
@@ -88,7 +93,11 @@ class VerifyCommonGoalStateTest {
         System.out.print("\n");
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(12, orchestrator.getPlayer(1).getScore());
         assertTrue(orchestrator.getPlayer(1).getCompletedCGoals()[1]);
@@ -110,7 +119,11 @@ class VerifyCommonGoalStateTest {
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
         orchestrator.getCurrentPlayer().modifyCompletedCGoals(1);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(4, orchestrator.getPlayer(2).getScore());
         assertTrue(orchestrator.getPlayer(2).getCompletedCGoals()[1]);

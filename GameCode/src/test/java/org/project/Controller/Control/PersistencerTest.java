@@ -8,6 +8,7 @@ import org.project.Controller.Control.Persistencer;
 import org.project.Controller.Control.User;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
+import org.project.Model.Player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +28,7 @@ class PersistencerTest {
 
         game = new Game();
         for(int i = 0; i < 4; i++){
-            game.getUsers().add(new User("Spike", true));
+            game.getPlayers().add(new Player("player" + i));
         }
         game.gameInit(4);
         orchestrator = new GameOrchestrator(game.getPlayers(), game.getGameBoard(), game.getCommonGoals(), game.getPointAssigner(), game.getTileBag(), game);

@@ -11,7 +11,7 @@ import org.project.Model.Coordinates;
 import java.io.IOException;
 import java.util.*;
 
-public abstract class AbstractClientApp implements ClientInterface, Runnable {
+public abstract class AbstractClientApp implements Runnable {
     protected ClientView clientView = new ClientView();
     protected final Gson gson = new Gson();
     protected final Scanner scanner = new Scanner(System.in);
@@ -31,7 +31,7 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
     private String username;
     public static final int MAX_TILES = 3;
 
-    public abstract void startClient();
+
 
     public abstract void  SendPickMessage();
 
@@ -46,99 +46,47 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
     public abstract void SendCreateGameMessage();
 
 
-    protected abstract void processReceivedMessage(String line);
-
-    protected String createPickMessage() {
-            List<Coordinates> coordinates = new ArrayList<>();
-            System.out.println("Enter username: ");
-            String username = scanner.nextLine();
-            this.username = username;
-            System.out.println("Enter the number of tiles you want to pick (up to " + MAX_TILES + "):");
-            int numTiles = scanner.nextInt();
-            clientView.setNum_tiles(numTiles);
-            numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
-
-            for (int i = 0; i < numTiles; i++) {
-                System.out.println("Enter x coordinate for tile " + (i + 1) + ":");
-                int x = scanner.nextInt();
-                System.out.println("Enter y coordinate for tile " + (i + 1) + ":");
-                int y = scanner.nextInt();
-                coordinates.add(new Coordinates(x, y));
-            }
-
-            PickMessage message = new PickMessage(username, coordinates);;
-            String jsonStr = gson.toJson(message);
-            return jsonStr;
-
-        }
 
 
-    protected String createTopUpMessage() {
+    protected String createPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
+        this.username = username;
+        clientView.setNum_tiles(numTiles);
+        numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
 
-            Scanner sc = new Scanner(System.in);
-            if (this.firstTime == -1) {
-                System.out.println("Enter username: ");
-                String username = sc.nextLine();
+        PickMessage message = new PickMessage(username, coordinates);
+        String jsonStr = gson.toJson(message);
+        return jsonStr;
+    }
 
-            }
-            if (this.firstTime == -1) {
-                System.out.println("Enter the column where you want to place tiles: ");
-                this.firstTime = sc.nextInt();
-            }
+    protected String createTopUpMessage(String username, int firstTime, int tileIndex) {
+        this.username = username;
+        this.firstTime = firstTime;
+        this.tileIndex = tileIndex;
 
-                System.out.println("Enter the index of the tile you want to place: ");
-                 this.tileIndex = sc.nextInt();
-                if(this.tileIndex < 0 || this.tileIndex >= 5) {
-                    System.out.println("Invalid tile index. Please try again.");
-                }
+        TopUpMessage message = new TopUpMessage(username, firstTime, tileIndex);
+        String jsonStr = gson.toJson(message);
+        return jsonStr;
+    }
 
-                // Check if the tile index is valid
-
-
-                TopUpMessage message = new TopUpMessage(this.username, this.firstTime, this.tileIndex);
-                Gson gson = new Gson();
-                String jsonStr = gson.toJson(message);
-
-
-
-                // Remove the placed tile from the user's tiles
-                return jsonStr;
-
-            }
-
-
-
-    protected String createQuitMessage() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
+    protected String createQuitMessage(String username) {
         QuitMessage message = new QuitMessage(username);
-        Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
 
-    protected String createCreateGameMessage(boolean connection_type){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        System.out.println("Enter number of players: ");
-        int numPlayers = sc.nextInt();
+    protected String createCreateGameMessage(String username, boolean connection_type, int numPlayers) {
         CreateGame_Message message = new CreateGame_Message(username, connection_type, numPlayers);
-        Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
 
-    protected String createJoinMessage(boolean connection_type){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
+    protected String createJoinMessage(String username, boolean connection_type) {
         JoinMessage message = new JoinMessage(username, connection_type);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
+
 
 
     protected void processInput() throws IOException {

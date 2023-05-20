@@ -51,7 +51,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     /**
      * method that opens a connection with the RMI SERVER
      */
-    public void startClient () {
+    public void startClient (ClientFactory clientFactory, UserInterfaceFactory userInterfaceFactory) {
         boolean nome;
         boolean successo;
         final Scanner stdin= new Scanner(System.in);

@@ -9,7 +9,9 @@ public interface ClientInterface {
      * metodo che apre una connessione con il server
      * @throws Exception
      */
-    public void startClient() throws Exception;
+    public void startClient(ClientFactory clientFactory, UserInterfaceFactory userInterfaceFactory) throws Exception;
+
+
 
     /**
      *prova a fare una login al server con il nome scelto

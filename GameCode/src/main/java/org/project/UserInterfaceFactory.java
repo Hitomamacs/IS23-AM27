@@ -1,5 +1,5 @@
 package org.project;
 
 public interface UserInterfaceFactory {
-    UserInterface createUserInterface();
+    UserInterface createUserInterface(ClientView clientView);
 }

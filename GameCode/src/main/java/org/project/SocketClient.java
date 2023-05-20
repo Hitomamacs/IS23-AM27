@@ -1,6 +1,7 @@
 package org.project;
 
 import com.google.gson.Gson;
+import org.project.Controller.Messages.Message;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
 
@@ -88,12 +89,22 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     public String receiveMessage() throws IOException {
         String line = in.readLine();
-        if (line.equals("KEEP_ALIVE")) {
+        if (line != null &&line.equals("KEEP_ALIVE")) {
             lastKeepAliveReceivedTime = System.currentTimeMillis();
         }
         else
             return line;
         return line;
+    }
+
+    @Override
+    public String receiveMessage(Message msg) throws IOException {
+        return null;
+    }
+
+    @Override
+    public void setUserInterface(UserInterface client) {
+
     }
 
     public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
@@ -118,6 +129,11 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     }
     public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) {
         sendMessage(createCreateGameMessage(username, connection_type, numPlayers));
+    }
+
+    @Override
+    public ClientView getClientView() {
+        return clientView;
     }
 
     public void SendJoinMessage(String username, boolean connection_type) {

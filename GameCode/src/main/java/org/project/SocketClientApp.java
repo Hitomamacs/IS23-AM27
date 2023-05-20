@@ -1,5 +1,5 @@
 package org.project;
-
+/*
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -232,3 +232,4 @@ public class SocketClientApp extends AbstractClientApp {
 
 
 }
+*/

@@ -33,17 +33,6 @@ public abstract class AbstractClientApp implements Runnable {
 
 
 
-    public abstract void  SendPickMessage();
-
-    public abstract void SendTopUpMessage();
-
-    public abstract void SendQuitMessage();
-
-    public abstract void SendJoinMessage();
-
-    protected abstract void sendMessage(String message);
-
-    public abstract void SendCreateGameMessage();
 
 
 
@@ -89,34 +78,7 @@ public abstract class AbstractClientApp implements Runnable {
 
 
 
-    protected void processInput() throws IOException {
-        while (true) {
-            System.out.println("Enter Message Type: ");
-            String userInput = scanner.nextLine();
 
-            switch (userInput) {
-                case "join":
-                    SendJoinMessage();
-                    break;
-                case "create_game":
-                    SendCreateGameMessage();
-                    break;
-                case "quit":
-                    SendQuitMessage();
-                    break;
-                case "pick":
-                    SendPickMessage();
-                    break;
-                case "topup":
-                    SendTopUpMessage();
-                    break;
-                default:
-                    System.out.println("Invalid message type");
-                    continue;
-            }
-        }
-        // Same implementation as before
-    }
 
     public void run() {
         // Same implementation as before

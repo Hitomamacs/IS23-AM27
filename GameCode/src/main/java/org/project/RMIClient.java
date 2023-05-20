@@ -1,5 +1,9 @@
 package org.project;
 
+import com.google.gson.Gson;
+import org.project.Controller.Messages.Message;
+import org.project.Controller.Messages.PickMessage;
+import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
@@ -10,7 +14,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -32,6 +35,8 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      */
     String nickname;
 
+    UserInterface userInterface;
+
     final Scanner stdin= new Scanner(System.in);
     /**
      * reference to the client view
@@ -40,8 +45,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     public RMIClient() throws RemoteException {
         this.port= Settings.RMI_PORT;
+
         startClient();
     }
+
+
 
     public void startClient () {
         boolean nome;
@@ -68,7 +76,12 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
-    public void SendJoinMessage() {
+    public ClientView getClientView() {
+        return clientView;
+    }
+
+    @Override
+    public void SendJoinMessage(String username, boolean connection_type) {
         System.out.println("Inserisci nome");
         nickname=stdin.nextLine();
         try {
@@ -80,11 +93,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
-    public void SendCreateGameMessage(){
-        System.out.println("Inserisci nome");
-        nickname=stdin.nextLine();
+    public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers){
         try {
-            rmiServer.sendCreateGame(nickname,false,2, this);
+            rmiServer.sendCreateGame(username,connection_type,2, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -92,22 +103,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
-    public void SendQuitMessage() {
-
-    }
-
-    @Override
-    public void SendPickMessage() {
-
-        int x,y;
-        List<Coordinates> coordinates= new ArrayList<>();
-        System.out.println("Enter x coordinate: ");
-        x=stdin.nextInt();
-        System.out.println("Enter y coordinate: ");
-        y=stdin.nextInt();
-        coordinates.add(new Coordinates(x,y));
+    public void SendQuitMessage(String username) {
         try {
-            rmiServer.sendPickRequest(nickname, coordinates);
+            rmiServer.sendQuit(username);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -115,14 +113,19 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
-    public void SendTopUpMessage() {
-        int column, tileIndex;
-        System.out.println("Inserisci colonna :  ");
-        column=stdin.nextInt();
-        System.out.println("Inserisci tile index : ");
-        tileIndex=stdin.nextInt();
+    public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
         try {
-            rmiServer.sendTopUpRequest(nickname,column,tileIndex);
+            rmiServer.sendPickRequest(username, coordinates);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
+        try {
+            rmiServer.sendTopUpRequest(username,firstTime,tileIndex);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
 
@@ -130,4 +133,110 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
 
 }
+
+    @Override
+    public String receiveMessage() throws IOException {
+        return null;
+    }
+
+    @Override
+    public String receiveMessage(Message msg) throws IOException {
+        return null;
+    }
+
+    @Override
+    public void setUserInterface(UserInterface client) {
+        this.userInterface=client;
+    }
+
+    @Override
+    public void printMsgChat(String nickname, String message) throws RemoteException {
+        //TODO chat
+
+
+    }
+
+    @Override
+    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
+
+        RefreshMsg refreshMsg= new RefreshMsg(board ,pointStack, gridsView, tilesView, pGoalView, cGoalView);
+        Gson gson= new Gson();
+        String json= gson.toJson(refreshMsg);
+        clientView.setBoard(board);
+        clientView.setPointStack(pointStack);
+        clientView.setGridsview(gridsView);
+        clientView.setTilesview(tilesView);
+        clientView.setCommonGoalView(cGoalView);
+        clientView.setPersonalGoalViews(pGoalView);
+        userInterface.processReceivedMessage(json);
+
+    }
+
+    @Override
+    public void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
+        int i,j;
+
+        //aggiorno board
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
+            }
+        }
+        //aggiorno tiles view
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+
+        userInterface.updateClientView(clientView);
+
+
+        System.out.println("\nPrinting updated board");
+        userInterface.printBoard();
+
+        System.out.println("Printing " + playername + " tiles");
+        userInterface.printTiles(playername);
+
+        String[][] grid = clientView.getGridsview().get(playername);
+        System.out.println("This is "+playername+" grid");
+        clientView.printGrid(playername);
+
+
+    }
+
+    @Override
+    public void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
+        int i,j;
+
+        //aggiorna grid view e stampa grid
+        for(i=0;i<6;i++){
+            for(j=0;j<5;j++){
+                clientView.getGridsview().get(playername)[i][j]=grid[i][j];
+            }
+        }
+        System.out.println("This is "+playername+ " grid now");
+        clientView.printGrid(playername);
+
+
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+        userInterface.updateClientView(clientView);
+        userInterface.printGrids(playername);
+
+    }
+
+    @Override
+    public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
+        clientView.setScoreBoard(score);
+        userInterface.updateClientView(clientView);
+
+    }
+
+    @Override
+    public void notifyPopUpView(String text) throws RemoteException {
+        clientView.setErrorMessage(text);
+        userInterface.updateClientView(clientView);
+        userInterface.displayMessage(clientView.getPopUpErrorMessage());
+
+    }
 }

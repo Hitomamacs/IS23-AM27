@@ -1,5 +1,6 @@
 package org.project.Controller.Control;
 
+import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.Server;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
@@ -228,7 +229,7 @@ public class Controller {
                     } catch (InvalidMoveException e) {
                         handleStateException(e, username);
                     }
-                    if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
+                    if (orchestrator.getPlayer(username).pickedTilesNum() == num_tiles - 1) {
                         System.out.println("Valid topUp sending update (Server topUp method)");
                         server.send(view.getGridViews().get(username), view.getTilesViews().get(username));
                         this.warnNextPlayer();
@@ -286,6 +287,7 @@ public class Controller {
     public void warnNextPlayer(){
         String playerName = this.orchestrator.getCurrentPlayer().getNickname();
         GameState state = this.orchestrator.getState();
+        server.refresh(playerName, view);
         String Info = " ";
         if(state instanceof TopUpState){
             Info ="Waiting for player " + playerName + " to top up";

@@ -84,7 +84,14 @@ public class GameOrchestrator {
     public Player getPlayer(int i){
         return this.players.get(i);
     }
-
+    public Player getPlayer(String username){
+        List<Player> players = getPlayers();
+        int i = 0;
+        while(!players.get(i).getNickname().equals(username)){
+            i++;
+        }
+        return players.get(i);
+    }
     public int CurrentPlayerIndex(){
         return this.currentPlayerIndex;
     }
@@ -102,7 +109,6 @@ public class GameOrchestrator {
         }
         return this.players.get(this.currentPlayerIndex);
     }
-
     public void setFinalRoundFlag(boolean flag){
         this.finalRoundFlag=flag;
     }

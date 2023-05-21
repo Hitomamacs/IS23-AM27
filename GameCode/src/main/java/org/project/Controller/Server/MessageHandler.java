@@ -68,7 +68,6 @@ public class MessageHandler {
             if (server.join(username, connection)) {
                 popUpMsg.setText("Successfully joined the game");
                 send(popUpMsg);
-                return;
             }else{
                 socketServer.getSocketClients().remove(username, client);
             }

@@ -1,9 +1,6 @@
 package org.project.Controller.Server;
 
-import org.project.Controller.Control.Controller;
-import org.project.Controller.Control.Game;
-import org.project.Controller.Control.GameOrchestrator;
-import org.project.Controller.Control.User;
+import org.project.Controller.Control.*;
 import org.project.Controller.Messages.*;
 import org.project.Controller.States.PickState;
 import org.project.Controller.States.TopUpState;
@@ -76,7 +73,6 @@ public class Server {
                 Thread.sleep(1000);//TODO possibly make it wait on notify from socket server and rmi server
             }
             this.controller.startGame();
-            int a = 1;
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -135,16 +131,19 @@ public class Server {
     void set_player_disconnected(String username){
         controller.getUser(username).setConnected(false);
         connectedPlayers--;
-
     }
-
+    public void stopKeepAlive(String username, boolean connectionType){
+        if(connectionType){
+            socketServer.getSocketClients().get(username).stopKeepAlive();
+        }
+    }
     /**
      * method for logging in the player through the nickname.
      * The method checks that the nickname is different for each logged in player.
      * @param username player's name
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      */
-    public synchronized boolean join(String username, boolean connectionType){
+    public synchronized boolean join(String username, boolean connectionType) throws InvalidLoginException {
         return controller.join(username, connectionType);
     }
     /**
@@ -371,5 +370,14 @@ public class Server {
                 throw new RuntimeException(e);
             }
         });
+    }
+    public void removeUser(String username, boolean connectionType){
+        if(connectionType){
+            socketServer.getSocketClients().get(username).disconnect();
+            socketServer.getSocketClients().remove(username);
+        }
+        else {
+            rmiServer.getClientsRMI().remove(username);
+        }
     }
 }

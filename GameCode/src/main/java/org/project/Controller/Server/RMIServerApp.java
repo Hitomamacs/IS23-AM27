@@ -1,5 +1,6 @@
 package org.project.Controller.Server;
 
+import org.project.Controller.Control.InvalidLoginException;
 import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
 import org.project.RMIClientInterface;
@@ -78,11 +79,17 @@ public class RMIServerApp implements RMIServerInterface {
      * @throws RemoteException if something goes wrong with the connection
      */
     public boolean sendJoin(String nickname, boolean connectionType, RMIClientInterface client) throws RemoteException{
-        boolean check;
-        check=server.join(nickname, connectionType);
+        boolean check = false;
+        try {
+            check=server.join(nickname, connectionType);
+        } catch (InvalidLoginException e) {
+            client.notifyPopUpView(e.getMessage());
+        }
+        clientsRMI.put(nickname,client);
         if(check==true){
-            clientsRMI.put(nickname,client);
             return true;
+        }else{
+            clientsRMI.remove(nickname, client);
         }
 
         return false;

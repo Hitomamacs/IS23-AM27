@@ -46,19 +46,22 @@ public class Game extends ObservableObject{
         persistencer = new Persistencer();
         this.numPlayers = 4;
     }
-    public void gameInit(int num_players){
+    public void gameInit(List<Player> players){
         System.out.println("\nInitializing game (Game method gameInit)");
-        this.numPlayers = num_players;
+        this.numPlayers = players.size();
+        for(Player player : players){
+            this.players.add(player);
+        }
         gameStarted = true;
         tileBag = new TileBag();
         tileBag.initializeBag();
-        gameBoard = new GameBoard(9,9,num_players);
+        gameBoard = new GameBoard(9,9,this.numPlayers);
         commonGoalDeck = new CommonGoal_Deck();
         commonGoalDeck.fillDeck();
         personalGoalDeck = new PersonalGoal_Deck();
         personalGoalDeck.fillDeck("test_1.json");
         pointAssigner = new PointAssigner();
-        pointAssigner.initialize(num_players, 2);
+        pointAssigner.initialize(this.numPlayers, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
         filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
 

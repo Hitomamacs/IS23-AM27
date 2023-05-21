@@ -2,6 +2,7 @@ package org.project.Controller.Control;
 
 import org.project.Controller.Server.Server;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
+import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
@@ -58,14 +59,8 @@ public class Controller {
     }
     public void startGame(){
         this.view = new VirtualView(lobby, game);
-        List<User> playerOrder = new ArrayList<>(lobby);
-        Random random = new Random();
-        for(int i = 0; i< numPlayers; i++){
-            int rand_index = random.nextInt(playerOrder.size());
-            String nickname = playerOrder.remove(rand_index).getUsername();
-            this.game.getPlayers().add(new Player(nickname));
-        }
-        this.game.gameInit(numPlayers);
+        List<Player> playerOrder = playerOrder(lobby);
+        this.game.gameInit(playerOrder);
         this.linkModel2View();
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
@@ -77,8 +72,8 @@ public class Controller {
         } catch (InvalidMoveException e) {
             throw new RuntimeException(e);
         }
-
         this.server.send(this.view);
+        this.warnNextPlayer();
 
     }
     public void linkModel2View(){
@@ -90,7 +85,17 @@ public class Controller {
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
     }
-
+    public List<Player> playerOrder(List<User> users){
+        Random random = new Random();
+        List<User> usersCopy = new ArrayList<>(users);
+        List<Player> playerOrder = new ArrayList<>();
+        for(int i = 0; i< users.size(); i++){
+            int rand_index = random.nextInt(usersCopy.size());
+            String nickname = usersCopy.remove(rand_index).getUsername();
+            playerOrder.add(new Player(nickname));
+        }
+        return playerOrder;
+    }
     /**
      * method for logging the FIRST player through the nickname.
      * @param username player's name
@@ -127,31 +132,35 @@ public class Controller {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @return true if the action was successful
      */
-    public boolean join(String username, boolean connectionType){
+    public boolean join(String username, boolean connectionType) throws InvalidLoginException {
         System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
         //TODO checks once persistence has been implemented
         if(!lobby.isEmpty()){
             for (User user : lobby) {
                 if (user.getUsername().equals(username) && user.isConnected()) {
                     System.out.println("\n" + username + " is already in use in the game  (Server login method)");
-                    return false;
+                    throw new InvalidLoginException(username + " is already in use in the game");
+
                 } else if (user.getUsername().equals(username) && !user.isConnected()) {
+
                     System.out.println("\nplayer"+ username+ "has reconnected");
                     user.setConnected(true);
+                    user.setConnectionType(connectionType);
                     server.refresh(username, view);
                     return true;
                 }
             }
-
-            User user = new User(username, connectionType);
-            user.addPropertyChangeListener(this.UserConnectionListener);
-            lobby.add(user);
-            System.out.println("\n" + username + " added to game  (Server login method)");
-
-            return true;
+            if(!(lobby.size() >= numPlayers)) {
+                User user = new User(username, connectionType);
+                user.addPropertyChangeListener(this.UserConnectionListener);
+                lobby.add(user);
+                System.out.println("\n" + username + " added to game  (Server login method)");
+                return true;
+            }else{
+                throw new InvalidLoginException("Game is full, if you are rejoining make sure to be using the same username");
+            }
         }
-        System.out.println("\n" + "A game needs to be created first  (Server login method)");
-        return false;
+        throw new InvalidLoginException("No available game to join");
     }
 
     /**
@@ -179,6 +188,7 @@ public class Controller {
                     if(!orchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
                         //If successful the view has been updated so need to send it to all
                         server.send(view.getBoardView(), view.getTilesViews().get(username));
+                        this.warnNextPlayer();
                         return true;
                     }
                 } else {
@@ -221,6 +231,7 @@ public class Controller {
                     if (orchestrator.getCurrentPlayer().pickedTilesNum() == num_tiles - 1) {
                         System.out.println("Valid topUp sending update (Server topUp method)");
                         server.send(view.getGridViews().get(username), view.getTilesViews().get(username));
+                        this.warnNextPlayer();
                         return true;
                     }
                 } else {
@@ -231,8 +242,8 @@ public class Controller {
                 System.out.println("Wrong player for topUp (Server topUp method)");
                 return false;
             }
-        }
-        System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");
+        }else{
+        System.out.println("TopUp request ignored as game has not started yet  (Server topUp method)");}
         return false;
     }
 
@@ -245,18 +256,20 @@ public class Controller {
         for (User user : lobby) {
             if (user.getUsername().equals(username) && user.isConnected()) {
                 if(game.getGameStarted()) {
+                    server.stopKeepAlive(username, user.getConnectionType());
                     user.setConnected(false);
                 }
                 else{
+                    server.stopKeepAlive(username, user.getConnectionType());
+                    user.setConnected(false);//Still necessary to set boolean to disconnected first so the user is removed from server hashmaps and counts are decreased
                     lobby.remove(user);
-                    //TODO remove from everywhere (SocketClients / RMIClients / eventually common clients hashmap)
-                    //TODO remember methods calling this quit method have to then close the corresponding connection
-                    //TODO also has to restore count keeping track of number of players missing for game to start
                 }
             }
         }
         String text = username + " quitted";
+        System.out.println("Player " + username + " has quit");
         server.sendInfo(text);
+        warnNextPlayer();
         return true;
     }
     public boolean correctPlayer(String username){
@@ -270,6 +283,20 @@ public class Controller {
         }
         return null;
     }
+    public void warnNextPlayer(){
+        String playerName = this.orchestrator.getCurrentPlayer().getNickname();
+        GameState state = this.orchestrator.getState();
+        String Info = " ";
+        if(state instanceof TopUpState){
+            Info ="Waiting for player " + playerName + " to top up";
+        }
+        else if(state instanceof VerifyGrillableState){
+            Info ="Waiting for player " + playerName + " pick tiles";
+        }
+        if(!Info.equals(" ")){
+            this.server.sendInfo(Info);
+        }
+    }
     public void handleStateException(Exception e, String username){
         String info = e.getMessage();
         server.sendInfo(info, getUser(username));
@@ -278,30 +305,31 @@ public class Controller {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("ConnectionUpdate".equals(evt.getPropertyName())) {
-                User user = (User)evt.getNewValue();
+                User user = (User) evt.getNewValue();
                 String username = user.getUsername();
 
                 Player player = game.getPlayerFromUsername(username);
-                if(player != null){
+                if (player != null) {
                     player.setConnected(user.isConnected());
                 }
-                if(user.isConnected()){
-                    server.sendInfo("Player "+ username + " has joined the game");
-                }else {
+                if (user.isConnected()) {
+                    server.sendInfo("Player " + username + " has joined the game");
+                } else {
                     server.sendInfo("Player " + username + " has disconnected");
-                }
-                if(game.getGameStarted() && correctPlayer(username)){
-                    GameOrchestrator orchestrator = game.getOrchestrator();
-                    orchestrator.changeState(new StartTurnState(orchestrator));
-                    while(!orchestrator.getCurrentPlayer().isConnected()){
-                        orchestrator.nextPlayer();
+                    server.removeUser(username, user.getConnectionType());
+                    if (game.getGameStarted() && correctPlayer(username)) {
+                        GameOrchestrator orchestrator = game.getOrchestrator();
+                        orchestrator.changeState(new StartTurnState(orchestrator));
+                        while (!orchestrator.getCurrentPlayer().isConnected()) {
+                            orchestrator.nextPlayer();
+                        }
+                        try {
+                            orchestrator.executeState();
+                        } catch (InvalidMoveException e) {
+                            throw new RuntimeException(e);
                     }
-                    try {
-                        orchestrator.executeState();
-                    } catch (InvalidMoveException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
+            }
             }
         }
 

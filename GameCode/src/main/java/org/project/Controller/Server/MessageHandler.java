@@ -1,13 +1,13 @@
 package org.project.Controller.Server;
 
 import com.google.gson.*;
+import org.project.Controller.Control.InvalidLoginException;
 import org.project.Controller.Messages.*;
 
 public class MessageHandler {
 
     private Server server;
     private SocketClientHandler client;
-
     private SocketServer socketServer;
     public MessageHandler(Server server, SocketServer socketServer, SocketClientHandler client){
         this.server = server;
@@ -56,20 +56,26 @@ public class MessageHandler {
             return;
         }
         popUpMsg.setText("Number of players is not valid, has to be between 2 and 4");
+        send(popUpMsg);
     }
     public void handleJoin(JoinMessage joinMsg){
         String username = joinMsg.getUsername();
         client.setUsername(username);
         PopUpMsg popUpMsg = new PopUpMsg();
         boolean connection = joinMsg.getConnectionType();
-        if (server.join(username, connection)) {
-            socketServer.getSocketClients().put(username, client);
-            popUpMsg.setText("Successfully joined the game");
+        socketServer.getSocketClients().put(username, client);
+        try {
+            if (server.join(username, connection)) {
+                popUpMsg.setText("Successfully joined the game");
+                send(popUpMsg);
+                return;
+            }else{
+                socketServer.getSocketClients().remove(username, client);
+            }
+        } catch (InvalidLoginException e) {
+            popUpMsg.setText(e.getMessage());
             send(popUpMsg);
-            return;
         }
-        popUpMsg.setText("Already an existing player with the same username");
-
     }
     public void send(Message message){
         Gson gson = new Gson();

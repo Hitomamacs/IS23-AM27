@@ -33,6 +33,10 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
 
     public abstract void startClient();
 
+    public void resetFirstTime(){
+        firstTime = -1;
+    }
+
     public abstract void  SendPickMessage();
 
     public abstract void SendTopUpMessage();
@@ -49,20 +53,18 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
     protected abstract void processReceivedMessage(String line);
 
     protected String createPickMessage() {
+            Scanner sc = new Scanner(System.in);
             List<Coordinates> coordinates = new ArrayList<>();
-            System.out.println("Enter username: ");
-            String username = scanner.nextLine();
-            this.username = username;
             System.out.println("Enter the number of tiles you want to pick (up to " + MAX_TILES + "):");
-            int numTiles = scanner.nextInt();
+            int numTiles = sc.nextInt();
             clientView.setNum_tiles(numTiles);
             numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
 
             for (int i = 0; i < numTiles; i++) {
                 System.out.println("Enter x coordinate for tile " + (i + 1) + ":");
-                int x = scanner.nextInt();
+                int x = sc.nextInt();
                 System.out.println("Enter y coordinate for tile " + (i + 1) + ":");
-                int y = scanner.nextInt();
+                int y = sc.nextInt();
                 coordinates.add(new Coordinates(x, y));
             }
 
@@ -76,11 +78,6 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
     protected String createTopUpMessage() {
 
             Scanner sc = new Scanner(System.in);
-            if (this.firstTime == -1) {
-                System.out.println("Enter username: ");
-                String username = sc.nextLine();
-
-            }
             if (this.firstTime == -1) {
                 System.out.println("Enter the column where you want to place tiles: ");
                 this.firstTime = sc.nextInt();
@@ -110,8 +107,6 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
 
     protected String createQuitMessage() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
         QuitMessage message = new QuitMessage(username);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
@@ -122,9 +117,10 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter username: ");
         String username = sc.nextLine();
+        this.username = username;
         System.out.println("Enter number of players: ");
         int numPlayers = sc.nextInt();
-        CreateGame_Message message = new CreateGame_Message(username, connection_type, numPlayers);
+        CreateGame_Message message = new CreateGame_Message(this.username, connection_type, numPlayers);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
@@ -134,7 +130,8 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter username: ");
         String username = sc.nextLine();
-        JoinMessage message = new JoinMessage(username, connection_type);
+        this.username = username;
+        JoinMessage message = new JoinMessage(this.username, connection_type);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;

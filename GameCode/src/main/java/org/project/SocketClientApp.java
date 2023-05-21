@@ -86,8 +86,8 @@ public class SocketClientApp extends AbstractClientApp {
         long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         for (int i = 0; i < numTiles; i++) {
             sendMessage(createTopUpMessage());
-
         }
+        resetFirstTime();
     }
 
 
@@ -102,6 +102,7 @@ public class SocketClientApp extends AbstractClientApp {
         sendMessage(createJoinMessage(true));
     }
 
+    @Override
     protected void processInput() throws IOException {
         while (true) {
             System.out.println("Enter Message Type: ");

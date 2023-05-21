@@ -50,7 +50,7 @@ public class SocketClientHandler implements Runnable {
                     messageHandler.handle(line);
                 }
             } catch (Exception e){
-                disconnect();
+               // disconnect();
             }
         }
     }
@@ -76,7 +76,7 @@ public class SocketClientHandler implements Runnable {
         }, 0, 1000);
     }
 
-    private void stopKeepAlive() {
+    public void stopKeepAlive() {
         if (keepAliveTimer != null) {
             keepAliveTimer.cancel();
             keepAliveTimer = null;

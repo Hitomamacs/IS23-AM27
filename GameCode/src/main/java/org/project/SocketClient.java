@@ -34,12 +34,13 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     private PrintWriter out;
 
+    public Socket echoSocket;
     private final Gson gson = new Gson();
 
     public SocketClient() {
         // qui connetti il client al server
         try {
-            Socket echoSocket = new Socket(Settings.SERVER_NAME, Settings.SOCKET_PORT);
+            echoSocket = new Socket(Settings.SERVER_NAME, Settings.SOCKET_PORT);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
             startKeepAlive();
@@ -70,13 +71,20 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     }
 
     private void startKeepAlive() {
-        Timer keepAlive = new Timer();
+         keepAlive = new Timer();
         keepAlive.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 out.println("KEEP_ALIVE");
             }
         }, 0, 1000);
+    }
+
+    private void stopKeepAlive() {
+        if (keepAlive != null) {
+            keepAlive.cancel();
+            keepAlive = null;
+        }
     }
 
 
@@ -123,9 +131,21 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         }
     }
 
+    private void close_connection() {
+        try {
+            in.close();
+            out.close();
+            echoSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void SendQuitMessage(String username) {
+        stopKeepAlive();
         sendMessage(createQuitMessage(username));
+        close_connection();
     }
     public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) {
         sendMessage(createCreateGameMessage(username, connection_type, numPlayers));

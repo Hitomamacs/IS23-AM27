@@ -36,8 +36,9 @@ public class MessageHandler {
         server.topUp(topUpMsg.getUsername(), topUpMsg.getColumn(), topUpMsg.getTileIndex());
     }
     public void handleQuit(QuitMessage quitMessage){
-        server.quit(quitMessage.getUsername());
         client.disconnect();
+        server.quit(quitMessage.getUsername());
+
     }
     public void handleCreateGame(CreateGame_Message create_gameMsg){
         String username = create_gameMsg.getUsername();

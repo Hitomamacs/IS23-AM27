@@ -50,7 +50,7 @@ public class SocketClientHandler implements Runnable {
                     messageHandler.handle(line);
                 }
             } catch (Exception e){
-               // disconnect();
+               disconnect();
             }
         }
     }
@@ -60,14 +60,16 @@ public class SocketClientHandler implements Runnable {
     }
 
     public void disconnect() {
-        stopKeepAlive();
-        //server.set_player_disconnected(username);
+        if(connected){
         connected = false;
+        stopKeepAlive();
+        server.set_player_disconnected(username);
         closeResources();
+        }
     }
 
     private void startKeepAlive() {
-        keepAliveTimer = new Timer();
+        this.keepAliveTimer = new Timer();
         keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -77,19 +79,19 @@ public class SocketClientHandler implements Runnable {
     }
 
     public void stopKeepAlive() {
-        if (keepAliveTimer != null) {
-            keepAliveTimer.cancel();
-            keepAliveTimer = null;
+        if (this.keepAliveTimer != null) {
+            this.keepAliveTimer.cancel();
+            this.keepAliveTimer = null;
         }
     }
 
     private void resetKeepAliveTimer() {
         synchronized(this) {
-            if(keepAlive != null) {
-                keepAlive.cancel();
+            if(this.keepAlive != null) {
+                this.keepAlive.cancel();
             }
-            keepAlive = new Timer();
-            keepAlive.schedule(new TimerTask() {
+            this.keepAlive = new Timer();
+            this.keepAlive.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     disconnect();
@@ -110,7 +112,7 @@ public class SocketClientHandler implements Runnable {
                 socket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

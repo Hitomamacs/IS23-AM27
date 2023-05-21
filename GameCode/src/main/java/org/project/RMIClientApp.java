@@ -19,6 +19,10 @@ import java.util.Scanner;
 //AGGIUNGI CLIENT INTERFACE
 public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface, ClientInterface{
 
+    public ClientView getClientView() {
+        return clientView;
+    }
+
     /**
      * reference to the server object
      */
@@ -51,7 +55,7 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
     /**
      * method that opens a connection with the RMI SERVER
      */
-    public void startClient () {
+    public void startClient (ClientFactory clientFactory, UserInterfaceFactory userInterfaceFactory) {
         boolean nome;
         boolean successo;
         final Scanner stdin= new Scanner(System.in);

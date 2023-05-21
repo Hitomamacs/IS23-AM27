@@ -2,7 +2,6 @@ org\project\Controller\Control\GameOrchestrator.class
 org\project\Model\Color.class
 org\project\Controller\Server\MessageHandler$1.class
 org\project\Controller\Server\MessageHandler.class
-org\project\Controller\Messages\LoginMessage.class
 org\project\Controller\Server\Server.class
 org\project\Model\Player.class
 org\project\Controller\View\GridView.class

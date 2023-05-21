@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Model.Color;
 import org.project.Model.Coordinates;
+import org.project.Model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ class VerifyGrillableStateTest {
     void setup(){
         game = new Game();
         for(int i = 0; i < 4; i++){
-            game.getUsers().add(new User("Spike", true));
+            game.getPlayers().add(new Player("player" + i));
         }
         game.gameInit(4);
         orchestrator = new GameOrchestrator(game.getPlayers(), game.getGameBoard(), game.getCommonGoals(), game.getPointAssigner(), game.getTileBag(), game);
@@ -44,7 +46,11 @@ class VerifyGrillableStateTest {
             orchestrator.getCurrentPlayer().setConnected(true);
             orchestrator.nextPlayer();
         }
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
     }
     //Outcome 1: there is a column with enough space, the BoardableState is executed, the coordinates are valid
     //the PickState is executed, then the state evolves till the TopUpState where it waits for a new event.
@@ -66,7 +72,10 @@ class VerifyGrillableStateTest {
         //Now that the model has been changed we call the state execution, since the coordinates are valid
         //should lead to the TopUpState. Also check that the tiles have actually been picked by the board
         //and are now in the players picked tiles
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
@@ -100,7 +109,10 @@ class VerifyGrillableStateTest {
 
         //Execute the state and check that tiles have not been picked from the board and
         //we are back in VerifyGrillableState
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The VerifyBoardable calls the flush
         orchestrator.getGameBoard().printBoardColor();
@@ -131,7 +143,10 @@ class VerifyGrillableStateTest {
         orchestrator.getCurrentPlayer().getPlayerGrid().quickGridSetter(matrix);
         orchestrator.getCurrentPlayer().getPlayerGrid().printColorPlayerGrid();
 
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         assertTrue(orchestrator.getPickedCoordinates().isEmpty());//The verifyGrillable calls the flush
         orchestrator.getGameBoard().printBoardColor();

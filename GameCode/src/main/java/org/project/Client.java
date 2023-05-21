@@ -37,6 +37,8 @@ public class Client {
     private boolean gameStarted;
 
 
+
+
     /**
      * constructor
      */
@@ -52,7 +54,10 @@ public class Client {
     public static void main(String args[]){
 
         String connessione;
+        String userInterface;
         final Scanner stdin= new Scanner(System.in);
+        ClientFactory clientFactory=null;
+        UserInterfaceFactory userInterfaceFactory=null;
 
         //Controllo se le porte mi vengono passate in ingresso
         //TODO: anche server name può essere passato?
@@ -66,22 +71,44 @@ public class Client {
         switch(connessione){
             case "rmi":
                 try{
-                    client= new RMIClientApp(rmiPort);
-                    client.startClient();
+                     clientFactory= new RMIClientFactory();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
                 break;
             case "socket":
                  try{
-                    client= new SocketClientApp();
-                    client.startClient();
+                      clientFactory= new SocketClientFactory();
                  }catch(Exception e ){
                     e.printStackTrace();
                  }
                 break;
         }
+        System.out.println("Che tipo di UserInterface Vuoi vuoi usare (CLI/GUI)?");
+        userInterface= stdin.nextLine();
+        switch (userInterface){
+            case "CLI":
+                try{
+                     userInterfaceFactory= new CliUserInterfaceFactory();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                break;
+            case "GUI":
+                try{
+                     userInterfaceFactory= new GuiUserInterfaceFactory();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                break;
+        }
+        client = new GeneralClient();
+        try{
+            client.startClient(clientFactory, userInterfaceFactory);
 
+    }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

@@ -4,8 +4,10 @@ package org.project.Model;
 import com.google.gson.annotations.Expose;
 import org.project.ObservableObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -45,7 +47,12 @@ public class Player extends ObservableObject {
         selectedColumn = -1;
         this.isConnected = true;
         try {
-            reader = Files.newBufferedReader(Paths.get("test_1.json"));
+            URL url = this.getClass()
+                    .getClassLoader()
+                    .getResource("test_1.json");
+            File file = new File(url.getPath());
+            //open file as buffer reader
+            reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

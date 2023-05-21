@@ -1,5 +1,5 @@
 package org.project;
-
+/*
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,7 +43,7 @@ public class SocketClientApp extends AbstractClientApp {
 
 
 
-    public void startClient() {
+    public void startClient(ClientFactory clientFactory, UserInterfaceFactory userInterfaceFactory) {
         try {
             Socket echoSocket = new Socket(Settings.SERVER_NAME, Settings.SOCKET_PORT);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
@@ -72,6 +72,11 @@ public class SocketClientApp extends AbstractClientApp {
 
     protected void sendMessage(String message) {
         out.println(message);
+    }
+
+
+    public void startClient() {
+
     }
 
     public void SendPickMessage() {
@@ -228,3 +233,4 @@ public class SocketClientApp extends AbstractClientApp {
 
 
 }
+*/

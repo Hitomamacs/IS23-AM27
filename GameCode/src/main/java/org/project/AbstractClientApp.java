@@ -11,7 +11,7 @@ import org.project.Model.Coordinates;
 import java.io.IOException;
 import java.util.*;
 
-public abstract class AbstractClientApp implements ClientInterface, Runnable {
+public abstract class AbstractClientApp implements Runnable {
     protected ClientView clientView = new ClientView();
     protected final Gson gson = new Gson();
     protected final Scanner scanner = new Scanner(System.in);
@@ -31,141 +31,54 @@ public abstract class AbstractClientApp implements ClientInterface, Runnable {
     private String username;
     public static final int MAX_TILES = 3;
 
-    public abstract void startClient();
 
-    public void resetFirstTime(){
-        firstTime = -1;
+
+
+
+
+
+    protected String createPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
+        this.username = username;
+        clientView.setNum_tiles(numTiles);
+        numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
+
+        PickMessage message = new PickMessage(username, coordinates);
+        String jsonStr = gson.toJson(message);
+        return jsonStr;
     }
 
-    public abstract void  SendPickMessage();
+    protected String createTopUpMessage(String username, int firstTime, int tileIndex) {
+        this.username = username;
+        this.firstTime = firstTime;
+        this.tileIndex = tileIndex;
 
-    public abstract void SendTopUpMessage();
+        TopUpMessage message = new TopUpMessage(username, firstTime, tileIndex);
+        String jsonStr = gson.toJson(message);
+        return jsonStr;
+    }
 
-    public abstract void SendQuitMessage();
-
-    public abstract void SendJoinMessage();
-
-    protected abstract void sendMessage(String message);
-
-    public abstract void SendCreateGameMessage();
-
-
-    protected abstract void processReceivedMessage(String line);
-
-    protected String createPickMessage() {
-            Scanner sc = new Scanner(System.in);
-            List<Coordinates> coordinates = new ArrayList<>();
-            System.out.println("Enter the number of tiles you want to pick (up to " + MAX_TILES + "):");
-            int numTiles = sc.nextInt();
-            clientView.setNum_tiles(numTiles);
-            numTiles = Math.min(numTiles, MAX_TILES); // Ensure the number of tiles doesn't exceed 3
-
-            for (int i = 0; i < numTiles; i++) {
-                System.out.println("Enter x coordinate for tile " + (i + 1) + ":");
-                int x = sc.nextInt();
-                System.out.println("Enter y coordinate for tile " + (i + 1) + ":");
-                int y = sc.nextInt();
-                coordinates.add(new Coordinates(x, y));
-            }
-
-            PickMessage message = new PickMessage(username, coordinates);;
-            String jsonStr = gson.toJson(message);
-            return jsonStr;
-
-        }
-
-
-    protected String createTopUpMessage() {
-
-            Scanner sc = new Scanner(System.in);
-            if (this.firstTime == -1) {
-                System.out.println("Enter the column where you want to place tiles: ");
-                this.firstTime = sc.nextInt();
-            }
-
-                System.out.println("Enter the index of the tile you want to place: ");
-                 this.tileIndex = sc.nextInt();
-                if(this.tileIndex < 0 || this.tileIndex >= 5) {
-                    System.out.println("Invalid tile index. Please try again.");
-                }
-
-                // Check if the tile index is valid
-
-
-                TopUpMessage message = new TopUpMessage(this.username, this.firstTime, this.tileIndex);
-                Gson gson = new Gson();
-                String jsonStr = gson.toJson(message);
-
-
-
-                // Remove the placed tile from the user's tiles
-                return jsonStr;
-
-            }
-
-
-
-    protected String createQuitMessage() {
-        Scanner sc = new Scanner(System.in);
+    protected String createQuitMessage(String username) {
         QuitMessage message = new QuitMessage(username);
-        Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
 
-    protected String createCreateGameMessage(boolean connection_type){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        this.username = username;
-        System.out.println("Enter number of players: ");
-        int numPlayers = sc.nextInt();
-        CreateGame_Message message = new CreateGame_Message(this.username, connection_type, numPlayers);
-        Gson gson = new Gson();
+    protected String createCreateGameMessage(String username, boolean connection_type, int numPlayers) {
+        CreateGame_Message message = new CreateGame_Message(username, connection_type, numPlayers);
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
 
-    protected String createJoinMessage(boolean connection_type){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = sc.nextLine();
-        this.username = username;
-        JoinMessage message = new JoinMessage(this.username, connection_type);
+    protected String createJoinMessage(String username, boolean connection_type) {
+        JoinMessage message = new JoinMessage(username, connection_type);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
 
 
-    protected void processInput() throws IOException {
-        while (true) {
-            System.out.println("Enter Message Type: ");
-            String userInput = scanner.nextLine();
 
-            switch (userInput) {
-                case "join":
-                    SendJoinMessage();
-                    break;
-                case "create_game":
-                    SendCreateGameMessage();
-                    break;
-                case "quit":
-                    SendQuitMessage();
-                    break;
-                case "pick":
-                    SendPickMessage();
-                    break;
-                case "topup":
-                    SendTopUpMessage();
-                    break;
-                default:
-                    System.out.println("Invalid message type");
-                    continue;
-            }
-        }
-        // Same implementation as before
-    }
+
 
     public void run() {
         // Same implementation as before

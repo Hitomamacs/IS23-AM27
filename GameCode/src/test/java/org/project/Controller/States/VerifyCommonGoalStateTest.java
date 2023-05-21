@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.VerifyCommonGoalState;
 import org.project.Model.Color;
 import org.project.Model.CommonGoals.CommonGoal_1;
 import org.project.Model.CommonGoals.CommonGoal_6;
+import org.project.Model.Player;
 import org.project.Model.Tile;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ class VerifyCommonGoalStateTest {
         tiles = new ArrayList<>();
         game = new Game();
         for(int i = 0; i < 4; i++){
-            game.getUsers().add(new User("Spike", true));
+            game.getPlayers().add(new Player("player" + i));
         }
         game.gameInit(4);
         orchestrator = new GameOrchestrator(game.getPlayers(), game.getGameBoard(), game.getCommonGoals(), game.getPointAssigner(), game.getTileBag(), game);
@@ -59,13 +61,16 @@ class VerifyCommonGoalStateTest {
 
         //In the next two lines we change the selectedCGoals, very anti-object-oriented approach as using
         //a getter to modify the actual structure but fastest way and still valid to check
-        orchestrator.getSelectedCGoal().remove(0);
-        orchestrator.getSelectedCGoal().remove(0);
+//        orchestrator.getSelectedCGoal().remove(0);
+
         orchestrator.getSelectedCGoal().add(0, new CommonGoal_1());
         orchestrator.getSelectedCGoal().add(1, new CommonGoal_6());
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
 
         //Now the next two asserts are to check if the VerifyCommonGoal has worked correctly so by
         //changing them, changing the playerGrid, changing the common goals and changing the stacks
@@ -88,7 +93,10 @@ class VerifyCommonGoalStateTest {
         System.out.print("\n");
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
 
         assertEquals(12, orchestrator.getPlayer(1).getScore());
         assertTrue(orchestrator.getPlayer(1).getCompletedCGoals()[1]);
@@ -110,7 +118,10 @@ class VerifyCommonGoalStateTest {
 
         orchestrator.changeState(new VerifyCommonGoalState(orchestrator));
         orchestrator.getCurrentPlayer().modifyCompletedCGoals(1);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
 
         assertEquals(4, orchestrator.getPlayer(2).getScore());
         assertTrue(orchestrator.getPlayer(2).getCompletedCGoals()[1]);

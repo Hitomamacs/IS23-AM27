@@ -1,15 +1,15 @@
-package org.project.Controller.States;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.project.Controller.Control.Game;
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.Control.User;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Controller.States.GameState;
 import org.project.Controller.States.StartTurnState;
 import org.project.Controller.States.TopUpState;
 import org.project.Controller.States.VerifyGrillableState;
 import org.project.Model.Color;
+import org.project.Model.Player;
 import org.project.Model.Tile;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StartTurnStateTest {
+public class StartTurnStateTest {
 
     Game game;
     GameOrchestrator orchestrator;
@@ -27,7 +27,7 @@ class StartTurnStateTest {
     void setup(){
         game = new Game();
         for(int i = 0; i < 4; i++){
-            game.getUsers().add(new User("Spike", true));
+            game.getPlayers().add(new Player("player" + i));
         }
         game.gameInit(4);
         orchestrator = new GameOrchestrator(game.getPlayers(), game.getGameBoard(), game.getCommonGoals(), game.getPointAssigner(), game.getTileBag(), game);
@@ -41,7 +41,10 @@ class StartTurnStateTest {
     //just started. So the next state will be the verifyGrillable state and the board will have been refilled
     @Test
     void goesToRefill(){
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
@@ -55,7 +58,10 @@ class StartTurnStateTest {
     @Test
     void goesToNextStartTurn(){
         orchestrator.getCurrentPlayer().setConnected(false);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof VerifyGrillableState);
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
@@ -72,7 +78,10 @@ class StartTurnStateTest {
         tiles.add(new Tile(Color.BLUE, 3));
 
         orchestrator.getCurrentPlayer().modifyPickedTiles(tiles);
-        orchestrator.executeState();
+        try {
+            orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+        }
         assertTrue(orchestrator.getState() instanceof TopUpState);
         assertEquals(0, orchestrator.CurrentPlayerIndex());
         assertTrue(orchestrator.getGameBoard().checkBoard());

@@ -129,10 +129,9 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
         String[] userTiles = this.clientView.getTilesview().get(username);
         long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
-        for (int i = 0; i < numTiles; i++) {
-            sendMessage(createTopUpMessage(username, firstTime, tileIndex));
+        sendMessage(createTopUpMessage(username, firstTime, tileIndex));
 
-        }
+
     }
 
     private void close_connection() {

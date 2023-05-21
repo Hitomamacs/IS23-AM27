@@ -11,7 +11,7 @@ import java.util.TimerTask;
 
 public class SocketClientHandler implements Runnable {
 
-    private static final int KEEP_ALIVE_INTERVAL = 5;
+    private static final int KEEP_ALIVE_INTERVAL = 10;
     private Server server;
     private Socket socket;
     private String username = null;

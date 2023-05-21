@@ -17,6 +17,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     private  ClientView clientView = new ClientView();
 
+    UserInterface userInterface;
+
     private Timer keepAlive;
 
     private static final int KEEP_ALIVE_INTERVAL = 5 * 1000;  // in milliseconds
@@ -112,6 +114,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     @Override
     public void setUserInterface(UserInterface client) {
+        this.userInterface = client;
 
     }
 
@@ -123,7 +126,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
 
         // Get the user's tiles
-        String[] userTiles = clientView.getTilesview().get(getUsername());
+
+        String[] userTiles = this.clientView.getTilesview().get(username);
         long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         for (int i = 0; i < numTiles; i++) {
             sendMessage(createTopUpMessage(username, firstTime, tileIndex));
@@ -137,7 +141,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
             out.close();
             echoSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -153,7 +157,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     @Override
     public ClientView getClientView() {
-        return clientView;
+        return this.clientView;
     }
 
     public void SendJoinMessage(String username, boolean connection_type) {

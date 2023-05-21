@@ -18,9 +18,7 @@ public abstract class AbstractClientApp implements Runnable {
 
     private int firstTime = -1;
 
-    public String getUsername() {
-        return username;
-    }
+
 
     public int get_tile_index() {
         return tileIndex;

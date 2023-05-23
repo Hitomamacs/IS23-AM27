@@ -10,6 +10,8 @@ import java.util.List;
 public interface ConnectionInterface {
 
     ClientView getClientView();
+
+    boolean get_connection_type();
     void SendJoinMessage(String username, boolean connection_type);
 
     void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) throws RemoteException;

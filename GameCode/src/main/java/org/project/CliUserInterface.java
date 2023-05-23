@@ -160,7 +160,7 @@ public class CliUserInterface implements UserInterface{
         int numPlayers = getNumPlayers();
 
         try {
-            client.SendCreateGameMessage(username, true, numPlayers); //TODO for RMI
+            client.SendCreateGameMessage(username, client.get_connection_type(), numPlayers); //TODO for RMI
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

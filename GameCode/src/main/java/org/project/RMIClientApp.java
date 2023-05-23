@@ -19,6 +19,7 @@ import java.util.Scanner;
 //AGGIUNGI CLIENT INTERFACE
 public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterface, ClientInterface{
 
+
     public ClientView getClientView() {
         return clientView;
     }

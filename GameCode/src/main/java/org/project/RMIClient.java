@@ -81,6 +81,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
+    public boolean get_connection_type() {
+        return false;
+    }
+
+    @Override
     public void SendJoinMessage(String username, boolean connection_type) {
         //System.out.println("Inserisci nome");
         nickname=stdin.nextLine();

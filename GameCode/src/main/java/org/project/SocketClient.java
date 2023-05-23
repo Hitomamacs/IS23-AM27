@@ -127,8 +127,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
         // Get the user's tiles
 
-        String[] userTiles = this.clientView.getTilesview().get(username);
-        long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
+        //String[] userTiles = this.clientView.getTilesview().get(username);
+        //long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         sendMessage(createTopUpMessage(username, firstTime, tileIndex));
 
 

@@ -256,22 +256,14 @@ public class Controller {
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
         for (User user : lobby) {
-            if (user.getUsername().equals(username) && user.isConnected()) {
-                if(game.getGameStarted()) {
-                    server.stopKeepAlive(username, user.getConnectionType());
-                    user.setConnected(false);
+            if (user.getUsername().equals(username)) {
+                user.setConnected(false);
+                String text = username + " quitted";
+                System.out.println("Player " + username + " has quit");
+                server.sendInfo(text);
+                warnNextPlayer();
                 }
-                else{
-                    server.stopKeepAlive(username, user.getConnectionType());
-                    user.setConnected(false);//Still necessary to set boolean to disconnected first so the user is removed from server hashmaps and counts are decreased
-                    lobby.remove(user);
-                }
-            }
         }
-        String text = username + " quitted";
-        System.out.println("Player " + username + " has quit");
-        server.sendInfo(text);
-        warnNextPlayer();
         return true;
     }
     public boolean correctPlayer(String username){
@@ -320,6 +312,10 @@ public class Controller {
                 } else {
                     server.sendInfo("Player " + username + " has disconnected");
                     server.removeUser(username, user.getConnectionType());
+                    if(!game.getGameStarted()){
+                        lobby.remove(user);
+                    }
+                    //Turn checks
                     if (game.getGameStarted() && correctPlayer(username)) {
                         GameOrchestrator orchestrator = game.getOrchestrator();
                         orchestrator.changeState(new StartTurnState(orchestrator));

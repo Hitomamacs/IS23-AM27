@@ -84,7 +84,7 @@ public class Client {
                  }
                 break;
         }
-        System.out.println("Che tipo di UserInterface Vuoi vuoi usare (CLI/GUI)?");
+        System.out.println("Che tipo di UserInterface  vuoi usare (CLI/GUI)?");
         userInterface= stdin.nextLine();
         switch (userInterface){
             case "CLI":

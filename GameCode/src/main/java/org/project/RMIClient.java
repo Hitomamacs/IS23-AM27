@@ -100,7 +100,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     @Override
     public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers){
         try {
-            rmiServer.sendCreateGame(username,connection_type,2, this);
+            rmiServer.sendCreateGame(username,connection_type,numPlayers, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

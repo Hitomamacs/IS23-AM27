@@ -88,9 +88,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     @Override
     public void SendJoinMessage(String username, boolean connection_type) {
         //System.out.println("Inserisci nome");
-        nickname=stdin.nextLine();
+
         try {
-            rmiServer.sendJoin(nickname,false, this);
+            rmiServer.sendJoin(username,false, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

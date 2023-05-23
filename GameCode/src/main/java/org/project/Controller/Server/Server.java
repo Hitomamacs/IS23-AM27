@@ -67,10 +67,18 @@ public class Server {
 
         try {
             rmiServer.startRMIServer(rmiPort);
-            new Thread(socketServer).start();
-
+            Thread serverThread = new Thread(socketServer);
+            serverThread.start();
+            synchronized (serverThread){
             while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
-                wait();//TODO possibly make it wait on notify from socket server and rmi server
+                //MAke the current thread wait until notified
+                serverThread.wait();
+
+
+            }
+
+
+                //TODO possibly make it wait on notify from socket server and rmi server
             }
             this.controller.startGame();
         } catch (Exception e) {

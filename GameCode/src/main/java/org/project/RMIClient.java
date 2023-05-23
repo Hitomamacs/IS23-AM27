@@ -72,7 +72,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             throw new RuntimeException(e);
         }
 
-        System.out.println("Connessione stabilita con successo");
+        //System.out.println("Connessione stabilita con successo");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     @Override
     public void SendJoinMessage(String username, boolean connection_type) {
-        System.out.println("Inserisci nome");
+        //System.out.println("Inserisci nome");
         nickname=stdin.nextLine();
         try {
             rmiServer.sendJoin(nickname,false, this);
@@ -191,7 +191,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
 
 
-        System.out.println("\nPrinting updated board");
+        //System.out.println("\nPrinting updated board");
         userInterface.printBoard();
 
         System.out.println("Printing " + playername + " tiles");

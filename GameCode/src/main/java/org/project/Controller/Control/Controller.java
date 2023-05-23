@@ -155,7 +155,6 @@ public class Controller {
                 User user = new User(username, connectionType);
                 user.addPropertyChangeListener(this.UserConnectionListener);
                 lobby.add(user);
-                notifyAll();
                 System.out.println("\n" + username + " added to game  (Server login method)");
                 return true;
             }else{

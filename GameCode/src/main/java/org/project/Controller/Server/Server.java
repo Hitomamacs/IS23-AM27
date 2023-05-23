@@ -67,15 +67,13 @@ public class Server {
 
         try {
             rmiServer.startRMIServer(rmiPort);
-            Thread serverThread = new Thread(socketServer);
-            serverThread.start();
-            synchronized (serverThread){
+            new Thread(socketServer).start();
+
             while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
                 //MAke the current thread wait until notified
-                serverThread.wait();
+                Thread.sleep(1000);
 
 
-            }
 
 
                 //TODO possibly make it wait on notify from socket server and rmi server

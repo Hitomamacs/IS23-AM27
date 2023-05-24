@@ -1,9 +1,6 @@
 package org.project;
 
-import java.io.FileNotFoundException;
 import java.util.*;
-import java.io.File;
-
 
 /**
  * class representing the client side view
@@ -601,7 +598,6 @@ public class ClientView {
 
 
     }
-
     public void printPersonalGoal(String playerName){
         System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
     }
@@ -839,7 +835,7 @@ public class ClientView {
                         System.out.println();
                     }
                     System.out.println();
-                    System.out.println("Ciqnue colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, " +
+                    System.out.println("Cinque colonne di altezza crescente o decrescente: a partire dalla prima colonna a sinistra o a destra, " +
                             "ogni colonna successiva deve essere formata da una tessera in più.\n" +
                             "Le tessere possono essere di qualsiasi colore.");
                     System.out.println();
@@ -847,20 +843,15 @@ public class ClientView {
             }
         }
     }
-
-
     public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;
     }
-
     public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
         this.personalGoalViews = personalGoalViews;
     }
-
     public List<Integer> getCommonGoalView() {
         return commonGoalView;
     }
-
     public void setCommonGoalView(List<Integer> commonGoalView) {
         this.commonGoalView = commonGoalView;
     }

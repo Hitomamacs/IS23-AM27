@@ -47,11 +47,17 @@ public class MessageHandler {
         boolean connection = create_gameMsg.getConnectionType();
         int num_players = create_gameMsg.getNumPlayers();
         if(num_players >= 2 && num_players <= 4) {
-            if (server.create_game(username, connection, num_players)) {
-                socketServer.getSocketClients().put(username, client);
-                popUpMsg.setText("Game has been created");
+
+            try {
+                if (server.create_game(username, connection, num_players)) {
+                    socketServer.getSocketClients().put(username, client);
+                    popUpMsg.setText("Game has been created");
+                    send(popUpMsg);
+                    return;
+                }
+            } catch (InvalidLoginException e) {
+                popUpMsg.setText(e.getMessage());
                 send(popUpMsg);
-                return;
             }
             popUpMsg.setText("Already an existing game");
             return;
@@ -64,13 +70,12 @@ public class MessageHandler {
         client.setUsername(username);
         PopUpMsg popUpMsg = new PopUpMsg();
         boolean connection = joinMsg.getConnectionType();
-        socketServer.getSocketClients().put(username, client);
         try {
             if (server.join(username, connection)) {
+                socketServer.getSocketClients().put(username, client);
                 popUpMsg.setText("Successfully joined the game");
                 send(popUpMsg);
-            }else{
-                socketServer.getSocketClients().remove(username, client);
+                server.getController().refreshRequest(username);
             }
         } catch (InvalidLoginException e) {
             popUpMsg.setText(e.getMessage());

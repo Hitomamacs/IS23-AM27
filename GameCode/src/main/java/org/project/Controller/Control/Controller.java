@@ -104,7 +104,7 @@ public class Controller {
      * @param numPlayers Number of players in the match
      * @return true if the action was successful
      */
-    public boolean create_game(String username, boolean connectionType, int numPlayers){
+    public boolean create_game(String username, boolean connectionType, int numPlayers) throws InvalidLoginException {
         System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
         if(lobby.isEmpty()) {
             User user = new User(username, connectionType);
@@ -118,8 +118,10 @@ public class Controller {
         }
         //Means a game has already been created
         //Should probably do another check to see if numPlayers is acceptable
-        System.out.println("\nAlready an existing game  (Server login method)");
-        return false;
+        else {
+            System.out.println("\nAlready an existing game  (Server login method)");
+            throw new InvalidLoginException("Already an existing game");
+        }
     }
 
     /**
@@ -147,7 +149,6 @@ public class Controller {
                     System.out.println("\nplayer"+ username+ "has reconnected");
                     user.setConnected(true);
                     user.setConnectionType(connectionType);
-                    server.refresh(username, view);
                     return true;
                 }
             }
@@ -162,6 +163,11 @@ public class Controller {
             }
         }
         throw new InvalidLoginException("No available game to join");
+    }
+    public void refreshRequest(String username){
+        if(game.getGameStarted()) {
+            server.refresh(username, view);
+        }
     }
 
     /**

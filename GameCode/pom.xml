@@ -81,7 +81,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>GameCode.src.main.java.org.project.GuiUserInterface</mainClass>
+          <mainClass>GameCode.src.main.java.org.project.Gui.GuiUserInterface</mainClass>
         </configuration>
       </plugin>
 

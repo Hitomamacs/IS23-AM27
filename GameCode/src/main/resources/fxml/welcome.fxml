@@ -10,11 +10,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.WelcomeController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@progetto%20ing%20software/MyShelfie_risorse/17_MyShelfie_BGA/Publisher%20material/Display_1.jpg" />
+            <Image url="@../images/Display_1.jpg" />
          </image>
       </ImageView>
       <Button fx:id="createGameButton" layoutX="194.0" layoutY="258.0" mnemonicParsing="false" onAction="#startCreateGameAction" text="CREATE GAME" />

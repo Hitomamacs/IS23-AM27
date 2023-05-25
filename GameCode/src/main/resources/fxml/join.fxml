@@ -7,17 +7,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
    <children>
       <ImageView fx:id="Sfondo" fitHeight="446.0" fitWidth="682.0" layoutX="-74.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@progetto%20ing%20software/sfondo.jpg" />
+            <Image url="@../images/sfondo.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="MyShelfie" fitHeight="150.0" fitWidth="447.0" layoutX="76.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@progetto%20ing%20software/MyShelfie_risorse/17_MyShelfie_BGA/Publisher%20material/Title%202000x618px.png" />
+            <Image url="@../images/Title.png" />
          </image>
       </ImageView>
       <TextField fx:id="Username" layoutX="225.0" layoutY="220.0" />

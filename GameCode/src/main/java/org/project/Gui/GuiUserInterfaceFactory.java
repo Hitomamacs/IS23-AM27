@@ -1,4 +1,8 @@
-package org.project;
+package org.project.Gui;
+
+import org.project.ClientView;
+import org.project.UserInterface;
+import org.project.UserInterfaceFactory;
 
 public class GuiUserInterfaceFactory implements UserInterfaceFactory {
     @Override

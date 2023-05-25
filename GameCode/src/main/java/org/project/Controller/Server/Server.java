@@ -81,6 +81,15 @@ public class Server {
 
         }
     }
+    public SocketServer getSocketServer() {
+        return socketServer;
+    }
+    public RMIServerApp getRmiServer() {
+        return rmiServer;
+    }
+    public Controller getController(){
+        return controller;
+    }
  /*   public void serverInit(String[] args) throws RemoteException {
 
         int rmiPort=1234;
@@ -154,7 +163,7 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers){
+    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers) throws InvalidLoginException {
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**

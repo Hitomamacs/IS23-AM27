@@ -2,9 +2,7 @@ package org.project.Model;
 
 import com.google.gson.annotations.Expose;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,19 +26,19 @@ public class PersonalGoal_Deck {
         public void fillDeck(String filename){
 
             Reader reader = null;
-            try {
 
-                URL url = this.getClass()
+                /*URL url = this.getClass()
                         .getClassLoader()
                         .getResource("test_1.json");
                 File file = new File(url.getPath());
                 //open file as buffer reader
-                reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));*/
+            ClassLoader classLoader=this.getClass().getClassLoader();
+            String file= "test_1.json";
+            InputStream inputStream= classLoader.getResourceAsStream(file);
+            BufferedReader read= new BufferedReader(new InputStreamReader(inputStream));
 
-            List<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(reader, List.class);
+            List<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(read, List.class);
             for(int i = 0; i< personalGoals_list.size(); i++){
                 deck.add(new PersonalGoal(i, personalGoals_list.get(i)));
             }

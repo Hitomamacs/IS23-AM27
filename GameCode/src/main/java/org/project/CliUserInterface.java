@@ -15,10 +15,13 @@ import java.util.Scanner;
 public class CliUserInterface implements UserInterface{
 
     public CliUserInterface(ClientView clientView) {
+
         this.clientView = clientView;
     }
 
-    private  ClientView clientView;
+    private ClientView clientView;
+
+    private Cli_Images cliImages = new Cli_Images();
 
     private String nickname;
 
@@ -190,8 +193,6 @@ public class CliUserInterface implements UserInterface{
 
 
     }
-
-
 
     // User username
     public String getUsername() {

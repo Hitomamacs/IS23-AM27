@@ -104,7 +104,7 @@ public class Controller {
      * @param numPlayers Number of players in the match
      * @return true if the action was successful
      */
-    public boolean create_game(String username, boolean connectionType, int numPlayers){
+    public boolean create_game(String username, boolean connectionType, int numPlayers) throws InvalidLoginException {
         System.out.println("\nServer received request to create game with " + numPlayers + " players   (Server login method)");
         if(lobby.isEmpty()) {
             User user = new User(username, connectionType);
@@ -118,8 +118,10 @@ public class Controller {
         }
         //Means a game has already been created
         //Should probably do another check to see if numPlayers is acceptable
-        System.out.println("\nAlready an existing game  (Server login method)");
-        return false;
+        else {
+            System.out.println("\nAlready an existing game  (Server login method)");
+            throw new InvalidLoginException("Already an existing game");
+        }
     }
 
     /**
@@ -147,7 +149,6 @@ public class Controller {
                     System.out.println("\nplayer"+ username+ "has reconnected");
                     user.setConnected(true);
                     user.setConnectionType(connectionType);
-                    server.refresh(username, view);
                     return true;
                 }
             }
@@ -162,6 +163,11 @@ public class Controller {
             }
         }
         throw new InvalidLoginException("No available game to join");
+    }
+    public void refreshRequest(String username){
+        if(game.getGameStarted()) {
+            server.refresh(username, view);
+        }
     }
 
     /**
@@ -255,22 +261,14 @@ public class Controller {
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
         for (User user : lobby) {
-            if (user.getUsername().equals(username) && user.isConnected()) {
-                if(game.getGameStarted()) {
-                    server.stopKeepAlive(username, user.getConnectionType());
-                    user.setConnected(false);
+            if (user.getUsername().equals(username)) {
+                user.setConnected(false);
+                String text = username + " quitted";
+                System.out.println("Player " + username + " has quit");
+                server.sendInfo(text);
+                warnNextPlayer();
                 }
-                else{
-                    server.stopKeepAlive(username, user.getConnectionType());
-                    user.setConnected(false);//Still necessary to set boolean to disconnected first so the user is removed from server hashmaps and counts are decreased
-                    lobby.remove(user);
-                }
-            }
         }
-        String text = username + " quitted";
-        System.out.println("Player " + username + " has quit");
-        server.sendInfo(text);
-        warnNextPlayer();
         return true;
     }
     public boolean correctPlayer(String username){
@@ -319,6 +317,10 @@ public class Controller {
                 } else {
                     server.sendInfo("Player " + username + " has disconnected");
                     server.removeUser(username, user.getConnectionType());
+                    if(!game.getGameStarted()){
+                        lobby.remove(user);
+                    }
+                    //Turn checks
                     if (game.getGameStarted() && correctPlayer(username)) {
                         GameOrchestrator orchestrator = game.getOrchestrator();
                         orchestrator.changeState(new StartTurnState(orchestrator));

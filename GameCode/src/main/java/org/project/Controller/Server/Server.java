@@ -70,7 +70,9 @@ public class Server {
             new Thread(socketServer).start();
 
             while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
-                Thread.sleep(1000);//TODO possibly make it wait on notify from socket server and rmi server
+                //MAke the current thread wait until notified
+                Thread.sleep(1000);
+                //TODO possibly make it wait on notify from socket server and rmi server
             }
             this.controller.startGame();
         } catch (Exception e) {
@@ -78,6 +80,15 @@ public class Server {
 
 
         }
+    }
+    public SocketServer getSocketServer() {
+        return socketServer;
+    }
+    public RMIServerApp getRmiServer() {
+        return rmiServer;
+    }
+    public Controller getController(){
+        return controller;
     }
  /*   public void serverInit(String[] args) throws RemoteException {
 
@@ -152,7 +163,7 @@ public class Server {
      * @param connectionType =0 if connection is RMI, =1 if connection is Socket
      * @param numPlayers Number of players in the match
      */
-    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers){
+    public synchronized boolean create_game(String username, boolean connectionType, int numPlayers) throws InvalidLoginException {
         return controller.create_game(username, connectionType, numPlayers);
     }
     /**

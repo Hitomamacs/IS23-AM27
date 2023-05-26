@@ -85,13 +85,12 @@ public class RMIServerApp implements RMIServerInterface {
         } catch (InvalidLoginException e) {
             client.notifyPopUpView(e.getMessage());
         }
-        clientsRMI.put(nickname,client);
         if(check==true){
+            clientsRMI.put(nickname,client);
+            client.notifyPopUpView("Successfully joined game");
+            server.getController().refreshRequest(nickname);
             return true;
-        }else{
-            clientsRMI.remove(nickname, client);
         }
-
         return false;
     }
 
@@ -105,10 +104,15 @@ public class RMIServerApp implements RMIServerInterface {
      * @throws RemoteException if something goes wrong with the connection
      */
     public boolean sendCreateGame(String nickname, boolean connectionType, int numPlayers, RMIClientInterface client) throws RemoteException{
-        boolean check;
-        check=server.create_game(nickname,connectionType,numPlayers);
+        boolean check = false;
+        try {
+            check = server.create_game(nickname,connectionType,numPlayers);
+        } catch (InvalidLoginException e) {
+            client.notifyPopUpView(e.getMessage());
+        }
         if(check==true){
             clientsRMI.put(nickname, client);
+            client.notifyPopUpView("Successfully created game");
             return true;
         }
         return false;

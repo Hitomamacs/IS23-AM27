@@ -20,6 +20,8 @@ public class CliUserInterface implements UserInterface{
 
     private  ClientView clientView;
 
+    private String nickname;
+
     private final Scanner scanner = new Scanner(System.in);
 
     public void displayMessage(String message) {
@@ -147,16 +149,18 @@ public class CliUserInterface implements UserInterface{
     @Override
     public void SendJoinMessage(ConnectionInterface client) {
         String username = getUsername();
+        this.nickname=username;
         client.SendJoinMessage(username, true); //TODO for RMI
     }
 
     @Override
     public void SendCreateGameMessage(ConnectionInterface client) {
         String username = getUsername();
+        this.nickname=username;
         int numPlayers = getNumPlayers();
 
         try {
-            client.SendCreateGameMessage(username, true, numPlayers); //TODO for RMI
+            client.SendCreateGameMessage(username, client.get_connection_type(), numPlayers); //TODO for RMI
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -165,26 +169,24 @@ public class CliUserInterface implements UserInterface{
 
     @Override
     public void SendQuitMessage(ConnectionInterface client) {
-        String username = getUsername();
-        client.SendQuitMessage(username); //TODO for RMI
+        client.SendQuitMessage(this.nickname); //TODO for RMI
 
     }
 
     @Override
     public void SendPickMessage(ConnectionInterface client) {
-        String username = getUsername();
+
         int numTiles = getNumTiles();
         List<Coordinates> coordinates = getCoordinates(numTiles);
-        client.SendPickMessage(username, numTiles, coordinates); //TODO for RMI
+        client.SendPickMessage(this.nickname, numTiles, coordinates); //TODO for RMI
 
     }
 
     @Override
     public void SendTopUpMessage(ConnectionInterface client) {
-        String username = getUsername();
         int firstTime = getFirstTime();
         int tileIndex = getTileIndex();
-        client.SendTopUpMessage(username, firstTime, tileIndex); //TODO for RMI
+        client.SendTopUpMessage(this.nickname, firstTime, tileIndex); //TODO for RMI
 
 
     }

@@ -15,6 +15,8 @@ import java.util.*;
 
 public class SocketClient extends AbstractClientApp implements ConnectionInterface{
 
+    private boolean connection_type = true;
+
     private  ClientView clientView = new ClientView();
 
     UserInterface userInterface;
@@ -127,8 +129,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
         // Get the user's tiles
 
-        String[] userTiles = this.clientView.getTilesview().get(username);
-        long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
+        //String[] userTiles = this.clientView.getTilesview().get(username);
+        //long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         sendMessage(createTopUpMessage(username, firstTime, tileIndex));
 
 
@@ -157,6 +159,11 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     @Override
     public ClientView getClientView() {
         return this.clientView;
+    }
+
+    @Override
+    public boolean get_connection_type() {
+        return true;
     }
 
     public void SendJoinMessage(String username, boolean connection_type) {

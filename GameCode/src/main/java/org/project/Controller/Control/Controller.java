@@ -58,6 +58,11 @@ public class Controller {
     public VirtualView getView(){
         return this.view;
     }
+
+    public void refresh(){
+        this.lobby = new ArrayList<>();
+        this.game = new Game(server);
+    }
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -85,6 +90,7 @@ public class Controller {
         }
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
+        game.addPropertyChangeListener(view.getScoreBoardListener());
     }
     public List<Player> playerOrder(List<User> users){
         Random random = new Random();
@@ -342,7 +348,13 @@ public class Controller {
     public static void main(String[] args){
         try {
             Controller controller = new Controller();
-            controller.getServer().serverInit();
+            while(true) {
+                controller.getServer().serverInit();
+                //If game has ended I need to refresh to wait for future games
+                //The refresh just cleans up lobby and game but the server has to be refreshed
+                //at the end of the serverInit method
+                controller.refresh();
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

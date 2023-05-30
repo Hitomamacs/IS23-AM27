@@ -9,6 +9,7 @@ import org.project.ObservableObject;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -31,6 +32,7 @@ public class Game extends ObservableObject{
     private PointAssigner pointAssigner;
     private List<CommonGoal> commonGoals;
     private CommonGoal_Deck commonGoalDeck;
+    private HashMap<String, Integer> scoreboard;
     private String filename;
     //TODO WHat happens if game terminates?
     public Game(){
@@ -45,6 +47,7 @@ public class Game extends ObservableObject{
         commonGoals = new ArrayList<>();
         persistencer = new Persistencer();
         this.numPlayers = 4;
+        scoreboard = new HashMap<>();
     }
     public void gameInit(List<Player> players){
         System.out.println("\nInitializing game (Game method gameInit)");
@@ -74,6 +77,9 @@ public class Game extends ObservableObject{
     }
     public void setOrchestrator(GameOrchestrator orchestrator) {
         this.orchestrator = orchestrator;
+    }
+    public void setGameStarted(boolean value){
+        gameStarted = value;
     }
     public String getFilename() {
         return filename;
@@ -107,6 +113,9 @@ public class Game extends ObservableObject{
     }
     public boolean getGameStarted() {
         return gameStarted;
+    }
+    public HashMap<String, Integer> getScoreboard(){
+        return scoreboard;
     }
     public void pickPersonalGoals(){
         for(Player player : players){

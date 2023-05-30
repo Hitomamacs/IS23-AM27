@@ -100,6 +100,9 @@ public class VirtualView {
     public PropertyChangeListener getCGoalUpdateListener(){
         return this.CGoalUpdateListener;
     }
+    public PropertyChangeListener getScoreBoardListener(){
+        return this.ScoreBoardListener;
+    }
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -200,6 +203,15 @@ public class VirtualView {
             if("CGoalUpdate".equals(evt.getPropertyName())){
                 Game game = (Game) evt.getNewValue();
                 updateView(game.getCommonGoals());
+            }
+        }
+    };
+    PropertyChangeListener ScoreBoardListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("ScoreBoardUpdate".equals(evt.getPropertyName())){
+                Game game = (Game) evt.getNewValue();
+                updateView(game.getScoreboard());
             }
         }
     };

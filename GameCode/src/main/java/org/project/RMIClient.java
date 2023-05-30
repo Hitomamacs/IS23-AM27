@@ -3,6 +3,7 @@ package org.project;
 import com.google.gson.Gson;
 import org.project.Controller.Messages.Message;
 import org.project.Controller.Messages.PickMessage;
+import org.project.Controller.Messages.PreTurnMsg;
 import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
@@ -245,5 +246,12 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
         userInterface.displayMessage(clientView.getPopUpErrorMessage());
 
+    }
+    @Override
+    public void notifyTurn(String username, boolean move) throws RemoteException {
+        PreTurnMsg preTurnMsg = new PreTurnMsg(username, move);
+        Gson gson= new Gson();
+        String json= gson.toJson(preTurnMsg);
+        userInterface.processReceivedMessage(json);
     }
 }

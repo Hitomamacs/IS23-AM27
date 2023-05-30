@@ -32,11 +32,12 @@ class TopUpStateTest {
     @BeforeEach
     void setup(){
         tiles = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
         game = new Game();
         for(int i = 0; i < 4; i++){
-            game.getPlayers().add(new Player("player" + i));
+            players.add(new Player("player" + i));
         }
-        game.gameInit(4);
+        game.gameInit(players);
         orchestrator = new GameOrchestrator(game.getPlayers(), game.getGameBoard(), game.getCommonGoals(), game.getPointAssigner(), game.getTileBag(), game);
         state = new StartTurnState(orchestrator);
         for(int i = 0; i < 4; i++){

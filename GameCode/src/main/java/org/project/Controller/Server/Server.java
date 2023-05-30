@@ -391,4 +391,22 @@ public class Server {
             rmiServer.getClientsRMI().remove(username);
         }
     }
+    public void turn_Refresh(String playername, boolean move){
+
+        boolean connectionType = controller.getUser(playername).getConnectionType();
+        PreTurnMsg message = new PreTurnMsg(playername, move);
+        //If client is socket
+        if(connectionType){
+            socketServer.getSocketClients().get(playername).send(message);
+        }
+        //If client is RMI
+        else {
+            try {
+                rmiServer.getClientsRMI().get(playername).notifyTurn(playername, move);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
 }

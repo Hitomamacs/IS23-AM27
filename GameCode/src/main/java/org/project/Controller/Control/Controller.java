@@ -285,13 +285,14 @@ public class Controller {
     public void warnNextPlayer(){
         String playerName = this.orchestrator.getCurrentPlayer().getNickname();
         GameState state = this.orchestrator.getState();
-        server.refresh(playerName, view);
         String Info = " ";
         if(state instanceof TopUpState){
             Info ="Waiting for player " + playerName + " to top up";
+            server.turn_Refresh(playerName, false);
         }
         else if(state instanceof VerifyGrillableState){
             Info ="Waiting for player " + playerName + " pick tiles";
+            server.turn_Refresh(playerName, true);
         }
         if(!Info.equals(" ")){
             this.server.sendInfo(Info);

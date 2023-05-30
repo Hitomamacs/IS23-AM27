@@ -102,6 +102,19 @@ public class CliUserInterface implements UserInterface{
         clientView.setErrorMessage(message.getText());
         System.out.println(message.getText());
     }
+    public void handleTurnUpdate(PreTurnMsg message){
+        String username = message.getUsername();
+        if(message.getMove_Type()){
+            clientView.printBoard();
+            System.out.println();
+            clientView.printGrid(username);
+        }
+        else{
+            clientView.printGrid(username);
+            System.out.println();
+            clientView.printTiles(username);
+        }
+    }
 
     public void handleScoreUpdate(ScoreBoardMsg message){
         clientView.setScoreBoard(message.getScoreBoard());
@@ -139,7 +152,8 @@ public class CliUserInterface implements UserInterface{
                 case REFRESH_UPDATE:
                     handleRefreshUpdate(gson.fromJson(line, RefreshMsg.class));
                     break;
-
+                case TURN_UPDATE:
+                    handleTurnUpdate(gson.fromJson(line, PreTurnMsg.class));
                 default:
                     break;
             }

@@ -39,6 +39,7 @@ public class Controller {
         this.server = new Server(this);
         this.lobby = new ArrayList<>();
         this.game = new Game(server);
+        game.addPropertyChangeListener(this.GameStateListener);
     }
     public int getNumPlayers(){
         return this.numPlayers;
@@ -62,6 +63,7 @@ public class Controller {
     public void refresh(){
         this.lobby = new ArrayList<>();
         this.game = new Game(server);
+        game.addPropertyChangeListener(this.GameStateListener);
     }
     public void startGame(){
         this.view = new VirtualView(lobby, game);
@@ -115,7 +117,10 @@ public class Controller {
         if(lobby.isEmpty()) {
             User user = new User(username, connectionType);
             user.addPropertyChangeListener(this.UserConnectionListener);
-            lobby.add(user);
+            synchronized (server.getLock()){
+                lobby.add(user);
+                server.getLock().notifyAll();
+            }
             game.setNumPlayers(numPlayers);
             this.numPlayers = numPlayers;
 
@@ -161,7 +166,10 @@ public class Controller {
             if(!(lobby.size() >= numPlayers)) {
                 User user = new User(username, connectionType);
                 user.addPropertyChangeListener(this.UserConnectionListener);
-                lobby.add(user);
+                synchronized (server.getLock()){
+                    lobby.add(user);
+                    server.getLock().notifyAll();
+                }
                 System.out.println("\n" + username + " added to game  (Server login method)");
                 return true;
             }else{
@@ -267,7 +275,9 @@ public class Controller {
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
         for (User user : lobby) {
+            System.out.println("Hello it's " + user.getUsername());
             if (user.getUsername().equals(username)) {
+                System.out.println("Setting disconnected " + user.getUsername());
                 user.setConnected(false);
                 String text = username + " quitted";
                 System.out.println("Player " + username + " has quit");
@@ -308,6 +318,26 @@ public class Controller {
         String info = e.getMessage();
         server.sendInfo(info, getUser(username));
     }
+    public void lobbyCheck(){
+        System.out.println("Lobby check");
+        boolean allDisconnected = true;
+        for(User user : lobby){
+            if(user.isConnected()){
+                System.out.println("user " + user.getUsername() + "is connected " + user.isConnected());
+                allDisconnected = false;
+            }
+        }
+        if(allDisconnected){
+            System.out.println("No one left");
+            while(lobby.size() > 0){
+                synchronized (server.getLock()){
+                    lobby.remove(0);
+                    server.getLock().notifyAll();
+                }
+            }
+            game.setGameStarted(false);
+        }
+    }
     PropertyChangeListener UserConnectionListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -325,8 +355,16 @@ public class Controller {
                     server.sendInfo("Player " + username + " has disconnected");
                     server.removeUser(username, user.getConnectionType());
                     if(!game.getGameStarted()){
-                        lobby.remove(user);
+                        System.out.println("Debug");
+                        synchronized (server.getLock()){
+                            lobby.remove(user);
+                            server.getLock().notifyAll();
+                        }
                     }
+                    //Now a check to see at least someone is connected if no one is remove everyone from lobby
+                    //Eventually here someone could add a sleep to give some time to reconnect before ending the game
+                    System.out.println("Entering lobby check");
+                    lobbyCheck();
                     //Turn checks
                     if (game.getGameStarted() && correctPlayer(username)) {
                         GameOrchestrator orchestrator = game.getOrchestrator();
@@ -345,16 +383,30 @@ public class Controller {
         }
 
     };
+    PropertyChangeListener GameStateListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if ("GameStateUpdate".equals(evt.getPropertyName())) {
+                boolean game_state = (boolean) evt.getNewValue();
+                if(!game_state){
+                    System.out.println("Sending end game info");
+                    server.sendInfo("Game has ended this is the scoreboard: " + "\n");
+                    server.send(view.getScoreBoardView());
+                    synchronized (server.getLock()){
+                        System.out.println("Notifying");
+                        server.getLock().notifyAll();
+                    }
+                }
+            }
+
+        }
+
+    };
+
     public static void main(String[] args){
         try {
             Controller controller = new Controller();
-            while(true) {
-                controller.getServer().serverInit();
-                //If game has ended I need to refresh to wait for future games
-                //The refresh just cleans up lobby and game but the server has to be refreshed
-                //at the end of the serverInit method
-                controller.refresh();
-            }
+            controller.getServer().serverInit();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

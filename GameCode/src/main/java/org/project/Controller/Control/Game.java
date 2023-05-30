@@ -80,6 +80,7 @@ public class Game extends ObservableObject{
     }
     public void setGameStarted(boolean value){
         gameStarted = value;
+        firePropertyChange("GameStateUpdate", gameStarted);
     }
     public String getFilename() {
         return filename;

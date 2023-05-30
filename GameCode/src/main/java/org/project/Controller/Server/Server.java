@@ -21,7 +21,7 @@ public class Server {
 
     private Game game;
     private Controller controller;
-    private GameOrchestrator orchestrator;
+    private final Object lock = new Object();
     private int connectedPlayers;
 
     /**
@@ -46,6 +46,10 @@ public class Server {
         this.connectedPlayers = connectedPlayers;
     }
 
+    public Object getLock(){
+        return lock;
+    }
+
     /**
      * constructor
      */
@@ -53,9 +57,14 @@ public class Server {
     public Server(Controller controller) throws RemoteException {
 
         this.controller = controller;
+        game = controller.getGame();
         socketServer= new SocketServer(this, Settings.SOCKET_PORT);
         rmiServer= new RMIServerApp(this);
         connectedPlayers=0;
+    }
+    public void newGame(Controller controller){
+        game = controller.getGame();
+        connectedPlayers = 0;
     }
 
     /**
@@ -68,18 +77,42 @@ public class Server {
         try {
             rmiServer.startRMIServer(rmiPort);
             new Thread(socketServer).start();
+            while (true) {
 
-            while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
-                //Make the current thread wait until notified
-                Thread.sleep(1000);
-                //TODO possibly make it wait on notify from socket server and rmi server
+                synchronized (lock) {
+                    while (this.controller.getLobby().size() != this.controller.getNumPlayers()) {
+                        //Make the current thread wait until notified
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        //Thread.sleep(1000);
+                        //TODO possibly make it wait on notify from socket server and rmi server
+                    }
+                }
+                this.controller.startGame();
+                synchronized (lock) {
+                    while (controller.getGame().getGameStarted()) {
+                        try {
+                            System.out.println("Checking connections");
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                System.out.println("Server flushing");
+                getRmiServer().flushRMIClients();
+                getSocketServer().flushSocketClients();
+                controller.refresh();
+                newGame(controller);
             }
-            this.controller.startGame();
-        } catch (Exception e) {
-            e.printStackTrace();
 
+            } catch(Exception e){
+                e.printStackTrace();
+            }
 
-        }
     }
     public SocketServer getSocketServer() {
         return socketServer;

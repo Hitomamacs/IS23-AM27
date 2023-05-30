@@ -2,11 +2,13 @@ package org.project.Controller.Server;
 
 import org.project.Controller.Server.Server;
 import org.project.Controller.Server.SocketClientHandler;
+import org.project.Controller.View.GridView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +35,14 @@ public class SocketServer implements Runnable {
     }
     public HashMap<String, SocketClientHandler> getSocketClients(){
         return socketClients;
+    }
+
+    public void flushSocketClients(){
+        //Trying to close all connections and then create a new hashmap for a new game
+        for(Map.Entry<String, SocketClientHandler> mapElement : socketClients.entrySet()){
+            mapElement.getValue().disconnect();
+        }
+        socketClients = new HashMap<>();
     }
 
     @Override

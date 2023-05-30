@@ -74,6 +74,7 @@ public class CliUserInterface implements UserInterface{
 
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.updateTilesView(message.getPlayerName(), message.getTiles());
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
         clientView.printGrid(message.getPlayerName());
     }

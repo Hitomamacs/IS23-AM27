@@ -18,6 +18,7 @@ public class EndGameState implements GameState {
     @Override
     public void execute() {
 
+        System.out.println("Entered EndGameState");
         int points = 0;
         HashMap<String, Integer> score = new HashMap<>();
         for(Player p : gameOrchestrator.getPlayers()){

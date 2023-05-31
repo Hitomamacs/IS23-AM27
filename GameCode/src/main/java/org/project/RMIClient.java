@@ -176,7 +176,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setPersonalGoalViews(pGoalView);
         userInterface.updateClientView(clientView);
         userInterface.processReceivedMessage(json);
-        clientView.printCommonGoal();
+        //clientView.printCommonGoal();
 
     }
 
@@ -196,17 +196,13 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
 
         userInterface.updateClientView(clientView);
-
-
         //System.out.println("\nPrinting updated board");
         userInterface.printBoard();
-
-        System.out.println("Printing " + playername + " tiles");
         userInterface.printTiles(playername);
 
-        String[][] grid = clientView.getGridsview().get(playername);
+       /* String[][] grid = clientView.getGridsview().get(playername);
         System.out.println("This is "+playername+" grid");
-        clientView.printGrid(playername);
+        clientView.printGrid(playername);*/
 
 
     }
@@ -221,10 +217,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
                 clientView.getGridsview().get(playername)[i][j]=grid[i][j];
             }
         }
-        System.out.println("This is "+playername+ " grid now");
-        clientView.printGrid(playername);
-
-
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];
         }

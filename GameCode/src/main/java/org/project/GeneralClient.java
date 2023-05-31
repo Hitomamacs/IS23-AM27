@@ -31,6 +31,11 @@ public class GeneralClient implements ClientInterface{
                         case "topup":
                             userInterface.SendTopUpMessage(client);
                             break;
+                        case "Show P Obj":
+                            userInterface.ShowPObj(userInterface.getNickname());
+
+                        case "Show C Obj":
+                            userInterface.ShowCObj(userInterface.getNickname());
                         default:
                             userInterface.displayMessage("Invalid message type");
                     }

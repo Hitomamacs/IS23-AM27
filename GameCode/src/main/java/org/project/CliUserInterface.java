@@ -75,7 +75,7 @@ public class CliUserInterface implements UserInterface{
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
-        clientView.printGrid(message.getPlayerName());
+        printGrids(message.getPlayerName());
     }
 
     @Override
@@ -94,13 +94,13 @@ public class CliUserInterface implements UserInterface{
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
-        clientView.printBoard();
-        clientView.printTiles(message.getPlayerName());
+        printBoard();
+        printTiles(message.getPlayerName());
     }
 
     public void handlePopUp(PopUpMsg message){
         clientView.setErrorMessage(message.getText());
-        System.out.println(message.getText());
+        displayMessage(clientView.getPopUpErrorMessage());
     }
     public void handleTurnUpdate(PreTurnMsg message){
         String username = message.getUsername();
@@ -125,8 +125,7 @@ public class CliUserInterface implements UserInterface{
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
-        clientView.printBoard();
-        System.out.println("Printing Just Board (Refresh message), Start Game");
+        printBoard();
     }
 
     public synchronized  void processReceivedMessage(String line) {
@@ -158,6 +157,23 @@ public class CliUserInterface implements UserInterface{
                     break;
             }
         }
+    }
+
+    @Override
+    public void ShowPObj(String playerName) {
+        clientView.printPersonalGoal(playerName);
+
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    @Override
+    public void ShowCObj(String playerName) {
+        clientView.printCommonGoal();
+
     }
 
     @Override

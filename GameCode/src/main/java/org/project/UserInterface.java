@@ -9,6 +9,12 @@ public interface UserInterface {
 
     void processReceivedMessage(String serverMessage);
 
+    void ShowPObj(String playerName);
+
+    String getNickname();
+
+    void ShowCObj(String playerName);
+
     void SendJoinMessage(ConnectionInterface client);
     void SendCreateGameMessage(ConnectionInterface client);
     void SendQuitMessage(ConnectionInterface client);

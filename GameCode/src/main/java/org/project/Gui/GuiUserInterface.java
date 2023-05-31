@@ -9,20 +9,30 @@ import org.project.ClientView;
 import org.project.ConnectionInterface;
 import org.project.UserInterface;
 
+import java.rmi.RemoteException;
+
 public class GuiUserInterface extends Application implements UserInterface {
 
     private ClientView clientView;
-    public GuiUserInterface(ClientView clientView) {
+    private String nickname;
+    private String input;
+    private int numPlayers;
+
+   /* public GuiUserInterface(ClientView clientView) {
 
         this.clientView = clientView;
-    }
+    }*/
 
-    private String nickname;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/welcome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
+            Parent root = loader.load();
+
+            WelcomeController welcomeController = loader.getController();
+            welcomeController.setGuiUserInterface(this);
+
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         }catch(Exception e){
@@ -41,7 +51,7 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public String getInput() {
-        return null;
+        return input;
     }
 
     @Override
@@ -56,12 +66,17 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public void SendJoinMessage(ConnectionInterface client) {
-
+        client.SendJoinMessage(nickname, true); //TODO for RMI
     }
 
     @Override
     public void SendCreateGameMessage(ConnectionInterface client) {
 
+        try {
+            client.SendCreateGameMessage(nickname, client.get_connection_type(), numPlayers); //TODO for RMI
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -113,5 +128,25 @@ public class GuiUserInterface extends Application implements UserInterface {
     @Override
     public void updateClientView(ClientView clientView) {
         this.clientView=clientView;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
     }
 }

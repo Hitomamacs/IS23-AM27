@@ -18,7 +18,7 @@ public class WelcomeController {
     @FXML
     private Button joinButton;
     public void startCreateGameAction(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("createGame.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
         Parent root= null;
         try {
             root = loader.load();
@@ -32,7 +32,7 @@ public class WelcomeController {
     }
 
     public void startJoinAction(ActionEvent actionEvent) {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("join.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
         Parent root= null;
         try {
             root = loader.load();

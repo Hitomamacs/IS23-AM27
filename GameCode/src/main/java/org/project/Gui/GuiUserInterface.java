@@ -12,9 +12,13 @@ import org.project.UserInterface;
 public class GuiUserInterface extends Application implements UserInterface {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("welcome.fxml"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        try{
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/welcome.fxml"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args){

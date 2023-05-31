@@ -10,6 +10,15 @@ import org.project.ConnectionInterface;
 import org.project.UserInterface;
 
 public class GuiUserInterface extends Application implements UserInterface {
+
+    private ClientView clientView;
+    public GuiUserInterface(ClientView clientView) {
+
+        this.clientView = clientView;
+    }
+
+    private String nickname;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
@@ -27,7 +36,7 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public ClientView getClientView() {
-        return null;
+        return clientView;
     }
 
     @Override
@@ -87,16 +96,22 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public void updateClientViewTiles(String playerName, String[] tiles) {
-
+        int i;
+        for(i=0;i< tiles.length; i++ ){
+            clientView.getTilesview().get(playerName)[i]=tiles[i];
+        }
     }
 
     @Override
     public void updateGridsView(String playerName, String[][] grid) {
-
+        int i;
+        for(i=0;i< grid.length; i++ ){
+            clientView.getGridsview().get(playerName)[i]=grid[i];
+        }
     }
 
     @Override
     public void updateClientView(ClientView clientView) {
-
+        this.clientView=clientView;
     }
 }

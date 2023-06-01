@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="org.project.Gui.MainSceneController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="SfondoParquet" fitHeight="661.0" fitWidth="755.0" layoutX="-61.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PROVA%20FINALE%20INGEGNERIA%20DEL%20SOFTWARE%20/17_MyShelfie_BGA/misc/sfondo%20parquet.jpg" />
+            <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="Board" fitHeight="265.0" fitWidth="268.0" layoutX="35.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PROVA%20FINALE%20INGEGNERIA%20DEL%20SOFTWARE%20/17_MyShelfie_BGA/boards/livingroom.png" />
+            <Image url="@../images/livingroom.png" />
          </image>
       </ImageView>
       <GridPane fx:id="GrigliaBoard" layoutX="45.0" layoutY="39.0" prefHeight="240.0" prefWidth="246.0">
@@ -46,27 +46,27 @@
       </GridPane>
       <ImageView fx:id="CGoalCard1" fitHeight="61.0" fitWidth="105.0" layoutX="35.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@prog%20ing%20soft2/IS23-AM27/GameCode/src/main/resources/images/back.jpg" />
+            <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="CommonGoal2" fitHeight="61.0" fitWidth="105.0" layoutX="137.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@prog%20ing%20soft2/IS23-AM27/GameCode/src/main/resources/images/back.jpg" />
+            <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="EmptyPersonalGoal" fitHeight="101.0" fitWidth="62.0" layoutX="239.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@prog%20ing%20soft2/IS23-AM27/GameCode/src/main/resources/images/front_EMPTY.jpg" />
+            <Image url="@../images/front_EMPTY.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="GrigliaGiocatore" fitHeight="265.0" fitWidth="216.0" layoutX="334.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@prog%20ing%20soft2/IS23-AM27/GameCode/src/main/resources/images/bookshelf.png" />
+            <Image url="@../images/bookshelf.png" />
          </image>
       </ImageView>
       <ImageView fx:id="SfondoTile" fitHeight="61.0" fitWidth="200.0" layoutX="342.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@prog%20ing%20soft2/IS23-AM27/GameCode/src/main/resources/images/base_pagina2.jpg" />
+            <Image url="@../images/base_pagina2.jpg" />
          </image>
       </ImageView>
       <GridPane fx:id="GridGriglia" layoutX="355.0" layoutY="85.0" prefHeight="181.0" prefWidth="174.0">

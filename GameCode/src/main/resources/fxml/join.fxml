@@ -22,6 +22,6 @@
       <TextField fx:id="Username" layoutX="225.0" layoutY="220.0" />
       <Label fx:id="EnterUsername" layoutX="257.0" layoutY="192.0" prefHeight="13.0" prefWidth="85.0" text="Enter username:" />
       <Label fx:id="loginStatus" layoutX="29.0" layoutY="325.0" text="login status:" />
-      <Button fx:id="login2Button" layoutX="282.0" layoutY="259.0" mnemonicParsing="false" onAction="#modifyLabel" text="join" />
+      <Button fx:id="login2Button" layoutX="282.0" layoutY="259.0" mnemonicParsing="false" onAction="#JoinAction" text="join" />
    </children>
 </Pane>

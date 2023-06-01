@@ -1,5 +1,6 @@
 package org.project.Gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,19 +20,16 @@ public class CreateGameController {
     private GuiUserInterface guiUserInterface;
 
     public void CreateGameAction(ActionEvent actionEvent) {
+        Platform.runLater(()->{
+            String username = Username.getText();
+            int numPlayers = Integer.parseInt(NumbPlayers.getText());
 
-        String username = Username.getText();
-        int numPlayers = Integer.parseInt(NumbPlayers.getText());
+            guiUserInterface.setNickname(username);
+            guiUserInterface.setNumPlayers(numPlayers);
 
-        guiUserInterface.setNickname(username);
-        guiUserInterface.setNumPlayers(numPlayers);
+            guiUserInterface.setInput("create_game");
+            loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());});
 
-        guiUserInterface.setInput("create_game");
-
-    }
-
-    public void modifyStatus(ActionEvent actionEvent) {
-        loginstatus.setText("Calcolo");
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {

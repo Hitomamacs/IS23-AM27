@@ -1,5 +1,9 @@
 package org.project.Gui;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.project.ClientView;
 import org.project.ConnectionInterface;
+import org.project.Controller.Messages.*;
 import org.project.UserInterface;
 
 import java.rmi.RemoteException;
@@ -61,7 +66,56 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public void processReceivedMessage(String serverMessage) {
+        if (serverMessage != null && !serverMessage.equals("KEEP_ALIVE")) {
+            JsonElement jelement = JsonParser.parseString(serverMessage).getAsJsonObject();
+            JsonObject jsObject = jelement.getAsJsonObject();
+            JsonElement id = jsObject.get("ID");
+            Gson gson = new Gson();
+            MessageID ID = gson.fromJson(id, MessageID.class);
+            switch (ID) {
+                case TOPUP_UPDATE:
+                    handleTopUpUpdate(gson.fromJson(serverMessage, UpdateTopUPMsg.class));
+                    break;
+                case PICK_UPDATE:
+                    handlePickUpdate(gson.fromJson(serverMessage, UpdatePickMsg.class));
+                    break;
+                case POP_UP:
+                    handlePopUp(gson.fromJson(serverMessage, PopUpMsg.class));
+                    break;
+                case SCORE_UPDATE:
+                    handleScoreUpdate(gson.fromJson(serverMessage, ScoreBoardMsg.class));
+                    break;
+                case REFRESH_UPDATE:
+                    handleRefreshUpdate(gson.fromJson(serverMessage, RefreshMsg.class));
+                    break;
 
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.updateGridsView(message.getPlayerName(), message.getGrid());
+    }
+    public void handlePickUpdate(UpdatePickMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.updateTilesView(message.getPlayerName(), message.getTiles());
+    }
+
+    public void handlePopUp(PopUpMsg message){
+        clientView.setErrorMessage(message.getText());
+    }
+
+    public void handleScoreUpdate(ScoreBoardMsg message){
+        clientView.setScoreBoard(message.getScoreBoard());
+    }
+
+    public void handleRefreshUpdate(RefreshMsg message){
+        clientView.setBoard(message.getBoard());
+        clientView.setTilesview(message.getTilesview());
+        clientView.setGridsview(message.getGridsview());
+        clientView.setPointStack(message.getPointStack());
     }
 
     @Override

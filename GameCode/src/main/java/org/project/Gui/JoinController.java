@@ -1,5 +1,6 @@
 package org.project.Gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,20 +16,25 @@ public class JoinController {
     private Button Login2Button;
     @FXML
     private Label Loginstatus;
-    public void joinAction(ActionEvent actionEvent) {
+    public void JoinAction(ActionEvent actionEvent) {
 
-        String username = Username.getText();
+        Platform.runLater(()->{
+            String username = Username.getText();
 
-        guiUserInterface.setNickname(username);
+            guiUserInterface.setNickname(username);
 
-        guiUserInterface.setInput("join");
+            guiUserInterface.setInput("join");
+
+            if(guiUserInterface.getClientView().getPopUpErrorMessage()!=null){
+                Loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
+            }else{
+                Loginstatus.setText("Aspetto altri giocatori");
+            }});
+
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }
 
-    public void modifyLabel(ActionEvent actionEvent) {
-        Loginstatus.setText("Calcolo");
-    }
 }

@@ -66,9 +66,8 @@ public class Game extends ObservableObject{
         pointAssigner = new PointAssigner();
         pointAssigner.initialize(this.numPlayers, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
-        fillGrids(); //TODO remember to remove
+        //fillGrids(); //TODO remember to remove
         filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
-
     }
     public GameOrchestrator getOrchestrator() {
         return orchestrator;
@@ -154,4 +153,5 @@ public class Game extends ObservableObject{
         }
         return null;
     }
+
 }

@@ -8,10 +8,7 @@ import org.project.Controller.View.BoardView;
 import org.project.Controller.View.GridView;
 import org.project.Controller.View.TilesView;
 import org.project.Controller.View.VirtualView;
-import org.project.Model.Color;
-import org.project.Model.Coordinates;
-import org.project.Model.Player;
-import org.project.Model.Tile;
+import org.project.Model.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -70,6 +67,15 @@ public class Controller {
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
+        int needed_tiles = 0;
+        try {
+            needed_tiles = orchestrator.getGameBoard().boardCheckNum();
+        } catch (NotToRefillBoardExc e) {
+            throw new RuntimeException(e);
+        }
+        orchestrator.getGameBoard().fillBoard(orchestrator.getTileBag().randomPick(needed_tiles));
+        orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+
         //Next try and catch we don't really expect any exceptions as the executeState() method will
         //be passing in between states that don't throw exceptions
         try {
@@ -78,7 +84,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         this.server.send(this.view);
-        this.warnNextPlayer();
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles");
 
     }
     public void linkModel2View(){

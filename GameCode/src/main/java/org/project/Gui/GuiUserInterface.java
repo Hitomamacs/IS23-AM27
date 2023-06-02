@@ -14,6 +14,7 @@ import org.project.ConnectionInterface;
 import org.project.Controller.Messages.*;
 import org.project.UserInterface;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class GuiUserInterface extends Application implements UserInterface {
@@ -22,6 +23,7 @@ public class GuiUserInterface extends Application implements UserInterface {
     private String nickname;
     private String input;
     private int numPlayers;
+    private GuiController guiController;
 
    /* public GuiUserInterface(ClientView clientView) {
 
@@ -40,6 +42,9 @@ public class GuiUserInterface extends Application implements UserInterface {
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
+
+            guiController=new GuiController(primaryStage);
+            welcomeController.setGuiController(guiController);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -116,6 +121,25 @@ public class GuiUserInterface extends Application implements UserInterface {
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
+
+        changeToMainScene();
+    }
+
+    public void changeToMainScene(){
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
+        Parent root= null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        MainSceneController controller=loader.getController();
+        controller.setGuiUserInterface(this);
+        Stage stage=new Stage();
+        stage.setScene(new Scene(root));
+        guiController.closeScene();
+        guiController.setPrimaryStage(stage);
+        stage.show();
     }
 
     @Override

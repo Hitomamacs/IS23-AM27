@@ -22,9 +22,8 @@ public class WelcomeController {
     private Button joinButton;
 
     private GuiUserInterface guiUserInterface;
+    private GuiController guiController;
     public void startCreateGameAction(ActionEvent actionEvent) {
-
-        Stage currentStage = (Stage) createGameButton.getScene().getWindow();
 
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
         Parent root= null;
@@ -37,13 +36,12 @@ public class WelcomeController {
         controller.setGuiUserInterface(guiUserInterface);
         Stage stage=new Stage();
         stage.setScene(new Scene(root));
-        currentStage.close();
+        guiController.closeScene();
+        guiController.setPrimaryStage(stage);
         stage.show();
     }
 
     public void startJoinAction(ActionEvent actionEvent) {
-
-        Stage currentStage = (Stage) joinButton.getScene().getWindow();
 
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
         Parent root= null;
@@ -56,11 +54,16 @@ public class WelcomeController {
         controller.setGuiUserInterface(guiUserInterface);
         Stage stage=new Stage();
         stage.setScene(new Scene(root));
-        currentStage.close();
+        guiController.closeScene();
+        guiController.setPrimaryStage(stage);
         stage.show();
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
+    }
+
+    public void setGuiController(GuiController guiController) {
+        this.guiController = guiController;
     }
 }

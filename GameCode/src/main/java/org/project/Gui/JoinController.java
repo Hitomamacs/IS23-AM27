@@ -16,6 +16,8 @@ public class JoinController {
     private Button Login2Button;
     @FXML
     private Label Loginstatus;
+
+    private GuiController guiController;
     public void JoinAction(ActionEvent actionEvent) {
 
         Platform.runLater(()->{
@@ -37,4 +39,7 @@ public class JoinController {
         this.guiUserInterface = guiUserInterface;
     }
 
+    public void setGuiController(GuiController guiController) {
+        this.guiController = guiController;
+    }
 }

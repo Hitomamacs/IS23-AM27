@@ -18,6 +18,7 @@ public class CreateGameController {
     private Label loginstatus;
 
     private GuiUserInterface guiUserInterface;
+    private GuiController guiController;
 
     public void CreateGameAction(ActionEvent actionEvent) {
         Platform.runLater(()->{
@@ -34,5 +35,9 @@ public class CreateGameController {
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
+    }
+
+    public void setGuiController(GuiController guiController) {
+        this.guiController = guiController;
     }
 }

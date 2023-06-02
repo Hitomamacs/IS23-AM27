@@ -118,7 +118,9 @@ public class CliUserInterface implements UserInterface{
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){
+
         clientView.setScoreBoard(message.getScoreBoard());
+        clientView.printScore();
     }
 
     public void handleRefreshUpdate(RefreshMsg message){

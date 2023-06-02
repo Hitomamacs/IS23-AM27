@@ -56,6 +56,17 @@ public class TileBag {
 
        return tilePicked;
     }
+    public Tile pickSingle(){
+        Random random= new Random();
+        int randomIndex= random.nextInt(bag.size());
+        //conversion from set to array
+        Tile[] array=bag.toArray(new Tile[bag.size()]);
+        //getting the element from the array
+        Tile randomTile= array[randomIndex];
+        //remove the element from the bag and add the element to the set
+        bag.remove(randomTile);
+        return randomTile;
+    }
 
     public Set<Tile> getBag() {
         return bag;

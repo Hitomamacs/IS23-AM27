@@ -39,9 +39,9 @@ public class SocketServer implements Runnable {
 
     public void flushSocketClients(){
         //Trying to close all connections and then create a new hashmap for a new game
-        for(Map.Entry<String, SocketClientHandler> mapElement : socketClients.entrySet()){
+       /* for(Map.Entry<String, SocketClientHandler> mapElement : socketClients.entrySet()){
             mapElement.getValue().disconnect();
-        }
+        } */
         socketClients = new HashMap<>();
     }
 

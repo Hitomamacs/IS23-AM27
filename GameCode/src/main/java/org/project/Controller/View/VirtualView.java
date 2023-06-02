@@ -38,6 +38,7 @@ public class VirtualView {
         tilesViews = new HashMap<>();
         personalGoalViews = new HashMap<>();
         commonGoalsView = new ArrayList<>();
+        scoreBoardView = new ScoreBoardView();
 
         int numPlayers = users.size();
         for (User user : users) {

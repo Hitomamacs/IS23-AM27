@@ -2,11 +2,8 @@ package org.project.Controller.Control;
 
 import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.Server;
+import org.project.Controller.States.*;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
-import org.project.Controller.States.GameState;
-import org.project.Controller.States.StartTurnState;
-import org.project.Controller.States.TopUpState;
-import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.BoardView;
 import org.project.Controller.View.GridView;
 import org.project.Controller.View.TilesView;
@@ -366,7 +363,8 @@ public class Controller {
                     System.out.println("Entering lobby check");
                     lobbyCheck();
                     //Turn checks
-                    if (game.getGameStarted() && correctPlayer(username)) {
+                    GameState state = game.getOrchestrator().getState();
+                    if (game.getGameStarted() && correctPlayer(username) && !(state instanceof EndGameState)) {
                         GameOrchestrator orchestrator = game.getOrchestrator();
                         orchestrator.changeState(new StartTurnState(orchestrator));
                         while (!orchestrator.getCurrentPlayer().isConnected()) {

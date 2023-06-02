@@ -24,8 +24,10 @@ public class EndGameState implements GameState {
         for(Player p : gameOrchestrator.getPlayers()){
             points = p.verifyExtraPoints() + p.verifyExtraPoints() + p.getScore();
             score.put(p.getNickname(), points);
+            gameOrchestrator.getGame().setScoreboard(score);
             gameOrchestrator.getGame().firePropertyChange("ScoreBoardUpdate", gameOrchestrator.getGame());
         }
+        System.out.println("About to set gameStarted to false (EndGameState)");
         gameOrchestrator.getGame().setGameStarted(false);
     }
 

@@ -30,6 +30,18 @@ public class GuiUserInterface extends Application implements UserInterface {
         this.clientView = clientView;
     }*/
 
+    private String UI = "GUI";
+
+    @Override
+    public String getUI() {
+        return UI;
+    }
+
+    @Override
+    public void ShowCObj(String playerName) {
+
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -98,6 +110,11 @@ public class GuiUserInterface extends Application implements UserInterface {
                     break;
             }
         }
+    }
+
+    @Override
+    public void ShowPObj(String playerName) {
+        
     }
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){

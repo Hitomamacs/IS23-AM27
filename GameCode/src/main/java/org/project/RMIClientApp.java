@@ -302,7 +302,9 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
         clientView.setErrorMessage(text);
         System.out.println(text);
     }
+    public void notifyTurn(String username, boolean move) throws RemoteException{
 
+    }
 
     /**
      * method that returns the player's nickname

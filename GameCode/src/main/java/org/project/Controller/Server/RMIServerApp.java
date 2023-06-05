@@ -22,7 +22,7 @@ public class RMIServerApp implements RMIServerInterface {
      * La chiave è l'username
      * il secondo parametro è il riferimento al client
      */
-    private final HashMap<String, RMIClientInterface> clientsRMI;
+    private HashMap<String, RMIClientInterface> clientsRMI;
 
     private final Server server;
 
@@ -33,6 +33,10 @@ public class RMIServerApp implements RMIServerInterface {
     public RMIServerApp(Server server) throws RemoteException{
         this.clientsRMI = new HashMap<>();
         this.server = server;
+    }
+    public void flushRMIClients() throws RemoteException {
+        //TODO haven't really understood how to close the connections
+        clientsRMI = new HashMap<>();
     }
 
     /**
@@ -114,6 +118,8 @@ public class RMIServerApp implements RMIServerInterface {
             clientsRMI.put(nickname, client);
             client.notifyPopUpView("Successfully created game");
             return true;
+        }else{
+            client.notifyPopUpView("Already an existing game");
         }
         return false;
     }

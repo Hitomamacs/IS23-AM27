@@ -38,6 +38,7 @@ public class VirtualView {
         tilesViews = new HashMap<>();
         personalGoalViews = new HashMap<>();
         commonGoalsView = new ArrayList<>();
+        scoreBoardView = new ScoreBoardView();
 
         int numPlayers = users.size();
         for (User user : users) {
@@ -99,6 +100,9 @@ public class VirtualView {
     }
     public PropertyChangeListener getCGoalUpdateListener(){
         return this.CGoalUpdateListener;
+    }
+    public PropertyChangeListener getScoreBoardListener(){
+        return this.ScoreBoardListener;
     }
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
@@ -200,6 +204,15 @@ public class VirtualView {
             if("CGoalUpdate".equals(evt.getPropertyName())){
                 Game game = (Game) evt.getNewValue();
                 updateView(game.getCommonGoals());
+            }
+        }
+    };
+    PropertyChangeListener ScoreBoardListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("ScoreBoardUpdate".equals(evt.getPropertyName())){
+                Game game = (Game) evt.getNewValue();
+                updateView(game.getScoreboard());
             }
         }
     };

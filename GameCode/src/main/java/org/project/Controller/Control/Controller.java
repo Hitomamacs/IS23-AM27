@@ -2,19 +2,13 @@ package org.project.Controller.Control;
 
 import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.Server;
+import org.project.Controller.States.*;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
-import org.project.Controller.States.GameState;
-import org.project.Controller.States.StartTurnState;
-import org.project.Controller.States.TopUpState;
-import org.project.Controller.States.VerifyGrillableState;
 import org.project.Controller.View.BoardView;
 import org.project.Controller.View.GridView;
 import org.project.Controller.View.TilesView;
 import org.project.Controller.View.VirtualView;
-import org.project.Model.Color;
-import org.project.Model.Coordinates;
-import org.project.Model.Player;
-import org.project.Model.Tile;
+import org.project.Model.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,6 +33,7 @@ public class Controller {
         this.server = new Server(this);
         this.lobby = new ArrayList<>();
         this.game = new Game(server);
+        game.addPropertyChangeListener(this.GameStateListener);
     }
     public int getNumPlayers(){
         return this.numPlayers;
@@ -58,6 +53,12 @@ public class Controller {
     public VirtualView getView(){
         return this.view;
     }
+
+    public void refresh(){
+        this.lobby = new ArrayList<>();
+        this.game = new Game(server);
+        game.addPropertyChangeListener(this.GameStateListener);
+    }
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -66,6 +67,15 @@ public class Controller {
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
+        int needed_tiles = 0;
+        try {
+            needed_tiles = orchestrator.getGameBoard().boardCheckNum();
+        } catch (NotToRefillBoardExc e) {
+            throw new RuntimeException(e);
+        }
+        orchestrator.getGameBoard().fillBoard(orchestrator.getTileBag().randomPick(needed_tiles));
+        orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+
         //Next try and catch we don't really expect any exceptions as the executeState() method will
         //be passing in between states that don't throw exceptions
         try {
@@ -74,7 +84,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         this.server.send(this.view);
-        this.warnNextPlayer();
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles");
 
     }
     public void linkModel2View(){
@@ -85,6 +95,7 @@ public class Controller {
         }
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
+        game.addPropertyChangeListener(view.getScoreBoardListener());
     }
     public List<Player> playerOrder(List<User> users){
         Random random = new Random();
@@ -109,7 +120,10 @@ public class Controller {
         if(lobby.isEmpty()) {
             User user = new User(username, connectionType);
             user.addPropertyChangeListener(this.UserConnectionListener);
-            lobby.add(user);
+            synchronized (server.getLock()){
+                lobby.add(user);
+                server.getLock().notifyAll();
+            }
             game.setNumPlayers(numPlayers);
             this.numPlayers = numPlayers;
 
@@ -155,7 +169,10 @@ public class Controller {
             if(!(lobby.size() >= numPlayers)) {
                 User user = new User(username, connectionType);
                 user.addPropertyChangeListener(this.UserConnectionListener);
-                lobby.add(user);
+                synchronized (server.getLock()){
+                    lobby.add(user);
+                    server.getLock().notifyAll();
+                }
                 System.out.println("\n" + username + " added to game  (Server login method)");
                 return true;
             }else{
@@ -261,7 +278,9 @@ public class Controller {
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
         for (User user : lobby) {
+            System.out.println("Hello it's " + user.getUsername());
             if (user.getUsername().equals(username)) {
+                System.out.println("Setting disconnected " + user.getUsername());
                 user.setConnected(false);
                 String text = username + " quitted";
                 System.out.println("Player " + username + " has quit");
@@ -285,13 +304,14 @@ public class Controller {
     public void warnNextPlayer(){
         String playerName = this.orchestrator.getCurrentPlayer().getNickname();
         GameState state = this.orchestrator.getState();
-        server.refresh(playerName, view);
         String Info = " ";
         if(state instanceof TopUpState){
             Info ="Waiting for player " + playerName + " to top up";
+            server.turn_Refresh(playerName, false);
         }
         else if(state instanceof VerifyGrillableState){
             Info ="Waiting for player " + playerName + " pick tiles";
+            server.turn_Refresh(playerName, true);
         }
         if(!Info.equals(" ")){
             this.server.sendInfo(Info);
@@ -300,6 +320,26 @@ public class Controller {
     public void handleStateException(Exception e, String username){
         String info = e.getMessage();
         server.sendInfo(info, getUser(username));
+    }
+    public void lobbyCheck(){
+        System.out.println("Lobby check");
+        boolean allDisconnected = true;
+        for(User user : lobby){
+            if(user.isConnected()){
+                System.out.println("user " + user.getUsername() + "is connected " + user.isConnected());
+                allDisconnected = false;
+            }
+        }
+        if(allDisconnected){
+            System.out.println("No one left");
+            while(lobby.size() > 0){
+                synchronized (server.getLock()){
+                    lobby.remove(0);
+                    server.getLock().notifyAll();
+                }
+            }
+            game.setGameStarted(false);
+        }
     }
     PropertyChangeListener UserConnectionListener = new PropertyChangeListener() {
         @Override
@@ -318,10 +358,19 @@ public class Controller {
                     server.sendInfo("Player " + username + " has disconnected");
                     server.removeUser(username, user.getConnectionType());
                     if(!game.getGameStarted()){
-                        lobby.remove(user);
+                        System.out.println("Debug");
+                        synchronized (server.getLock()){
+                            lobby.remove(user);
+                            server.getLock().notifyAll();
+                        }
                     }
+                    //Now a check to see at least someone is connected if no one is remove everyone from lobby
+                    //Eventually here someone could add a sleep to give some time to reconnect before ending the game
+                    System.out.println("Entering lobby check");
+                    lobbyCheck();
                     //Turn checks
-                    if (game.getGameStarted() && correctPlayer(username)) {
+                    GameState state = game.getOrchestrator().getState();
+                    if (game.getGameStarted() && correctPlayer(username) && !(state instanceof EndGameState)) {
                         GameOrchestrator orchestrator = game.getOrchestrator();
                         orchestrator.changeState(new StartTurnState(orchestrator));
                         while (!orchestrator.getCurrentPlayer().isConnected()) {
@@ -338,6 +387,26 @@ public class Controller {
         }
 
     };
+    PropertyChangeListener GameStateListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if ("GameStateUpdate".equals(evt.getPropertyName())) {
+                boolean game_state = (boolean) evt.getNewValue();
+                if(!game_state){
+                    System.out.println("Sending end game info");
+                    server.sendInfo("Game has ended this is the scoreboard: " + "\n");
+                    server.send(view.getScoreBoardView());
+                    synchronized (server.getLock()){
+                        System.out.println("Notifying");
+                        server.getLock().notifyAll();
+                    }
+                }
+            }
+
+        }
+
+    };
+
     public static void main(String[] args){
         try {
             Controller controller = new Controller();

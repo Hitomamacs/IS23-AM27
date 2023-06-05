@@ -61,5 +61,7 @@ public interface RMIClientInterface extends Remote {
      */
     public void notifyPopUpView (String text) throws RemoteException;
 
+    public void notifyTurn(String username, boolean move) throws RemoteException;
+
     //public String getNickname() throws RemoteException;
 }

@@ -3,6 +3,7 @@ package org.project;
 import com.google.gson.Gson;
 import org.project.Controller.Messages.Message;
 import org.project.Controller.Messages.PickMessage;
+import org.project.Controller.Messages.PreTurnMsg;
 import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
@@ -175,6 +176,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setPersonalGoalViews(pGoalView);
         userInterface.updateClientView(clientView);
         userInterface.processReceivedMessage(json);
+        //clientView.printCommonGoal();
 
     }
 
@@ -194,17 +196,13 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
 
         userInterface.updateClientView(clientView);
-
-
         //System.out.println("\nPrinting updated board");
         userInterface.printBoard();
-
-        System.out.println("Printing " + playername + " tiles");
         userInterface.printTiles(playername);
 
-        String[][] grid = clientView.getGridsview().get(playername);
+       /* String[][] grid = clientView.getGridsview().get(playername);
         System.out.println("This is "+playername+" grid");
-        clientView.printGrid(playername);
+        clientView.printGrid(playername);*/
 
 
     }
@@ -219,10 +217,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
                 clientView.getGridsview().get(playername)[i][j]=grid[i][j];
             }
         }
-        System.out.println("This is "+playername+ " grid now");
-        clientView.printGrid(playername);
-
-
         for(i=0;i< tilesView.length; i++ ){
             clientView.getTilesview().get(playername)[i]=tilesView[i];
         }
@@ -244,5 +238,12 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
         userInterface.displayMessage(clientView.getPopUpErrorMessage());
 
+    }
+    @Override
+    public void notifyTurn(String username, boolean move) throws RemoteException {
+        PreTurnMsg preTurnMsg = new PreTurnMsg(username, move);
+        Gson gson= new Gson();
+        String json= gson.toJson(preTurnMsg);
+        userInterface.processReceivedMessage(json);
     }
 }

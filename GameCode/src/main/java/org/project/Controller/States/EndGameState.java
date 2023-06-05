@@ -17,14 +17,18 @@ public class EndGameState implements GameState {
 
     @Override
     public void execute() {
+
+        System.out.println("Entered EndGameState");
         int points = 0;
         HashMap<String, Integer> score = new HashMap<>();
         for(Player p : gameOrchestrator.getPlayers()){
             points = p.verifyExtraPoints() + p.verifyExtraPoints() + p.getScore();
             score.put(p.getNickname(), points);
+            gameOrchestrator.getGame().setScoreboard(score);
+            gameOrchestrator.getGame().firePropertyChange("ScoreBoardUpdate", gameOrchestrator.getGame());
         }
-        //gameOrchestrator.getGame().getView().updateView(score);
-        //TODO will have to change some variable so that the server knows the game has ended and can close
+        System.out.println("About to set gameStarted to false (EndGameState)");
+        gameOrchestrator.getGame().setGameStarted(false);
     }
 
     @Override

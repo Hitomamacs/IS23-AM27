@@ -29,12 +29,35 @@ public class VerifyBoardableState implements GameState {
     public boolean checkAligned(List<Coordinates> coordinates){
         boolean same_X = true;
         boolean same_Y = true;
+        int x;
+        int y;
+        int max_X = coordinates.get(0).getX();
+        int min_X = coordinates.get(0).getX();
+        int max_Y = coordinates.get(0).getY();
+        int min_Y = coordinates.get(0).getY();
         for(int i = 0; i < coordinates.size() - 1; i++){
-            if(!(coordinates.get(i).getX() == coordinates.get(i + 1).getX()))
+            x = coordinates.get(i).getX();
+            y = coordinates.get(i).getY();
+            if(!(x == coordinates.get(i + 1).getX()))
                 same_X = false;
-            if(!(coordinates.get(i).getY() == coordinates.get(i + 1).getY()))
+            if(!(y == coordinates.get(i + 1).getY()))
                 same_Y = false;
         }
+        for(int i = 0; i < coordinates.size(); i++){
+            x = coordinates.get(i).getX();
+            y = coordinates.get(i).getY();
+            if(x < min_X)
+                min_X = x;
+            if(x > max_X)
+                max_X = x;
+            if(y < min_Y)
+                min_Y = y;
+            if(y > max_Y)
+                max_Y = y;
+        }
+        System.out.println(min_X + max_X + min_Y + max_Y);
+        if(max_Y - min_Y > 2 || max_X - min_X > 2)
+            return false;
         return(same_X || same_Y);
     }
     @Override

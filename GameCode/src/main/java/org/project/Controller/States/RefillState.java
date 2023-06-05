@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class RefillState implements GameState {
 
@@ -14,9 +15,23 @@ public class RefillState implements GameState {
 
     @Override
     public void changeState() {
-        System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles"  );
+        /*System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles"  );
         gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-        gameOrchestrator.setCurr_sate_id(10);
+        gameOrchestrator.setCurr_sate_id(10); */
+
+        if(!gameOrchestrator.getCurrentPlayer().isConnected()){
+            gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(6);
+            try {
+                gameOrchestrator.executeState();
+            } catch (InvalidMoveException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {System.out.println("Entering TopUpState waiting for player " + gameOrchestrator.getCurrentPlayer().getNickname() + " to move");
+            gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
+            gameOrchestrator.setCurr_sate_id(7);
+        }
 
 
     }

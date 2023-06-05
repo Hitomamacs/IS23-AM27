@@ -1,6 +1,7 @@
 package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
+import org.project.Controller.States.Exceptions.InvalidMoveException;
 import org.project.Model.Coordinates;
 import org.project.Model.Tile;
 
@@ -41,7 +42,14 @@ public class PickState implements GameState {
 */
     @Override
     public void changeState() {
-        if(!gameOrchestrator.getCurrentPlayer().isConnected()){
+        gameOrchestrator.changeState(new RefillState(gameOrchestrator));
+        gameOrchestrator.setCurr_sate_id(5);
+        try {
+            gameOrchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
+       /* if(!gameOrchestrator.getCurrentPlayer().isConnected()){
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(6);
         }
@@ -49,7 +57,7 @@ public class PickState implements GameState {
               gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
               gameOrchestrator.setCurr_sate_id(7);
         }
-
+       */
 
     }
 

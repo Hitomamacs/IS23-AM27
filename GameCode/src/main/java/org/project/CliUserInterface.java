@@ -74,6 +74,7 @@ public class CliUserInterface implements UserInterface{
 
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
+        clientView.updateTilesView(message.getPlayerName(), message.getTiles());
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
         printGrids(message.getPlayerName());
     }
@@ -117,7 +118,9 @@ public class CliUserInterface implements UserInterface{
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){
+
         clientView.setScoreBoard(message.getScoreBoard());
+        clientView.printScore();
     }
 
     public void handleRefreshUpdate(RefreshMsg message){

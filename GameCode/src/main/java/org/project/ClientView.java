@@ -166,6 +166,19 @@ public class ClientView {
             count++;
         }
     }
+    public void printScore(){
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
+        entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        Map<String, Integer> sortedHashMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+            sortedHashMap.put(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<String, Integer> entry : sortedHashMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+
 
     //TODO: questo metodo deve essere chiamato PRIMA di qualsiasi altra cosa, è il metodo di benvenuto e dopo si sceglie rmi/socket, cli/gui
     public void printStartImage() {

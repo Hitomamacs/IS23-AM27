@@ -22,13 +22,18 @@ public class ConnectionCheckState implements GameState {
     public void changeState() {
         if(gameOrchestrator.getCurrentPlayer().isConnected()){
             if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
-                gameOrchestrator.changeState(new RefillState(gameOrchestrator));
-                gameOrchestrator.setCurr_sate_id(5);
-                try {
+                System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles"  );
+                gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+                gameOrchestrator.setCurr_sate_id(10);
+                //gameOrchestrator.changeState(new RefillState(gameOrchestrator));
+                //gameOrchestrator.setCurr_sate_id(5);
+                /*try {
                     gameOrchestrator.executeState();
                 } catch (InvalidMoveException e) {
                     throw new RuntimeException(e);
                 }
+                */
+
             }
             else{
                 int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();

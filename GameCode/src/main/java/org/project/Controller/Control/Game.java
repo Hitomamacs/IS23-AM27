@@ -66,8 +66,8 @@ public class Game extends ObservableObject{
         pointAssigner = new PointAssigner();
         pointAssigner.initialize(this.numPlayers, 2);
         orchestrator = new GameOrchestrator(players, gameBoard, commonGoals, pointAssigner, tileBag, this);
+        //fillGrids(); //TODO remember to remove
         filename = persistencer.get_file_name(orchestrator); //TODO WRONG!!!! save names once all users logged, missing logic rn
-
     }
     public GameOrchestrator getOrchestrator() {
         return orchestrator;
@@ -80,6 +80,7 @@ public class Game extends ObservableObject{
     }
     public void setGameStarted(boolean value){
         gameStarted = value;
+        firePropertyChange("GameStateUpdate", gameStarted);
     }
     public String getFilename() {
         return filename;
@@ -117,6 +118,22 @@ public class Game extends ObservableObject{
     public HashMap<String, Integer> getScoreboard(){
         return scoreboard;
     }
+    public void setScoreboard(HashMap<String, Integer> score){
+        scoreboard = score;
+    }
+    //TODO remove this function later on, just used to start the game with almost full grids for testing
+    public void fillGrids(){
+        for(Player player : players){
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; j < 5; j++){
+                    player.getPlayerGrid().topUp(j, tileBag.pickSingle());
+                }
+            }
+            player.getPlayerGrid().topUp(0, tileBag.pickSingle());
+            player.getPlayerGrid().topUp(1, tileBag.pickSingle());
+            player.getPlayerGrid().topUp(2, tileBag.pickSingle());
+        }
+    }
     public void pickPersonalGoals(){
         for(Player player : players){
             player.setMyPersonalGoal(personalGoalDeck.getRandom());
@@ -136,4 +153,5 @@ public class Game extends ObservableObject{
         }
         return null;
     }
+
 }

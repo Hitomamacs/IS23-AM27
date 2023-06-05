@@ -18,6 +18,8 @@ public class CliUserInterface implements UserInterface{
 
         this.clientView = clientView;
     }
+    
+    private String UI = "CLI";
 
     private ClientView clientView;
 
@@ -174,6 +176,11 @@ public class CliUserInterface implements UserInterface{
     @Override
     public String getNickname() {
         return nickname;
+    }
+
+    @Override
+    public String getUI() {
+        return UI;
     }
 
     @Override

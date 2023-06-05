@@ -24,6 +24,13 @@ public class GuiUserInterface extends Application implements UserInterface{
 
     }
 
+    private String UI = "GUI";
+
+    @Override
+    public String getUI() {
+        return UI;
+    }
+
     @Override
     public void processReceivedMessage(String serverMessage) {
 

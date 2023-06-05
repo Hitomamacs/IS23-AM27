@@ -13,6 +13,8 @@ public interface UserInterface {
 
     String getNickname();
 
+    String getUI();
+
     void ShowCObj(String playerName);
 
     void SendJoinMessage(ConnectionInterface client);

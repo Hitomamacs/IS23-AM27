@@ -9,6 +9,9 @@ public class GeneralClient implements ClientInterface{
         ConnectionInterface client = clientFactory.createClient();
         UserInterface userInterface = userInterfaceFactory.createUserInterface(client.getClientView());
         client.setUserInterface(userInterface);
+        if(userInterface.getUI() == "GUI"){
+
+        }
 
         new Thread(() -> {
             while (true) {

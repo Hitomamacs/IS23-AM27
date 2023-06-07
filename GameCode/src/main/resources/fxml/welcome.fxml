@@ -17,10 +17,13 @@
             <Image url="@../images/Display_1.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="createGameButton" layoutX="194.0" layoutY="258.0" mnemonicParsing="false" onAction="#startCreateGameAction" text="CREATE GAME" />
-      <Label layoutX="152.0" layoutY="218.0" text="WELCOME TO MY SHELFIE">
+      <Button fx:id="createGameButton" layoutX="194.0" layoutY="258.0" mnemonicParsing="false" onAction="#startCreateGameAction" text="CREATE GAME">
          <font>
-            <Font size="28.0" />
+            <Font name="Arial" size="13.0" />
+         </font></Button>
+      <Label layoutX="135.0" layoutY="220.0" text="WELCOME TO MY SHELFIE">
+         <font>
+            <Font name="Arial" size="28.0" />
          </font>
          <textFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -39,6 +42,9 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <Button fx:id="joinButton" layoutX="309.0" layoutY="258.0" mnemonicParsing="false" onAction="#startJoinAction" text="JOIN THE GAME" />
+      <Button fx:id="joinButton" layoutX="309.0" layoutY="258.0" mnemonicParsing="false" onAction="#startJoinAction" text="JOIN THE GAME">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
    </children>
 </Pane>

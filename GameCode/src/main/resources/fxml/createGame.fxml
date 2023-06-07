@@ -6,25 +6,44 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:controller="org.project.Gui.CreateGameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.CreateGameController">
    <children>
       <Label layoutX="273.0" layoutY="192.0" prefHeight="17.0" prefWidth="0.0" />
-      <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-62.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-43.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="Username" layoutX="54.0" layoutY="235.0" />
-      <Label fx:id="EnterUsername" layoutX="57.0" layoutY="209.0" text="Enter username:" />
+      <TextField fx:id="Username" layoutX="54.0" layoutY="235.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></TextField>
+      <Label fx:id="EnterUsername" layoutX="57.0" layoutY="209.0" text="Enter username:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
       <ImageView fx:id="MyShelfie" fitHeight="150.0" fitWidth="515.0" layoutX="57.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Title.png" />
          </image>
       </ImageView>
-      <Label fx:id="NumberPlayers" layoutX="392.0" layoutY="209.0" text="Insert number of players:" />
-      <Button fx:id="Login1Button" layoutX="255.0" layoutY="290.0" mnemonicParsing="false" onAction="#CreateGameAction" text="Create game" />
-      <Label fx:id="loginstatus" layoutX="57.0" layoutY="349.0" text="login status:" />
-      <TextField fx:id="NumbPlayers" layoutX="389.0" layoutY="235.0" />
+      <Label fx:id="NumberPlayers" layoutX="392.0" layoutY="209.0" text="Insert number of players:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <Button fx:id="Login1Button" layoutX="255.0" layoutY="290.0" mnemonicParsing="false" onAction="#CreateGameAction" text="Create game">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
+      <Label fx:id="loginstatus" layoutX="57.0" layoutY="349.0" text="login status:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <TextField fx:id="NumbPlayers" layoutX="389.0" layoutY="235.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></TextField>
    </children>
 </Pane>

@@ -6,10 +6,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
    <children>
-      <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-74.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-48.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/sfondo parquet.jpg" />
          </image>
@@ -19,9 +20,21 @@
             <Image url="@../images/Title.png" />
          </image>
       </ImageView>
-      <TextField fx:id="Username" layoutX="225.0" layoutY="220.0" />
-      <Label fx:id="EnterUsername" layoutX="257.0" layoutY="192.0" prefHeight="13.0" prefWidth="85.0" text="Enter username:" />
-      <Label fx:id="loginStatus" layoutX="29.0" layoutY="325.0" text="login status:" />
-      <Button fx:id="login2Button" layoutX="282.0" layoutY="259.0" mnemonicParsing="false" onAction="#JoinAction" text="join" />
+      <TextField fx:id="Username" layoutX="225.0" layoutY="220.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></TextField>
+      <Label fx:id="EnterUsername" layoutX="225.0" layoutY="192.0" prefHeight="16.0" prefWidth="143.0" text="Enter username:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <Label fx:id="loginStatus" layoutX="29.0" layoutY="325.0" text="login status:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
+      <Button fx:id="login2Button" layoutX="282.0" layoutY="259.0" mnemonicParsing="false" onAction="#JoinAction" text="join">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Button>
    </children>
 </Pane>

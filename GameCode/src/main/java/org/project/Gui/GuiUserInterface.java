@@ -25,6 +25,9 @@ public class GuiUserInterface extends Application implements UserInterface {
     private int numPlayers;
     private GuiController guiController;
 
+    public GuiUserInterface() {
+
+    }
     public GuiUserInterface(ClientView clientView) {
 
         this.clientView = clientView;

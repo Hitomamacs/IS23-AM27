@@ -6,6 +6,7 @@ public interface UserInterface {
     String getInput();
 
     void displayMessage(String invalidMessageType);
+    public void launcher();
 
     void processReceivedMessage(String serverMessage);
 

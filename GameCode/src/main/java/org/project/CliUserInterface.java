@@ -34,6 +34,11 @@ public class CliUserInterface implements UserInterface{
     }
 
     @Override
+    public void launcher() {
+
+    }
+
+    @Override
     public ClientView getClientView() {
         return clientView;
     }

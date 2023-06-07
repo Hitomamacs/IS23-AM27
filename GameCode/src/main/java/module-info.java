@@ -10,5 +10,7 @@ module AM27 {
 
     opens org.project.Gui to javafx.fxml, javafx.controls, javafx.graphics;
     exports org.project.Gui;
+    exports org.project.Controller.Server;
+    exports org.project;
 
 }

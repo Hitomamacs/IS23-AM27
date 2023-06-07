@@ -10,6 +10,7 @@ public class GeneralClient implements ClientInterface{
         UserInterface userInterface = userInterfaceFactory.createUserInterface(client.getClientView());
         client.setUserInterface(userInterface);
         if(userInterface.getUI() == "GUI"){
+            userInterface.launcher();
 
         }
 

@@ -25,10 +25,10 @@ public class GuiUserInterface extends Application implements UserInterface {
     private int numPlayers;
     private GuiController guiController;
 
-   /* public GuiUserInterface(ClientView clientView) {
+    public GuiUserInterface(ClientView clientView) {
 
         this.clientView = clientView;
-    }*/
+    }
 
     private String UI = "GUI";
 
@@ -62,7 +62,7 @@ public class GuiUserInterface extends Application implements UserInterface {
         }
     }
 
-    public static void main(String[] args){
+    public void launcher(){
         launch();
     }
 

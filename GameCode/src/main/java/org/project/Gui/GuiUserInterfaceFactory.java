@@ -7,7 +7,7 @@ import org.project.UserInterfaceFactory;
 public class GuiUserInterfaceFactory implements UserInterfaceFactory {
     @Override
     public UserInterface createUserInterface(ClientView clientView) {
-        return null;
+        return new GuiUserInterface(clientView);
     }
 
 }

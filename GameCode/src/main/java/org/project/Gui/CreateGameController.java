@@ -29,7 +29,8 @@ public class CreateGameController {
             guiUserInterface.setNumPlayers(numPlayers);
 
             guiUserInterface.setInput("create_game");
-            loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());});
+            loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
+            });
 
     }
 

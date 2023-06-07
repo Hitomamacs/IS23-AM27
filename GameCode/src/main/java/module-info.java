@@ -12,5 +12,9 @@ module AM27 {
     exports org.project.Gui;
     exports org.project.Controller.Server;
     exports org.project;
+    exports org.project.Model;
+    opens org.project.Controller.Messages to com.google.gson;
+    opens org.project.Controller.Control to com.google.gson;
+    opens org.project.Model to com.google.gson;
 
 }

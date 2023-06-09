@@ -1,5 +1,6 @@
 package org.project.Gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,38 +26,44 @@ public class WelcomeController {
     private GuiController guiController;
     public void startCreateGameAction(ActionEvent actionEvent) {
 
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
-        Parent root= null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        CreateGameController controller=loader.getController();
-        controller.setGuiUserInterface(guiUserInterface);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        guiController.closeScene();
-        guiController.setPrimaryStage(stage);
-        stage.show();
+        Platform.runLater(()->{
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
+            Parent root= null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            CreateGameController controller=loader.getController();
+            controller.setGuiUserInterface(guiUserInterface);
+            Stage stage=new Stage();
+            stage.setScene(new Scene(root));
+            guiController.closeScene();
+            guiController.setPrimaryStage(stage);
+            stage.show();
+        });
     }
 
     public void startJoinAction(ActionEvent actionEvent) {
 
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
-        Parent root= null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        JoinController controller=loader.getController();
-        controller.setGuiUserInterface(guiUserInterface);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        guiController.closeScene();
-        guiController.setPrimaryStage(stage);
-        stage.show();
+        Platform.runLater(()->{
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
+            Parent root= null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            JoinController controller=loader.getController();
+            controller.setGuiUserInterface(guiUserInterface);
+            Stage stage=new Stage();
+            stage.setScene(new Scene(root));
+            guiController.closeScene();
+            guiController.setPrimaryStage(stage);
+            stage.show();
+        });
+
+
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {

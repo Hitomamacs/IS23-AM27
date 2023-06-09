@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,21 +49,29 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
-            Parent root = loader.load();
 
-            WelcomeController welcomeController = loader.getController();
-            welcomeController.setGuiUserInterface(this);
+        Platform.runLater(()-> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
+                Parent root = loader.load();
 
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
+                WelcomeController welcomeController = loader.getController();
+                welcomeController.setGuiUserInterface(this);
+                guiController = new GuiController(primaryStage);
+                welcomeController.setGuiController(guiController);
 
-            guiController=new GuiController(primaryStage);
-            welcomeController.setGuiController(guiController);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if(clientView==null){
+                System.out.println("null");
+            }else{System.out.println("ok");}
+
+        });
     }
 
     public void launcher(){

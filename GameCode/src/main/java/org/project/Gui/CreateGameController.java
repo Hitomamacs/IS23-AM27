@@ -48,6 +48,10 @@ public class CreateGameController {
 
     }
 
+    public void QuitAction(ActionEvent actionEvent){
+        //TODO: scrivere quit
+    }
+
     public PropertyChangeListener getRefreshListener() {
         return refreshlistener;
     }

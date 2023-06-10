@@ -151,7 +151,7 @@ public class GuiUserInterface  implements UserInterface {
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
-
+        clientView.firePropertyChange("refresh", clientView);
         changeToMainScene();
     }
 

@@ -14,9 +14,47 @@ import java.util.Scanner;
 
 public class CliUserInterface implements UserInterface{
 
-    public CliUserInterface(ClientView clientView) {
+    private ConnectionInterface client;
+
+    public CliUserInterface(ClientView clientView, ConnectionInterface client) {
 
         this.clientView = clientView;
+        this.client = client;
+    }
+
+    public void launcher(){
+        new Thread(() -> {
+            while (true) {
+
+                String userInput = getInput();
+                // Depending on the user input, send a different type of message
+                switch (userInput) {
+                    case "join":
+                        SendJoinMessage(client);
+                        break;
+                    case "create_game":
+                        SendCreateGameMessage(client);
+                        break;
+                    case "quit":
+                        SendQuitMessage(client);
+                        break;
+                    case "pick":
+                        SendPickMessage(client);
+                        break;
+                    case "topup":
+                        SendTopUpMessage(client);
+                        break;
+                    case "Show P Obj":
+                        ShowPObj(getNickname());
+
+                    case "Show C Obj":
+                        ShowCObj(getNickname());
+                    default:
+                        displayMessage("Invalid message type");
+                }
+
+            }
+        }).start();
     }
     
     private String UI = "CLI";
@@ -33,10 +71,7 @@ public class CliUserInterface implements UserInterface{
         System.out.println(message);
     }
 
-    @Override
-    public void launcher() {
 
-    }
 
     @Override
     public ClientView getClientView() {

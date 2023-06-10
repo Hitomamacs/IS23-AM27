@@ -17,20 +17,25 @@ import org.project.UserInterface;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-public class GuiUserInterface extends Application implements UserInterface {
+public class GuiUserInterface  implements UserInterface {
 
     private ClientView clientView;
     private String nickname;
     private String input;
     private int numPlayers;
+
+    private ConnectionInterface client;
     private GuiController guiController;
 
-    public GuiUserInterface() {
-
+    public ConnectionInterface getClient() {
+        return client;
     }
-    public GuiUserInterface(ClientView clientView) {
+    public GuiUserInterface(ClientView clientView, ConnectionInterface connectionInterface) {
 
         this.clientView = clientView;
+        this.client = connectionInterface;
+
+
     }
 
     private String UI = "GUI";
@@ -45,7 +50,7 @@ public class GuiUserInterface extends Application implements UserInterface {
 
     }
 
-
+    /*
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
@@ -64,9 +69,13 @@ public class GuiUserInterface extends Application implements UserInterface {
             e.printStackTrace();
         }
     }
+    */
+
 
     public void launcher(){
-        launch();
+        GuiFx.setguiUserInterface(this);
+        GuiFx.setClientView(clientView);
+        Application.launch(GuiFx.class);
     }
 
     @Override

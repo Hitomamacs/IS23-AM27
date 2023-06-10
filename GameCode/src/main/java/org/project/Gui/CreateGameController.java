@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.rmi.RemoteException;
+
 public class CreateGameController {
     @FXML
     private TextField Username;
@@ -30,7 +32,12 @@ public class CreateGameController {
 
             guiUserInterface.setInput("create_game");
             loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
-            });
+            try {
+                guiUserInterface.getClient().SendCreateGameMessage(username, guiUserInterface.getClient().get_connection_type(), numPlayers);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
     }
 

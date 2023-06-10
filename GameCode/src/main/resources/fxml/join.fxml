@@ -36,5 +36,10 @@
          <font>
             <Font name="Arial" size="13.0" />
          </font></Button>
+      <Button fx:id="QuitButtonJoin" layoutX="496.0" layoutY="321.0" mnemonicParsing="false" text="Quit">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

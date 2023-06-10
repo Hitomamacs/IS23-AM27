@@ -34,6 +34,7 @@ public class WelcomeController {
         }
         CreateGameController controller=loader.getController();
         controller.setGuiUserInterface(guiUserInterface);
+        guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
         Stage stage=new Stage();
         stage.setScene(new Scene(root));
         guiController.closeScene();
@@ -52,6 +53,7 @@ public class WelcomeController {
         }
         JoinController controller=loader.getController();
         controller.setGuiUserInterface(guiUserInterface);
+        guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
         Stage stage=new Stage();
         stage.setScene(new Scene(root));
         guiController.closeScene();

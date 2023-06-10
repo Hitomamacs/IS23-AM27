@@ -28,7 +28,7 @@
          <font>
             <Font name="Arial" size="13.0" />
          </font></Label>
-      <Label fx:id="loginStatus" layoutX="29.0" layoutY="325.0" text="login status:">
+      <Label fx:id="Loginstatus" layoutX="29.0" layoutY="325.0" text="login status:">
          <font>
             <Font name="Arial" size="13.0" />
          </font></Label>

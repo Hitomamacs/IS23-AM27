@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * class representing the client side view
  */
-public class ClientView {
+public class ClientView extends ObservableObject {
 
     private String[][] board;
     private List<Integer> pointStack;

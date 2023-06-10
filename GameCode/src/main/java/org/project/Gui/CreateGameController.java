@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 
 public class CreateGameController {
@@ -31,7 +33,7 @@ public class CreateGameController {
             guiUserInterface.setNumPlayers(numPlayers);
 
             guiUserInterface.setInput("create_game");
-            loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
+
             try {
                 guiUserInterface.getClient().SendCreateGameMessage(username, guiUserInterface.getClient().get_connection_type(), numPlayers);
             } catch (RemoteException e) {
@@ -40,6 +42,21 @@ public class CreateGameController {
         });
 
     }
+
+    public PropertyChangeListener getPopupListener() {
+        return popupListener;
+    }
+
+    PropertyChangeListener popupListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("popupCreate".equals(evt.getPropertyName())){
+                    loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
+                }
+            });
+        }
+    };
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;

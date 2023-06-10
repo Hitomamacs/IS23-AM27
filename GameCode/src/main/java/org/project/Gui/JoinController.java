@@ -7,6 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.rmi.RemoteException;
+
 public class JoinController {
 
     private GuiUserInterface guiUserInterface;
@@ -27,13 +31,28 @@ public class JoinController {
 
             guiUserInterface.setInput("join");
 
-            if(guiUserInterface.getClientView().getPopUpErrorMessage()!=null){
-                Loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
-            }else{
-                Loginstatus.setText("Aspetto altri giocatori");
-            }});
+
+            guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
+
+
+            });
 
     }
+
+    public PropertyChangeListener getPopupListener() {
+        return popupListener;
+    }
+
+    PropertyChangeListener popupListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("popupCreate".equals(evt.getPropertyName())){
+                    Loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
+                }
+            });
+        }
+    };
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;

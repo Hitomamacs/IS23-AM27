@@ -139,6 +139,7 @@ public class GuiUserInterface  implements UserInterface {
 
     public void handlePopUp(PopUpMsg message){
         clientView.setErrorMessage(message.getText());
+        clientView.firePropertyChange("popupCreate", clientView); //TODO for all popup messages
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){

@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -152,25 +153,8 @@ public class GuiUserInterface  implements UserInterface {
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
         clientView.firePropertyChange("refresh", clientView);
-        changeToMainScene();
     }
 
-    public void changeToMainScene(){
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
-        Parent root= null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        MainSceneController controller=loader.getController();
-        controller.setGuiUserInterface(this);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        guiController.closeScene();
-        guiController.setPrimaryStage(stage);
-        stage.show();
-    }
 
     @Override
     public void SendJoinMessage(ConnectionInterface client) {

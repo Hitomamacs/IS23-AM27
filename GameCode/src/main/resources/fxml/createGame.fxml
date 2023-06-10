@@ -45,7 +45,7 @@
          <font>
             <Font name="Arial" size="13.0" />
          </font></TextField>
-      <Button fx:id="QuitButtonCreateGame" layoutX="521.0" layoutY="345.0" mnemonicParsing="false" text="Quit">
+      <Button fx:id="QuitButtonCreateGame" layoutX="521.0" layoutY="345.0" mnemonicParsing="false"  onAction="#QuitAction" text="Quit">
          <font>
             <Font name="Arial" size="13.0" />
          </font>

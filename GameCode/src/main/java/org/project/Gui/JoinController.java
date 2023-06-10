@@ -39,6 +39,10 @@ public class JoinController {
 
     }
 
+    public void QuitAction(ActionEvent actionEvent){
+        //TODO: quit
+    }
+
     public PropertyChangeListener getPopupListener() {
         return popupListener;
     }

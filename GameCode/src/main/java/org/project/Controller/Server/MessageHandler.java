@@ -42,7 +42,6 @@ public class MessageHandler {
     }
     public void handleCreateGame(CreateGame_Message create_gameMsg){
         String username = create_gameMsg.getUsername();
-        client.setUsername(username);
         PopUpMsg popUpMsg = new PopUpMsg();
         boolean connection = create_gameMsg.getConnectionType();
         int num_players = create_gameMsg.getNumPlayers();
@@ -53,6 +52,7 @@ public class MessageHandler {
                     socketServer.getSocketClients().put(username, client);
                     popUpMsg.setText("Game has been created");
                     send(popUpMsg);
+                    client.setUsername(username);
                     return;
                 }
             } catch (InvalidLoginException e) {
@@ -67,7 +67,6 @@ public class MessageHandler {
     }
     public void handleJoin(JoinMessage joinMsg){
         String username = joinMsg.getUsername();
-        client.setUsername(username);
         PopUpMsg popUpMsg = new PopUpMsg();
         boolean connection = joinMsg.getConnectionType();
         try {
@@ -75,6 +74,7 @@ public class MessageHandler {
                 socketServer.getSocketClients().put(username, client);
                 popUpMsg.setText("Successfully joined the game");
                 send(popUpMsg);
+                client.setUsername(username);
                 server.getController().refreshRequest(username);
             }
         } catch (InvalidLoginException e) {

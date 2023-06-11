@@ -62,6 +62,7 @@ public class SocketClientHandler implements Runnable {
     public void disconnect() {
         if(connected){
         connected = false;
+        server.set_player_disconnected(username);
         stopKeepAlive();
         closeResources();
         }

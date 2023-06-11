@@ -56,7 +56,7 @@ public class WelcomeController {
         JoinController controller=loader.getController();
         controller.setGuiUserInterface(guiUserInterface);
         guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
-        guiUserInterface.getClientView().addPropertyChangeListener(controller.refreshlistener);
+        guiUserInterface.getClientView().addPropertyChangeListener(controller.getRefreshListener());
         controller.setGuiController(guiController);
         Stage stage=new Stage();
         stage.setScene(new Scene(root));

@@ -173,6 +173,7 @@ public class GuiUserInterface  implements UserInterface {
 
     @Override
     public void SendQuitMessage(ConnectionInterface client) {
+        client.SendQuitMessage(this.nickname);
 
     }
 

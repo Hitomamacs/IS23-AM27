@@ -71,7 +71,8 @@ public class CreateGameController {
                     MainSceneController controller=loader.getController();
                     controller.setGuiUserInterface(guiUserInterface);
                     controller.setGuiController(guiController);
-                    //guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
+                    controller.InitializeBoard();
+                    guiUserInterface.getClientView().addPropertyChangeListener(controller.getRefreshListener());
                     Stage stage=new Stage();
                     stage.setScene(new Scene(root));
                     guiController.closeScene();

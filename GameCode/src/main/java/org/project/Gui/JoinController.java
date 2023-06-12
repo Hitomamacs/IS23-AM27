@@ -63,7 +63,7 @@ public class JoinController {
                     MainSceneController controller=loader.getController();
                     controller.setGuiUserInterface(guiUserInterface);
                     controller.setGuiController(guiController);
-                    //guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
+                    guiUserInterface.getClientView().addPropertyChangeListener(controller.getRefreshListener());
                     Stage stage=new Stage();
                     stage.setScene(new Scene(root));
                     guiController.closeScene();

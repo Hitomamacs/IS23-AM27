@@ -237,6 +237,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setErrorMessage(text);
         clientView.setPopUpIdentifier(identifier);
         userInterface.updateClientView(clientView);
+        userInterface.displayMessage(text);
         clientView.firePropertyChange("popupCreate", clientView);
 
     }

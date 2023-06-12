@@ -63,6 +63,7 @@ public class MainSceneController {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 ImageView tileImageView = new ImageView();
+                //This inverted order seems to be the correct one?
                 switch(board[i][j]){
                     case("I"):
                         break;
@@ -88,7 +89,7 @@ public class MainSceneController {
                 }
                 tileImageView.setFitWidth(cellWidth);
                 tileImageView.setFitHeight(cellHeight);
-                GrigliaBoard.add(tileImageView, i, j);
+                GrigliaBoard.add(tileImageView, j, i);
             }
         }
     }

@@ -84,16 +84,16 @@ public class TopUpState implements GameState {
                     gameOrchestrator.getCurrentPlayer().getPlayerGrid().topUp(selectedColumn, tile);
                     gameOrchestrator.getCurrentPlayer().firePropertyChange("gridUpdate",gameOrchestrator.getCurrentPlayer());
                     gameOrchestrator.getCurrentPlayer().firePropertyChange("tilesUpdate", gameOrchestrator.getCurrentPlayer());
-                }else{throw new InvalidMoveException("Selected tile index not valid");}
+                }else{throw new InvalidMoveException("Selected tile index not valid", 9);}
             }
             else{
                 selectedColumn = -1;
-                throw new InvalidMoveException("Selected column doesn't have enough space");
+                throw new InvalidMoveException("Selected column doesn't have enough space", 10);
             }
             //if the selected column doesn't have enough space the player has to change it, to allow
             //the player to change it the default state selectedColumn has to be set back to -1
         }
-        else throw new InvalidMoveException("Tiles must be placed in the same column");
+        else throw new InvalidMoveException("Tiles must be placed in the same column", 8);
     }
 
 }

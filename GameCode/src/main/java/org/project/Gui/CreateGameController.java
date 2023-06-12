@@ -28,22 +28,29 @@ public class CreateGameController {
 
     private GuiUserInterface guiUserInterface;
     private GuiController guiController;
+    private GuiFx centralController;
 
+    public void setCentralController(GuiFx controller){
+        this.centralController = controller;
+    }
+    public Label getLoginStatus(){
+        return this.loginstatus;
+    }
     public void CreateGameAction(ActionEvent actionEvent) {
         Platform.runLater(()->{
             String username = Username.getText();
             int numPlayers = Integer.parseInt(NumbPlayers.getText());
+            GuiUserInterface guiUserInterface = centralController.getGuiUserInterface();
 
             guiUserInterface.setNickname(username);
             guiUserInterface.setNumPlayers(numPlayers);
-
             guiUserInterface.setInput("create_game");
-
             try {
-                guiUserInterface.getClient().SendCreateGameMessage(username, guiUserInterface.getClient().get_connection_type(), numPlayers);
+                guiUserInterface.getClient().SendCreateGameMessage(username, centralController.getGuiUserInterface().getClient().get_connection_type(), numPlayers);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
+            centralController.showCreateGameScene();
         });
 
     }
@@ -51,51 +58,6 @@ public class CreateGameController {
     public void QuitAction(ActionEvent actionEvent){
         //TODO: scrivere quit
     }
-
-    public PropertyChangeListener getRefreshListener() {
-        return refreshlistener;
-    }
-
-    PropertyChangeListener refreshlistener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
-                if("refresh".equals(evt.getPropertyName())){
-                    FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
-                    Parent root= null;
-                    try {
-                        root = loader.load();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    MainSceneController controller=loader.getController();
-                    controller.setGuiUserInterface(guiUserInterface);
-                    controller.setGuiController(guiController);
-                    //guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
-                    Stage stage=new Stage();
-                    stage.setScene(new Scene(root));
-                    guiController.closeScene();
-                    guiController.setPrimaryStage(stage);
-                    stage.show();
-                }
-            });
-        }
-    };
-
-    public PropertyChangeListener getPopupListener() {
-        return popupListener;
-    }
-
-    PropertyChangeListener popupListener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
-                if("popupCreate".equals(evt.getPropertyName())){
-                    loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
-                }
-            });
-        }
-    };
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;

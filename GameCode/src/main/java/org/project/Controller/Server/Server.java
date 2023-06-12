@@ -388,8 +388,9 @@ public class Server {
     //Rewriting server methods
 
     //Method to send text information to a single user
-    public void sendInfo(String info, User user){
+    public void sendInfo(String info,User user, int identifier){
         PopUpMsg message = new PopUpMsg(info);
+        message.setIdentifier(identifier);
         String username = user.getUsername();
         if(user.getConnectionType()){
             socketServer.getSocketClients().get(username).send(message);
@@ -397,7 +398,7 @@ public class Server {
         else{
             RMIClientInterface client = rmiServer.getClientsRMI().get(username);
             try{
-                client.notifyPopUpView(info);
+                client.notifyPopUpView(info, identifier);
             }catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -405,13 +406,14 @@ public class Server {
 
     }
     //Method to send text information to all players
-    public void sendInfo(String info){
+    public void sendInfo(String info, int identifier){
 
         PopUpMsg message = new PopUpMsg(info);
+        message.setIdentifier(identifier);
         socketServer.getSocketClients().forEach((username,client) -> client.send(message));
         rmiServer.getClientsRMI().forEach((username,client)-> {
             try {
-                client.notifyPopUpView(info);
+                client.notifyPopUpView(info, identifier);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

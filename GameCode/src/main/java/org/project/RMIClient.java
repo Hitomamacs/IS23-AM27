@@ -233,10 +233,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     @Override
-    public void notifyPopUpView(String text) throws RemoteException {
+    public void notifyPopUpView(String text, int identifier) throws RemoteException {
         clientView.setErrorMessage(text);
+        clientView.setPopUpIdentifier(identifier);
         userInterface.updateClientView(clientView);
-        userInterface.displayMessage(clientView.getPopUpErrorMessage());
+        clientView.firePropertyChange("popupCreate", clientView);
 
     }
     @Override

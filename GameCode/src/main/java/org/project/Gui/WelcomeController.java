@@ -23,8 +23,15 @@ public class WelcomeController {
 
     private GuiUserInterface guiUserInterface;
     private GuiController guiController;
+    private GuiFx centralController;
+
+    public void setCentralController(GuiFx controller){
+        this.centralController = controller;
+    }
     public void startCreateGameAction(ActionEvent actionEvent) {
 
+        centralController.showCreateGameScene();
+        /*
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
         Parent root= null;
         try {
@@ -41,11 +48,13 @@ public class WelcomeController {
         stage.setScene(new Scene(root));
         guiController.closeScene();
         guiController.setPrimaryStage(stage);
-        stage.show();
+        stage.show();*/
     }
 
     public void startJoinAction(ActionEvent actionEvent) {
 
+        centralController.showJoinScene();
+        /*
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
         Parent root= null;
         try {
@@ -63,6 +72,7 @@ public class WelcomeController {
         guiController.closeScene();
         guiController.setPrimaryStage(stage);
         stage.show();
+        */
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {

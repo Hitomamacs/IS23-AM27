@@ -185,22 +185,15 @@ public class Player extends ObservableObject {
 
 
     private int calculateResult(int count) {
-        switch(count){
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 4;
-            case 4:
-                return 6;
-            case 5:
-                return 9;
-            case 6:
-                return 12;
-            default:
-                return 0;
-        }
+        return switch (count) {
+            case 1 -> 1;
+            case 2 -> 2;
+            case 3 -> 4;
+            case 4 -> 6;
+            case 5 -> 9;
+            case 6 -> 12;
+            default -> 0;
+        };
     }
 
     //verifyExtraPoints is the method that checks how many points to assign for groups of same colored tiles

@@ -59,7 +59,7 @@ public interface RMIClientInterface extends Remote {
      * @param text text
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyPopUpView (String text) throws RemoteException;
+    public void notifyPopUpView (String text, int identifier) throws RemoteException;
 
     public void notifyTurn(String username, boolean move) throws RemoteException;
 

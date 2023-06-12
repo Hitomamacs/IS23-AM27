@@ -298,8 +298,9 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
      * @param text text
      * @throws RemoteException if something goes wrong with the connection
      */
-    public void notifyPopUpView (String text) throws RemoteException{
+    public void notifyPopUpView (String text, int identifier) throws RemoteException{
         clientView.setErrorMessage(text);
+        clientView.setPopUpIdentifier(identifier);
         System.out.println(text);
     }
     public void notifyTurn(String username, boolean move) throws RemoteException{

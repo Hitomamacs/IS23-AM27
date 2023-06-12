@@ -12,6 +12,7 @@ public class ClientView extends ObservableObject {
     private HashMap<String, String[][] > gridsview;
     private HashMap<String,String[]> tilesview;
     private String popUpErrorMessage;
+    private int popUpIdentifier; //TODO change and put all in a popup message instead of having separate message and identifier
     private HashMap<String, Integer> scoreBoard;
     private HashMap<String, Integer> personalGoalViews;
     private List<Integer> commonGoalView;
@@ -75,6 +76,9 @@ public class ClientView extends ObservableObject {
     public String[][] getBoard() {
         return board;
     }
+    public void setPopUpIdentifier(int identifier){
+        this.popUpIdentifier =identifier;
+    }
 
     public HashMap<String, String[][]> getGridsview() {
         return gridsview;
@@ -90,6 +94,9 @@ public class ClientView extends ObservableObject {
 
     public String getPopUpErrorMessage() {
         return popUpErrorMessage;
+    }
+    public int getPopUpIdentifier(){
+        return popUpIdentifier;
     }
 
     public HashMap<String, Integer> getScoreBoard() {

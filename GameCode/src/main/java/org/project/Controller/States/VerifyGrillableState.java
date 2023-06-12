@@ -39,7 +39,7 @@ public class VerifyGrillableState implements GameState {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(10);
-            throw new InvalidMoveException("Not enough space in grid");
+            throw new InvalidMoveException("Not enough space in grid", 7);
         }
 
     }

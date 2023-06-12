@@ -3,6 +3,7 @@ import org.project.Controller.Messages.MessageID;
 
 public class PopUpMsg extends Message{
     private String text;
+    private int identifier;
     public PopUpMsg(String text){
         super(MessageID.POP_UP);
         this.text = text;
@@ -15,6 +16,13 @@ public class PopUpMsg extends Message{
     }
     public void setText(String text){
         this.text = text;
+    }
+    public void setIdentifier(int identifier){
+        this.identifier = identifier;
+    }
+
+    public int getIdentifier(){
+        return identifier;
     }
 
 }

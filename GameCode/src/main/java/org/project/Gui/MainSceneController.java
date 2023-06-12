@@ -47,7 +47,10 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.2.png"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.3.png")))
     };
-
+    private GuiFx centralController;
+    public void setCentralController(GuiFx controller){
+        this.centralController = controller;
+    }
     public PropertyChangeListener getRefreshListener() {
         return refreshlistener;
     }

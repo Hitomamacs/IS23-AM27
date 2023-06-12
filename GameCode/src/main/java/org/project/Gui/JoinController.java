@@ -19,6 +19,7 @@ import java.rmi.RemoteException;
 public class JoinController {
 
     private GuiUserInterface guiUserInterface;
+    private GuiFx centralController;
     @FXML
     private TextField Username;
     @FXML
@@ -27,72 +28,35 @@ public class JoinController {
     private Label Loginstatus;
 
     private GuiController guiController;
+
+    public Label getLoginStatus(){
+        return this.Loginstatus;
+    }
+    public void setCentralController(GuiFx controller){
+        this.centralController = controller;
+    }
     public void JoinAction(ActionEvent actionEvent) {
 
         Platform.runLater(()->{
             String username = Username.getText();
+            GuiUserInterface guiUserInterface = centralController.getGuiUserInterface();
 
             guiUserInterface.setNickname(username);
-
             guiUserInterface.setInput("join");
-
-
             guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
 
-
+            centralController.showJoinScene();
             });
 
     }
+    public void BackToWelcome(ActionEvent actionEvent){
+        Platform.runLater(()->{
 
-    public PropertyChangeListener getRefreshListener() {
-        return refreshlistener;
+        });
     }
-
-    PropertyChangeListener refreshlistener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
-                if("refresh".equals(evt.getPropertyName())){
-                    FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
-                    Parent root= null;
-                    try {
-                        root = loader.load();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    MainSceneController controller=loader.getController();
-                    controller.setGuiUserInterface(guiUserInterface);
-                    controller.setGuiController(guiController);
-                    //guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
-                    Stage stage=new Stage();
-                    stage.setScene(new Scene(root));
-                    guiController.closeScene();
-                    guiController.setPrimaryStage(stage);
-                    stage.show();
-                }
-            });
-        }
-    };
-
     public void QuitAction(ActionEvent actionEvent){
         //TODO: quit
     }
-
-    public PropertyChangeListener getPopupListener() {
-        return popupListener;
-    }
-
-    PropertyChangeListener popupListener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
-                if("popupCreate".equals(evt.getPropertyName())){
-                    Loginstatus.setText(guiUserInterface.getClientView().getPopUpErrorMessage());
-                }
-            });
-        }
-    };
-
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }

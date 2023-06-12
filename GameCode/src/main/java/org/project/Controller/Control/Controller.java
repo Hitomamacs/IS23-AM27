@@ -84,7 +84,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         this.server.send(this.view);
-        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles");
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 16);
 
     }
     public void linkModel2View(){
@@ -134,7 +134,7 @@ public class Controller {
         //Should probably do another check to see if numPlayers is acceptable
         else {
             System.out.println("\nAlready an existing game  (Server login method)");
-            throw new InvalidLoginException("Already an existing game");
+            throw new InvalidLoginException("Already an existing game", 0);
         }
     }
 
@@ -156,7 +156,7 @@ public class Controller {
             for (User user : lobby) {
                 if (user.getUsername().equals(username) && user.isConnected()) {
                     System.out.println("\n" + username + " is already in use in the game  (Server login method)");
-                    throw new InvalidLoginException(username + " is already in use in the game");
+                    throw new InvalidLoginException(username + " is already in use in the game", 1);
 
                 } else if (user.getUsername().equals(username) && !user.isConnected()) {
 
@@ -176,10 +176,10 @@ public class Controller {
                 System.out.println("\n" + username + " added to game  (Server login method)");
                 return true;
             }else{
-                throw new InvalidLoginException("Game is full, if you are rejoining make sure to be using the same username");
+                throw new InvalidLoginException("Game is full, if you are rejoining make sure to be using the same username", 1);
             }
         }
-        throw new InvalidLoginException("No available game to join");
+        throw new InvalidLoginException("No available game to join", 1);
     }
     public void refreshRequest(String username){
         if(game.getGameStarted()) {
@@ -205,7 +205,7 @@ public class Controller {
                     orchestrator.setPickedCoordinates(coordinates);
                     try {
                         orchestrator.executeState();
-                    } catch(Exception e){
+                    } catch(InvalidMoveException e){
                         handleStateException(e, username);
                     }
                     //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
@@ -284,7 +284,7 @@ public class Controller {
                 user.setConnected(false);
                 String text = username + " quitted";
                 System.out.println("Player " + username + " has quit");
-                server.sendInfo(text);
+                server.sendInfo(text, 4);
                 warnNextPlayer();
                 }
         }
@@ -314,12 +314,13 @@ public class Controller {
             server.turn_Refresh(playerName, true);
         }
         if(!Info.equals(" ")){
-            this.server.sendInfo(Info);
+            this.server.sendInfo(Info, 4);
         }
     }
-    public void handleStateException(Exception e, String username){
+    public void handleStateException(InvalidMoveException e, String username){
         String info = e.getMessage();
-        server.sendInfo(info, getUser(username));
+        int identifier = e.getIdentifier();
+        server.sendInfo(info, getUser(username), identifier);
     }
     public void lobbyCheck(){
         System.out.println("Lobby check");
@@ -353,9 +354,9 @@ public class Controller {
                     player.setConnected(user.isConnected());
                 }
                 if (user.isConnected()) {
-                    server.sendInfo("Player " + username + " has joined the game");
+                    server.sendInfo("Player " + username + " has joined the game", 4);
                 } else {
-                    server.sendInfo("Player " + username + " has disconnected");
+                    server.sendInfo("Player " + username + " has disconnected", 4);
                     server.removeUser(username, user.getConnectionType());
                     if(!game.getGameStarted()){
                         System.out.println("Debug");
@@ -394,7 +395,7 @@ public class Controller {
                 boolean game_state = (boolean) evt.getNewValue();
                 if(!game_state){
                     System.out.println("Sending end game info");
-                    server.sendInfo("Game has ended this is the scoreboard: " + "\n");
+                    server.sendInfo("Game has ended this is the scoreboard: " + "\n", 5);
                     server.send(view.getScoreBoardView());
                     synchronized (server.getLock()){
                         System.out.println("Notifying");

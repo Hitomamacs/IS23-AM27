@@ -185,6 +185,7 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
                 if("refresh".equals(evt.getPropertyName())){
+
                     showMainScene();
                 }
             });

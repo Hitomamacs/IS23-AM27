@@ -26,6 +26,9 @@ public class CreateGameController {
     @FXML
     private Label loginstatus;
 
+    @FXML
+    private Button Back;
+
     private GuiUserInterface guiUserInterface;
     private GuiController guiController;
     private GuiFx centralController;
@@ -57,6 +60,11 @@ public class CreateGameController {
 
     public void QuitAction(ActionEvent actionEvent){
         //TODO: scrivere quit
+    }
+    public void BackToWelcome(ActionEvent actionEvent){
+        Platform.runLater(()->{
+            centralController.showWelcomeScene();
+        });
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {

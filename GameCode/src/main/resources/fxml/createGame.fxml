@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.CreateGameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.CreateGameController">
    <children>
       <Label layoutX="273.0" layoutY="192.0" prefHeight="17.0" prefWidth="0.0" />
       <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-43.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
@@ -45,10 +45,11 @@
          <font>
             <Font name="Arial" size="13.0" />
          </font></TextField>
-      <Button fx:id="QuitButtonCreateGame" layoutX="521.0" layoutY="345.0" mnemonicParsing="false"  onAction="#QuitAction" text="Quit">
+      <Button fx:id="QuitButtonCreateGame" layoutX="521.0" layoutY="345.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
          <font>
             <Font name="Arial" size="13.0" />
          </font>
       </Button>
+      <Button fx:id="Back" layoutX="519.0" layoutY="12.0" mnemonicParsing="false" onAction="#BackToWelcome" text="Back" />
    </children>
 </Pane>

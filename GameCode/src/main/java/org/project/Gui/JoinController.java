@@ -25,6 +25,8 @@ public class JoinController {
     @FXML
     private Button Login2Button;
     @FXML
+    private Button Back;
+    @FXML
     private Label Loginstatus;
 
     private GuiController guiController;
@@ -51,7 +53,7 @@ public class JoinController {
     }
     public void BackToWelcome(ActionEvent actionEvent){
         Platform.runLater(()->{
-
+            centralController.showWelcomeScene();
         });
     }
     public void QuitAction(ActionEvent actionEvent){

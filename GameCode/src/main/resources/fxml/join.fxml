@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
    <children>
       <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-48.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -41,5 +41,6 @@
             <Font name="Arial" size="13.0" />
          </font>
       </Button>
+      <Button fx:id="Back" layoutX="488.0" layoutY="40.0" mnemonicParsing="false" onAction="#BackToWelcome" text="Back" />
    </children>
 </Pane>

@@ -55,7 +55,6 @@ public class VerifyBoardableState implements GameState {
             if(y > max_Y)
                 max_Y = y;
         }
-        System.out.println(min_X + max_X + min_Y + max_Y);
         if(max_Y - min_Y > 2 || max_X - min_X > 2)
             return false;
         return(same_X || same_Y);

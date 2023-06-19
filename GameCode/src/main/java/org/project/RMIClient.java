@@ -176,6 +176,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setPersonalGoalViews(pGoalView);
         userInterface.updateClientView(clientView);
         userInterface.processReceivedMessage(json);
+        clientView.firePropertyChange("refresh", clientView);
         //clientView.printCommonGoal();
 
     }
@@ -196,10 +197,10 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
 
         userInterface.updateClientView(clientView);
-
+        clientView.firePropertyChange("pick", playername);
         //System.out.println("\nPrinting updated board");
-        userInterface.printBoard();
-        userInterface.printTiles(playername);
+        //userInterface.printBoard();
+        //userInterface.printTiles(playername);
 
        /* String[][] grid = clientView.getGridsview().get(playername);
         System.out.println("This is "+playername+" grid");

@@ -3,15 +3,12 @@ package org.project.Gui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.project.ClientView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.util.List;
 
 public class GuiFx extends Application {
 
@@ -190,7 +187,7 @@ public class GuiFx extends Application {
             Platform.runLater(() -> {
                 if("refresh".equals(evt.getPropertyName())){
                     showMainScene();
-                    mainSceneController.refillBoard(clientView.getBoard());
+                    mainSceneController.refreshBoard(clientView.getBoard());
                     showMainScene();
                 }
             });
@@ -204,6 +201,10 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
                 if("pick".equals(evt.getPropertyName())){
+                    if(guiUserInterface.getNickname().equals(evt.getNewValue()))
+                        mainSceneController.moveTiles();
+                    else
+                        mainSceneController.refreshBoard(clientView.getBoard());
                     showMainScene();
                 }
             });

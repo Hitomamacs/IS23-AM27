@@ -196,6 +196,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
 
         userInterface.updateClientView(clientView);
+
         //System.out.println("\nPrinting updated board");
         userInterface.printBoard();
         userInterface.printTiles(playername);

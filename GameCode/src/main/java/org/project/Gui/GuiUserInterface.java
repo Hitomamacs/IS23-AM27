@@ -136,7 +136,7 @@ public class GuiUserInterface  implements UserInterface {
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
-        clientView.firePropertyChange("pick", clientView);
+        clientView.firePropertyChange("pick", message.getPlayerName());
     }
 
     public void handlePopUp(PopUpMsg message){

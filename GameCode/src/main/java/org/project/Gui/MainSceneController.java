@@ -111,47 +111,50 @@ public class MainSceneController {
     }
     public void selectTile(int column, int row) {
         ImageView tile = (ImageView) GrigliaBoard.getChildren().get(row * 9 + column);
+        int tileIndex = selectedTiles.indexOf(tile);
 
-        if (selectedTiles.contains(tile)) {
-            // Tile is already selected, so deselect it
-            tile.setEffect(null);
-            selectedTiles.remove(tile);
-            GrigliaBoard.getChildren().remove(selectedBorders.get(0));
-            selectedBorders.remove(0);
+        if (tileIndex != -1) { // Tile is already selected, so deselect it
+            ImageView deselectedTile = selectedTiles.get(tileIndex);
+            deselectedTile.setEffect(null);
 
-            return;
+            selectedTiles.remove(tileIndex);
+            GrigliaBoard.getChildren().remove(selectedBorders.get(tileIndex));
+            selectedBorders.remove(tileIndex);
+        } else { // Tile is not selected, so select it
+            if (selectedTiles.size() >= 3) {
+                // Maximum number of tiles already selected, remove the oldest selection
+                ImageView oldestTile = selectedTiles.get(0);
+                oldestTile.setEffect(null);
+
+                selectedTiles.remove(0);
+                GrigliaBoard.getChildren().remove(selectedBorders.get(0));
+                selectedBorders.remove(0);
+            }
+
+            // Create green rectangle border
+            selectedBorders.add(new Rectangle(tile.getFitWidth(), tile.getFitHeight()));
+            int size = selectedBorders.size();
+            Rectangle selectedBorder = selectedBorders.get(size - 1);
+            selectedBorder.setStroke(Color.GREEN);
+            selectedBorder.setStrokeWidth(2);
+            selectedBorder.setFill(Color.TRANSPARENT);
+
+            selectedBorder.setMouseTransparent(true);
+
+            // Position the border over the tile
+            GridPane.setConstraints(selectedBorder, column, row);
+
+            // Add the border to the board
+            GrigliaBoard.getChildren().add(selectedBorder);
+
+            // Add the tile to the selected set
+            selectedTiles.add(tile);
+
+            // Apply visual effect to the selected tile
+            tile.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.GREEN, 10, 0.5, 0, 0));
         }
-
-        if (selectedTiles.size() >= 3) {
-            // Maximum number of tiles already selected, remove the oldest selection
-            ImageView oldestTile = selectedTiles.get(0);
-            oldestTile.setEffect(null);
-
-            selectedTiles.remove(0);
-            GrigliaBoard.getChildren().remove(selectedBorders.get(0));
-            selectedBorders.remove(0);
-        }
-
-        // Create green rectangle border
-        selectedBorders.add(new Rectangle(tile.getFitWidth(), tile.getFitHeight()));
-        int size = selectedBorders.size();
-        Rectangle selectedBorder = selectedBorders.get(size - 1);
-        selectedBorder.setStroke(Color.GREEN);
-        selectedBorder.setStrokeWidth(2);
-        selectedBorder.setFill(Color.TRANSPARENT);
-
-        // Position the border over the tile
-        GridPane.setConstraints(selectedBorder, column, row);
-
-        // Add the border to the board
-        GrigliaBoard.getChildren().add(selectedBorder);
-
-        // Add the tile to the selected set
-        selectedTiles.add(tile);
-
-        // Apply visual effect to the selected tile
-        tile.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.GREEN, 10, 0.5, 0, 0));
     }
+
     public void PickAction(ActionEvent actionEvent){
         if(coordinates.size() > 0){
             centralController.getGuiUserInterface().getClient().SendPickMessage(guiUserInterface.getNickname(), coordinates.size(), coordinates);

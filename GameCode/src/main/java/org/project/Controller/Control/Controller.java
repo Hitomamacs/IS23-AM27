@@ -84,7 +84,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         this.server.send(this.view);
-        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 16);
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
 
     }
     public void linkModel2View(){

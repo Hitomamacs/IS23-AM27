@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -30,6 +32,10 @@ public class MainSceneController {
 
     @FXML
     private GridPane GrigliaBoard;
+    @FXML
+    private Label Status;
+    @FXML
+    private Button Pick;
 
     private ArrayList<Rectangle> selectedBorders = new ArrayList<>();
     private ArrayList<ImageView> selectedTiles = new ArrayList<>();
@@ -68,6 +74,10 @@ public class MainSceneController {
     private GuiFx centralController;
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
+    }
+
+    public Label getStatus(){
+        return this.Status;
     }
     public void refillBoard(String[][] board){
         Random random = new Random();
@@ -117,6 +127,13 @@ public class MainSceneController {
             ImageView deselectedTile = selectedTiles.get(tileIndex);
             deselectedTile.setEffect(null);
 
+            //remove tile from coordinates array
+            for(Coordinates c : coordinates){
+                if(c.getX() == row && c.getY() == column){
+                    coordinates.remove(c);
+                }
+            }
+
             selectedTiles.remove(tileIndex);
             GrigliaBoard.getChildren().remove(selectedBorders.get(tileIndex));
             selectedBorders.remove(tileIndex);
@@ -125,6 +142,9 @@ public class MainSceneController {
                 // Maximum number of tiles already selected, remove the oldest selection
                 ImageView oldestTile = selectedTiles.get(0);
                 oldestTile.setEffect(null);
+
+                //Remove oldest tile from coordinates
+                coordinates.remove(0);
 
                 selectedTiles.remove(0);
                 GrigliaBoard.getChildren().remove(selectedBorders.get(0));
@@ -150,6 +170,9 @@ public class MainSceneController {
             // Add the tile to the selected set
             selectedTiles.add(tile);
 
+            //Add tile to coordinates
+            coordinates.add(new Coordinates(row, column));
+
             // Apply visual effect to the selected tile
             tile.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.GREEN, 10, 0.5, 0, 0));
         }
@@ -157,7 +180,7 @@ public class MainSceneController {
 
     public void PickAction(ActionEvent actionEvent){
         if(coordinates.size() > 0){
-            centralController.getGuiUserInterface().getClient().SendPickMessage(guiUserInterface.getNickname(), coordinates.size(), coordinates);
+            guiUserInterface.getClient().SendPickMessage(guiUserInterface.getNickname(), coordinates.size(), coordinates);
         }
         //centralController.getGuiUserInterface().getClient().SendPickMessage();
     }

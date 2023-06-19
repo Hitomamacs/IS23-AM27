@@ -45,6 +45,7 @@ public class GuiFx extends Application {
 
             guiUserInterface.getClientView().addPropertyChangeListener(getPopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getRefreshListener());
+            guiUserInterface.getClientView().addPropertyChangeListener(getPickListener());
 
             showWelcomeScene();
 
@@ -133,6 +134,7 @@ public class GuiFx extends Application {
 
                 mainSceneController = loader.getController();
                 mainSceneController.setCentralController(this);
+                mainSceneController.setGuiUserInterface(guiUserInterface);
             }catch(Exception e) {
                 e.printStackTrace();
             }
@@ -163,12 +165,14 @@ public class GuiFx extends Application {
                             break;
                         case (2):
                             //Whatever pick has to say
+                            mainSceneController.getStatus().setText(message);
                             break;
                         case (3):
                             //Whatever topUp has to say it is probably same code as case 2
                             break;
                         case (4):
                             //General messages have to appear on each scene
+                            mainSceneController.getStatus().setText(message);
                             break;
                         default:
                             break;
@@ -187,6 +191,19 @@ public class GuiFx extends Application {
                 if("refresh".equals(evt.getPropertyName())){
                     showMainScene();
                     mainSceneController.refillBoard(clientView.getBoard());
+                    showMainScene();
+                }
+            });
+        }
+    };
+    public PropertyChangeListener getPickListener() {
+        return pickListener;
+    }
+    PropertyChangeListener pickListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("pick".equals(evt.getPropertyName())){
                     showMainScene();
                 }
             });

@@ -168,9 +168,12 @@ public class MainSceneController {
             deselectedTile.setEffect(null);
 
             //remove tile from coordinates array
-            for(Coordinates c : coordinates){
-                if(c.getX() == row && c.getY() == column){
-                    coordinates.remove(c);
+            Iterator<Coordinates> iterator = coordinates.iterator();
+            while (iterator.hasNext()) {
+                Coordinates c = iterator.next();
+                if(c.getX() == row && c.getY() == column) {
+                    iterator.remove();
+                    break;
                 }
             }
 
@@ -192,21 +195,23 @@ public class MainSceneController {
                 selectedBorders.remove(0);
             }
 
-            // Create green rectangle border
-            selectedBorders.add(new Rectangle(tile.getFitWidth(), tile.getFitHeight()));
-            int size = selectedBorders.size();
-            Rectangle selectedBorder = selectedBorders.get(size - 1);
-            selectedBorder.setStroke(Color.GREEN);
-            selectedBorder.setStrokeWidth(2);
-            selectedBorder.setFill(Color.TRANSPARENT);
+            // Create green rectangle border only if it doesn't exist already
+            if (!selectedBorders.stream().anyMatch(border -> GridPane.getColumnIndex(border) == column && GridPane.getRowIndex(border) == row)) {
+                selectedBorders.add(new Rectangle(tile.getFitWidth(), tile.getFitHeight()));
+                int size = selectedBorders.size();
+                Rectangle selectedBorder = selectedBorders.get(size - 1);
+                selectedBorder.setStroke(Color.GREEN);
+                selectedBorder.setStrokeWidth(2);
+                selectedBorder.setFill(Color.TRANSPARENT);
 
-            selectedBorder.setMouseTransparent(true);
+                selectedBorder.setMouseTransparent(true);
 
-            // Position the border over the tile
-            GridPane.setConstraints(selectedBorder, column, row);
+                // Position the border over the tile
+                GridPane.setConstraints(selectedBorder, column, row);
 
-            // Add the border to the board
-            GrigliaBoard.getChildren().add(selectedBorder);
+                // Add the border to the board
+                GrigliaBoard.getChildren().add(selectedBorder);
+            }
 
             // Add the tile to the selected set
             selectedTiles.add(tile);

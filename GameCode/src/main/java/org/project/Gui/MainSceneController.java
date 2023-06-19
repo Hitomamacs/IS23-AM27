@@ -147,11 +147,16 @@ public class MainSceneController {
                 case 2:
                     Tile3.setImage(tileCopy.getImage());
                     break;
+                default:
+                    break;
             }
+            selectedTiles.remove(0);
+            GrigliaBoard.getChildren().remove(selectedBorders.get(0));
+            selectedBorders.remove(0);
             i++;
             tile.setImage(null);
-
         }
+        coordinates.clear();
 
     }
     public void selectTile(int column, int row) {
@@ -172,6 +177,7 @@ public class MainSceneController {
             selectedTiles.remove(tileIndex);
             GrigliaBoard.getChildren().remove(selectedBorders.get(tileIndex));
             selectedBorders.remove(tileIndex);
+
         } else { // Tile is not selected, so select it
             if (selectedTiles.size() >= 3) {
                 // Maximum number of tiles already selected, remove the oldest selection

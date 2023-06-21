@@ -175,7 +175,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setCommonGoalView(cGoalView);
         clientView.setPersonalGoalViews(pGoalView);
         userInterface.updateClientView(clientView);
-        userInterface.processReceivedMessage(json);
         clientView.firePropertyChange("refresh", clientView);
         //clientView.printCommonGoal();
 

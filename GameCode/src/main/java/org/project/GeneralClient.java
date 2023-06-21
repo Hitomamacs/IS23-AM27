@@ -24,7 +24,7 @@ public class GeneralClient implements ClientInterface{
 
         }
         new Thread(() -> {
-            while (true) {
+            while (client.get_connection_type()) {
                 try {
                     String serverMessage = client.receiveMessage();
                     userInterface.processReceivedMessage(serverMessage);

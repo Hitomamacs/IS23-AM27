@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.application.Platform;
 import org.project.Controller.Messages.*;
 import org.project.Model.Coordinates;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,103 @@ public class CliUserInterface implements UserInterface{
 
         this.clientView = clientView;
         this.client = client;
+        clientView.addPropertyChangeListener(getPopupListener());
+        clientView.addPropertyChangeListener(getRefreshListener());
+        clientView.addPropertyChangeListener(getPickListener());
     }
+
+    public PropertyChangeListener getPopupListener() {
+        return popupListener;
+    }
+
+    public PropertyChangeListener getRefreshListener() {
+        return refreshlistener;
+    }
+    PropertyChangeListener refreshlistener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("refresh".equals(evt.getPropertyName())){
+                    printBoard();
+
+
+                }
+            });
+        }
+    };
+
+    PropertyChangeListener popupListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if("popup".equals(evt.getPropertyName())){
+                displayMessage(clientView.getPopUpErrorMessage());
+
+            }
+
+        }
+    };
+
+    public PropertyChangeListener getPickListener() {
+        return pickListener;
+    }
+    PropertyChangeListener pickListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("pick".equals(evt.getPropertyName())){
+                    printBoard();
+                    printTiles((String) evt.getNewValue());
+
+                }
+            });
+        }
+    };
+
+    public PropertyChangeListener getTopupistener() {
+        return topupistener;
+    }
+
+    PropertyChangeListener topupistener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("topup".equals(evt.getPropertyName())){
+                    printGrids((String) evt.getNewValue());
+
+                }
+            });
+        }
+    };
+
+    public PropertyChangeListener getScorelistener() {
+        return scorelistener;
+    }
+
+    PropertyChangeListener scorelistener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("score".equals(evt.getPropertyName())){
+                    clientView.printScore();
+
+
+                }
+            });
+        }
+    };
+
+    PropertyChangeListener turnlistener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("turn".equals(evt.getPropertyName())){
+                    clientView.printScore();
+
+
+                }
+            });
+        }
+    };
 
     public void launcher(){
         new Thread(() -> {
@@ -121,7 +220,8 @@ public class CliUserInterface implements UserInterface{
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
-        printGrids(message.getPlayerName());
+        clientView.firePropertyChange("topup", message.getPlayerName());
+
     }
 
     @Override
@@ -140,13 +240,13 @@ public class CliUserInterface implements UserInterface{
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
-        printBoard();
-        printTiles(message.getPlayerName());
+        clientView.firePropertyChange("pick", message.getPlayerName());
     }
 
     public void handlePopUp(PopUpMsg message){
         clientView.setErrorMessage(message.getText());
-        displayMessage(clientView.getPopUpErrorMessage());
+        clientView.firePropertyChange("popup", null);
+
     }
     public void handleTurnUpdate(PreTurnMsg message){
         String username = message.getUsername();
@@ -165,7 +265,8 @@ public class CliUserInterface implements UserInterface{
     public void handleScoreUpdate(ScoreBoardMsg message){
 
         clientView.setScoreBoard(message.getScoreBoard());
-        clientView.printScore();
+        clientView.firePropertyChange("score", null);
+
     }
 
     public void handleRefreshUpdate(RefreshMsg message){
@@ -173,7 +274,7 @@ public class CliUserInterface implements UserInterface{
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
-        printBoard();
+        clientView.firePropertyChange("refresh", null);
     }
 
     public synchronized  void processReceivedMessage(String line) {

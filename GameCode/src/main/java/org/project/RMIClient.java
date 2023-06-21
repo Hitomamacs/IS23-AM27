@@ -164,10 +164,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     @Override
     public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
-
-        RefreshMsg refreshMsg= new RefreshMsg(board ,pointStack, gridsView, tilesView, pGoalView, cGoalView);
-        Gson gson= new Gson();
-        String json= gson.toJson(refreshMsg);
         clientView.setBoard(board);
         clientView.setPointStack(pointStack);
         clientView.setGridsview(gridsView);

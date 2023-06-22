@@ -2,6 +2,8 @@ package org.project.Gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
@@ -19,12 +21,28 @@ public class MainSceneController {
     private GuiUserInterface guiUserInterface;
     private GuiController guiController;
 
+    private double[] initialPosition = new double[2];
+
+    private double[] initialPositionTile = new double[2];
+
+    private int pickedTile = 0;
+
+    private int[] lastTile = {-1,-1,-1,-1,-1};
+    
+    private int last_col = 0;
+
+
+    @FXML
+    private GridPane GridGriglia;
+
     @FXML
     private GridPane GrigliaBoard;
     @FXML
     private Label Status;
     @FXML
     private Button Pick;
+    
+    private int index = 1;
 
     @FXML
     private ImageView Tile1;
@@ -139,13 +157,108 @@ public class MainSceneController {
             ImageView tileCopy = new ImageView(tile.getImage());
             switch (i){
                 case 0:
+
                     Tile1.setImage(tileCopy.getImage());
+                    Tile1.setOnMousePressed(event -> {
+                        initialPosition[0] = event.getX();
+                        initialPosition[1] = event.getY();
+                        initialPositionTile[0] = Tile1.getLayoutX();
+                        initialPositionTile[1] = Tile1.getLayoutY();
+                    });
+
+                    Tile1.setOnMouseDragged(event -> {
+                        Tile1.setLayoutX(event.getSceneX() - initialPosition[0]);
+                        Tile1.setLayoutY(event.getSceneY() - initialPosition[1]);
+                    });
+
+                    Tile1.setOnMouseReleased(event -> {
+                        index = 1;
+                        // Perform your logic here
+
+                        int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                        int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+
+                        if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                            //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+                            
+                            last_col = col;
+                            guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );
+                            lastTile[col] ++;
+                        }
+
+                        //guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), );
+
+                        // return the tile to its initial position after drag
+                        Tile1.setLayoutX(initialPositionTile[0]);
+                        Tile1.setLayoutY(initialPositionTile[1]);
+                    });
                     break;
                 case 1:
+
                     Tile2.setImage(tileCopy.getImage());
+                    Tile2.setOnMousePressed(event -> {
+                        initialPosition[0] = event.getX();
+                        initialPosition[1] = event.getY();
+                        initialPositionTile[0] = Tile2.getLayoutX();
+                        initialPositionTile[1] = Tile2.getLayoutY();
+                    });
+
+                    Tile2.setOnMouseDragged(event -> {
+                        Tile2.setLayoutX(event.getSceneX() - initialPosition[0]);
+                        Tile2.setLayoutY(event.getSceneY() - initialPosition[1]);
+                    });
+
+                    Tile2.setOnMouseReleased(event -> {
+                        index = 2;
+                                // Perform your logic here
+
+                                int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                                int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+                                pickedTile = 1;
+                                
+                                if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                                    lastTile[col] ++;
+                                    last_col = col;
+                                    //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+                                    guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
+                                }
+                        Tile2.setLayoutX(initialPositionTile[0]);
+                        Tile2.setLayoutY(initialPositionTile[1]);
+                    
+                    });
                     break;
                 case 2:
+
                     Tile3.setImage(tileCopy.getImage());
+                    Tile3.setImage(tileCopy.getImage());
+                    Tile3.setOnMousePressed(event -> {
+                        initialPosition[0] = event.getX();
+                        initialPosition[1] = event.getY();
+                        initialPositionTile[0] = Tile3.getLayoutX();
+                        initialPositionTile[1] = Tile3.getLayoutY();
+                    });
+
+                    Tile3.setOnMouseDragged(event -> {
+                        Tile3.setLayoutX(event.getSceneX() - initialPosition[0]);
+                        Tile3.setLayoutY(event.getSceneY() - initialPosition[1]);
+                    });
+
+                    Tile3.setOnMouseReleased(event -> {
+                        index = 3;
+                        // Perform your logic here
+
+                        int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                        int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+                        pickedTile = 3;
+                        if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                            lastTile[col] ++;
+                            last_col = col;
+                            //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+                            guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 2 );
+                        }
+                        Tile3.setLayoutX(initialPositionTile[0]);
+                        Tile3.setLayoutY(initialPositionTile[1]);
+                    });
                     break;
                 default:
                     break;
@@ -230,6 +343,35 @@ public class MainSceneController {
         }
         //centralController.getGuiUserInterface().getClient().SendPickMessage();
     }
+
+    public void updateGrid(String[][] grid){
+        ImageView tilecopy = null;
+        switch (index){
+            case 1:
+                tilecopy = new ImageView(Tile1.getImage());
+                Tile1.setImage(null);
+                break;
+            case 2:
+                 tilecopy = new ImageView(Tile2.getImage());
+                    Tile2.setImage(null);
+                break;
+            case 3:
+                tilecopy = new ImageView(Tile3.getImage());
+                Tile3.setImage(null);
+                break;
+            default:
+                break;
+                
+        }
+        tilecopy.setFitWidth(GrigliaBoard.getWidth()/5);
+        tilecopy.setFitHeight(GrigliaBoard.getHeight()/6);
+        GridGriglia.add(tilecopy, last_col, 5-lastTile[last_col]);
+        
+        
+        
+    }
+
+
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }

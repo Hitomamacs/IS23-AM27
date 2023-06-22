@@ -132,6 +132,7 @@ public class GuiUserInterface  implements UserInterface {
 
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
+        clientView.firePropertyChange("topup", message.getPlayerName());
     }
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());

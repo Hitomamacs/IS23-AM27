@@ -43,6 +43,7 @@ public class GuiFx extends Application {
             guiUserInterface.getClientView().addPropertyChangeListener(getPopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getRefreshListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getPickListener());
+            guiUserInterface.getClientView().addPropertyChangeListener(getTopupListener());
 
             showWelcomeScene();
 
@@ -166,6 +167,7 @@ public class GuiFx extends Application {
                             break;
                         case (3):
                             //Whatever topUp has to say it is probably same code as case 2
+                            mainSceneController.getStatus().setText(message);
                             break;
                         case (4):
                             //General messages have to appear on each scene
@@ -207,6 +209,24 @@ public class GuiFx extends Application {
                         mainSceneController.refreshBoard(clientView.getBoard());
                     showMainScene();
                 }
+            });
+        }
+    };
+
+    public PropertyChangeListener getTopupListener() {
+        return topupListener;
+    }
+
+    PropertyChangeListener topupListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(() -> {
+                if("topup".equals(evt.getPropertyName())){
+                    mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
+
+
+                }
+                showMainScene();
             });
         }
     };

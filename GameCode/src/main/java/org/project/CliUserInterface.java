@@ -38,13 +38,13 @@ public class CliUserInterface implements UserInterface{
     PropertyChangeListener refreshlistener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
+
                 if("refresh".equals(evt.getPropertyName())){
                     printBoard();
 
 
-                }
-            });
+
+            };
         }
     };
 
@@ -65,13 +65,12 @@ public class CliUserInterface implements UserInterface{
     PropertyChangeListener pickListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
+
                 if("pick".equals(evt.getPropertyName())){
                     printBoard();
                     printTiles((String) evt.getNewValue());
 
                 }
-            });
         }
     };
 
@@ -82,12 +81,12 @@ public class CliUserInterface implements UserInterface{
     PropertyChangeListener topupistener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
+
                 if("topup".equals(evt.getPropertyName())){
                     printGrids((String) evt.getNewValue());
 
                 }
-            });
+
         }
     };
 
@@ -98,26 +97,27 @@ public class CliUserInterface implements UserInterface{
     PropertyChangeListener scorelistener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
+
                 if("score".equals(evt.getPropertyName())){
                     clientView.printScore();
 
 
                 }
-            });
+
         }
     };
 
     PropertyChangeListener turnlistener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            Platform.runLater(() -> {
+
                 if("turn".equals(evt.getPropertyName())){
-                    clientView.printScore();
+                    //TODO PRE TURN DOING NOTHING
+
 
 
                 }
-            });
+
         }
     };
 

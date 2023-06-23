@@ -21,6 +21,8 @@ public class GuiFx extends Application {
     private Scene createGameScene;
     private JoinController joinController;
     private Scene joinScene;
+    private FinalSceneController finalSceneController;
+    private Scene finalScene;
     private static ClientView clientView;
     private static GuiUserInterface guiUserInterface;
     public static void setClientView(ClientView clientView1){
@@ -146,6 +148,30 @@ public class GuiFx extends Application {
         }
         if (mainScene != null){
             primaryStage.setScene(mainScene);
+            primaryStage.show();
+        }
+    }
+    public void showFinalScene(){
+        if(finalSceneController==null){
+            try{
+                FXMLLoader loader=new FXMLLoader();
+                loader.setLocation(GuiFx.class.getResource("/fxml/FinalScene.fxml"));
+                Scene newFinalScene= new Scene(loader.load());
+
+                finalScene=newFinalScene;
+                primaryStage.setScene(newFinalScene);
+                primaryStage.show();
+
+                finalSceneController=loader.getController();
+                finalSceneController.setCentralController(this);
+                finalSceneController.setGuiUserInterface(guiUserInterface);
+                finalSceneController.init();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        if (finalScene != null){
+            primaryStage.setScene(finalScene);
             primaryStage.show();
         }
     }

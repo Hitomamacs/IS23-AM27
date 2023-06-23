@@ -63,6 +63,8 @@ public class GuiFx extends Application {
 
                 welcomeScene = newWelcomeScene;
                 primaryStage.setScene(newWelcomeScene);
+                primaryStage.setResizable(false);
+
                 primaryStage.show();
 
             }catch(Exception e) {
@@ -72,6 +74,8 @@ public class GuiFx extends Application {
         if (welcomeScene != null) {
             primaryStage.setScene(welcomeScene);
             primaryStage.show();
+            primaryStage.setResizable(false);
+
         }
     }
     public void showCreateGameScene(){
@@ -84,6 +88,7 @@ public class GuiFx extends Application {
                 createGameScene = newCreateGameScene;
                 primaryStage.setScene(newCreateGameScene);
                 primaryStage.show();
+                primaryStage.setResizable(false);
 
                 createGameController = loader.getController();
                 createGameController.setCentralController(this);
@@ -95,6 +100,7 @@ public class GuiFx extends Application {
         if (createGameScene != null) {
             primaryStage.setScene(createGameScene);
             primaryStage.show();
+            primaryStage.setResizable(false);
         }
     }
     public void showJoinScene(){

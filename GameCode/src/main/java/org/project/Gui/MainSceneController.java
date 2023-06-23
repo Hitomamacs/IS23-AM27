@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.project.ClientView;
 import org.project.Model.Coordinates;
 
 import java.util.*;
@@ -33,6 +34,9 @@ public class MainSceneController {
     private int last_col = -1;
 
     private Set<Integer> addedPositions = new HashSet<>();
+
+    //riferimento alla ClientView
+    private ClientView clientView = new ClientView();
 
 
     @FXML
@@ -55,6 +59,12 @@ public class MainSceneController {
 
     @FXML
     private ImageView Tile3;
+
+    @FXML
+    private ImageView CGoalCard1;
+
+    @FXML
+    private ImageView CommonGoal2;
 
     private HashMap<Integer, ImageView> helper_board = new HashMap<>();
 
@@ -92,6 +102,21 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.2.png"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.3.png")))
     };
+    private ImageView[] commonGoal= {
+            new ImageView(new Image(getClass().getResourceAsStream("/images/1.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/2.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/3.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/4.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/5.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/6.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/7.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/8.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/9.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/10.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/11.jpg"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/12.jpg")))
+    };
+
     private GuiFx centralController;
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
@@ -111,7 +136,9 @@ public class MainSceneController {
                 GrigliaBoard.add(image, j, i);
             }
         }
+        //decidedCommonGoals();
     }
+
     public void boardCheck(String[][] board){
         Platform.runLater(()->{
             System.out.println("Boardcheck");
@@ -123,8 +150,10 @@ public class MainSceneController {
                         tile.setImage(null);
                     }
                 }
-                System.out.println();        }
-        });}
+                System.out.println();
+            }
+        });
+    }
 
     public void refreshBoard(String[][] board){
         Platform.runLater(()->{
@@ -198,11 +227,17 @@ public class MainSceneController {
 
                     }
                 }
+            decidedCommonGoals();
             });
+        //decidedCommonGoals();
 
     }
 
 
+    public void decidedCommonGoals(){
+        CGoalCard1.setImage(commonGoal[clientView.getCommonGoalView().get(0)].getImage());
+        CommonGoal2.setImage(commonGoal[clientView.getCommonGoalView().get(1)].getImage());
+    }
 
     public void moveTiles(){
         int i = 0;
@@ -317,7 +352,7 @@ public class MainSceneController {
                         int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
                         pickedTile = 3;
                         if (col >= 0 && col < 5 && row >= 0 && row < 6) {
-                            if(last_col ==col ||last_col == -1 ){
+                            if(last_col ==col || last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
                                 if(this.lastTile[col] + coordinates.size()-1 >= 5){

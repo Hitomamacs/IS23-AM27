@@ -61,7 +61,6 @@ public class Client {
         UserInterfaceFactory userInterfaceFactory=null;
 
         //Controllo se le porte mi vengono passate in ingresso
-        //TODO: anche server name può essere passato?
         if(args.length!=0){
             socketPort=Integer.parseInt(args[0]);
             rmiPort=Integer.parseInt((args[0]));
@@ -112,10 +111,6 @@ public class Client {
         }
         System.out.println("Se vuoi creare una nuova partita inserisci il comando create_game, se vuoi entrare in una partita già esistente inserisci il comando join:");
     }
-
-
-    // METODI  CHE CHIAMANO IL SERVER
-    //TODO: avrò i metodi di login, send chat message e metodi per fare le mosse, questi metodi chiameranno i metodi presenti in RMI/SOCKET client che chismeranno i metodi del server
 
 
     //GETTER

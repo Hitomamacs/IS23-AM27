@@ -246,4 +246,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         String json= gson.toJson(preTurnMsg);
         userInterface.processReceivedMessage(json);
     }
+
+    @Override
+    public void isConnected() throws RemoteException {
+
+    }
 }

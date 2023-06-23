@@ -1,6 +1,5 @@
 package org.project.Controller.Server;
 
-import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
 import org.project.RMIClientInterface;
 

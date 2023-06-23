@@ -1,17 +1,14 @@
 package org.project.Controller.Server;
 
 import org.project.Controller.Control.InvalidLoginException;
-import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
 import org.project.RMIClientInterface;
 
 import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class RMIServerApp implements RMIServerInterface {
     private HashMap<String, RMIClientInterface> clientsRMI;
 
     private final Server server;
+    RmiClientHandler rmiClientHandler;
 
     /**
      * this is the constructor. Initialize the hash map.
@@ -33,6 +31,7 @@ public class RMIServerApp implements RMIServerInterface {
     public RMIServerApp(Server server) throws RemoteException{
         this.clientsRMI = new HashMap<>();
         this.server = server;
+        rmiClientHandler=new RmiClientHandler(server,this);
     }
     public void flushRMIClients() throws RemoteException {
         //TODO haven't really understood how to close the connections
@@ -66,6 +65,8 @@ public class RMIServerApp implements RMIServerInterface {
         }
 
         System.out.println("RMI server bound and ready");
+
+        rmiClientHandler.start();
     }
 
     /**
@@ -93,6 +94,9 @@ public class RMIServerApp implements RMIServerInterface {
             clientsRMI.put(nickname,client);
             client.notifyPopUpView("Successfully joined game");
             server.getController().refreshRequest(nickname);
+            synchronized (rmiClientHandler.getClientsRMI()){
+                rmiClientHandler.addClients(nickname,client);
+            }
             return true;
         }
         return false;
@@ -117,6 +121,9 @@ public class RMIServerApp implements RMIServerInterface {
         if(check==true){
             clientsRMI.put(nickname, client);
             client.notifyPopUpView("Successfully created game");
+            synchronized (rmiClientHandler.getClientsRMI()){
+                rmiClientHandler.addClients(nickname,client);
+            }
             return true;
         }else{
             client.notifyPopUpView("Already an existing game");
@@ -133,6 +140,9 @@ public class RMIServerApp implements RMIServerInterface {
         boolean check;
         check=server.quit(nickname);
         if(check){
+            synchronized (rmiClientHandler.getClientsRMI()){
+                rmiClientHandler.removeClients(nickname);
+            }
             return true;
         }
         return false;

@@ -219,7 +219,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
         userInterface.updateClientView(clientView);
         userInterface.printGrids(playername);
-        clientView.firePropertyChange("topup", null);
+        clientView.firePropertyChange("topup", playername);
 
     }
 

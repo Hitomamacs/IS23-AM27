@@ -1,5 +1,6 @@
 package org.project.Gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -27,9 +28,9 @@ public class MainSceneController {
 
     private int pickedTile = 0;
 
-    private int[] lastTile = {-1,-1,-1,-1,-1};
+    private int[] lastTile = new int[]{-1,-1,-1,-1,-1};
     
-    private int last_col = 0;
+    private int last_col = -1;
 
 
     @FXML
@@ -99,6 +100,18 @@ public class MainSceneController {
     public Label getStatus(){
         return this.Status;
     }
+
+    public void boardCheck(String[][] board){
+        Platform.runLater(()->{
+            System.out.println("Boardcheck");        for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    System.out.print(board[i][j] + " ");                if(board[i][j].equals("N")){
+                        ImageView tile = (ImageView) GrigliaBoard.getChildren().get(i * 9 + j);                    tile.setImage(null);                }
+
+                }
+                System.out.println();        }
+        });}
+
     public void refreshBoard(String[][] board){
         Random random = new Random();
         double cellWidth = GrigliaBoard.getWidth() / 9;
@@ -182,8 +195,9 @@ public class MainSceneController {
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                             
                             last_col = col;
+                            this.lastTile[col] ++;
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );
-                            lastTile[col] ++;
+
                         }
 
                         //guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), );
@@ -217,8 +231,8 @@ public class MainSceneController {
                                 pickedTile = 1;
                                 
                                 if (col >= 0 && col < 5 && row >= 0 && row < 6) {
-                                    lastTile[col] ++;
                                     last_col = col;
+                                    this.lastTile[col] ++;
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                                     guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
                                 }
@@ -251,8 +265,8 @@ public class MainSceneController {
                         int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
                         pickedTile = 3;
                         if (col >= 0 && col < 5 && row >= 0 && row < 6) {
-                            lastTile[col] ++;
                             last_col = col;
+                            this.lastTile[col] ++;
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 2 );
                         }
@@ -345,6 +359,13 @@ public class MainSceneController {
     }
 
     public void updateGrid(String[][] grid){
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 5; j++){
+                System.out.print(grid[i][j]);
+                }
+            System.out.println();
+            }
+
         ImageView tilecopy = null;
         switch (index){
             case 1:
@@ -365,7 +386,7 @@ public class MainSceneController {
         }
         tilecopy.setFitWidth(GrigliaBoard.getWidth()/5);
         tilecopy.setFitHeight(GrigliaBoard.getHeight()/6);
-        GridGriglia.add(tilecopy, last_col, 5-lastTile[last_col]);
+        GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);
         
         
         

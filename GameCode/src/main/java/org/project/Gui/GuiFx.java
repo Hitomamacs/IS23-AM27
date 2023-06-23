@@ -206,7 +206,7 @@ public class GuiFx extends Application {
                     if(guiUserInterface.getNickname().equals(evt.getNewValue()))
                         mainSceneController.moveTiles();
                     else
-                        mainSceneController.refreshBoard(clientView.getBoard());
+                        mainSceneController.boardCheck(clientView.getBoard());
                     showMainScene();
                 }
             });
@@ -222,11 +222,12 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
                 if("topup".equals(evt.getPropertyName())){
-                    mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
-
+                    if(guiUserInterface.getNickname().equals(evt.getNewValue()))
+                        mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
+                    showMainScene();
 
                 }
-                showMainScene();
+
             });
         }
     };

@@ -10,19 +10,19 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
+<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
    <children>
-      <ImageView fx:id="SfondoParquet" fitHeight="661.0" fitWidth="755.0" layoutX="-61.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="SfondoParquet" fitHeight="1154.0" fitWidth="1412.0" layoutX="-90.0" layoutY="-57.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="Board" fitHeight="265.0" fitWidth="268.0" layoutX="35.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Board" fitHeight="411.0" fitWidth="458.0" layoutX="29.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/livingroom.png" />
          </image>
       </ImageView>
-      <GridPane fx:id="GrigliaBoard" layoutX="45.0" layoutY="39.0" prefHeight="240.0" prefWidth="246.0">
+      <GridPane fx:id="GrigliaBoard" layoutX="45.0" layoutY="42.0" prefHeight="375.0" prefWidth="377.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -46,32 +46,32 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <ImageView fx:id="CGoalCard1" fitHeight="61.0" fitWidth="105.0" layoutX="35.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="CGoalCard1" fitHeight="150.0" fitWidth="200.0" layoutX="29.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="CommonGoal2" fitHeight="61.0" fitWidth="105.0" layoutX="137.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="CommonGoal2" fitHeight="150.0" fitWidth="200.0" layoutX="239.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="EmptyPersonalGoal" fitHeight="101.0" fitWidth="62.0" layoutX="239.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="EmptyPersonalGoal" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/front_EMPTY.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="GrigliaGiocatore" fitHeight="265.0" fitWidth="216.0" layoutX="334.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="GrigliaGiocatore" fitHeight="350.0" fitWidth="352.0" layoutX="625.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/bookshelf_orth.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="SfondoTile" fitHeight="61.0" fitWidth="200.0" layoutX="342.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="SfondoTile" fitHeight="105.0" fitWidth="384.0" layoutX="624.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/base_pagina2.jpg" />
          </image>
       </ImageView>
-      <GridPane fx:id="GridGriglia" layoutX="355.0" layoutY="85.0" prefHeight="181.0" prefWidth="174.0">
+      <GridPane fx:id="GridGriglia" layoutX="664.0" layoutY="110.0" prefHeight="290.0" prefWidth="275.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -88,20 +88,20 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <ImageView fx:id="Tile1" fitHeight="40.0" fitWidth="40.0" layoutX="355.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="Tile2" fitHeight="40.0" fitWidth="40.0" layoutX="422.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="Tile3" fitHeight="40.0" fitWidth="40.0" layoutX="489.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="Status" layoutX="349.0" layoutY="31.0" text="Status:">
+      <ImageView fx:id="Tile1" fitHeight="100.0" fitWidth="100.0" layoutX="631.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="Tile2" fitHeight="100.0" fitWidth="100.0" layoutX="758.0" layoutY="523.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="Tile3" fitHeight="100.0" fitWidth="100.0" layoutX="874.0" layoutY="522.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="Status" layoutX="488.0" layoutY="30.0" text="Status:">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="18.0" />
          </font></Label>
-      <Button fx:id="Pick" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#PickAction" text="Pick">
+      <Button fx:id="Pick" layoutX="31.0" layoutY="680.0" mnemonicParsing="false" onAction="#PickAction" text="Pick">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="QuitButtonMainScene" layoutX="529.0" layoutY="366.0" mnemonicParsing="false" text="Quit">
+      <Button fx:id="QuitButtonMainScene" layoutX="897.0" layoutY="677.0" mnemonicParsing="false" text="Quit">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Button>
    </children>

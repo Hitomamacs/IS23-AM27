@@ -8,39 +8,42 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
+<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.JoinController">
    <children>
-      <ImageView fx:id="Sfondo" fitHeight="661.0" fitWidth="755.0" layoutX="-48.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1259.0" fitWidth="1767.0" layoutX="-23.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="MyShelfie" fitHeight="150.0" fitWidth="447.0" layoutX="76.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="MyShelfie" fitHeight="447.0" fitWidth="826.0" layoutX="104.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Title.png" />
          </image>
       </ImageView>
-      <TextField fx:id="Username" layoutX="225.0" layoutY="220.0">
+      <TextField fx:id="Username" layoutX="376.0" layoutY="476.0" prefHeight="34.0" prefWidth="285.0">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font></TextField>
-      <Label fx:id="EnterUsername" layoutX="225.0" layoutY="192.0" prefHeight="16.0" prefWidth="143.0" text="Enter username:">
+      <Label fx:id="EnterUsername" layoutX="377.0" layoutY="430.0" prefHeight="27.0" prefWidth="224.0" text="Enter username:">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font></Label>
-      <Label fx:id="Loginstatus" layoutX="29.0" layoutY="325.0" text="login status:">
+      <Label fx:id="Loginstatus" layoutX="51.0" layoutY="697.0" text="login status:">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font></Label>
-      <Button fx:id="login2Button" layoutX="282.0" layoutY="259.0" mnemonicParsing="false" onAction="#JoinAction" text="join">
+      <Button fx:id="login2Button" layoutX="472.0" layoutY="539.0" mnemonicParsing="false" onAction="#JoinAction" prefHeight="45.0" prefWidth="84.0" text="join">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="QuitButtonJoin" layoutX="496.0" layoutY="321.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
+      <Button fx:id="QuitButtonJoin" layoutX="865.0" layoutY="668.0" mnemonicParsing="false" onAction="#QuitAction" prefHeight="49.0" prefWidth="94.0" text="Quit">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="Back" layoutX="488.0" layoutY="40.0" mnemonicParsing="false" onAction="#BackToWelcome" text="Back" />
+      <Button fx:id="Back" layoutX="867.0" layoutY="49.0" mnemonicParsing="false" onAction="#BackToWelcome" prefHeight="49.0" prefWidth="94.0" text="Back">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
    </children>
 </Pane>

@@ -99,7 +99,7 @@
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="QuitButtonMainScene" layoutX="897.0" layoutY="677.0" mnemonicParsing="false" text="Quit">
+      <Button fx:id="QuitButtonMainScene" layoutX="529.0" layoutY="366.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
          <font>
             <Font name="Arial" size="24.0" />
          </font>

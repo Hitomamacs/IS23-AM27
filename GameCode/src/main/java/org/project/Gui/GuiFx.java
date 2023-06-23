@@ -2,9 +2,11 @@ package org.project.Gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.project.ClientView;
 
 import java.beans.PropertyChangeEvent;
@@ -41,6 +43,13 @@ public class GuiFx extends Application {
 
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("My Shelfie");
+
+            this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());;
+                }
+            });
 
             guiUserInterface.getClientView().addPropertyChangeListener(getPopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getRefreshListener());

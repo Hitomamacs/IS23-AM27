@@ -235,9 +235,13 @@ public class MainSceneController {
 
                         if (col >= 0 && col < 5 && row >= 0 && row < 6) {
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+
                             if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
+                                if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                    last_col = -1;
+                                }
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
 
                         }
@@ -276,6 +280,9 @@ public class MainSceneController {
                                     if(last_col ==col ||last_col == -1 ){
                                     last_col = col;
                                     this.lastTile[col] ++;
+                                        if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                            last_col = -1;
+                                        }
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                                     guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
                                 }
@@ -313,6 +320,9 @@ public class MainSceneController {
                             if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
+                                if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                    last_col = -1;
+                                }
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 2 );
                         }
@@ -448,4 +458,22 @@ public class MainSceneController {
     public void setGuiController(GuiController guiController) {
         this.guiController = guiController;
     }
+
+    public void QuitAction(ActionEvent actionEvent) {
+        quit();
+
+
+    }
+
+
+
+    public void quit(){
+        guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
+        //guiUserInterface.getClient().close();
+        Platform.exit();
+        System.exit(0);
+
+
+    }
+
 }

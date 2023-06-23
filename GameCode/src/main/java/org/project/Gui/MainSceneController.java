@@ -206,6 +206,7 @@ public class MainSceneController {
 
     public void moveTiles(){
         int i = 0;
+        last_col = -1;
         for(Coordinates c : coordinates){
             ImageView tile = (ImageView) GrigliaBoard.getChildren().get(c.getX() * 9 + c.getY());
             ImageView tileCopy = new ImageView(tile.getImage());
@@ -234,10 +235,10 @@ public class MainSceneController {
 
                         if (col >= 0 && col < 5 && row >= 0 && row < 6) {
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
-                            
+                            if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
-                            guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );
+                            guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
 
                         }
 
@@ -272,10 +273,13 @@ public class MainSceneController {
                                 pickedTile = 1;
                                 
                                 if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                                    if(last_col ==col ||last_col == -1 ){
                                     last_col = col;
                                     this.lastTile[col] ++;
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                                     guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
+                                }
+
                                 }
                         Tile2.setLayoutX(initialPositionTile[0]);
                         Tile2.setLayoutY(initialPositionTile[1]);
@@ -306,10 +310,13 @@ public class MainSceneController {
                         int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
                         pickedTile = 3;
                         if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                            if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 2 );
+                        }
+
                         }
                         Tile3.setLayoutX(initialPositionTile[0]);
                         Tile3.setLayoutY(initialPositionTile[1]);

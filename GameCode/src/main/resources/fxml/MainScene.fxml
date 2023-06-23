@@ -91,7 +91,10 @@
       <ImageView fx:id="Tile1" fitHeight="40.0" fitWidth="40.0" layoutX="355.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="Tile2" fitHeight="40.0" fitWidth="40.0" layoutX="422.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="Tile3" fitHeight="40.0" fitWidth="40.0" layoutX="489.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="Status" layoutX="349.0" layoutY="31.0" text="Status:" />
+      <Label fx:id="Status" layoutX="349.0" layoutY="31.0" text="Status:">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font></Label>
       <Button fx:id="Pick" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#PickAction" text="Pick">
          <font>
             <Font name="Arial" size="13.0" />

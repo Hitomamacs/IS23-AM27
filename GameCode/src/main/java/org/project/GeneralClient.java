@@ -23,9 +23,6 @@ public class GeneralClient implements ClientInterface{
             userInterface.launcher();
 
         }
-
-
-
         new Thread(() -> {
             while (true) {
                 try {

@@ -173,8 +173,10 @@ public class Server {
     }
 
     void set_player_disconnected(String username){
-        controller.getUser(username).setConnected(false);
-        connectedPlayers--;
+        if(username != null) {
+            controller.getUser(username).setConnected(false);
+            connectedPlayers--;
+        }
     }
     public void stopKeepAlive(String username, boolean connectionType){
         if(connectionType){

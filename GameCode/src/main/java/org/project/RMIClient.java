@@ -171,7 +171,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setCommonGoalView(cGoalView);
         clientView.setPersonalGoalViews(pGoalView);
         userInterface.updateClientView(clientView);
-        clientView.firePropertyChange("refresh", clientView);
+        clientView.firePropertyChange("refresh", null);
         //clientView.printCommonGoal();
 
     }
@@ -241,9 +241,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
     @Override
     public void notifyTurn(String username, boolean move) throws RemoteException {
-        PreTurnMsg preTurnMsg = new PreTurnMsg(username, move);
-        Gson gson= new Gson();
-        String json= gson.toJson(preTurnMsg);
-        userInterface.processReceivedMessage(json);
+        clientView.firePropertyChange("refresh", move);
     }
 }

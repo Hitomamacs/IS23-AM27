@@ -40,10 +40,19 @@ public class CliUserInterface implements UserInterface{
         public void propertyChange(PropertyChangeEvent evt) {
 
                 if("refresh".equals(evt.getPropertyName())){
-                    printBoard();
+                    if(evt.getNewValue() != null){
 
-
-
+                        if((boolean)evt.getNewValue()){
+                            clientView.printBoard();
+                            System.out.println();
+                            clientView.printGrid(nickname);
+                        }
+                        else{
+                            clientView.printGrid(nickname);
+                            System.out.println();
+                            clientView.printTiles(nickname);
+                        }
+                    }else {clientView.printBoard();}
             };
         }
     };
@@ -251,14 +260,18 @@ public class CliUserInterface implements UserInterface{
     public void handleTurnUpdate(PreTurnMsg message){
         String username = message.getUsername();
         if(message.getMove_Type()){
-            clientView.printBoard();
-            System.out.println();
-            clientView.printGrid(username);
+            boolean type = true;
+            //clientView.printBoard();
+            //System.out.println();
+            //clientView.printGrid(username);
+            clientView.firePropertyChange("refresh", type);
         }
         else{
-            clientView.printGrid(username);
-            System.out.println();
-            clientView.printTiles(username);
+            boolean type = false;
+            //clientView.printGrid(username);
+            //System.out.println();
+            //clientView.printTiles(username);
+            clientView.firePropertyChange("refresh", type);
         }
     }
 

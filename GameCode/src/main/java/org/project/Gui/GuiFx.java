@@ -133,6 +133,7 @@ public class GuiFx extends Application {
                 mainSceneController = loader.getController();
                 mainSceneController.setCentralController(this);
                 mainSceneController.setGuiUserInterface(guiUserInterface);
+                mainSceneController.init();
             }catch(Exception e) {
                 e.printStackTrace();
             }
@@ -206,7 +207,7 @@ public class GuiFx extends Application {
                     if(guiUserInterface.getNickname().equals(evt.getNewValue()))
                         mainSceneController.moveTiles();
                     else
-                        mainSceneController.boardCheck(clientView.getBoard());
+                        mainSceneController.refreshBoard(clientView.getBoard());
                     showMainScene();
                 }
             });

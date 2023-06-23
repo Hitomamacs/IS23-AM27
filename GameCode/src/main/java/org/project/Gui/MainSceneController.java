@@ -32,6 +32,8 @@ public class MainSceneController {
     
     private int last_col = -1;
 
+    private Set<Integer> addedPositions = new HashSet<>();
+
 
     @FXML
     private GridPane GridGriglia;
@@ -54,9 +56,7 @@ public class MainSceneController {
     @FXML
     private ImageView Tile3;
 
-
-
-
+    private HashMap<Integer, ImageView> helper_board = new HashMap<>();
 
     private ArrayList<Rectangle> selectedBorders = new ArrayList<>();
     private ArrayList<ImageView> selectedTiles = new ArrayList<>();
@@ -100,67 +100,108 @@ public class MainSceneController {
     public Label getStatus(){
         return this.Status;
     }
-
+    public void init(){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                //Coordinates c = new Coordinates(i, j);
+                ImageView image = new ImageView();
+                image.setFitHeight(GrigliaBoard.getHeight() / 9);
+                image.setFitWidth(GrigliaBoard.getWidth() / 9);
+                helper_board.put(((int) i * 9 + j), image);
+                GrigliaBoard.add(image, j, i);
+            }
+        }
+    }
     public void boardCheck(String[][] board){
         Platform.runLater(()->{
-            System.out.println("Boardcheck");        for (int i = 0; i < 9; i++) {
+            System.out.println("Boardcheck");
+            for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    System.out.print(board[i][j] + " ");                if(board[i][j].equals("N")){
-                        ImageView tile = (ImageView) GrigliaBoard.getChildren().get(i * 9 + j);                    tile.setImage(null);                }
-
+                    System.out.print(board[i][j] + " ");
+                    if(board[i][j].equals("N")){
+                        ImageView tile = (ImageView) GrigliaBoard.getChildren().get(i * 9 + j);
+                        tile.setImage(null);
+                    }
                 }
                 System.out.println();        }
         });}
 
     public void refreshBoard(String[][] board){
-        Random random = new Random();
-        double cellWidth = GrigliaBoard.getWidth() / 9;
-        double cellHeight = GrigliaBoard.getHeight() / 9;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                ImageView tileImageView = new ImageView();
-                //This inverted order seems to be the correct one?
-                switch(board[i][j]){
-                    case("I"):
-                        break;
-                    case("A"):
-                        tileImageView.setImage(azureImage[random.nextInt(3)].getImage());
-                        break;
-                    case("P"):
-                        tileImageView.setImage(pinkImage[random.nextInt(3)].getImage());
-                        break;
-                    case("G"):
-                        tileImageView.setImage(greenImage[random.nextInt(3)].getImage());
-                        break;
-                    case("Y"):
-                        tileImageView.setImage(yellowImage[random.nextInt(3)].getImage());
-                        break;
-                    case("W"):
-                        tileImageView.setImage(whiteImage[random.nextInt(3)].getImage());
-                        break;
-                    case("B"):
-                        tileImageView.setImage(blueImage[random.nextInt(3)].getImage());
-                        break;
-                    case ("N"):
-                        tileImageView.setImage(null);
-                        break;
-                    default:
-                        break;
-                }
-                tileImageView.setFitWidth(cellWidth);
-                tileImageView.setFitHeight(cellHeight);
-                GrigliaBoard.add(tileImageView, j, i);
-                int finalI = i;
-                int finalJ = j;
-                ImageView tile = (ImageView) GrigliaBoard.getChildren().get(i * 9 + j);
-                if (board[i][j].equals("N")) {
-                    tile.setImage(null);
-                }
-                tileImageView.setOnMouseClicked(event -> selectTile(finalJ, finalI));
+        Platform.runLater(()->{
+            Random random = new Random();
+            double cellWidth = GrigliaBoard.getWidth() / 9;
+            double cellHeight = GrigliaBoard.getHeight() / 9;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    int c = i * 9 + j;
+                    int finalI = i;
+                    int finalJ = j;
 
-            }
-        }
+                    switch(board[i][j]){
+                        case("I"):
+
+                            break;
+                        case("A"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(azureImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+                            break;
+                        case("P"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(pinkImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+
+                            break;
+                        case("G"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(greenImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+                            break;
+                        case("Y"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(yellowImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+                            break;
+                        case("W"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(whiteImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+
+                            break;
+                        case("B"):
+                            if(!addedPositions.contains(c)) {
+                                helper_board.get(c).setImage(blueImage[random.nextInt(3)].getImage());
+                                helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
+                                addedPositions.add(c);
+                            }
+                            break;
+                        case ("N"):
+                            if(addedPositions.contains(c)){
+                                helper_board.get(c).setImage(null);
+                                helper_board.get(c).setOnMouseClicked(null);
+                                addedPositions.remove(c);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    }
+                }
+            });
+
     }
+
 
 
     public void moveTiles(){

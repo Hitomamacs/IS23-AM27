@@ -118,7 +118,8 @@ public class GuiUserInterface  implements UserInterface {
                 case REFRESH_UPDATE:
                     handleRefreshUpdate(gson.fromJson(serverMessage, RefreshMsg.class));
                     break;
-
+                case TURN_UPDATE:
+                    handleTurnUpdate(gson.fromJson(serverMessage, PreTurnMsg.class));
                 default:
                     break;
             }
@@ -144,6 +145,9 @@ public class GuiUserInterface  implements UserInterface {
         clientView.setErrorMessage(message.getText());
         clientView.setPopUpIdentifier(message.getIdentifier());
         clientView.firePropertyChange("popupCreate", clientView);
+    }
+    public void handleTurnUpdate(PreTurnMsg message){
+        clientView.firePropertyChange("refresh", clientView);
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){

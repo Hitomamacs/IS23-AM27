@@ -1,7 +1,7 @@
 package org.project.Controller.Server;
 
-import org.project.RMIClient;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClient;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;

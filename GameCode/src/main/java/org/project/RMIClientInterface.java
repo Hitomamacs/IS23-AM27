@@ -63,5 +63,7 @@ public interface RMIClientInterface extends Remote {
 
     public void notifyTurn(String username, boolean move) throws RemoteException;
 
+    public void isConnected() throws RemoteException;
+
     //public String getNickname() throws RemoteException;
 }

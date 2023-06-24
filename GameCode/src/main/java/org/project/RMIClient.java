@@ -228,6 +228,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
 
+
     }
 
     @Override

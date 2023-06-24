@@ -395,7 +395,7 @@ public class Controller {
                 boolean game_state = (boolean) evt.getNewValue();
                 if(!game_state){
                     System.out.println("Sending end game info");
-                    server.sendInfo("Game has ended this is the scoreboard: " + "\n", 5);
+                    server.sendInfo("Game has ended this is the scoreboard: " + "\n", 4);
                     server.send(view.getScoreBoardView());
                     synchronized (server.getLock()){
                         System.out.println("Notifying");

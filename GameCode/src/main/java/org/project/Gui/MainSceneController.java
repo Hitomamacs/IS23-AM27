@@ -23,6 +23,8 @@ public class MainSceneController {
     private GuiUserInterface guiUserInterface;
     private GuiController guiController;
 
+    private Coordinates lastpick;
+
     private double[] initialPosition = new double[2];
 
     private double[] initialPositionTile = new double[2];
@@ -32,6 +34,8 @@ public class MainSceneController {
     private int[] lastTile = new int[]{-1,-1,-1,-1,-1};
     
     private int last_col = -1;
+
+    private boolean firstboolean = true;
 
     private Set<Integer> addedPositions = new HashSet<>();
 
@@ -68,6 +72,8 @@ public class MainSceneController {
 
     @FXML
     private ImageView CommonGoal2;
+
+    private Coordinates firstTile = new Coordinates(8,8);
 
     private HashMap<Integer, ImageView> helper_board = new HashMap<>();
 
@@ -163,6 +169,13 @@ public class MainSceneController {
             Random random = new Random();
             double cellWidth = GrigliaBoard.getWidth() / 9;
             double cellHeight = GrigliaBoard.getHeight() / 9;
+            if (!board[firstTile.getX()][firstTile.getY()].equals("N") && !board[firstTile.getX()][firstTile.getY()].equals("I")) {
+                firstboolean = true;
+                int a = (lastpick.getX()) * 9 + (lastpick.getY());
+                addedPositions.clear();
+                firstTile = new Coordinates(8, 8);
+
+            }
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     int c = i * 9 + j;
@@ -381,6 +394,11 @@ public class MainSceneController {
 
             tile.setEffect(null);
         }
+        if (firstboolean) {
+            firstboolean = false;
+            firstTile = coordinates.get(0);        }
+
+        lastpick = coordinates.get(coordinates.size() - 1);
         coordinates.clear();
 
     }

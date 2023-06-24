@@ -36,7 +36,7 @@ public class MainSceneController {
     private Set<Integer> addedPositions = new HashSet<>();
 
     //riferimento alla ClientView
-    private ClientView clientView = new ClientView();
+
 
 
     @FXML
@@ -235,8 +235,8 @@ public class MainSceneController {
 
 
     public void decidedCommonGoals(){
-        CGoalCard1.setImage(commonGoal[clientView.getCommonGoalView().get(0)].getImage());
-        CommonGoal2.setImage(commonGoal[clientView.getCommonGoalView().get(1)].getImage());
+        CGoalCard1.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(0)-1].getImage());
+        CommonGoal2.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(1)-1].getImage());
     }
 
     public void moveTiles(){

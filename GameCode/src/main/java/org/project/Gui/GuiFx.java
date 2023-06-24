@@ -202,6 +202,7 @@ public class GuiFx extends Application {
                 finalSceneController = loader.getController();
                 finalSceneController.setCentralController(this);
                 finalSceneController.setGuiUserInterface(guiUserInterface);
+                finalSceneController.init(guiUserInterface.getClientView().getScoreBoard());
 
                 finalScene=newFinalScene;
                 primaryStage.setScene(newFinalScene);
@@ -316,8 +317,6 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(()->{
                 if("score".equals(evt.getPropertyName())){
-                    showFinalScene();
-                    finalSceneController.init(guiUserInterface.getClientView().getScoreBoard());
                     showFinalScene();
                 }
             });

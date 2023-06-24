@@ -193,23 +193,25 @@ public class GuiFx extends Application {
         }
     }
     public void showFinalScene(){
+        if(finalSceneController==null){
+            try{
+                FXMLLoader loader=new FXMLLoader();
+                loader.setLocation(GuiFx.class.getResource("/fxml/FinalScene.fxml"));
+                Scene newFinalScene= new Scene(loader.load());
 
-        try{
-            FXMLLoader loader=new FXMLLoader();
-            loader.setLocation(GuiFx.class.getResource("/fxml/FinalScene.fxml"));
-            Scene newFinalScene= new Scene(loader.load());
+                finalScene=newFinalScene;
+                primaryStage.setScene(newFinalScene);
+                primaryStage.show();
 
-            finalScene=newFinalScene;
-            primaryStage.setScene(newFinalScene);
-            primaryStage.show();
+                finalSceneController = loader.getController();
+                finalSceneController.setCentralController(this);
+                finalSceneController.setGuiUserInterface(guiUserInterface);
 
-            finalSceneController = loader.getController();
-            finalSceneController.setCentralController(this);
-            finalSceneController.setGuiUserInterface(guiUserInterface);
-
-        }catch(Exception e){
-            e.printStackTrace();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
+
         if (finalScene != null){
             primaryStage.setScene(finalScene);
             primaryStage.show();

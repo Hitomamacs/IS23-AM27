@@ -61,6 +61,9 @@ public class MainSceneController {
     private ImageView Tile3;
 
     @FXML
+    private Button Grids;
+
+    @FXML
     private ImageView CGoalCard1;
 
     @FXML
@@ -375,6 +378,8 @@ public class MainSceneController {
             selectedBorders.remove(0);
             i++;
             tile.setImage(null);
+
+            tile.setEffect(null);
         }
         coordinates.clear();
 
@@ -492,6 +497,9 @@ public class MainSceneController {
 
     public void setGuiController(GuiController guiController) {
         this.guiController = guiController;
+    }
+    public void SwitchToGrids(){
+        centralController.showOtherGridsScene();
     }
 
     public void QuitAction(ActionEvent actionEvent) {

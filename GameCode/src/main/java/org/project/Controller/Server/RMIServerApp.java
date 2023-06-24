@@ -195,6 +195,11 @@ public class RMIServerApp implements RMIServerInterface {
         server.sendMessage(nickname, message);
     }
 
+    @Override
+    public void isConnected() throws RemoteException {
+
+    }
+
 
     public HashMap<String, RMIClientInterface> getClientsRMI() {
         return clientsRMI;

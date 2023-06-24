@@ -73,6 +73,10 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             throw new RuntimeException(e);
         }
 
+        RmiServerHandler rmiServerHandler=new RmiServerHandler(rmiServer,this);
+        Thread serverHandlerThread = new Thread(rmiServerHandler);
+        serverHandlerThread.start();
+
         //System.out.println("Connessione stabilita con successo");
     }
 
@@ -247,5 +251,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     @Override
     public void isConnected() throws RemoteException {
 
+    }
+
+    public void closeConnection(){
+        try{
+            UnicastRemoteObject.unexportObject(this,true);
+            System.exit(0);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

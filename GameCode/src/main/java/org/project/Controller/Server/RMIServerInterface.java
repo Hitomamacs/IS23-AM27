@@ -63,4 +63,6 @@ public interface RMIServerInterface extends Remote {
      * @throws RemoteException if something goes wrong with the connection
      */
     public void sendMessageRequest(String nickname, String message) throws RemoteException;
+
+    public void isConnected() throws RemoteException;
 }

@@ -1,14 +1,18 @@
 package org.project.Gui;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FinalSceneController {
+
     private GuiUserInterface guiUserInterface;
-    private GuiFx guiFx;
+    private GuiFx centralController;
     @FXML
     private Label FirstNameLable;
     @FXML
@@ -25,8 +29,17 @@ public class FinalSceneController {
     private Label ThirdScore;
     @FXML
     private Label FourthScore;
+
+    @FXML
+    private Button BackButton;
+
+    public void BackToMain(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            centralController.showMainScene();
+        });
+    }
     public void setCentralController(GuiFx guiFx) {
-        this.guiFx=guiFx;
+        this.centralController = guiFx;
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {

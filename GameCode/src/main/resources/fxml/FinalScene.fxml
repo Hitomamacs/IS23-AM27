@@ -1,73 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:controller="org.project.Gui.FinalSceneController" maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.FinalSceneController">
    <children>
-      <ImageView fx:id="ImmaginaDiSfondo" fitHeight="619.0" fitWidth="668.0" layoutX="-9.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ImmaginaDiSfondo" fitHeight="1053.0" fitWidth="1238.0" layoutX="-9.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="FinalRankingLable" layoutX="230.0" layoutY="77.0" prefHeight="27.0" prefWidth="153.0" text="Final ranking:">
+      <Label fx:id="FinalRankingLable" layoutX="250.0" layoutY="92.0" prefHeight="74.0" prefWidth="539.0" text="Final ranking:">
+         <font>
+            <Font name="Arial" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="FirstNameLable" layoutX="250.0" layoutY="250.0" text="First name">
+         <font>
+            <Font name="Arial" size="48.0" />
+         </font>
+      </Label>
+      <Label fx:id="SecondNameLable" layoutX="250.0" layoutY="356.0" text="Second name">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="FirstNameLable" layoutX="162.0" layoutY="153.0" text="First name">
+      <Label fx:id="ThirdNameLable" layoutX="250.0" layoutY="451.0" text="Label">
          <font>
-            <Font name="Arial" size="22.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="SecondNameLable" layoutX="162.0" layoutY="221.0" text="Second name">
+      <Label fx:id="FourthNameLable" layoutX="250.0" layoutY="546.0" text="Label">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="ThirdNameLable" layoutX="162.0" layoutY="269.0" text="Label">
+      <Label fx:id="FirstScore" layoutX="613.0" layoutY="250.0" text="First Score">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="48.0" />
          </font>
       </Label>
-      <Label fx:id="FourthNameLable" layoutX="162.0" layoutY="318.0" text="Label">
+      <Label fx:id="SecondScore" layoutX="613.0" layoutY="356.0" text="Second score">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="FirstScore" layoutX="383.0" layoutY="158.0" text="First Score">
+      <Label fx:id="ThirdScore" layoutX="613.0" layoutY="451.0" text="Label">
          <font>
-            <Font name="Arial" size="22.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="SecondScore" layoutX="383.0" layoutY="221.0" text="Second score">
+      <Label fx:id="FourthScore" layoutX="613.0" layoutY="546.0" text="Label">
          <font>
-            <Font name="Arial" size="13.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="ThirdScore" layoutX="383.0" layoutY="269.0" text="Label">
-         <font>
-            <Font name="Arial" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="FourthScore" layoutX="383.0" layoutY="318.0" text="Label">
-         <font>
-            <Font name="Arial" size="13.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="FirstImage" fitHeight="51.0" fitWidth="51.0" layoutX="89.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="FirstImage" fitHeight="88.0" fitWidth="90.0" layoutX="110.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/end game.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="CranioImage" fitHeight="72.0" fitWidth="79.0" layoutX="505.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="CranioImage" fitHeight="105.0" fitWidth="128.0" layoutX="861.0" layoutY="611.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Publisher.png" />
          </image>
       </ImageView>
+      <Button fx:id="BackButton" layoutX="39.0" layoutY="665.0" mnemonicParsing="false" onAction="#BackToMain" text="Back">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

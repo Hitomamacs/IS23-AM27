@@ -315,7 +315,7 @@ public class MainSceneController {
                             if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
-                                if((this.lastTile[col] + tileCount-1) >= 5){
+                                if((this.lastTile[col] + tileCount-1) > 5){
                                     last_col = -1;
                                 }
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
@@ -356,7 +356,7 @@ public class MainSceneController {
                                     if(last_col ==col ||last_col == -1 ){
                                     last_col = col;
                                     this.lastTile[col] ++;
-                                        if((this.lastTile[col] + tileCount-1) >= 5){
+                                        if((this.lastTile[col] + tileCount-1) > 5){
                                             last_col = -1;
                                         }
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
@@ -396,7 +396,7 @@ public class MainSceneController {
                             if(last_col ==col || last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
-                                if((this.lastTile[col] + tileCount-1) >= 5){
+                                if((this.lastTile[col] + tileCount-1) > 5){
                                     last_col = -1;
                                 }
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);

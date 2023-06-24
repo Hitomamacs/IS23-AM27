@@ -56,8 +56,21 @@ public class JoinController {
             centralController.showWelcomeScene();
         });
     }
-    public void QuitAction(ActionEvent actionEvent){
-        //TODO: quit
+    public void QuitAction(ActionEvent actionEvent) {
+        quit();
+
+
+    }
+
+
+
+    public void quit(){
+        guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
+        //guiUserInterface.getClient().close();
+        Platform.exit();
+        System.exit(0);
+
+
     }
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;

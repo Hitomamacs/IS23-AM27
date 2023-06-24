@@ -227,7 +227,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
         clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
-
+        clientView.firePropertyChange("score",clientView);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.project.Controller.Control;
 
-import org.project.ObservableObject;
+import org.project.ClientPack.ObservableObject;
 
 public class User extends ObservableObject {
 

@@ -67,7 +67,7 @@ public class CreateGameController {
 
 
     public void quit(){
-        guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
+        centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
         //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);

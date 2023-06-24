@@ -2,7 +2,7 @@ package org.project.Controller.Server;
 
 import org.project.Controller.Control.InvalidLoginException;
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;

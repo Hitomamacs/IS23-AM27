@@ -22,7 +22,7 @@ public class EndGameState implements GameState {
         int points = 0;
         HashMap<String, Integer> score = new HashMap<>();
         for(Player p : gameOrchestrator.getPlayers()){
-            points = p.verifyExtraPoints() + p.verifyExtraPoints() + p.getScore();
+            points = p.verifyExtraPoints() + p.verifyPGoalPoints() + p.getScore();
             score.put(p.getNickname(), points);
             gameOrchestrator.getGame().setScoreboard(score);
             gameOrchestrator.getGame().firePropertyChange("ScoreBoardUpdate", gameOrchestrator.getGame());

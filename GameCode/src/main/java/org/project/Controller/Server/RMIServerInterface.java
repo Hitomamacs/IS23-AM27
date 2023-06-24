@@ -1,7 +1,7 @@
 package org.project.Controller.Server;
 
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -4,7 +4,7 @@ import org.project.Controller.Control.*;
 import org.project.Controller.Messages.*;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;

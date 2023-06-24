@@ -3,8 +3,6 @@ package org.project.Gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
@@ -14,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.project.ClientView;
 import org.project.Model.Coordinates;
 
 import java.util.*;
@@ -513,14 +510,24 @@ public class MainSceneController {
             case 1:
                 tilecopy = new ImageView(Tile1.getImage());
                 Tile1.setImage(null);
+                Tile1.setOnMouseClicked(null);
+                Tile1.setOnMouseDragged(null);
+                Tile1.setOnMouseReleased(null);
                 break;
             case 2:
                  tilecopy = new ImageView(Tile2.getImage());
                     Tile2.setImage(null);
+                    Tile2.setOnMouseClicked(null);
+                    Tile2.setOnMouseDragged(null);
+                    Tile2.setOnMouseReleased(null);
+
                 break;
             case 3:
                 tilecopy = new ImageView(Tile3.getImage());
                 Tile3.setImage(null);
+                Tile3.setOnMouseClicked(null);
+                Tile3.setOnMouseDragged(null);
+                Tile3.setOnMouseReleased(null);
                 break;
             default:
                 break;
@@ -529,6 +536,9 @@ public class MainSceneController {
         tileCount--;
         tilecopy.setFitWidth(GridGriglia.getWidth()/5);
         tilecopy.setFitHeight(GridGriglia.getHeight()/6);
+        if(this.lastTile[last_col]>5){
+            last_col = 5;
+        }
         GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);
         
         

@@ -1,4 +1,8 @@
-package org.project;
+package org.project.ClientPack;
+
+import org.project.ClientPack.ClientFactory;
+import org.project.ClientPack.ConnectionInterface;
+import org.project.ClientPack.RMIClient;
 
 import java.rmi.RemoteException;
 

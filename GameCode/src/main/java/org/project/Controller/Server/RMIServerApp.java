@@ -22,6 +22,7 @@ public class RMIServerApp implements RMIServerInterface {
     private HashMap<String, RMIClientInterface> clientsRMI;
 
     private final Server server;
+    private HashMap<String,RmiClientHandler> rmiClientsHandler;
 
     /**
      * this is the constructor. Initialize the hash map.
@@ -30,6 +31,7 @@ public class RMIServerApp implements RMIServerInterface {
     public RMIServerApp(Server server) throws RemoteException{
         this.clientsRMI = new HashMap<>();
         this.server = server;
+        rmiClientsHandler=new HashMap<>();
     }
     public void flushRMIClients() throws RemoteException {
         //TODO haven't really understood how to close the connections
@@ -90,6 +92,11 @@ public class RMIServerApp implements RMIServerInterface {
             clientsRMI.put(nickname,client);
             client.notifyPopUpView("Successfully joined game", 1);
             server.getController().refreshRequest(nickname);
+
+            RmiClientHandler rch=new RmiClientHandler(server,this,client,nickname);
+            rmiClientsHandler.put(nickname, rch);
+            rmiClientsHandler.get(nickname).start();
+
             return true;
         }
         return false;
@@ -114,6 +121,11 @@ public class RMIServerApp implements RMIServerInterface {
         if(check==true){
             clientsRMI.put(nickname, client);
             client.notifyPopUpView("Successfully created game", 0);
+
+            RmiClientHandler rch=new RmiClientHandler(server,this,client,nickname);
+            rmiClientsHandler.put(nickname, rch);
+            rmiClientsHandler.get(nickname).start();
+
             return true;
         }else{
             client.notifyPopUpView("Already an existing game", 0);
@@ -130,6 +142,10 @@ public class RMIServerApp implements RMIServerInterface {
         boolean check;
         check=server.quit(nickname);
         if(check){
+            rmiClientsHandler.get(nickname).setConnected(false);
+            rmiClientsHandler.remove(nickname);
+            clientsRMI.remove(nickname);
+
             return true;
         }
         return false;

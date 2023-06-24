@@ -239,4 +239,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     public void notifyTurn(String username, boolean move) throws RemoteException {
         clientView.firePropertyChange("refresh", move);
     }
+
+    @Override
+    public void isConnected() throws RemoteException {
+
+    }
 }

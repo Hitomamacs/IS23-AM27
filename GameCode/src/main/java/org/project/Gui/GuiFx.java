@@ -230,6 +230,7 @@ public class GuiFx extends Application {
                 if("popupCreate".equals(evt.getPropertyName())){
                     int identifier = guiUserInterface.getClientView().getPopUpIdentifier();
                     String message = guiUserInterface.getClientView().getPopUpErrorMessage();
+                    System.out.println("fire popup");
 
                     switch(identifier){
                         case (0):
@@ -267,7 +268,8 @@ public class GuiFx extends Application {
                 if("refresh".equals(evt.getPropertyName())){
                     showMainScene();
                     mainSceneController.refreshBoard(clientView.getBoard());
-                    showMainScene();
+                    //showMainScene();
+                    System.out.println("fire refresh");
                 }
             });
         }
@@ -284,7 +286,8 @@ public class GuiFx extends Application {
                         mainSceneController.moveTiles();
                     else
                         mainSceneController.refreshBoard(clientView.getBoard());
-                    showMainScene();
+                    System.out.println("fire pick");
+                    //showMainScene();
                 }
             });
         }
@@ -301,7 +304,8 @@ public class GuiFx extends Application {
                 if("topup".equals(evt.getPropertyName())){
                     if(guiUserInterface.getNickname().equals(evt.getNewValue()))
                         mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
-                    showMainScene();
+                    System.out.println("fire topup");
+                    //showMainScene();
 
                 }
 
@@ -317,6 +321,7 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(()->{
                 if("score".equals(evt.getPropertyName())){
+                    System.out.println("fire score");
                     showFinalScene();
                 }
             });

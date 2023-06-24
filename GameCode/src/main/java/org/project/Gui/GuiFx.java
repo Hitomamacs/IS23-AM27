@@ -313,8 +313,7 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(()->{
                 if("score".equals(evt.getPropertyName())){
-                    HashMap<String,Integer> finalscore= guiUserInterface.getClientView().getScoreBoard();
-                    finalSceneController.init(finalscore);
+                    finalSceneController.init(guiUserInterface.getClientView().getScoreBoard());
                     showFinalScene();
                 }
             });

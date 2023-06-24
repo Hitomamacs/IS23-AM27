@@ -1,4 +1,4 @@
-package org.project;
+package org.project.ClientPack;
 
 import org.project.Controller.Server.RMIServerInterface;
 

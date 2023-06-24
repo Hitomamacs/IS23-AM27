@@ -24,6 +24,10 @@ public class GuiFx extends Application {
     private Scene createGameScene;
     private JoinController joinController;
     private Scene joinScene;
+
+    private OtherGridsController otherGridsController;
+
+    private Scene otherGridsScene;
     private FinalSceneController finalSceneController;
     private Scene finalScene;
     private static ClientView clientView;
@@ -159,6 +163,32 @@ public class GuiFx extends Application {
         }
         if (mainScene != null){
             primaryStage.setScene(mainScene);
+            primaryStage.show();
+        }
+    }
+    public void showOtherGridsScene(){
+        if (otherGridsController == null){
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(GuiFx.class.getResource("/fxml/OtherGridsController.fxml"));
+                Scene newOtherGridsScene = new Scene(loader.load());
+
+                otherGridsScene = newOtherGridsScene;
+                primaryStage.setScene(newOtherGridsScene);
+                primaryStage.show();
+
+                otherGridsController = loader.getController();
+                otherGridsController.setCentralController(this);
+                otherGridsController.setGuiUserInterface(guiUserInterface);
+                otherGridsController.init();
+                otherGridsController.refreshGrids();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (otherGridsController != null){
+            primaryStage.setScene(otherGridsScene);
+            otherGridsController.refreshGrids();
             primaryStage.show();
         }
     }

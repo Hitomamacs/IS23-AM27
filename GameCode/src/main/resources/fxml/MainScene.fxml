@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
+<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
    <children>
       <ImageView fx:id="SfondoParquet" fitHeight="1154.0" fitWidth="1412.0" layoutX="-108.0" layoutY="-53.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -56,7 +56,7 @@
             <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="EmptyPersonalGoal" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="PersonalGoalImage" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/front_EMPTY.jpg" />
          </image>
@@ -99,10 +99,14 @@
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="QuitButtonMainScene" layoutX="529.0" layoutY="366.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
+      <Button fx:id="QuitButtonMainScene" layoutX="898.0" layoutY="645.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </Button>
+      <Button fx:id="Grids" layoutX="915.0" layoutY="13.0" mnemonicParsing="false" onAction="#SwitchToGrids" prefHeight="46.0" prefWidth="81.0" text="Grids">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
    </children>
 </AnchorPane>

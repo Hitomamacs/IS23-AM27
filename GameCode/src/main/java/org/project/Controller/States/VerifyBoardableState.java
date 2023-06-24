@@ -55,8 +55,18 @@ public class VerifyBoardableState implements GameState {
             if(y > max_Y)
                 max_Y = y;
         }
-        if(max_Y - min_Y > 2 || max_X - min_X > 2)
-            return false;
+        switch(coordinates.size()){
+            case(2):
+                if(max_Y - min_Y > 1 || max_X - min_X > 1)
+                    return false;
+                break;
+            case(3):
+                if(max_Y - min_Y > 2 || max_X - min_X > 2)
+                    return false;
+                break;
+            default:
+                break;
+        }
         return(same_X || same_Y);
     }
     @Override

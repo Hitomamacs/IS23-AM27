@@ -17,6 +17,13 @@ public class RefreshMsg extends Message{
     public HashMap<String, String[]> getTilesview() {
         return tilesview;
     }
+
+    public HashMap<String, Integer> getPersonalGoalViews() {
+        return personalGoalViews;
+    }
+    public List<Integer> getCommonGoalsView(){
+        return commonGoalsView;
+    }
     public RefreshMsg(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsview, HashMap<String, String[]> tilesview, HashMap<String,Integer> pGoalView, List<Integer> cGoalView){
         super(MessageID.REFRESH_UPDATE);
         this.board = board;
@@ -38,17 +45,10 @@ public class RefreshMsg extends Message{
         return gridsview;
     }
 
-    public HashMap<String, Integer> getPersonalGoalViews() {
-        return personalGoalViews;
-    }
-
     public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
         this.personalGoalViews = personalGoalViews;
     }
 
-    public List<Integer> getCommonGoalsView() {
-        return commonGoalsView;
-    }
 
     public void setCommonGoalsView(List<Integer> commonGoalsView) {
         this.commonGoalsView = commonGoalsView;

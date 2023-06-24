@@ -195,13 +195,13 @@ public class GameBoard extends ObservableObject {
         i += di;
         j += dj;
         if (!isValidPos(i, j, n, m) || !board[i][j].isOccupied()) {
-            while (isValidPos(i, j, n, m)) {
+            /*while (isValidPos(i, j, n, m)) {
                 if (board[i][j].isOccupied()) {
                     return false;
                 }
                 i += di;
                 j += dj;
-            }
+            }*/
             return true;
         }
         return false;

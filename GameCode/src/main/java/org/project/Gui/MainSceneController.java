@@ -36,7 +36,7 @@ public class MainSceneController {
     private Set<Integer> addedPositions = new HashSet<>();
 
     //riferimento alla ClientView
-    private ClientView clientView = new ClientView();
+
 
 
     @FXML
@@ -61,10 +61,16 @@ public class MainSceneController {
     private ImageView Tile3;
 
     @FXML
+    private Button Grids;
+
+    @FXML
     private ImageView CGoalCard1;
 
     @FXML
     private ImageView CommonGoal2;
+
+    @FXML
+    private ImageView PersonalGoalImage;
 
     private HashMap<Integer, ImageView> helper_board = new HashMap<>();
 
@@ -115,6 +121,21 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/10.jpg"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/11.jpg"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/12.jpg")))
+    };
+
+    private ImageView[] personalGoal= {
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals2.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals3.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals4.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals5.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals6.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals7.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals8.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals9.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals10.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals11.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals12.png")))
     };
 
     private GuiFx centralController;
@@ -228,15 +249,20 @@ public class MainSceneController {
                     }
                 }
             decidedCommonGoals();
+            decidedPersonalGoals();
             });
-        //decidedCommonGoals();
 
     }
 
 
     public void decidedCommonGoals(){
-        CGoalCard1.setImage(commonGoal[clientView.getCommonGoalView().get(0)].getImage());
-        CommonGoal2.setImage(commonGoal[clientView.getCommonGoalView().get(1)].getImage());
+        CGoalCard1.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(0)-1].getImage());
+        CommonGoal2.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(1)-1].getImage());
+    }
+
+    public void decidedPersonalGoals(){
+        String nickname = guiUserInterface.getNickname();
+        PersonalGoalImage.setImage(personalGoal[guiUserInterface.getClientView().getPersonalGoalViews().get(nickname) -1].getImage());
     }
 
     public void moveTiles(){
@@ -375,6 +401,8 @@ public class MainSceneController {
             selectedBorders.remove(0);
             i++;
             tile.setImage(null);
+
+            tile.setEffect(null);
         }
         coordinates.clear();
 
@@ -492,6 +520,9 @@ public class MainSceneController {
 
     public void setGuiController(GuiController guiController) {
         this.guiController = guiController;
+    }
+    public void SwitchToGrids(){
+        centralController.showOtherGridsScene();
     }
 
     public void QuitAction(ActionEvent actionEvent) {

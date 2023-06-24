@@ -8,50 +8,52 @@ import java.util.HashMap;
 
 public class RmiClientHandler extends Thread{
 
-    private static final int KEEP_ALIVE_INTERVAL = 10;
     private Server server;
-    private HashMap<String, RMIClientInterface> clientsRMI;
+    private RMIClientInterface client;
     private RMIServerApp rmiServerApp;
+    private String username;
+    boolean connected;
 
-    public RmiClientHandler(Server server, RMIServerApp rmiServerApp) {
+    public RmiClientHandler(Server server, RMIServerApp rmiServerApp,RMIClientInterface client, String username) {
         this.server = server;
         this.rmiServerApp=rmiServerApp;
-        clientsRMI=new HashMap<>();
+        this.client=client;
+        this.username=username;
+        connected=true;
     }
 
     @Override
     public void run() {
-        while(true){
-
-            if(clientsRMI !=null){
-                for(String username : clientsRMI.keySet()){
-                    try{
-                        clientsRMI.get(username).isConnected();
-                    }catch(RemoteException e){
-                        disconnect(username);
-                    }
-                }
+        while(connected){
+            try{
+                client.isConnected();
+            }catch (RemoteException remoteException){
+                disconnect();
             }
-
         }
     }
 
-    public void disconnect(String username){
-        synchronized (rmiServerApp.getClientsRMI()){
-            rmiServerApp.getClientsRMI().remove(username);
-        }
-        synchronized (clientsRMI){
-            clientsRMI.remove(username);
-        }
+    public void disconnect(){
+        connected=false;
+        rmiServerApp.getClientsRMI().remove(username);
         server.set_player_disconnected(username);
     }
 
-    public void removeClients(String username){
-        clientsRMI.remove(username);
+
+    public Server getServer() {
+        return server;
     }
 
-    public void addClients(String username, RMIClientInterface rmiClient){
-        clientsRMI.put(username,rmiClient);
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public RMIClientInterface getClient() {
+        return client;
+    }
+
+    public void setClient(RMIClientInterface client) {
+        this.client = client;
     }
 
     public RMIServerApp getRmiServerApp() {
@@ -62,19 +64,11 @@ public class RmiClientHandler extends Thread{
         this.rmiServerApp = rmiServerApp;
     }
 
-    public Server getServer() {
-        return server;
+    public boolean getConnected() {
+        return connected;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
-    public HashMap<String, RMIClientInterface> getClientsRMI() {
-        return clientsRMI;
-    }
-
-    public void setClientsRMI(HashMap<String, RMIClientInterface> clientsRMI) {
-        this.clientsRMI = clientsRMI;
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }

@@ -55,6 +55,8 @@ public class MainSceneController {
     
     private int index = 1;
 
+    private int tileCount = 0;
+
     @FXML
     private ImageView Tile1;
 
@@ -313,7 +315,7 @@ public class MainSceneController {
                             if(last_col ==col ||last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
-                                if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                if((this.lastTile[col] + tileCount-1) >= 5){
                                     last_col = -1;
                                 }
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
@@ -354,7 +356,7 @@ public class MainSceneController {
                                     if(last_col ==col ||last_col == -1 ){
                                     last_col = col;
                                     this.lastTile[col] ++;
-                                        if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                        if((this.lastTile[col] + tileCount-1) >= 5){
                                             last_col = -1;
                                         }
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
@@ -394,7 +396,7 @@ public class MainSceneController {
                             if(last_col ==col || last_col == -1 ){
                             last_col = col;
                             this.lastTile[col] ++;
-                                if(this.lastTile[col] + coordinates.size()-1 >= 5){
+                                if((this.lastTile[col] + tileCount-1) >= 5){
                                     last_col = -1;
                                 }
                             //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
@@ -484,6 +486,7 @@ public class MainSceneController {
 
             //Add tile to coordinates
             coordinates.add(new Coordinates(row, column));
+            tileCount = coordinates.size();
 
             // Apply visual effect to the selected tile
             tile.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.GREEN, 10, 0.5, 0, 0));
@@ -523,6 +526,7 @@ public class MainSceneController {
                 break;
                 
         }
+        tileCount--;
         tilecopy.setFitWidth(GridGriglia.getWidth()/5);
         tilecopy.setFitHeight(GridGriglia.getHeight()/6);
         GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);

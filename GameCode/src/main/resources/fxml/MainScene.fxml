@@ -56,7 +56,7 @@
             <Image url="@../images/back.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="EmptyPersonalGoal" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="PersonalGoalImage" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/front_EMPTY.jpg" />
          </image>

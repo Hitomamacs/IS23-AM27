@@ -69,6 +69,9 @@ public class MainSceneController {
     @FXML
     private ImageView CommonGoal2;
 
+    @FXML
+    private ImageView PersonalGoalImage;
+
     private HashMap<Integer, ImageView> helper_board = new HashMap<>();
 
     private ArrayList<Rectangle> selectedBorders = new ArrayList<>();
@@ -118,6 +121,21 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/10.jpg"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/11.jpg"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/12.jpg")))
+    };
+
+    private ImageView[] personalGoal= {
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals2.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals3.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals4.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals5.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals6.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals7.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals8.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals9.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals10.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals11.png"))),
+            new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals12.png")))
     };
 
     private GuiFx centralController;
@@ -231,8 +249,8 @@ public class MainSceneController {
                     }
                 }
             decidedCommonGoals();
+            decidedPersonalGoals();
             });
-        //decidedCommonGoals();
 
     }
 
@@ -240,6 +258,11 @@ public class MainSceneController {
     public void decidedCommonGoals(){
         CGoalCard1.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(0)-1].getImage());
         CommonGoal2.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(1)-1].getImage());
+    }
+
+    public void decidedPersonalGoals(){
+        String nickname = guiUserInterface.getNickname();
+        PersonalGoalImage.setImage(personalGoal[guiUserInterface.getClientView().getPersonalGoalViews().get(nickname) -1].getImage());
     }
 
     public void moveTiles(){

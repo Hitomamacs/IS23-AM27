@@ -7,11 +7,11 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:controller="org.project.Gui.FinalSceneController" maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <ImageView fx:id="ImmaginaDiSfondo" fitHeight="619.0" fitWidth="668.0" layoutX="-9.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PROVA%20FINALE%20INGEGNERIA%20DEL%20SOFTWARE%20/17_MyShelfie_BGA/misc/sfondo%20parquet.jpg" />
+            <Image url="@../images/sfondo parquet.jpg" />
          </image>
       </ImageView>
       <Label fx:id="FinalRankingLable" layoutX="230.0" layoutY="77.0" prefHeight="27.0" prefWidth="153.0" text="Final ranking:">
@@ -61,12 +61,12 @@
       </Label>
       <ImageView fx:id="FirstImage" fitHeight="51.0" fitWidth="51.0" layoutX="89.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PROVA%20FINALE%20INGEGNERIA%20DEL%20SOFTWARE%20/17_MyShelfie_BGA/scoring%20tokens/end%20game.jpg" />
+            <Image url="@../images/end game.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="CranioImage" fitHeight="72.0" fitWidth="79.0" layoutX="505.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@PROVA%20FINALE%20INGEGNERIA%20DEL%20SOFTWARE%20/17_MyShelfie_BGA/Publisher%20material/Publisher.png" />
+            <Image url="@../images/Publisher.png" />
          </image>
       </ImageView>
    </children>

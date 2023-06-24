@@ -135,7 +135,6 @@ public class OtherGridsController {
     public void refreshGrids() {
         Platform.runLater(() -> {
             Random random = new Random();
-            //TODO try to fix proportions in grid maybe try 10% smaller and centred slightly different
             double cellWidth = Grid1Pane.getWidth() / 5;
             double cellHeight = Grid1Pane.getHeight() / 6;
             for (int i = 0; i < playerNames.size(); i++) {

@@ -1,4 +1,4 @@
-package org.project;
+package org.project.ClientPack;
 
 public class CliUserInterfaceFactory implements UserInterfaceFactory {
 

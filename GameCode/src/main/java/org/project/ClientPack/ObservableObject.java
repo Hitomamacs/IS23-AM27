@@ -1,4 +1,4 @@
-package org.project;
+package org.project.ClientPack;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

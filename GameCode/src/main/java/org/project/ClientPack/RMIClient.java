@@ -1,10 +1,6 @@
-package org.project;
+package org.project.ClientPack;
 
-import com.google.gson.Gson;
 import org.project.Controller.Messages.Message;
-import org.project.Controller.Messages.PickMessage;
-import org.project.Controller.Messages.PreTurnMsg;
-import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
@@ -19,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class RMIClient extends UnicastRemoteObject implements ConnectionInterface, RMIClientInterface{
+public class RMIClient extends UnicastRemoteObject implements ConnectionInterface, RMIClientInterface {
 
     /**
      * reference to the server object

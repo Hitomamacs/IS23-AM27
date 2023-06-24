@@ -1,14 +1,9 @@
-package org.project;
+package org.project.ClientPack;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.project.Controller.Messages.*;
-import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
 
-import java.io.IOException;
 import java.util.*;
 
 public abstract class AbstractClientApp implements Runnable {

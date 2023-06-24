@@ -1,4 +1,7 @@
-package org.project;
+package org.project.ClientPack;
+
+import org.project.ClientPack.ClientView;
+import org.project.ClientPack.ConnectionInterface;
 
 public interface UserInterface {
 

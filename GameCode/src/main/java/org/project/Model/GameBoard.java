@@ -2,7 +2,7 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
-import org.project.ObservableObject;
+import org.project.ClientPack.ObservableObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;

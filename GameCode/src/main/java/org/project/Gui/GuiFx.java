@@ -11,6 +11,7 @@ import org.project.ClientView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 public class GuiFx extends Application {
 
@@ -55,6 +56,7 @@ public class GuiFx extends Application {
             guiUserInterface.getClientView().addPropertyChangeListener(getRefreshListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getPickListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getTopupListener());
+            guiUserInterface.getClientView().addPropertyChangeListener(getScoreListener());
 
             showWelcomeScene();
 
@@ -161,23 +163,22 @@ public class GuiFx extends Application {
         }
     }
     public void showFinalScene(){
-        if(finalSceneController==null){
-            try{
-                FXMLLoader loader=new FXMLLoader();
-                loader.setLocation(GuiFx.class.getResource("/fxml/FinalScene.fxml"));
-                Scene newFinalScene= new Scene(loader.load());
 
-                finalScene=newFinalScene;
-                primaryStage.setScene(newFinalScene);
-                primaryStage.show();
+        try{
+            FXMLLoader loader=new FXMLLoader();
+            loader.setLocation(GuiFx.class.getResource("/fxml/FinalScene.fxml"));
+            Scene newFinalScene= new Scene(loader.load());
 
-                finalSceneController=loader.getController();
-                finalSceneController.setCentralController(this);
-                finalSceneController.setGuiUserInterface(guiUserInterface);
-                finalSceneController.init();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            finalScene=newFinalScene;
+            primaryStage.setScene(newFinalScene);
+            primaryStage.show();
+
+            finalSceneController = loader.getController();
+            finalSceneController.setCentralController(this);
+            finalSceneController.setGuiUserInterface(guiUserInterface);
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
         if (finalScene != null){
             primaryStage.setScene(finalScene);
@@ -270,6 +271,22 @@ public class GuiFx extends Application {
 
                 }
 
+            });
+        }
+    };
+
+    public PropertyChangeListener getScoreListener(){
+        return scoreListener;
+    }
+    PropertyChangeListener scoreListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(()->{
+                if("score".equals(evt.getPropertyName())){
+                    HashMap<String,Integer> finalscore= guiUserInterface.getClientView().getScoreBoard();
+                    finalSceneController.init(finalscore);
+                    showFinalScene();
+                }
             });
         }
     };

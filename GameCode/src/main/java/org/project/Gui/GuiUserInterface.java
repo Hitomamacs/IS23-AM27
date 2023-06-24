@@ -152,6 +152,7 @@ public class GuiUserInterface  implements UserInterface {
 
     public void handleScoreUpdate(ScoreBoardMsg message){
         clientView.setScoreBoard(message.getScoreBoard());
+        clientView.firePropertyChange("score",clientView);
     }
 
     public void handleRefreshUpdate(RefreshMsg message){

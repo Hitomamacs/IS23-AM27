@@ -505,8 +505,8 @@ public class MainSceneController {
                 break;
                 
         }
-        tilecopy.setFitWidth(GrigliaBoard.getWidth()/5);
-        tilecopy.setFitHeight(GrigliaBoard.getHeight()/6);
+        tilecopy.setFitWidth(GridGriglia.getWidth()/5);
+        tilecopy.setFitHeight(GridGriglia.getHeight()/6);
         GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);
         
         

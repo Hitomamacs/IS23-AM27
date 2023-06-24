@@ -307,6 +307,11 @@ public class RMIClientApp extends UnicastRemoteObject implements RMIClientInterf
 
     }
 
+    @Override
+    public void isConnected() throws RemoteException {
+        
+    }
+
     /**
      * method that returns the player's nickname
      * @return player's nickname

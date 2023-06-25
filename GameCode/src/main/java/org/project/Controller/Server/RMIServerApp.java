@@ -142,10 +142,9 @@ public class RMIServerApp implements RMIServerInterface {
         boolean check;
         check=server.quit(nickname);
         if(check){
+            clientsRMI.remove(nickname);
             rmiClientsHandler.get(nickname).setConnected(false);
             rmiClientsHandler.remove(nickname);
-            clientsRMI.remove(nickname);
-
             return true;
         }
         return false;

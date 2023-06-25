@@ -370,19 +370,22 @@ public class Controller {
                     System.out.println("Entering lobby check");
                     lobbyCheck();
                     //Turn checks
-                    GameState state = game.getOrchestrator().getState();
-                    if (game.getGameStarted() && correctPlayer(username) && !(state instanceof EndGameState)) {
-                        GameOrchestrator orchestrator = game.getOrchestrator();
-                        orchestrator.changeState(new StartTurnState(orchestrator));
-                        while (!orchestrator.getCurrentPlayer().isConnected()) {
-                            orchestrator.nextPlayer();
+                    System.out.println("check prova");
+                    if (game.getGameStarted() && correctPlayer(username)) {
+                        GameState state = game.getOrchestrator().getState();
+                        if (!(state instanceof EndGameState)) {
+                            GameOrchestrator orchestrator = game.getOrchestrator();
+                            orchestrator.changeState(new StartTurnState(orchestrator));
+                            while (!orchestrator.getCurrentPlayer().isConnected()) {
+                                orchestrator.nextPlayer();
+                            }
+                            try {
+                                orchestrator.executeState();
+                            } catch (InvalidMoveException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                        try {
-                            orchestrator.executeState();
-                        } catch (InvalidMoveException e) {
-                            throw new RuntimeException(e);
                     }
-                }
             }
             }
         }
@@ -396,7 +399,9 @@ public class Controller {
                 if(!game_state){
                     System.out.println("Sending end game info");
                     server.sendInfo("Game has ended this is the scoreboard: " + "\n", 4);
-                    server.send(view.getScoreBoardView());
+                    if(view != null) {
+                        server.send(view.getScoreBoardView());
+                    }
                     synchronized (server.getLock()){
                         System.out.println("Notifying");
                         server.getLock().notifyAll();

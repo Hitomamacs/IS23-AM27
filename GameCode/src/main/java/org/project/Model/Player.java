@@ -170,7 +170,7 @@ public class Player extends ObservableObject {
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints() {
-        Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
+        /*Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
 
         long count = colorMap.entrySet().stream()
                 .filter(entry -> {
@@ -179,7 +179,8 @@ public class Player extends ObservableObject {
                 })
                 .count();
 
-        return calculateResult((int) count);
+        return calculateResult((int) count);*/
+        return 0;
     }
 
 

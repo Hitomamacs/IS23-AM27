@@ -1,4 +1,4 @@
-package org.project;
+package org.project.ClientPack;
 
 import org.project.Controller.Messages.Message;
 import org.project.Model.Coordinates;

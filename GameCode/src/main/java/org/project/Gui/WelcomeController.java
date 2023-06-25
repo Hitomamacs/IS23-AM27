@@ -31,6 +31,7 @@ public class WelcomeController {
     public void startCreateGameAction(ActionEvent actionEvent) {
 
         centralController.showCreateGameScene();
+
         /*
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
         Parent root= null;

@@ -5,17 +5,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.project.ClientView;
-import org.project.ConnectionInterface;
+import org.project.ClientPack.ClientView;
+import org.project.ClientPack.ConnectionInterface;
 import org.project.Controller.Messages.*;
-import org.project.UserInterface;
+import org.project.ClientPack.UserInterface;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class GuiUserInterface  implements UserInterface {

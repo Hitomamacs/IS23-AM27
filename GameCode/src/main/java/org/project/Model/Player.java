@@ -2,10 +2,9 @@ package org.project.Model;
 
 
 import com.google.gson.annotations.Expose;
-import org.project.ObservableObject;
+import org.project.ClientPack.ObservableObject;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;

@@ -1,7 +1,6 @@
 package org.project.Model;
 
 import com.google.gson.annotations.Expose;
-import org.project.ObservableObject;
 
 public class PlayerGrid {
     @Expose

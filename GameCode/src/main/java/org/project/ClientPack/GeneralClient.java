@@ -1,9 +1,8 @@
-package org.project;
+package org.project.ClientPack;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
-public class GeneralClient implements ClientInterface{
+public class GeneralClient implements ClientInterface {
 
     public void startClient(ClientFactory clientFactory, UserInterfaceFactory userInterfaceFactory) throws Exception {
         ConnectionInterface client = clientFactory.createClient();

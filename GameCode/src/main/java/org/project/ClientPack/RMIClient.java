@@ -1,10 +1,6 @@
-package org.project;
+package org.project.ClientPack;
 
-import com.google.gson.Gson;
 import org.project.Controller.Messages.Message;
-import org.project.Controller.Messages.PickMessage;
-import org.project.Controller.Messages.PreTurnMsg;
-import org.project.Controller.Messages.RefreshMsg;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
@@ -19,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class RMIClient extends UnicastRemoteObject implements ConnectionInterface, RMIClientInterface{
+public class RMIClient extends UnicastRemoteObject implements ConnectionInterface, RMIClientInterface {
 
     /**
      * reference to the server object
@@ -72,6 +68,10 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         }
+
+        RmiServerHandler rmiServerHandler=new RmiServerHandler(rmiServer,this);
+        Thread serverHandlerThread = new Thread(rmiServerHandler);
+        serverHandlerThread.start();
 
         //System.out.println("Connessione stabilita con successo");
     }
@@ -242,5 +242,19 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     @Override
     public void notifyTurn(String username, boolean move) throws RemoteException {
         clientView.firePropertyChange("refresh", move);
+    }
+
+    @Override
+    public void isConnected() throws RemoteException {
+
+    }
+
+    public void closeConnection(){
+        try{
+            UnicastRemoteObject.unexportObject(this,true);
+            System.exit(0);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

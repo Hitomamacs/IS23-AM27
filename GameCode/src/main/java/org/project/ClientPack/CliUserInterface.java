@@ -1,10 +1,9 @@
-package org.project;
+package org.project.ClientPack;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import javafx.application.Platform;
 import org.project.Controller.Messages.*;
 import org.project.Model.Coordinates;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CliUserInterface implements UserInterface{
+public class CliUserInterface implements UserInterface {
 
     private ConnectionInterface client;
 

@@ -1,6 +1,4 @@
-package org.project;
-
-import org.project.ClientInterface;
+package org.project.ClientPack;
 
 import java.rmi.RemoteException;
 

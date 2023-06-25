@@ -1,17 +1,13 @@
 package org.project.Controller.Control;
 import org.project.Controller.Server.Server;
-import org.project.Controller.View.VirtualView;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.CommonGoals.CommonGoal_Deck;
-import org.project.ObservableObject;
+import org.project.ClientPack.ObservableObject;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class Game extends ObservableObject{
     public Server getServer() {

@@ -1,4 +1,4 @@
-package org.project;
+package org.project.ClientPack;
 
 import com.google.gson.Gson;
 import org.project.Controller.Messages.Message;
@@ -13,11 +13,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 
-public class SocketClient extends AbstractClientApp implements ConnectionInterface{
+public class SocketClient extends AbstractClientApp implements ConnectionInterface {
 
     private boolean connection_type = true;
 
-    private  ClientView clientView = new ClientView();
+    private ClientView clientView = new ClientView();
 
     UserInterface userInterface;
 

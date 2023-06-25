@@ -1,8 +1,7 @@
 package org.project.Controller.Server;
 
-import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -64,4 +63,6 @@ public interface RMIServerInterface extends Remote {
      * @throws RemoteException if something goes wrong with the connection
      */
     public void sendMessageRequest(String nickname, String message) throws RemoteException;
+
+    public void isConnected() throws RemoteException;
 }

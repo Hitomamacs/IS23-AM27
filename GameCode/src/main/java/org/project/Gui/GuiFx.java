@@ -32,6 +32,10 @@ public class GuiFx extends Application {
     private Scene finalScene;
     private static ClientView clientView;
     private static GuiUserInterface guiUserInterface;
+
+    private boolean refreshBool = false;
+
+    private boolean topUpFlag = false;
     public static void setClientView(ClientView clientView1){
         clientView=clientView1;
     }
@@ -268,6 +272,11 @@ public class GuiFx extends Application {
                 if("refresh".equals(evt.getPropertyName())){
                     showMainScene();
                     mainSceneController.refreshBoard(clientView.getBoard());
+                    if(!refreshBool){
+                        mainSceneController.refreshGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
+                        refreshBool = true;
+                        System.out.println(refreshBool);
+                    }
                     //showMainScene();
                     System.out.println("fire refresh");
                 }
@@ -301,12 +310,17 @@ public class GuiFx extends Application {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
-                if("topup".equals(evt.getPropertyName())){
-                    if(guiUserInterface.getNickname().equals(evt.getNewValue()))
+                if("topup".equals(evt.getPropertyName())) {
+                    if (guiUserInterface.getNickname().equals(evt.getNewValue())) {
+                        System.out.print(mainSceneController.lastTile[0]);
+                        System.out.print(mainSceneController.lastTile[1]);
+                        System.out.print(mainSceneController.lastTile[2]);
+                        System.out.print(mainSceneController.lastTile[3]);
+                        System.out.print(mainSceneController.lastTile[4]);
                         mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
-                    System.out.println("fire topup");
-                    //showMainScene();
-
+                        System.out.println("fire topup");
+                        //showMainScene();
+                    }
                 }
 
             });

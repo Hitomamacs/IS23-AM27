@@ -643,7 +643,7 @@ public class MainSceneController {
         tilecopy.setFitWidth(GridGriglia.getWidth()/5);
         tilecopy.setFitHeight(GridGriglia.getHeight()/6);
         if(this.lastTile[last_col]>5){
-            last_col = 5;
+            this.lastTile[last_col] = 5;
         }
         GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);
         

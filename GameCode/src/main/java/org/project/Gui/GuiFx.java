@@ -31,6 +31,7 @@ public class GuiFx extends Application {
     private Scene finalScene;
     private static ClientView clientView;
     private static GuiUserInterface guiUserInterface;
+    private boolean refreshBool = false;
     public static void setClientView(ClientView clientView1){
         clientView=clientView1;
     }
@@ -267,6 +268,11 @@ public class GuiFx extends Application {
                 if("refresh".equals(evt.getPropertyName())){
                     showMainScene();
                     mainSceneController.refreshBoard(clientView.getBoard());
+                    if(!refreshBool){
+                        mainSceneController.refreshGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
+                        refreshBool = true;
+                        System.out.println(refreshBool);
+                    }
                     //showMainScene();
                     System.out.println("fire refresh");
                 }
@@ -301,8 +307,9 @@ public class GuiFx extends Application {
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
                 if("topup".equals(evt.getPropertyName())){
-                    if(guiUserInterface.getNickname().equals(evt.getNewValue()))
+                    if(guiUserInterface.getNickname().equals(evt.getNewValue())) {
                         mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
+                    }
                     System.out.println("fire topup");
                     //showMainScene();
 

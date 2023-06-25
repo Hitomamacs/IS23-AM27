@@ -162,8 +162,13 @@ public class MainSceneController {
                 GrigliaBoard.add(image, j, i);
             }
         }
+        String username = guiUserInterface.getNickname();
+        String[][] grid = guiUserInterface.getClientView().getGridsview().get(username);
         for (int i = 0; i < 6; i++){
             for(int j = 0; j < 5; j++){
+                if(!(grid[i][j].equals("N") && !(grid[i][j].equals("I")))){
+                    addedGridPositions.add(i * 5 + j);
+                }
                 ImageView image = new ImageView();
                 image.setFitHeight(GridGriglia.getWidth() / 5);
                 image.setFitHeight(GridGriglia.getHeight() / 6);
@@ -171,7 +176,7 @@ public class MainSceneController {
                 GridGriglia.add(image, j ,i);
             }
         }
-        //decidedCommonGoals();
+
     }
 
     public void boardCheck(String[][] board){
@@ -505,6 +510,98 @@ public class MainSceneController {
         }
         //centralController.getGuiUserInterface().getClient().SendPickMessage();
     }
+    public void refreshGrid(String[][] grid){
+        for(int i = 0; i < 5; i++){
+            for(int j = 5; j >= 0; j--){
+                if(grid[j][i].equals("N")){
+                    lastTile[i] = 5 - j - 1;
+                    System.out.println(lastTile[i]);
+                    break;
+                }
+            }
+        }
+        /*
+        boolean emptyFlag = true;
+        for(int i = 0; i < 5; i++){
+            System.out.println(lastTile[i]);
+            if(lastTile[i] != 0){
+                emptyFlag = false;
+            }
+        }
+        if(emptyFlag) {
+            flushLastTile();
+        } */
+        String username = guiUserInterface.getNickname();
+        tileCount = guiUserInterface.getClientView().getTilesview().get(username).length;
+        Random random = new Random();
+        double cellWidth = GridGriglia.getWidth() / 5;
+        double cellHeight = GridGriglia.getHeight() / 6;
+        for (int j = 0; j < 6; j++) {
+            for (int k = 0; k < 5; k++) {
+                int c = j * 5 + k;
+                ImageView image = new ImageView();
+                switch (grid[j][k]) {
+                    case ("I"):
+
+                        break;
+                    case ("A"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(azureImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    case ("P"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(pinkImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    case ("G"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(greenImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    case ("Y"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(yellowImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    case ("W"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(whiteImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    case ("B"):
+                        if (addedGridPositions.contains(c)) {
+                            image = (ImageView) GridGriglia.getChildren().get(c);
+                            image.setFitWidth(cellWidth);
+                            image.setFitHeight(cellHeight);
+                            image.setImage(blueImage[random.nextInt(3)].getImage());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+
+    }
+
 
     public void updateGrid(String[][] grid){
         for (int i = 0; i < 6; i++){

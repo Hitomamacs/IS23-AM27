@@ -32,7 +32,7 @@ public class Player extends ObservableObject {
    int tileIndex;
 
     @Expose
-    List<List<Goal>> personalGoals_list;
+    List<PersonalGoal> personalGoals_list;
 
    private Tile[] pickedTiles;
     public Player(String nickname) {
@@ -45,12 +45,13 @@ public class Player extends ObservableObject {
         this.isConnected = true;
 
         ClassLoader classLoader=this.getClass().getClassLoader();
-        String filename= "test_1.json";
+        String filename= "PGoals.json";
         InputStream inputStream= classLoader.getResourceAsStream(filename);
         BufferedReader read= new BufferedReader(new InputStreamReader(inputStream));
         //open file as buffer reader
         //reader = Files.newBufferedReader(Paths.get(filename.getAbsolutePath()));
-        ArrayList<List<Goal>> personalGoals_list = gson_parser.fromJson(read, ArrayList.class);
+        POb_2Js pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
+        List<PersonalGoal > personalGoals_list = pOb_2Js.getPersonalGoals_list();
 
     }
     public void personal_list_init(String filename){
@@ -61,7 +62,9 @@ public class Player extends ObservableObject {
             throw new RuntimeException(e);
         }
 
-         personalGoals_list = gson_parser.fromJson(reader, List.class);
+        POb_2Js pOb_2Js = gson_parser.fromJson(reader, POb_2Js.class);
+
+         personalGoals_list = pOb_2Js.getPersonalGoals_list();
     }
 
 
@@ -115,7 +118,7 @@ public class Player extends ObservableObject {
         if (personalGoalID < 0 || personalGoalID > 12) {
             throw new IllegalArgumentException("Invalid personal goal ID: " + personalGoalID);
         }
-        myPersonalGoal = new PersonalGoal(personalGoalID, personalGoals_list.get(personalGoalID ));
+        myPersonalGoal = new PersonalGoal(personalGoalID, personalGoals_list.get(personalGoalID).getGoals());
         return 1;
     }
 

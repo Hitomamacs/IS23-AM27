@@ -176,7 +176,7 @@ public class Persistencer {
      */
     public void load_pgoals(GameOrchestrator gameOrchestrator){
         for(Player p : gameOrchestrator.getPlayers()){
-            p.personal_list_init("test_1.json");
+            p.personal_list_init("PGoals.json");
             p.recoverPersonalGoal();
         }
     }

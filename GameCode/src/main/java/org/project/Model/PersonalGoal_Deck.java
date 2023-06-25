@@ -34,13 +34,14 @@ public class PersonalGoal_Deck {
                 //open file as buffer reader
                 reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));*/
             ClassLoader classLoader=this.getClass().getClassLoader();
-            String file= "test_1.json";
+            String file= "PGoals.json";
             InputStream inputStream= classLoader.getResourceAsStream(file);
             BufferedReader read= new BufferedReader(new InputStreamReader(inputStream));
 
-            List<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(read, List.class);
-            for(int i = 0; i< personalGoals_list.size(); i++){
-                deck.add(new PersonalGoal(i, personalGoals_list.get(i)));
+            pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
+            for(int i = 0; i< pOb_2Js.getPersonalGoals_list().size(); i++){
+
+                deck.add((PersonalGoal)pOb_2Js.getPersonalGoals_list().get(i));
             }
 
 

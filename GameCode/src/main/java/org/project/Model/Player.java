@@ -32,7 +32,7 @@ public class Player extends ObservableObject {
    int tileIndex;
 
     @Expose
-    List<HashMap<Coordinates, Color>> personalGoals_list;
+    List<List<Goal>> personalGoals_list;
 
    private Tile[] pickedTiles;
     public Player(String nickname) {
@@ -50,7 +50,7 @@ public class Player extends ObservableObject {
         BufferedReader read= new BufferedReader(new InputStreamReader(inputStream));
         //open file as buffer reader
         //reader = Files.newBufferedReader(Paths.get(filename.getAbsolutePath()));
-        ArrayList<HashMap<Coordinates, Color>> personalGoals_list = gson_parser.fromJson(read, ArrayList.class);
+        ArrayList<List<Goal>> personalGoals_list = gson_parser.fromJson(read, ArrayList.class);
 
     }
     public void personal_list_init(String filename){
@@ -170,15 +170,15 @@ public class Player extends ObservableObject {
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints() {
-        Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
+        List<Goal> goals = myPersonalGoal.getColoredGoal();
+        long count = 0;
 
-        long count = colorMap.entrySet().stream()
-                .filter(entry -> {
-                    Spot spot = playerGrid.getSpot(entry.getKey());
-                    return spot.isOccupied() && spot.getTile().getColor() == entry.getValue();
-                })
-                .count();
-
+        for (Goal goal : goals) {
+            Spot spot = playerGrid.getSpot(goal.getCoordinates());
+            if (spot.isOccupied() && spot.getTile().getColor().equals(goal.getColor())) {
+                count++;
+            }
+        }
         return calculateResult((int) count);
     }
 

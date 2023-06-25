@@ -408,7 +408,7 @@ public class Controller {
 
     };
 
-    public static void main(String[] args){
+    public void launch(String[] args){
         try {
             Controller controller = new Controller();
             controller.getServer().serverInit();

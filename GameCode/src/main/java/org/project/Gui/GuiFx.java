@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.project.ClientPack.ClientView;
+import org.project.Controller.Messages.ChatMessage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -29,6 +30,10 @@ public class GuiFx extends Application {
     private Scene otherGridsScene;
     private FinalSceneController finalSceneController;
     private Scene finalScene;
+
+    private ChatController chatController;
+
+    private Scene chatScene;
     private static ClientView clientView;
     private static GuiUserInterface guiUserInterface;
     private boolean refreshBool = false;
@@ -61,6 +66,7 @@ public class GuiFx extends Application {
             guiUserInterface.getClientView().addPropertyChangeListener(getPickListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getTopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getScoreListener());
+            guiUserInterface.getClientView().addPropertyChangeListener(getChatListener());
 
             showWelcomeScene();
 
@@ -214,8 +220,35 @@ public class GuiFx extends Application {
             }
         }
 
-        if (finalScene != null){
+        if (finalSceneController != null){
             primaryStage.setScene(finalScene);
+            primaryStage.show();
+        }
+    }
+    public void showChatScene(){
+        if(chatController == null){
+            try{
+                FXMLLoader loader=new FXMLLoader();
+                loader.setLocation(GuiFx.class.getResource("/fxml/Chat.fxml"));
+                Scene newChatScene= new Scene(loader.load());
+
+                chatController = loader.getController();
+                chatController.setCentralController(this);
+                chatController.setGuiUserInterface(guiUserInterface);
+                chatController.initialize();
+
+                chatScene = newChatScene;
+                primaryStage.setScene(newChatScene);
+                primaryStage.show();
+
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        if ( chatController!= null){
+            primaryStage.setScene(chatScene);
             primaryStage.show();
         }
     }
@@ -329,6 +362,22 @@ public class GuiFx extends Application {
                 if("score".equals(evt.getPropertyName())){
                     System.out.println("fire score");
                     showFinalScene();
+                }
+            });
+        }
+    };
+    public PropertyChangeListener getChatListener(){
+        return chatListener;
+    }
+    PropertyChangeListener chatListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Platform.runLater(()->{
+                if("chat".equals(evt.getPropertyName())){
+                    showChatScene();
+                    ChatMessage message = clientView.getChat().get(clientView.getChat().size() - 1);
+                    chatController.addMessageToChat(message.getUsername(), message.getText());
+                    showChatScene();
                 }
             });
         }

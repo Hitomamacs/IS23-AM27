@@ -114,6 +114,10 @@ public class GuiUserInterface  implements UserInterface {
                     break;
                 case TURN_UPDATE:
                     handleTurnUpdate(gson.fromJson(serverMessage, PreTurnMsg.class));
+                    break;
+                case CHAT:
+                    handleChat(gson.fromJson(serverMessage, ChatMessage.class));
+                    break;
                 default:
                     break;
             }
@@ -128,6 +132,10 @@ public class GuiUserInterface  implements UserInterface {
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
         clientView.firePropertyChange("topup", message.getPlayerName());
+    }
+    public void handleChat(ChatMessage message){
+        clientView.getChat().add(message);
+        clientView.firePropertyChange("chat", clientView);
     }
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());

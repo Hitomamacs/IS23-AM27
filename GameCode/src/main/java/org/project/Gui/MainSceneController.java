@@ -673,6 +673,11 @@ public class MainSceneController {
         quit();
     }
 
+    public void openChat(ActionEvent action){
+        Platform.runLater(()->{
+            centralController.showChatScene();
+        });
+    }
 
 
     public void quit(){

@@ -9,6 +9,8 @@ import java.util.Map;
 
 public  class PersonalGoal {
 
+
+    @Expose
     private int Pgoal_ID ;
     @Expose
     private List<Goal> goals;

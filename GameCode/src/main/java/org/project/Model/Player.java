@@ -173,7 +173,7 @@ public class Player extends ObservableObject {
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints() {
-        List<Goal> goals = myPersonalGoal.getColoredGoal();
+        List<Goal> goals = myPersonalGoal.getGoals();
         long count = 0;
 
         for (Goal goal : goals) {

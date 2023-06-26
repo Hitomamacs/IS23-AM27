@@ -20,6 +20,8 @@ public interface ConnectionInterface {
 
     void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates);
 
+    void SendChatMessage(String username, String text);
+
     void SendTopUpMessage(String username, int firstTime, int tileIndex);
 
     String receiveMessage() throws IOException;

@@ -63,5 +63,7 @@ public interface RMIClientInterface extends Remote {
 
     public void isConnected() throws RemoteException;
 
+    public void notifyChat(String playername, String text) throws RemoteException;
+
     //public String getNickname() throws RemoteException;
 }

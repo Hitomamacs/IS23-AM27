@@ -154,6 +154,9 @@ public class Server {
     public boolean pick(String username, List<Coordinates> coordinates){
         return controller.pick(username, coordinates);
     }
+    public boolean chat(String username, String text){
+        return controller.chat(username, text);
+    }
 
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
@@ -411,6 +414,19 @@ public class Server {
                 throw new RuntimeException(e);
             }
         });
+    }
+    public void sendChat(String username, String text){
+
+        ChatMessage message = new ChatMessage(username, text);
+        socketServer.getSocketClients().forEach((playername,client) -> client.send(message));
+        rmiServer.getClientsRMI().forEach((playername,client)-> {
+            try {
+                client.notifyChat(username, text);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
     public void removeUser(String username, boolean connectionType){
         if(connectionType){

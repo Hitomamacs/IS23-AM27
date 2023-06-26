@@ -128,6 +128,15 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     }
 
+
+    public void SendChatMessage(String username, String text) {
+        try {
+            rmiServer.sendChat(username, text);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
         try {
@@ -243,7 +252,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
         clientView.firePropertyChange("score",clientView);*/
     }
+    @Override
+    public void notifyChat(String username, String text){
 
+        ChatMessage message = new ChatMessage(username, text);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+    }
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);

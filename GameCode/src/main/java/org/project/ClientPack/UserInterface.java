@@ -27,6 +27,8 @@ public interface UserInterface {
     void SendPickMessage(ConnectionInterface client);
     void SendTopUpMessage(ConnectionInterface client);
 
+    void SendChat(ConnectionInterface client);
+
     void printBoard();
 
     void printTiles(String playername);

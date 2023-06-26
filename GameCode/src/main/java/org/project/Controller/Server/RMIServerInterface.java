@@ -65,4 +65,6 @@ public interface RMIServerInterface extends Remote {
     public void sendMessageRequest(String nickname, String message) throws RemoteException;
 
     public void isConnected() throws RemoteException;
+
+    public boolean sendChat(String username, String text) throws RemoteException;
 }

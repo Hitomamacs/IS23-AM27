@@ -164,6 +164,14 @@ public class RMIServerApp implements RMIServerInterface {
         }
         return false;
     }
+    public boolean sendChat(String username, String text){
+        boolean check;
+        check = server.chat(username, text);
+        if(check){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid

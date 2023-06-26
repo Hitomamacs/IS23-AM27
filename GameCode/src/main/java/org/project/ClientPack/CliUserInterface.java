@@ -29,6 +29,7 @@ public class CliUserInterface implements UserInterface {
         clientView.addPropertyChangeListener(getPickListener());
         clientView.addPropertyChangeListener(getTopupListener());
         clientView.addPropertyChangeListener(getTopupGridListener());
+        clientView.addPropertyChangeListener(getChatListener());
     }
     public Screens getScreen(){
         return screen;
@@ -37,6 +38,19 @@ public class CliUserInterface implements UserInterface {
     public PropertyChangeListener getPopupListener() {
         return popupListener;
     }
+
+    public PropertyChangeListener getChatListener(){ return chatListener; }
+    PropertyChangeListener chatListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            if("chat".equals(evt.getPropertyName())){
+                //printGrids((String) evt.getNewValue());
+                clientView.printChatLast((String) evt.getNewValue());
+            }
+
+        }
+    };
 
     public PropertyChangeListener getRefreshListener() {
         return refreshlistener;
@@ -82,7 +96,6 @@ public class CliUserInterface implements UserInterface {
 
             if("topup_grids".equals(evt.getPropertyName())){
                 printOtherGrids();
-
             };
         }
     };
@@ -175,6 +188,8 @@ public class CliUserInterface implements UserInterface {
                         break;
                     case "show_chat":
                         screen = Screens.CHAT_SCREEN;
+                        clientView.printChat(nickname);
+                        SendChat(client);
                         break;
                     case "show_grids":
                         screen = Screens.GRIDS_SCREEN;
@@ -206,9 +221,8 @@ public class CliUserInterface implements UserInterface {
         System.out.println("topup: Starts topup phase");
         System.out.println("quit: Quits game and close application");
         System.out.println("chat: Enters chat screen and waits for messages");
-        System.out.println("chat_exit: Leaves chat screen");
         System.out.println("show_c: Shows common goals");
-        System.out.println("show_c: Shows personal goal");
+        System.out.println("show_p: Shows personal goal");
         System.out.println("show_board: Shows the board, your grid and your tiles");
         System.out.println("show_grids: Shows other players grid");
         System.out.println("show_chat: Shows the chat");
@@ -341,6 +355,12 @@ public class CliUserInterface implements UserInterface {
         }
 
     }
+    public void handleChatUpdate(ChatMessage message){
+        clientView.getChat().add(message);
+        if(screen.equals(Screens.CHAT_SCREEN)){
+            clientView.firePropertyChange("chat", nickname);
+        }
+    }
 
     public void handleRefreshUpdate(RefreshMsg message){
         clientView.setBoard(message.getBoard());
@@ -379,6 +399,10 @@ public class CliUserInterface implements UserInterface {
                     break;
                 case TURN_UPDATE:
                     handleTurnUpdate(gson.fromJson(line, PreTurnMsg.class));
+                    break;
+                case CHAT:
+                    handleChatUpdate(gson.fromJson(line, ChatMessage.class));
+                    break;
                 default:
                     break;
             }
@@ -404,6 +428,17 @@ public class CliUserInterface implements UserInterface {
     public void ShowCObj(String playerName) {
         clientView.printCommonGoal();
 
+    }
+    @Override
+    public void SendChat(ConnectionInterface client){
+
+        String text = getText();
+        while(!(text.equals("exit"))){
+            client.SendChatMessage(nickname, text);
+            text = getText();
+        }
+        screen = Screens.PLAYER_SCREEN;
+        clientView.printPlayerStuff(nickname);
     }
 
     @Override
@@ -512,6 +547,9 @@ public class CliUserInterface implements UserInterface {
         int numPlayers = Integer.parseInt(scanner.nextLine());
         // You may want to add a validation here as well
         return numPlayers;
+    }
+    public String getText(){
+        return scanner.nextLine();
     }
     public void printPlayerStuff(){
         clientView.printPlayerStuff(nickname);

@@ -194,6 +194,11 @@ public class GuiUserInterface  implements UserInterface {
     }
 
     @Override
+    public void SendChat(ConnectionInterface client) {
+
+    }
+
+    @Override
     public void printBoard() {
 
     }

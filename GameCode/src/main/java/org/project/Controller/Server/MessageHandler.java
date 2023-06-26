@@ -27,6 +27,7 @@ public class MessageHandler {
             case CREATE_GAME -> this.handleCreateGame(gson.fromJson(jsonStr, CreateGame_Message.class));
             case TOPUP -> this.handleTopUp(gson.fromJson(jsonStr, TopUpMessage.class));
             case JOIN -> this.handleJoin(gson.fromJson(jsonStr, JoinMessage.class));
+            case CHAT -> this.handleChat(gson.fromJson(jsonStr, ChatMessage.class));
         };
     }
     public void handlePick(PickMessage pickMsg){
@@ -87,6 +88,9 @@ public class MessageHandler {
             popUpMsg.setIdentifier(e.getIdentifier());
             send(popUpMsg);
         }
+    }
+    public void handleChat(ChatMessage chatMsg){
+        server.chat(chatMsg.getUsername(), chatMsg.getText());
     }
     public void send(Message message){
         Gson gson = new Gson();

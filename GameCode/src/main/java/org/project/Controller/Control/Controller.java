@@ -186,6 +186,10 @@ public class Controller {
             server.refresh(username, view);
         }
     }
+    public boolean chat(String username, String text){
+        server.sendChat(username, text);
+        return true;
+    }
 
     /**
      * method that allows the client to take tiles from the board

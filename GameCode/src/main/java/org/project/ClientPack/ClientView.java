@@ -1,5 +1,7 @@
 package org.project.ClientPack;
 
+import org.project.Controller.Messages.ChatMessage;
+
 import java.util.*;
 
 /**
@@ -17,6 +19,8 @@ ClientView extends ObservableObject {
     private HashMap<String, Integer> scoreBoard;
     private HashMap<String, Integer> personalGoalViews;
     private List<Integer> commonGoalView;
+
+    private List<ChatMessage> chat = new ArrayList<>();
 
     //agg
     private Cli_Images imagine;
@@ -64,6 +68,9 @@ ClientView extends ObservableObject {
        gridsview= new HashMap<>();
        tilesview= new HashMap<>();
        scoreBoard = new HashMap<>();
+    }
+    public List<ChatMessage> getChat(){
+        return chat;
     }
 
     public void updateGridsView(String playerName, String[][] grid) {
@@ -968,6 +975,28 @@ ClientView extends ObservableObject {
         }
 
 
+    }
+    public void printChat(String username){
+        for(int i = 0; i < chat.size(); i++){
+            String sender;
+            ChatMessage message = chat.get(i);
+            if(message.getUsername().equals(username)){
+                sender = "You";
+            }else{
+                sender = message.getUsername();
+            }
+            System.out.println(sender + ": " + message.getText());
+        }
+    }
+    public void printChatLast(String username){
+        String sender;
+        ChatMessage message = chat.get(chat.size() - 1);
+        if(message.getUsername().equals(username)){
+            sender = "You";
+        }else{
+            sender = message.getUsername();
+        }
+        System.out.println(sender + ": " + message.getText());
     }
 
 

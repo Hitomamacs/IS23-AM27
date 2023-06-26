@@ -123,6 +123,9 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
         sendMessage(createPickMessage(username, numTiles, coordinates));
     }
+    public void SendChatMessage(String username, String text){
+        sendMessage(createChatMessage(username, text));
+    }
 
 
     public void SendTopUpMessage(String username, int firstTime, int tileIndex) {

@@ -45,7 +45,7 @@ public class CommonGoal_Deck {
         Random random= new Random();
         int randomIndex= random.nextInt(deck.size());
         CommonGoal randomGoal=deck.get(randomIndex);
-        deck.remove(randomIndex);
+        deck.remove(randomGoal);
         return randomGoal;
     }
 

@@ -12,20 +12,27 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * RMI SERVER
+ */
+
 public class RMIServerApp implements RMIServerInterface {
 
     /**
-     * hash map che contiene tutti i giocatori RMI.
-     * La chiave è l'username
-     * il secondo parametro è il riferimento al client
+     * hash map containing all RMI players.
+     * The key is the username
+     * the second parameter is the reference to the client
      */
     private HashMap<String, RMIClientInterface> clientsRMI;
 
+    /**
+     * reference to main server
+     */
     private final Server server;
     private HashMap<String,RmiClientHandler> rmiClientsHandler;
 
     /**
-     * this is the constructor. Initialize the hash map.
+     * this is the constructor.
      * @throws RemoteException if something goes wrong with the connection
      */
     public RMIServerApp(Server server) throws RemoteException{
@@ -33,6 +40,8 @@ public class RMIServerApp implements RMIServerInterface {
         this.server = server;
         rmiClientsHandler=new HashMap<>();
     }
+
+    //TODO javadoc
     public void flushRMIClients() throws RemoteException {
         //TODO haven't really understood how to close the connections
         clientsRMI = new HashMap<>();
@@ -67,10 +76,6 @@ public class RMIServerApp implements RMIServerInterface {
         System.out.println("RMI server bound and ready");
     }
 
-    /**
-     * metodo che serve per comunicare con il client
-     * @return il client
-     */
 
     //METHODS INVOCATED BY CLIENTS--SONO I METODI DELL'RMI INTERFACE
 
@@ -143,7 +148,7 @@ public class RMIServerApp implements RMIServerInterface {
         check=server.quit(nickname);
         if(check){
             clientsRMI.remove(nickname);
-            rmiClientsHandler.get(nickname).setConnected(false);
+            //rmiClientsHandler.get(nickname).setConnected(false);
             rmiClientsHandler.remove(nickname);
             return true;
         }
@@ -194,12 +199,20 @@ public class RMIServerApp implements RMIServerInterface {
         server.sendMessage(nickname, message);
     }
 
+    /**
+     * method called constantly by the client rmi to understand if the server is crushed
+     * @throws RemoteException if something goes wrong with the connection
+     */
     @Override
     public void isConnected() throws RemoteException {
 
     }
 
 
+    /**
+     * getter rmi clients
+     * @return
+     */
     public HashMap<String, RMIClientInterface> getClientsRMI() {
         return clientsRMI;
     }

@@ -35,7 +35,10 @@ public class RmiClientHandler extends Thread{
 
     public void disconnect(){
         connected=false;
-        rmiServerApp.getClientsRMI().remove(username);
+        if(rmiServerApp.getClientsRMI().containsKey(username))
+        {
+            rmiServerApp.getClientsRMI().remove(username);
+        }
         server.set_player_disconnected(username);
     }
 

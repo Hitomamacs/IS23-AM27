@@ -183,6 +183,7 @@ public class CliUserInterface implements UserInterface {
                     case "show_board":
                         screen = Screens.PLAYER_SCREEN;
                         printPlayerStuff();
+                        System.out.println(clientView.getPopUpErrorMessage());
                         break;
                     case "help":
                         printInstructions();

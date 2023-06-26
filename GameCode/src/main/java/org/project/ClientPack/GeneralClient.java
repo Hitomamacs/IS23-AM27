@@ -20,6 +20,9 @@ public class GeneralClient implements ClientInterface {
         }
         if(userInterface.getUI() == "CLI"){
             userInterface.launcher();
+            Cli_Images start_image = new Cli_Images();
+            start_image.printFirstImage();
+            
             System.out.println("Enter create_game to create a new game");
             System.out.println("Enter join to join an already existing game");
             System.out.println("Enter help to view all commands");

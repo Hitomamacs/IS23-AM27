@@ -38,6 +38,8 @@ public class Player extends ObservableObject {
     public Player(String nickname) {
         this.nickname = nickname;
         CompletedCGoals = new boolean[2];
+        CompletedCGoals[0] = false;
+        CompletedCGoals[1] = false;
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
         Reader reader = null;

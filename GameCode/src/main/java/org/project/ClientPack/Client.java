@@ -110,7 +110,7 @@ public class Client {
     }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("Se vuoi creare una nuova partita inserisci il comando create_game, se vuoi entrare in una partita già esistente inserisci il comando join:");
+        
     }
 
 

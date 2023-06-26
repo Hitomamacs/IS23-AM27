@@ -193,7 +193,8 @@ ClientView extends ObservableObject {
 
     //TODO: fare in modo che i giocatori vedano solo la PROPRIA personal goal card
     //NOTA PER CHI DEVE USARE IL METODO: funziona, le carte vengono stampate in modo corretto, ho fatto la prova
-    public void printPersonalGoalCard(int idCard){
+    public void printPersonalGoalCard(String username){
+        int idCard = personalGoalViews.get(username);
         switch (idCard){
             case 0:
                 System.out.println("La tua Personal Goal Card è la seguente: \n");
@@ -876,4 +877,98 @@ ClientView extends ObservableObject {
     public void setCommonGoalView(List<Integer> commonGoalView) {
         this.commonGoalView = commonGoalView;
     }
+
+    public void printPlayerStuff(String username) {
+
+        int count_grid = 0;
+        String[][] grid = this.getGridsview().get(username);
+        String[] tiles = tilesview.get(username);
+        //Printing board
+        System.out.println("\nPrinting updated board:");
+        System.out.println("   0  1  2  3  4  5  6  7  8        0  1  2  3  4");
+        for (int i = 0; i < board.length; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] != null) {
+                    //System.out.println(j);
+                    String backgroundColor = backgroundColorMap.get(board[i][j]);
+                    System.out.print(backgroundColor + "   " + ANSI_RESET);
+                }
+            }
+            if (count_grid < 6) {
+                System.out.print("      ");
+                for (int k = 0; k < grid[i].length; k++) {
+                    if (grid[i][k] == null) {
+                        System.out.print(ANSI_BROWN + "   " + ANSI_RESET);
+                    } else {
+                        String backgroundColor = backgroundColorMap.get(grid[i][k]);
+                        if (backgroundColor == null)
+                            backgroundColor = ANSI_BROWN; // Default to brown if color not found, usless check
+                        System.out.print(backgroundColor + "   " + ANSI_RESET);
+                    }
+                }
+                System.out.println();
+                count_grid++;
+            }
+            if(i == 6){
+                System.out.println();
+            }
+            if (i == 7) {
+                System.out.print("        ");
+                for (String tile : tiles) {
+                    String backgroundColor = backgroundColorMap.get(tile);
+                    if (backgroundColor == null) {
+                        backgroundColor = ANSI_BROWN;
+                    }
+                    System.out.print(backgroundColor + "   " + ANSI_RESET);
+                }
+                System.out.println();
+            }
+            if (i == 8) {
+                System.out.print("         0  1  2");
+            }
+        }
+        System.out.println();
+        System.out.println("To visualize instruction set: help");
+    }
+    public void printOtherGrids(String username){
+        ArrayList<String[][]> gridList = new ArrayList<>();
+        for(Map.Entry<String, String[][]> entry : gridsview.entrySet()) {
+            if(!(entry.getKey().equals(username))) {
+                gridList.add(entry.getValue());
+                String name = entry.getKey();
+                int length = name.length();
+                if(length <= 15)
+                    System.out.print(entry.getKey());
+                else {
+                    System.out.print(name.substring(0, 14));
+                    System.out.print("...");
+                    length = 18;
+                }
+                for(int i = 0; i < 23 - length; i++){
+                    System.out.print(" ");
+                }
+            }
+        }
+        System.out.println();
+        for(int i = 0; i < 6; i++) {
+            for (int j = 0; j < gridList.size(); j++){
+                for(int k = 0; k < 5; k++){
+                    if (gridList.get(j)[i][k] == null) {
+                        System.out.print(ANSI_BROWN + "   " + ANSI_RESET);
+                    } else {
+                        String backgroundColor = backgroundColorMap.get(gridList.get(j)[i][k]);
+                        if (backgroundColor == null) backgroundColor = ANSI_BROWN; // Default to brown if color not found, usless check
+                        System.out.print(backgroundColor + "   " + ANSI_RESET);
+                    }
+                }
+                System.out.print("        ");
+            }
+            System.out.println();
+        }
+
+
+    }
+
+
 }

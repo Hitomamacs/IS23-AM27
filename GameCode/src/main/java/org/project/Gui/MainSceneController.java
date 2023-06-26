@@ -671,8 +671,6 @@ public class MainSceneController {
 
     public void QuitAction(ActionEvent actionEvent) {
         quit();
-
-
     }
 
 

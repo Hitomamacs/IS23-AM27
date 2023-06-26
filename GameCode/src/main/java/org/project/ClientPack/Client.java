@@ -56,6 +56,7 @@ public class Client {
 
         String connessione;
         String userInterface;
+        String ipAddress;
         final Scanner stdin= new Scanner(System.in);
         ClientFactory clientFactory=null;
         UserInterfaceFactory userInterfaceFactory=null;
@@ -63,8 +64,9 @@ public class Client {
         //Controllo se le porte mi vengono passate in ingresso
         //TODO: anche server name può essere passato?
         if(args.length!=0){
-            socketPort=Integer.parseInt(args[0]);
-            rmiPort=Integer.parseInt((args[0]));
+            ipAddress=args[2];
+            socketPort=Integer.parseInt(args[3]);
+            rmiPort=Integer.parseInt((args[3]));
         }
 
         System.out.println("Che tipo di connessione vuoi usare (rmi/socket)?");

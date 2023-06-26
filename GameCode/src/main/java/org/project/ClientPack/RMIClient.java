@@ -42,14 +42,15 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     /**
      * reference to the client view
      */
-    private ClientView clientView= new ClientView();
+    private ClientView clientView = new ClientView();
 
     /**
      * constructor
+     *
      * @throws RemoteException if something goes wrong with connection
      */
     public RMIClient() throws RemoteException {
-        this.port= Settings.RMI_PORT;
+        this.port = Settings.RMI_PORT;
 
         startClient();
     }
@@ -59,28 +60,28 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * method called to initiate the RMI client. This method establishes the connection with the RMI server.
      */
 
-    public void startClient () {
+    public void startClient() {
         boolean nome;
         boolean successo;
-        final Scanner stdin= new Scanner(System.in);
-        int port=Settings.RMI_PORT;
+        final Scanner stdin = new Scanner(System.in);
+        int port = Settings.RMI_PORT;
         Registry registry = null;
         try {
-            registry = LocateRegistry.getRegistry(Settings.SERVER_NAME,port);
+            registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
 
         //Looking up the registry for the remote object
         try {
-            rmiServer= (RMIServerInterface) registry.lookup("Server");
+            rmiServer = (RMIServerInterface) registry.lookup("Server");
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         }
 
-        RmiServerHandler rmiServerHandler=new RmiServerHandler(rmiServer,this);
+        RmiServerHandler rmiServerHandler = new RmiServerHandler(rmiServer, this);
         Thread serverHandlerThread = new Thread(rmiServerHandler);
         serverHandlerThread.start();
 
@@ -90,6 +91,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     /**
      * getter client view
+     *
      * @return client view
      */
     @Override
@@ -99,6 +101,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     /**
      * getter connection type
+     *
      * @return connection type
      */
     @Override
@@ -108,79 +111,88 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     /**
      * method called by the general client in order to be able to send the request to join the game to the rmi server
-     * @param username player's nickname
+     *
+     * @param username        player's nickname
      * @param connection_type connection type
      */
-        @Override
-        public void SendJoinMessage(String username, boolean connection_type) {
-            //System.out.println("Inserisci nome");
+    @Override
+    public void SendJoinMessage(String username, boolean connection_type) {
+        //System.out.println("Inserisci nome");
 
-            try {
-                rmiServer.sendJoin(username,false, this);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-
+        try {
+            rmiServer.sendJoin(username, false, this);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
+
+    }
 
     /**
      * method called by the general client in order to be able to send the request to create a game to the rmi server
-     * @param username player's name
+     *
+     * @param username        player's name
      * @param connection_type connection type
-     * @param numPlayers number of players in the game
+     * @param numPlayers      number of players in the game
      */
-        @Override
-        public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers){
-            try {
-                rmiServer.sendCreateGame(username,connection_type,numPlayers, this);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-
+    @Override
+    public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) {
+        try {
+            rmiServer.sendCreateGame(username, connection_type, numPlayers, this);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
+
+    }
 
     /**
      * method called by the general client to be able to send the disconnection request to the rmi server
+     *
      * @param username player's name
      */
-        @Override
-        public void SendQuitMessage(String username) {
-            try {
-                rmiServer.sendQuit(username);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-
+    @Override
+    public void SendQuitMessage(String username) {
+        try {
+            rmiServer.sendQuit(username);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
+
+    }
 
     /**
      * method called by the general client to be able to send the rmi server the request to take some tiles from the board
-     * @param username player's name
-     * @param numTiles number of tiles he wants to take
+     *
+     * @param username    player's name
+     * @param numTiles    number of tiles he wants to take
      * @param coordinates coordinates of tiles he wants to take
      */
     @Override
-        public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
-            try {
-                rmiServer.sendPickRequest(username, coordinates);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-
+    public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
+        try {
+            rmiServer.sendPickRequest(username, coordinates);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
+
+    }
 
     /**
      * method called by the general client to be able to send the rmi server the request to insert the tiles in its own grid
-     * @param username player's name
+     *
+     * @param username  player's name
      * @param firstTime column choosen
      * @param tileIndex index of tile choosen
      */
-        @Override
-        public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
-            try {
-                rmiServer.sendTopUpRequest(username,firstTime,tileIndex);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+    @Override
+    public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
+        try {
+            rmiServer.sendTopUpRequest(username, firstTime, tileIndex);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
     public void SendChatMessage(String username, String text) {
@@ -191,15 +203,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
     }
 
-    @Override
-    public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
-        try {
-            rmiServer.sendTopUpRequest(username,firstTime,tileIndex);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
 
-
-}
     //TODO javadoc
     @Override
     public String receiveMessage() throws IOException {
@@ -336,17 +340,10 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             clientView.firePropertyChange("score",clientView);
         }
 
-    /**
-     * method invoked to print errors or other warnings to the client
-     * @param text text
-     * @param identifier
-     * @throws RemoteException
-     */
-
         /*clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
         clientView.firePropertyChange("score",clientView);*/
-    }
+
     @Override
     public void notifyChat(String username, String text){
 
@@ -362,6 +359,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);
         userInterface.processReceivedMessage(jsonStr);
+    }
 
     //  TODO javadoc
     /**

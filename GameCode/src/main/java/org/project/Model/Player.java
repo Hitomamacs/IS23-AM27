@@ -38,6 +38,8 @@ public class Player extends ObservableObject {
     public Player(String nickname) {
         this.nickname = nickname;
         CompletedCGoals = new boolean[2];
+        CompletedCGoals[0] = false;
+        CompletedCGoals[1] = false;
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
         Reader reader = null;
@@ -170,17 +172,19 @@ public class Player extends ObservableObject {
     }
     //verifyPGoalPoints returns the points that the player receives from his personal goal
     public int verifyPGoalPoints() {
-        /*Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
-
-        long count = colorMap.entrySet().stream()
-                .filter(entry -> {
-                    Spot spot = playerGrid.getSpot(entry.getKey());
-                    return spot.isOccupied() && spot.getTile().getColor() == entry.getValue();
-                })
-                .count();
-
-        return calculateResult((int) count);*/
-        return 0;
+        Map<Coordinates, Color> colorMap = myPersonalGoal.getColoredGoal();
+        System.out.println(colorMap.keySet()instanceof Set<Coordinates>);
+        int count = 0;
+        for (Coordinates c : colorMap.keySet()) {
+            Color color = colorMap.get(c);
+            if (playerGrid.getSpot(c).isOccupied()) {
+                Tile tile = playerGrid.getSpot(c).getTile();
+                if (tile.getColor().equals(color)) {
+                    count++;
+                }
+            }
+        }
+        return calculateResult(count);
     }
 
 

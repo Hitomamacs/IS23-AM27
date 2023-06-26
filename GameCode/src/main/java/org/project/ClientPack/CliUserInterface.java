@@ -18,6 +18,8 @@ public class CliUserInterface implements UserInterface {
 
     private ConnectionInterface client;
 
+    private Screens screen = Screens.PLAYER_SCREEN;
+
     public CliUserInterface(ClientView clientView, ConnectionInterface client) {
 
         this.clientView = clientView;
@@ -25,6 +27,11 @@ public class CliUserInterface implements UserInterface {
         clientView.addPropertyChangeListener(getPopupListener());
         clientView.addPropertyChangeListener(getRefreshListener());
         clientView.addPropertyChangeListener(getPickListener());
+        clientView.addPropertyChangeListener(getTopupListener());
+        clientView.addPropertyChangeListener(getTopupGridListener());
+    }
+    public Screens getScreen(){
+        return screen;
     }
 
     public PropertyChangeListener getPopupListener() {
@@ -42,16 +49,19 @@ public class CliUserInterface implements UserInterface {
                     if(evt.getNewValue() != null){
 
                         if((boolean)evt.getNewValue()){
-                            clientView.printBoard();
-                            System.out.println();
-                            clientView.printGrid(nickname);
+                            //clientView.printBoard();
+                            //System.out.println();
+                            //clientView.printGrid(nickname);
+                            printPlayerStuff();
                         }
                         else{
-                            clientView.printGrid(nickname);
-                            System.out.println();
-                            clientView.printTiles(nickname);
+                            printPlayerStuff();
+                            //clientView.printGrid(nickname);
+                            //System.out.println();
+                            //clientView.printTiles(nickname);
                         }
-                    }else {clientView.printBoard();}
+                    }else {//clientView.printBoard();
+                        printPlayerStuff(); }
             };
         }
     };
@@ -66,6 +76,16 @@ public class CliUserInterface implements UserInterface {
 
         }
     };
+    PropertyChangeListener topup_grid_listener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            if("topup_grids".equals(evt.getPropertyName())){
+                printOtherGrids();
+
+            };
+        }
+    };
 
     public PropertyChangeListener getPickListener() {
         return pickListener;
@@ -73,26 +93,25 @@ public class CliUserInterface implements UserInterface {
     PropertyChangeListener pickListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-
-                if("pick".equals(evt.getPropertyName())){
-                    printBoard();
-                    printTiles((String) evt.getNewValue());
-
-                }
+            if("pick".equals(evt.getPropertyName())){
+                printPlayerStuff();
+            }
         }
     };
 
-    public PropertyChangeListener getTopupistener() {
-        return topupistener;
+    public PropertyChangeListener getTopupListener() {
+        return topupListener;
     }
 
-    PropertyChangeListener topupistener = new PropertyChangeListener() {
+    public PropertyChangeListener getTopupGridListener(){ return topup_grid_listener;}
+
+    PropertyChangeListener topupListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
 
                 if("topup".equals(evt.getPropertyName())){
-                    printGrids((String) evt.getNewValue());
-
+                    //printGrids((String) evt.getNewValue());
+                    printPlayerStuff();
                 }
 
         }
@@ -108,8 +127,6 @@ public class CliUserInterface implements UserInterface {
 
                 if("score".equals(evt.getPropertyName())){
                     clientView.printScore();
-
-
                 }
 
         }
@@ -121,9 +138,6 @@ public class CliUserInterface implements UserInterface {
 
                 if("turn".equals(evt.getPropertyName())){
                     //TODO PRE TURN DOING NOTHING
-
-
-
                 }
 
         }
@@ -151,13 +165,31 @@ public class CliUserInterface implements UserInterface {
                     case "topup":
                         SendTopUpMessage(client);
                         break;
-                    case "Show P Obj":
+                    case "show_p":
+                        screen = Screens.GOAL_SCREEN;
                         ShowPObj(getNickname());
-
-                    case "Show C Obj":
+                        break;
+                    case "show_c":
+                        screen = Screens.GOAL_SCREEN;
                         ShowCObj(getNickname());
+                        break;
+                    case "show_chat":
+                        screen = Screens.CHAT_SCREEN;
+                        break;
+                    case "show_grids":
+                        screen = Screens.GRIDS_SCREEN;
+                        printOtherGrids();
+                        break;
+                    case "show_board":
+                        screen = Screens.PLAYER_SCREEN;
+                        printPlayerStuff();
+                        break;
+                    case "help":
+                        printInstructions();
+                        break;
                     default:
                         displayMessage("Invalid message type");
+                        break;
                 }
 
             }
@@ -167,6 +199,19 @@ public class CliUserInterface implements UserInterface {
     private String UI = "CLI";
 
     private ClientView clientView;
+
+    private void printInstructions(){
+        System.out.println("pick: Starts picking phase");
+        System.out.println("topup: Starts topup phase");
+        System.out.println("quit: Quits game and close application");
+        System.out.println("chat: Enters chat screen and waits for messages");
+        System.out.println("chat_exit: Leaves chat screen");
+        System.out.println("show_c: Shows common goals");
+        System.out.println("show_c: Shows personal goal");
+        System.out.println("show_board: Shows the board, your grid and your tiles");
+        System.out.println("show_grids: Shows other players grid");
+        System.out.println("show_chat: Shows the chat");
+    }
 
     private Cli_Images cliImages = new Cli_Images();
 
@@ -228,7 +273,12 @@ public class CliUserInterface implements UserInterface {
     public void handleTopUpUpdate(UpdateTopUPMsg message){
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
         clientView.updateGridsView(message.getPlayerName(), message.getGrid());
-        clientView.firePropertyChange("topup", message.getPlayerName());
+        if(screen.equals(Screens.PLAYER_SCREEN)) {
+            clientView.firePropertyChange("topup", message.getPlayerName());
+        }
+        if(screen.equals(Screens.GRIDS_SCREEN)){
+            clientView.firePropertyChange("topup_grids", message.getPlayerName());
+        }
 
     }
 
@@ -248,12 +298,16 @@ public class CliUserInterface implements UserInterface {
     public void handlePickUpdate(UpdatePickMsg message){
         clientView.setBoard(message.getBoard());
         clientView.updateTilesView(message.getPlayerName(), message.getTiles());
-        clientView.firePropertyChange("pick", message.getPlayerName());
+        if(screen.equals(Screens.PLAYER_SCREEN)) {
+            clientView.firePropertyChange("pick", message.getPlayerName());
+        }
     }
 
     public void handlePopUp(PopUpMsg message){
         clientView.setErrorMessage(message.getText());
-        clientView.firePropertyChange("popup", null);
+        if(screen.equals(Screens.PLAYER_SCREEN)) {
+            clientView.firePropertyChange("popup", null);
+        }
 
     }
     public void handleTurnUpdate(PreTurnMsg message){
@@ -263,21 +317,27 @@ public class CliUserInterface implements UserInterface {
             //clientView.printBoard();
             //System.out.println();
             //clientView.printGrid(username);
-            clientView.firePropertyChange("refresh", type);
+            if(screen.equals(Screens.PLAYER_SCREEN)) {
+                clientView.firePropertyChange("refresh", type);
+            }
         }
         else{
             boolean type = false;
             //clientView.printGrid(username);
             //System.out.println();
             //clientView.printTiles(username);
-            clientView.firePropertyChange("refresh", type);
+            if(screen.equals(Screens.PLAYER_SCREEN)) {
+                clientView.firePropertyChange("refresh", type);
+            }
         }
     }
 
     public void handleScoreUpdate(ScoreBoardMsg message){
 
         clientView.setScoreBoard(message.getScoreBoard());
-        clientView.firePropertyChange("score", null);
+        if(screen.equals(Screens.SCORE_SCREEN)) {
+            clientView.firePropertyChange("score", null);
+        }
 
     }
 
@@ -286,7 +346,11 @@ public class CliUserInterface implements UserInterface {
         clientView.setTilesview(message.getTilesview());
         clientView.setGridsview(message.getGridsview());
         clientView.setPointStack(message.getPointStack());
-        clientView.firePropertyChange("refresh", null);
+        clientView.setCommonGoalView(message.getCommonGoalsView());
+        clientView.setPersonalGoalViews(message.getPersonalGoalViews());
+        if(screen.equals(Screens.PLAYER_SCREEN)) {
+            clientView.firePropertyChange("refresh", null);
+        }
     }
 
     public synchronized  void processReceivedMessage(String line) {
@@ -322,8 +386,7 @@ public class CliUserInterface implements UserInterface {
 
     @Override
     public void ShowPObj(String playerName) {
-        clientView.printPersonalGoal(playerName);
-
+        clientView.printPersonalGoalCard(playerName);
     }
 
     @Override
@@ -448,5 +511,11 @@ public class CliUserInterface implements UserInterface {
         int numPlayers = Integer.parseInt(scanner.nextLine());
         // You may want to add a validation here as well
         return numPlayers;
+    }
+    public void printPlayerStuff(){
+        clientView.printPlayerStuff(nickname);
+    }
+    public void printOtherGrids(){
+        clientView.printOtherGrids(nickname);
     }
 }

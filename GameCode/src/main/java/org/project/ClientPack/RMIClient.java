@@ -1,6 +1,7 @@
 package org.project.ClientPack;
 
-import org.project.Controller.Messages.Message;
+import com.google.gson.Gson;
+import org.project.Controller.Messages.*;
 import org.project.Controller.Server.RMIServerInterface;
 import org.project.Controller.Server.Settings;
 import org.project.Model.Coordinates;
@@ -75,7 +76,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
         //System.out.println("Connessione stabilita con successo");
     }
-
     @Override
     public ClientView getClientView() {
         return clientView;
@@ -164,7 +164,12 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
     @Override
     public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
-        clientView.setBoard(board);
+        RefreshMsg message = new RefreshMsg(board, pointStack, gridsView, tilesView, pGoalView, cGoalView);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+
+        /*clientView.setBoard(board);
         clientView.setPointStack(pointStack);
         clientView.setGridsview(gridsView);
         clientView.setTilesview(tilesView);
@@ -173,12 +178,19 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
         clientView.firePropertyChange("refresh", null);
         //clientView.printCommonGoal();
-
+        */
     }
 
     @Override
     public void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
-        int i,j;
+
+        UpdatePickMsg message = new UpdatePickMsg(playername, tilesView, board);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+
+
+        /*int i,j;
 
         //aggiorno board
         for(i=0;i<9;i++){
@@ -193,20 +205,17 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
 
         userInterface.updateClientView(clientView);
         clientView.firePropertyChange("pick", playername);
-        //System.out.println("\nPrinting updated board");
-        //userInterface.printBoard();
-        //userInterface.printTiles(playername);
-
-       /* String[][] grid = clientView.getGridsview().get(playername);
-        System.out.println("This is "+playername+" grid");
-        clientView.printGrid(playername);*/
-
-
+        */
     }
 
     @Override
     public void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
-        int i,j;
+
+        UpdateTopUPMsg message = new UpdateTopUPMsg(playername,tilesView, grid);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+        /*int i,j;
 
         //aggiorna grid view e stampa grid
         for(i=0;i<6;i++){
@@ -220,28 +229,43 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.updateClientView(clientView);
         userInterface.printGrids(playername);
         clientView.firePropertyChange("topup", playername);
-
+        */
     }
 
     @Override
     public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
-        clientView.setScoreBoard(score);
+        ScoreBoardMsg message = new ScoreBoardMsg(score);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+
+        /*clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
-        clientView.firePropertyChange("score",clientView);
+        clientView.firePropertyChange("score",clientView);*/
     }
 
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
-        clientView.setErrorMessage(text);
+        PopUpMsg message = new PopUpMsg(text);
+        message.setIdentifier(identifier);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+
+        /*clientView.setErrorMessage(text);
         clientView.setPopUpIdentifier(identifier);
         userInterface.updateClientView(clientView);
         userInterface.displayMessage(text);
-        clientView.firePropertyChange("popupCreate", clientView);
+        clientView.firePropertyChange("popupCreate", clientView);*/
 
     }
     @Override
     public void notifyTurn(String username, boolean move) throws RemoteException {
-        clientView.firePropertyChange("refresh", move);
+        PreTurnMsg message = new PreTurnMsg(username, move);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+        //clientView.firePropertyChange("refresh", move);
     }
 
     @Override

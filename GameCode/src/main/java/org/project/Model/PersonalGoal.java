@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public  class PersonalGoal {
-
-
     @Expose
     private int Pgoal_ID ;
     @Expose
@@ -24,19 +22,10 @@ public  class PersonalGoal {
         return Pgoal_ID;
     }
 
-
-
-    public  void initialize(){
-
-    };
     public  List<Goal> getColoredGoal(){
         return goals;
-
     }
-
     public List<Goal> getGoals() {
         return goals;
     }
 }
-
-

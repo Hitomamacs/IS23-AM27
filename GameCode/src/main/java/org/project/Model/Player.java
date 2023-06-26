@@ -15,26 +15,30 @@ public class Player extends ObservableObject {
     @Expose
     private String nickname;
     @Expose
-   private boolean isConnected;
+    private boolean isConnected;
     @Expose
-   private int score;
+    private int score;
     @Expose
-   private PlayerGrid playerGrid;
+    private PlayerGrid playerGrid;
     @Expose
-   private boolean[] CompletedCGoals;
+    private boolean[] CompletedCGoals;
     //TODO Pgoal ID
-   private PersonalGoal myPersonalGoal;
+    private PersonalGoal myPersonalGoal;
     @Expose
-   private int personalGoalID;
+    private int personalGoalID;
     @Expose
-   int selectedColumn;
+    int selectedColumn;
     @Expose
-   int tileIndex;
+    int tileIndex;
 
     @Expose
     List<PersonalGoal> personalGoals_list;
+    private Tile[] pickedTiles;
 
-   private Tile[] pickedTiles;
+    /**
+     * Constructor
+     * @param nickname player's name
+     */
     public Player(String nickname) {
         this.nickname = nickname;
         CompletedCGoals = new boolean[2];
@@ -42,7 +46,6 @@ public class Player extends ObservableObject {
         CompletedCGoals[1] = false;
         playerGrid = new PlayerGrid();
         pickedTiles = new Tile[3];
-        Reader reader = null;
         selectedColumn = -1;
         this.isConnected = true;
 
@@ -54,8 +57,13 @@ public class Player extends ObservableObject {
         //reader = Files.newBufferedReader(Paths.get(filename.getAbsolutePath()));
         POb_2Js pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
         List<PersonalGoal > personalGoals_list = pOb_2Js.getPersonalGoals_list();
-
     }
+
+    /**
+     * The method reads personal goals data from a file using a BufferedReader and the Gson library.
+     * The personal goals read are stored in the personalGoals_list.
+     * @param filename
+     */
     public void personal_list_init(String filename){
         Reader reader = null;
         try {
@@ -66,17 +74,11 @@ public class Player extends ObservableObject {
 
         POb_2Js pOb_2Js = gson_parser.fromJson(reader, POb_2Js.class);
 
-         personalGoals_list = pOb_2Js.getPersonalGoals_list();
+        personalGoals_list = pOb_2Js.getPersonalGoals_list();
     }
-
 
     public String getNickname() {
         return nickname;
-    }
-
-    public boolean setIsConnected(boolean isConnected) {
-        this.isConnected = isConnected;
-        return isConnected;
     }
     public int getScore() {
         return score;
@@ -115,7 +117,7 @@ public class Player extends ObservableObject {
         myPersonalGoal = personalGoal;
         personalGoalID = myPersonalGoal.getPgoal_ID();
     }
-
+    
     public int recoverPersonalGoal() {
         if (personalGoalID < 0 || personalGoalID > 12) {
             throw new IllegalArgumentException("Invalid personal goal ID: " + personalGoalID);
@@ -123,10 +125,10 @@ public class Player extends ObservableObject {
         myPersonalGoal = new PersonalGoal(personalGoalID, personalGoals_list.get(personalGoalID).getGoals());
         return 1;
     }
-
     public void setPickedTiles(Tile[] pickedTiles) {
         this.pickedTiles = pickedTiles;
     }
+
     //changeScore is the method used to increment the score in player. Score can only increase so if a negative
     //int is passed it throws an exception
     public void changeScore(int points){
@@ -275,4 +277,3 @@ public class Player extends ObservableObject {
         this.tileIndex = tileIndex;
     }
 }
-

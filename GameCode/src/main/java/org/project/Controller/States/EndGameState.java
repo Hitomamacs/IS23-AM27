@@ -26,6 +26,7 @@ public class EndGameState implements GameState {
             score.put(p.getNickname(), points);
             gameOrchestrator.getGame().setScoreboard(score);
             gameOrchestrator.getGame().firePropertyChange("ScoreBoardUpdate", gameOrchestrator.getGame());
+            //System.out.println("Player" + p.getNickname() + "has scored" + points+ "points");
         }
         System.out.println("About to set gameStarted to false (EndGameState)");
         gameOrchestrator.getGame().setGameStarted(false);

@@ -28,7 +28,6 @@ class PlayerTest {
         assertEquals(player.getScore(), 5);
         player.changeScore(0);
         assertEquals(player.getScore(), 5);
-        //TODO test for exception missing if I pass negative int
     }
     @Test
     void testExceptionChangeScore(){

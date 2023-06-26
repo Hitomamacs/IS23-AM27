@@ -201,7 +201,7 @@ ClientView extends ObservableObject {
     //TODO: fare in modo che i giocatori vedano solo la PROPRIA personal goal card
     //NOTA PER CHI DEVE USARE IL METODO: funziona, le carte vengono stampate in modo corretto, ho fatto la prova
     public void printPersonalGoalCard(String username){
-        int idCard = personalGoalViews.get(username);
+        int idCard = personalGoalViews.get(username).intValue();
         switch (idCard){
             case 0:
                 System.out.println("La tua Personal Goal Card è la seguente: \n");

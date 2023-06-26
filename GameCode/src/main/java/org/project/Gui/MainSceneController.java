@@ -291,6 +291,7 @@ public class MainSceneController {
     public void decidedPersonalGoals(){
         String nickname = guiUserInterface.getNickname();
         PersonalGoalImage.setImage(personalGoal[guiUserInterface.getClientView().getPersonalGoalViews().get(nickname) ].getImage());
+        System.out.println(guiUserInterface.getClientView().getPersonalGoalViews().get(nickname));
     }
 
     public void moveTiles(){

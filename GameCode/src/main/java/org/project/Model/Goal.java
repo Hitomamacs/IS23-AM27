@@ -3,7 +3,6 @@ package org.project.Model;
 import com.google.gson.annotations.Expose;
 
 public class Goal {
-
     @Expose
     private Coordinates coordinates;
     @Expose
@@ -13,7 +12,6 @@ public class Goal {
         this.coordinates = coordinates;
         this.color = color;
     }
-
     public Coordinates getCoordinates() {
         return coordinates;
     }

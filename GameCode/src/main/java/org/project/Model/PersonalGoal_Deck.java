@@ -17,22 +17,14 @@ import static org.project.Controller.Control.Persistencer.gson_parser;
 public class PersonalGoal_Deck {
         @Expose
         List<PersonalGoal> deck;
-
         private POb_2Js pOb_2Js = new POb_2Js();
-
         public PersonalGoal_Deck() {
             deck = new ArrayList<>();
         }
-        public void fillDeck(String filename){
 
+        public void fillDeck(String filename){
             Reader reader = null;
 
-                /*URL url = this.getClass()
-                        .getClassLoader()
-                        .getResource("test_1.json");
-                File file = new File(url.getPath());
-                //open file as buffer reader
-                reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()));*/
             ClassLoader classLoader=this.getClass().getClassLoader();
             String file= "PGoals.json";
             InputStream inputStream= classLoader.getResourceAsStream(file);
@@ -40,11 +32,11 @@ public class PersonalGoal_Deck {
 
             pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
             for(int i = 0; i< pOb_2Js.getPersonalGoals_list().size(); i++){
-
-
                 deck.add((PersonalGoal)pOb_2Js.getPersonalGoals_list().get(i));
 
+
             }
+            System.out.println("Test");
 
 
 

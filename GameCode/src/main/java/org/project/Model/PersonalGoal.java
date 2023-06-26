@@ -4,17 +4,20 @@ import com.google.gson.annotations.Expose;
 import org.project.Model.Color;
 import org.project.Model.Coordinates;
 
+import java.util.List;
 import java.util.Map;
 
 public  class PersonalGoal {
 
+
+    @Expose
     private int Pgoal_ID ;
     @Expose
-    private Map<Coordinates, Color> personalGoal;
+    private List<Goal> goals;
 
-    public PersonalGoal(int Pgoal_ID, Map<Coordinates, Color> personalGoal) {
+    public PersonalGoal(int Pgoal_ID, List<Goal> personalGoal) {
         this.Pgoal_ID = Pgoal_ID;
-        this.personalGoal = personalGoal;
+        this.goals = personalGoal;
     }
 
     public  int getPgoal_ID() {
@@ -26,9 +29,13 @@ public  class PersonalGoal {
     public  void initialize(){
 
     };
-    public  Map<Coordinates, Color> getColoredGoal(){
-        return personalGoal;
+    public  List<Goal> getColoredGoal(){
+        return goals;
 
+    }
+
+    public List<Goal> getGoals() {
+        return goals;
     }
 }
 

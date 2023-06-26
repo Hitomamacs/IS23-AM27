@@ -10,15 +10,16 @@ class PersonalGoal_DeckTest {
 
     PersonalGoal_Deck deck;
 
-
     @BeforeEach
     void setup(){
         deck = new PersonalGoal_Deck();
     }
+
     @Test
     void fillDeck() {
         deck.fillDeck("test_1.json");
-        assertTrue(deck.deck.size() == 12);
+        PersonalGoal goal = deck.getRandom();
+        System.out.println(goal.getColoredGoal().get(0).getCoordinates().getX());
+        assertTrue(deck.deck.size() == 11);
     }
-
 }

@@ -3,15 +3,19 @@ package org.project.Gui;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 import org.project.Model.Coordinates;
 
 import java.util.*;
@@ -49,6 +53,33 @@ public class MainSceneController {
     private Label Status;
     @FXML
     private Button Pick;
+
+    @FXML
+    private Pane bannerPane;
+
+    @FXML
+    private Button warning;
+
+
+
+    public void showBanner() {
+        Platform.runLater(() -> {
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.initOwner(centralController.getPrimaryStage());
+            dialog.setTitle("Server Crash");
+            dialog.setHeaderText("Server is unreachable");
+
+            Label contentLabel = new Label("The server has crashed and is currently unreachable.");
+            VBox contentPane = new VBox(10);
+            contentPane.setAlignment(Pos.CENTER);
+            contentPane.setPadding(new Insets(20));
+            contentPane.getChildren().add(contentLabel);
+
+            dialog.getDialogPane().setContent(contentPane);
+
+            dialog.showAndWait();
+        });
+    }
     
     private int index = 1;
 

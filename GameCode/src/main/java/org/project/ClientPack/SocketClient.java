@@ -71,7 +71,9 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     private void disconnect() {
         // Implement  disconnect function here!!!!
-        System.out.println("Disconnected from server");
+        //System.out.println("Disconnected from server");
+        userInterface.serverDown();
+
     }
 
     private void startKeepAlive() {

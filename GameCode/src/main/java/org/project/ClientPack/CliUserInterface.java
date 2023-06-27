@@ -20,6 +20,8 @@ public class CliUserInterface implements UserInterface {
 
     private Screens screen = Screens.PLAYER_SCREEN;
 
+    private boolean serverDownFlag;
+
     public CliUserInterface(ClientView clientView, ConnectionInterface client) {
 
         this.clientView = clientView;
@@ -441,6 +443,20 @@ public class CliUserInterface implements UserInterface {
         clientView.printPlayerStuff(nickname);
     }
 
+    @Override
+    public void serverDown() {
+        if(!(serverDownFlag)){
+            System.out.println("Server is unreachable");
+            serverDownFlag = true;
+            System.out.println("Closing application in 10 seconds");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.exit(-1);
+        }
+    }
     @Override
     public void SendJoinMessage(ConnectionInterface client) {
         String username = getUsername();

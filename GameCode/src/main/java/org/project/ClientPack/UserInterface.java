@@ -29,6 +29,8 @@ public interface UserInterface {
 
     void SendChat(ConnectionInterface client);
 
+    void serverDown();
+
     void printBoard();
 
     void printTiles(String playername);

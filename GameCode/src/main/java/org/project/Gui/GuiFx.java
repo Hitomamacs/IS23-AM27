@@ -4,7 +4,14 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.project.ClientPack.ClientView;
@@ -14,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class GuiFx extends Application {
+
 
     private Stage primaryStage;
     private WelcomeController welcomeController;
@@ -68,12 +76,16 @@ public class GuiFx extends Application {
             guiUserInterface.getClientView().addPropertyChangeListener(getTopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getScoreListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getChatListener());
+            guiUserInterface.setGuiCentralController(this);
 
             showWelcomeScene();
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
     public void showWelcomeScene(){
         if (welcomeController == null){
@@ -252,6 +264,21 @@ public class GuiFx extends Application {
             primaryStage.setScene(chatScene);
             primaryStage.show();
         }
+    }
+    public void showBanner() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(primaryStage);
+            alert.setTitle("Server Crash");
+            alert.setHeaderText("Server is unreachable");
+            alert.setContentText("The server has crashed and is currently unreachable.");
+
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == ButtonType.OK) {
+                    Platform.exit(); // Close the entire application when OK is clicked
+                }
+            });
+        });
     }
     public PropertyChangeListener getPopupListener() {
         return popupListener;

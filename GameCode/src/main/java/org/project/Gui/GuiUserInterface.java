@@ -19,6 +19,10 @@ public class GuiUserInterface  implements UserInterface {
     private String input;
     private int numPlayers;
 
+    private boolean serverDownFlag;
+
+    private GuiFx guiCentralController;
+
     private ConnectionInterface client;
     private GuiController guiController;
 
@@ -32,7 +36,9 @@ public class GuiUserInterface  implements UserInterface {
 
 
     }
-
+    public void setGuiCentralController(GuiFx guifx){
+        this.guiCentralController = guifx;
+    }
     private String UI = "GUI";
 
     @Override
@@ -204,6 +210,15 @@ public class GuiUserInterface  implements UserInterface {
     @Override
     public void SendChat(ConnectionInterface client) {
 
+    }
+
+    @Override
+    public void serverDown() {
+        if(!serverDownFlag){
+            serverDownFlag = true;
+            guiCentralController.showBanner();
+
+        }
     }
 
     @Override

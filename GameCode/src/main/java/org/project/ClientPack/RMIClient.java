@@ -67,6 +67,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             int port = Settings.RMI_PORT;
             Registry registry = null;
             try {
+                System.setProperty("java.rmi.server.hostname","10.42.0.1");
                 registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
@@ -394,11 +395,13 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * This method close the connection and the client.
      */
     public void closeConnection(){
-        try{
+
+        userInterface.serverDown();
+        /*try{
             UnicastRemoteObject.unexportObject(this,true);
             System.exit(0);
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
     }
 }

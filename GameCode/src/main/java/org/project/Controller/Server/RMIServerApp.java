@@ -54,6 +54,7 @@ public class RMIServerApp implements RMIServerInterface {
     public void startRMIServer(int port) {
         RMIServerInterface stub= null;
         try {
+            System.setProperty("java.rmi.server.hostname", Settings.SERVER_NAME);
             stub = (RMIServerInterface) UnicastRemoteObject.exportObject(this, port);
         } catch (RemoteException e) {
             throw new RuntimeException(e);

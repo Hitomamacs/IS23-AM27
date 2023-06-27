@@ -12,11 +12,9 @@ public class ChatController {
     @FXML
     private TextArea chatTextArea;
     @FXML
-
     private TextField messageTextField;
     @FXML
     private Button Send;
-
     @FXML
     private Button Back;
     private GuiUserInterface guiUserInterface;

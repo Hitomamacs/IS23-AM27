@@ -19,12 +19,11 @@ public class GameBoard extends ObservableObject {
     private ArrayList<Tile> adjcecent = new ArrayList<Tile>();
 
     /**
-     *
+     * A different game board is created according to the number of players.
+     * The board is a matrix of Spots and at the beginning each Spot has the occupied attribute set to false because there is no tile
      * @param rows This is the number of board's rows
      * @param columns This is the number of board's columns
      * @param players This is the number of players
-     *                A different game board is created according to the number of players.
-     *                The board is a matrix of Spots and at the beginning each Spot has the occupied attribute set to false because there is no tile
      */
     public GameBoard(int rows, int columns, int players){
         TrueM.addMatrix(TrueM.negativeMatrix1);
@@ -76,7 +75,7 @@ public class GameBoard extends ObservableObject {
     }
 
     /**
-     *The method prints a representation of the board matrix,
+     * The method prints a representation of the board matrix,
      * showing occupied elements as "2" and unoccupied elements with specific values from the finalMatrix array.
      * */
     public boolean printMwithTiles() {
@@ -186,7 +185,8 @@ public class GameBoard extends ObservableObject {
         }
     }
 
-    /** This function verifies that the tile at coordinates c has at least one free side so that can be picked.
+    /**
+     * This function verifies that the tile at coordinates c has at least one free side so that can be picked.
      * This function will be called on maximum 3 tiles, after it returns true or false for all the tiles that will be picked
      */
     public boolean verifyPickable(Coordinates c){

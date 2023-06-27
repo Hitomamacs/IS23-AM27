@@ -11,11 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * auxiliary class used to create the json file for the personal goals
+ * Auxiliary class used to create the json file for the personal goals
  */
 
 public class POb_2Js {
 
+    /**
+     * The method converts the pOb_2Js object into JSON format and writes it
+     * to the "PGoals.json" file using a PrintWriter object.
+     * @param pOb_2Js object we want to convert into a JSON format
+     */
     public static void to_json(POb_2Js pOb_2Js){
         Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String json =  gson_parser.toJson(pOb_2Js);
@@ -27,15 +32,12 @@ public class POb_2Js {
             e.printStackTrace();
         }
     }
-
     public List<PersonalGoal> getPersonalGoals_list() {
         return personalGoals_list;
     }
 
     @Expose
     private List<PersonalGoal> personalGoals_list;
-
-
 
     public POb_2Js(){
         List<Goal> goals;
@@ -64,6 +66,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(1, goals);
         personalGoals_list.add(personalGoal);
 
+        // PersonalGoal 3
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(2, 2), Color.PINK));
         goals.add(new Goal(new Coordinates(1, 0), Color.BLUE));
@@ -74,7 +77,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(2, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 4
+        // PersonalGoal 4
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(3, 3), Color.PINK));
         goals.add(new Goal(new Coordinates(2, 2), Color.BLUE));
@@ -96,7 +99,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(4, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 6
+        // PersonalGoal 6
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(5, 0), Color.PINK));
         goals.add(new Goal(new Coordinates(4, 3), Color.BLUE));
@@ -107,7 +110,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(5, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 7
+        // PersonalGoal 7
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(2, 1), Color.PINK));
         goals.add(new Goal(new Coordinates(1, 3), Color.BLUE));
@@ -118,7 +121,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(6, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 8
+        // PersonalGoal 8
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(3, 0), Color.PINK));
         goals.add(new Goal(new Coordinates(0, 4), Color.BLUE));
@@ -129,7 +132,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(7, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 9
+        // PersonalGoal 9
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(4, 4), Color.PINK));
         goals.add(new Goal(new Coordinates(5, 0), Color.BLUE));
@@ -140,7 +143,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(8, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 10
+        // PersonalGoal 10
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(5, 3), Color.PINK));
         goals.add(new Goal(new Coordinates(4, 1), Color.BLUE));
@@ -151,7 +154,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(9, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 11
+        // PersonalGoal 11
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(0, 2), Color.PINK));
         goals.add(new Goal(new Coordinates(3, 2), Color.BLUE));
@@ -162,7 +165,7 @@ public class POb_2Js {
         personalGoal = new PersonalGoal(10, goals);
         personalGoals_list.add(personalGoal);
 
-// PersonalGoal 12
+        // PersonalGoal 12
         goals = new ArrayList<>();
         goals.add(new Goal(new Coordinates(1, 1), Color.PINK));
         goals.add(new Goal(new Coordinates(2, 2), Color.BLUE));
@@ -172,12 +175,8 @@ public class POb_2Js {
         goals.add(new Goal(new Coordinates(3, 3), Color.AZURE));
         personalGoal = new PersonalGoal(11, goals);
         personalGoals_list.add(personalGoal);
-
-        // PersonalGoal 12
-
     }
-
-    }
+}
 
 
 

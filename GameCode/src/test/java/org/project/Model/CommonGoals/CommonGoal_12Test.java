@@ -360,6 +360,28 @@ class CommonGoal_12Test {
         CommonGoal_12 commonGoal = new CommonGoal_12();
         assertFalse(commonGoal.checkGoal(playerGrid));
     }
+
+    @Test
+    public void checkTotalMatrixFalse(){
+
+        PlayerGrid playerGrid = new PlayerGrid();
+        matrix= new Color[][]{
+                {Color.PINK, Color.BLUE, Color.GREEN, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.PINK, Color.GREEN, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.PINK, Color.PINK, Color.AZURE, Color.WHITE},
+                {Color.PINK, Color.GREEN, Color.PINK, Color.PINK, Color.WHITE},
+                {Color.PINK, Color.BLUE, Color.GREEN, Color.AZURE, Color.PINK},
+                {Color.YELLOW, Color.BLUE, Color.GREEN, Color.AZURE, Color.WHITE},
+        };
+
+        playerGrid.quickGridSetter(matrix);
+
+        playerGrid.printColorPlayerGrid();
+
+        // create a CommonGoal_12 instance and check the goal
+        CommonGoal_12 commonGoal = new CommonGoal_12();
+        assertFalse(commonGoal.checkGoal(playerGrid));
+    }
 }
 
 

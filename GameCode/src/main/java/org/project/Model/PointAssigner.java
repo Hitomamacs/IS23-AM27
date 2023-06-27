@@ -8,8 +8,6 @@ import java.util.Stack;
 
 import static java.lang.Integer.valueOf;
 
-//whoever creates PointAssigner will have to use the constructor then call the initialize function
-//passing number of players and number of common goals
 public class PointAssigner {
     @Expose
 
@@ -21,6 +19,14 @@ public class PointAssigner {
     public List<Stack<Integer>> getStackList(){
         return stackList;
     }
+
+    /**
+     * The method is used to initialize a stack list (stackList) based on the number of players (numPlayers)
+     * and the number of common goals (numCGoals) specified.
+     * @param numPlayers that are playing
+     * @param numCGoals that the players have to complete
+     * @throws IllegalArgumentException if the number of players is incorrect
+     */
     public void initialize(int numPlayers, int numCGoals) throws IllegalArgumentException{
 
         Stack<Integer> stack;
@@ -32,12 +38,12 @@ public class PointAssigner {
         switch(numPlayers) {
             case 4:
                 for (int i = 0; i < numCGoals; i++) {
-                     stack = new Stack<>();
-                     stack.push(2);
-                     stack.push(4);
-                     stack.push(6);
-                     stack.push(8);
-                     stackList.add(stack);
+                    stack = new Stack<>();
+                    stack.push(2);
+                    stack.push(4);
+                    stack.push(6);
+                    stack.push(8);
+                    stackList.add(stack);
                 }
                 break;
             case 3:
@@ -51,19 +57,20 @@ public class PointAssigner {
                 break;
             case 2:
                 for (int i = 0; i < numCGoals; i++) {
-                   stack = new Stack<>();
-                   stack.push(4);
-                   stack.push(8);
-                   stackList.add(stack);
+                    stack = new Stack<>();
+                    stack.push(4);
+                    stack.push(8);
+                    stackList.add(stack);
                 }
                 break;
         }
-        return;
     }
-    //assignPoints receives an int which corresponds to the position of the commonGoal in the
-    //orchestrator/game selectedCGoals. The stack list will follow the same order.
-    //Stack should never be empty because it is initialized based on the number of players and players
-    //can't get points for completing a goal more than once.
+
+    /**
+     * @param position of the commonGoal in the selectedCGoals
+     * @return points that the player has obtained
+     * @throws IllegalArgumentException if the passed position is bigger than selectedCGoal size
+     */
     public int assignPoints(int position) throws IllegalArgumentException{
         if(position > stackList.size())
             throw new IllegalArgumentException("Passed position is bigger than selectedCGoal size");

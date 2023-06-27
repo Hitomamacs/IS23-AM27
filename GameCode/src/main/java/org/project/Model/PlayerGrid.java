@@ -11,9 +11,6 @@ public class PlayerGrid {
         initializeGrid();
     }
 
-    /**
-     * Method that initializes the grid with empty spots
-     */
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -23,6 +20,10 @@ public class PlayerGrid {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
+
+    /**
+     * Method that initializes the grid with empty spots
+     */
     private void initializeGrid() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -31,17 +32,19 @@ public class PlayerGrid {
         }
     }
 
-    //* Method that fills a spot with a tile with a mechanis similar to a stack*/
-    //add exception that checks if a column is full and throws eception
+    /**
+     * The method fills a spot with a tile with a mechanism similar to a stack with the exception that checks
+     * if a column is full (it throws exception)
+     * @param column selected by the player
+     * @param tile that the player wants to put in his grid
+     */
     public void topUp(int column, Tile tile) {
         if (column < 0 || column > 4) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
         }
-
         if (columnFull(column)) {
             throw new IllegalArgumentException("Column is full");
         }
-
         for (int i = 5; i >= 0; i--) {
             if (!grid[i][column].isOccupied()) {
                 grid[i][column].placeTile(tile);
@@ -49,10 +52,13 @@ public class PlayerGrid {
                 return;
             }
         }
-
     }
 
-   //* Method that returns a boolean that tells if the number of tiles is available in a column*/
+    /**
+     * @param column in which the player wants to put the selected tiles
+     * @param n_tiles that the player wants to put in the selected column
+     * @return a boolean that tells if the number of tiles is available in a column
+     */
     public boolean spaceCheck(int column, int n_tiles) {
         if (column < 0 || column > 4) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
@@ -68,10 +74,11 @@ public class PlayerGrid {
         } else {
             return false;
         }
-
     }
 
-    //* Method that returns a boolean that tells if the grid is full*/
+    /**
+     * @return boolean that tells if the grid is full
+     */
     public boolean fullCheck() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -83,6 +90,10 @@ public class PlayerGrid {
         return true;
     }
 
+    /**
+     * @param c coordinates of the player grid
+     * @return the spot selected with the coordinates
+     */
     public Spot getSpot(Coordinates c) {
         if (c.getY() < 0 || c.getY() > 4) {
             throw new IllegalArgumentException("Column must be between 0 and 5");
@@ -93,6 +104,10 @@ public class PlayerGrid {
         return grid[c.getX()][c.getY()];
     }
 
+    /**
+     * @param column we want to check if it is full or not
+     * @return true if the columns is full, false otherwise
+     */
     private boolean columnFull(int column) {
         for (int i = 0; i < 6; i++) {
             if (!grid[i][column].isOccupied()) {
@@ -100,8 +115,6 @@ public class PlayerGrid {
             }
         }
         return true;
-
-
     }
 
     public Spot[][] getGrid(){
@@ -111,6 +124,9 @@ public class PlayerGrid {
         grid[row][column].setOccupied(false);
     }
 
+    /**
+     * The method prints the player grid
+     */
     public void printPlayerGrid(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
@@ -123,6 +139,11 @@ public class PlayerGrid {
             System.out.println();
         }
     }
+
+    /**
+     * The method sets the grid with the colors specified in the matrix
+     * @param matrix matrix of Color
+     */
     public void quickGridSetter(Color[][] matrix){
 
         int i = 0;
@@ -139,8 +160,11 @@ public class PlayerGrid {
                 }
             }
         }
-        return;
     }
+
+    /**
+     * The method prints the coloured player grid
+     */
     public void printColorPlayerGrid(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {

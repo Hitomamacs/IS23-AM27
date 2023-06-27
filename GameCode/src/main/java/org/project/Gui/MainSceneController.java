@@ -681,9 +681,9 @@ public class MainSceneController {
 
 
     public void quit(){
-        guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
+        //guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
         //guiUserInterface.getClient().close();
-        //Platform.exit();
+        Platform.exit();
         System.exit(0);
 
 

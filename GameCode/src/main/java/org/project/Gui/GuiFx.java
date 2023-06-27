@@ -57,7 +57,8 @@ public class GuiFx extends Application {
             this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
-                    guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());;
+                    Platform.exit();
+                    System.exit(0);
                 }
             });
 

@@ -65,7 +65,7 @@ public class JoinController {
 
 
     public void quit(){
-        centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
+        //centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
         //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);

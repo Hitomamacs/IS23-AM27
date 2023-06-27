@@ -85,7 +85,7 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.flushCoordinates();
             gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(10);
-            throw new InvalidMoveException("Tiles not adjacent, aligned or haven't one free side", 2);
+            throw new InvalidMoveException("Tiles not adjacent, aligned or with no free side", 2);
         }
 
     }

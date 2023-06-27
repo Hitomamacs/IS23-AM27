@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 public class CliUserInterface implements UserInterface {
 
+    private boolean firstAction;
     private ConnectionInterface client;
 
     private Screens screen = Screens.PLAYER_SCREEN;
@@ -24,6 +25,7 @@ public class CliUserInterface implements UserInterface {
 
         this.clientView = clientView;
         this.client = client;
+        firstAction=false;
         clientView.addPropertyChangeListener(getPopupListener());
         clientView.addPropertyChangeListener(getRefreshListener());
         clientView.addPropertyChangeListener(getPickListener());
@@ -164,10 +166,21 @@ public class CliUserInterface implements UserInterface {
                 // Depending on the user input, send a different type of message
                 switch (userInput) {
                     case "join":
-                        SendJoinMessage(client);
+                        if(firstAction==false){
+                            SendJoinMessage(client);
+                            firstAction=true;
+                        }else{
+                            displayMessage("Hai già fatto join/create_game");
+                        }
                         break;
                     case "create_game":
-                        SendCreateGameMessage(client);
+                        if(firstAction==false){
+                            SendCreateGameMessage(client);
+                            firstAction=true;
+                        }else{
+                            displayMessage("Hai già fatto join/create_game");
+                        }
+
                         break;
                     case "quit":
                         SendQuitMessage(client);

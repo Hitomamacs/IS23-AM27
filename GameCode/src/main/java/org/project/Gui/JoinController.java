@@ -45,7 +45,12 @@ public class JoinController {
 
             guiUserInterface.setNickname(username);
             guiUserInterface.setInput("join");
-            guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
+            if(guiUserInterface.isFirstAction()==false){
+                guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
+                guiUserInterface.setFirstAction(true);
+            }else{
+                Loginstatus.setText("Hai già fatto login/create game");
+            }
 
             centralController.showJoinScene();
             });

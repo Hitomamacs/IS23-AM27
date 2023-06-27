@@ -18,6 +18,7 @@ public class GuiUserInterface  implements UserInterface {
     private String nickname;
     private String input;
     private int numPlayers;
+    private boolean firstAction;
 
     private ConnectionInterface client;
     private GuiController guiController;
@@ -29,7 +30,7 @@ public class GuiUserInterface  implements UserInterface {
 
         this.clientView = clientView;
         this.client = connectionInterface;
-
+        firstAction=false;
 
     }
 
@@ -260,5 +261,13 @@ public class GuiUserInterface  implements UserInterface {
 
     public void setInput(String input) {
         this.input = input;
+    }
+
+    public boolean isFirstAction() {
+        return firstAction;
+    }
+
+    public void setFirstAction(boolean firstAction) {
+        this.firstAction = firstAction;
     }
 }

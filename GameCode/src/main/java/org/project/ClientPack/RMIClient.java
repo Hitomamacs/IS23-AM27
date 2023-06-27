@@ -67,7 +67,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             int port = Settings.RMI_PORT;
             Registry registry = null;
             try {
-                System.setProperty("java.rmi.server.hostname","10.42.0.1");
+                //System.setProperty("java.rmi.server.hostname", "10.42.0.1");
                 registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);

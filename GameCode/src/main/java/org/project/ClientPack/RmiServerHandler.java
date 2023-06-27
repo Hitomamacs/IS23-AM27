@@ -5,7 +5,7 @@ import org.project.Controller.Server.RMIServerInterface;
 import java.rmi.RemoteException;
 
 /**
- * class that continuously checks if the server is crushed
+ * class that continuously checks if the server is crashed
  */
 public class RmiServerHandler extends Thread{
     /**
@@ -43,9 +43,7 @@ public class RmiServerHandler extends Thread{
             try{
                 rmiServer.isConnected();
             }catch(RemoteException remoteException){
-                connected=false;
-                System.out.println("server disconnesso");
-                client.closeConnection();
+
             }
 
         }

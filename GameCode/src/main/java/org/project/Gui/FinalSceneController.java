@@ -29,9 +29,10 @@ public class FinalSceneController {
     private Label ThirdScore;
     @FXML
     private Label FourthScore;
-
     @FXML
     private Button BackButton;
+    @FXML
+    private Button QuitButton;
 
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
@@ -118,5 +119,14 @@ public class FinalSceneController {
             }
         }
         return highestScorer;
+    }
+
+     public void QuitAction(ActionEvent actionEvent) {
+        quit();
+    }
+
+    public void quit(){
+        Platform.exit();
+        System.exit(0);
     }
 }

@@ -80,11 +80,17 @@ public class CreateGameController {
             guiUserInterface.setNickname(username);
             guiUserInterface.setNumPlayers(numPlayers);
             guiUserInterface.setInput("create_game");
-            try {
-                guiUserInterface.getClient().SendCreateGameMessage(username, centralController.getGuiUserInterface().getClient().get_connection_type(), numPlayers);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+            if(guiUserInterface.isFirstAction()==false){
+                try {
+                    guiUserInterface.getClient().SendCreateGameMessage(username, centralController.getGuiUserInterface().getClient().get_connection_type(), numPlayers);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                guiUserInterface.setFirstAction(true);
+            }else{
+                loginstatus.setText("Hai già fatto login/create game");
             }
+
             centralController.showCreateGameScene();
         });
     }

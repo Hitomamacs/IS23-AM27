@@ -3,6 +3,7 @@ package org.project.ClientPack;
 import org.project.Controller.Server.Settings;
 import org.project.Gui.GuiUserInterfaceFactory;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -69,6 +70,14 @@ public class Client {
 
         System.out.println("Che tipo di connessione vuoi usare (rmi/socket)?");
         connessione= stdin.nextLine();
+        connessione = connessione.toLowerCase();
+
+        while(!connessione.equals("rmi") && !connessione.equals("socket")){
+            System.out.println("Inserisci uno dei due comandi (rmi/socket)");
+            connessione = stdin.next();
+            connessione = connessione.toLowerCase();
+        }
+
         switch(connessione){
             case "rmi":
                 try{
@@ -85,8 +94,16 @@ public class Client {
                  }
                 break;
         }
-        System.out.println("Che tipo di UserInterface  vuoi usare (CLI/GUI)?");
+        System.out.println("Che tipo di UserInterface vuoi usare (CLI/GUI)?");
         userInterface= stdin.nextLine();
+        userInterface= userInterface.toUpperCase();
+
+        while(!userInterface.equals("CLI") && !userInterface.equals("GUI")){
+            System.out.println("Inserisci uno dei due comandi (CLI/GUI)");
+            userInterface = stdin.next();
+            userInterface = userInterface.toUpperCase();
+        }
+
         switch (userInterface){
             case "CLI":
                 try{

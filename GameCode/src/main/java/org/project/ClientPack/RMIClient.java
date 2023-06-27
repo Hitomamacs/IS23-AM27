@@ -60,33 +60,33 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * method called to initiate the RMI client. This method establishes the connection with the RMI server.
      */
 
-    public void startClient() {
-        boolean nome;
-        boolean successo;
-        final Scanner stdin = new Scanner(System.in);
-        int port = Settings.RMI_PORT;
-        Registry registry = null;
-        try {
-            registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        public void startClient() {
+            boolean nome;
+            boolean successo;
+            final Scanner stdin = new Scanner(System.in);
+            int port = Settings.RMI_PORT;
+            Registry registry = null;
+            try {
+                registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+
+            //Looking up the registry for the remote object
+            try {
+                rmiServer = (RMIServerInterface) registry.lookup("Server");
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            } catch (NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            RmiServerHandler rmiServerHandler = new RmiServerHandler(rmiServer, this);
+            Thread serverHandlerThread = new Thread(rmiServerHandler);
+            serverHandlerThread.start();
+
+            //System.out.println("Connessione stabilita con successo");
         }
-
-        //Looking up the registry for the remote object
-        try {
-            rmiServer = (RMIServerInterface) registry.lookup("Server");
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        RmiServerHandler rmiServerHandler = new RmiServerHandler(rmiServer, this);
-        Thread serverHandlerThread = new Thread(rmiServerHandler);
-        serverHandlerThread.start();
-
-        //System.out.println("Connessione stabilita con successo");
-    }
 
 
     /**

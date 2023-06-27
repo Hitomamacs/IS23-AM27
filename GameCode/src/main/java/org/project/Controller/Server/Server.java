@@ -11,16 +11,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * main server
+ */
+
 public class Server {
 
-    private Game game;
-    private Controller controller;
-    private final Object lock = new Object();
-    private int connectedPlayers;
-
     /**
-     * variabile per tener conto di quante persone ho aggiunto
+     * reference to Game
      */
+    private Game game;
+    /**
+     * reference to Controller
+     */
+    private Controller controller;
+    /**
+     * object for synchronized
+     */
+    private final Object lock = new Object();
+    /**
+     * number of connected player
+     */
+    private int connectedPlayers;
 
 
     /**
@@ -236,6 +248,7 @@ public class Server {
     //and a more general method used for broadcasting messages to all the clients (which iterates on the two
     //client hash maps and then calls the previously mentioned methods), when the message has to be sent to a
     //single client we directly use the smaller methods
+
 
     //Sent at the beginning of the game and updates the client view (Could be the one sent if we decide
     //to implement a refresh view method called from the client, in this case though it should be sent just

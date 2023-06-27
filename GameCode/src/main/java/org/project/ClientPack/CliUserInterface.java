@@ -170,7 +170,9 @@ public class CliUserInterface implements UserInterface {
                     case "join":
                         if(firstAction==false){
                             SendJoinMessage(client);
-                            firstAction=true;
+                            if(!clientView.getPopUpErrorMessage().contains("is already in use in the game")){
+                                firstAction=true;
+                            }
                         }else{
                             displayMessage("Hai già fatto join/create_game");
                         }
@@ -178,7 +180,9 @@ public class CliUserInterface implements UserInterface {
                     case "create_game":
                         if(firstAction==false){
                             SendCreateGameMessage(client);
-                            firstAction=true;
+                            if(!clientView.getPopUpErrorMessage().equals("Already an existing game") && !clientView.getPopUpErrorMessage().contains("is already in use in the game")){
+                                firstAction=true;
+                            }
                         }else{
                             displayMessage("Hai già fatto join/create_game");
                         }

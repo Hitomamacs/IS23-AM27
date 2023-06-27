@@ -73,7 +73,10 @@ public class JoinController {
             guiUserInterface.setInput("join");
             if(guiUserInterface.isFirstAction()==false){
                 guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
-                guiUserInterface.setFirstAction(true);
+                if(!guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game")){
+                    guiUserInterface.setFirstAction(true);
+                }
+
             }else{
                 Loginstatus.setText("Hai già fatto login/create game");
             }

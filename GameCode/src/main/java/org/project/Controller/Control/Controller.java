@@ -306,6 +306,7 @@ public class Controller {
         return null;
     }
     public void warnNextPlayer(){
+
         String playerName = this.orchestrator.getCurrentPlayer().getNickname();
         GameState state = this.orchestrator.getState();
         String Info = " ";

@@ -74,7 +74,7 @@
             <Font name="Arial" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="QuitButton" layoutX="147.0" layoutY="665.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" onAction="#QuitAction" text="Quit">
+      <Button fx:id="QuitButton" layoutX="147.0" layoutY="665.0" mnemonicParsing="false" onAction="#QuitAction" prefHeight="35.0" prefWidth="80.0" text="Quit">
          <font>
             <Font name="Arial" size="24.0" />
          </font>

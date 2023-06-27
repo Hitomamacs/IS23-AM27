@@ -131,7 +131,6 @@ public class OtherGridsController {
         }
     }
 
-
     public void refreshGrids() {
         Platform.runLater(() -> {
             Random random = new Random();

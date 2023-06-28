@@ -55,7 +55,6 @@ public class Client {
         final Scanner stdin= new Scanner(System.in);
 
         //Controllo se le porte mi vengono passate in ingresso
-        //TODO: anche server name può essere passato?
         if(args.length!=0){
             socketPort=Integer.parseInt(args[0]);
             rmiPort=Integer.parseInt((args[0]));

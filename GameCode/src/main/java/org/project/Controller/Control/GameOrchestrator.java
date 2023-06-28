@@ -11,6 +11,11 @@ import org.project.Model.CommonGoals.CommonGoal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The GameOrchestrator class is responsible for managing the game orchestration, including players, current game state,
+ * game board, selected common goals, point assigner, tile bag, and other game-related information.
+ */
+
 public class GameOrchestrator {
 
     @Expose
@@ -52,6 +57,18 @@ public class GameOrchestrator {
         this.selectedCGoal = selectedCGoal;
     }
 
+    /**
+     * Constructs a GameOrchestrator object with the specified players, game board, selected common goals, point assigner,
+     * tile bag, and game.
+     *
+     * @param players          the list of players participating in the game
+     * @param gameBoard        the game board
+     * @param selectedCGoal    the list of selected common goals
+     * @param pointAssigner    the point assigner
+     * @param tileBag          the tile bag
+     * @param game             the game object
+     */
+
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;
@@ -69,9 +86,20 @@ public class GameOrchestrator {
         }
     }
 
+    /**
+     * Changes the current state of the game to the specified state.
+     *
+     * @param state the new game state
+     */
     public void changeState(GameState state){
         this.State=state;
     }
+
+    /**
+     * Executes the current game state. Throws an InvalidMoveException if an invalid move is made.
+     *
+     * @throws InvalidMoveException if an invalid move is made
+     */
 
     public void executeState()throws InvalidMoveException {
         this.State.execute();

@@ -16,17 +16,50 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+/**
+ * The Controller class is responsible for managing the game logic and communication between
+ * the server, players, and the game model.
+ * It handles actions such as creating a game, joining a game, starting the game,
+ * making moves, and managing the game state.
+ * The controller acts as a bridge between the user interface and the game model,
+ * ensuring that the game rules are enforced and the game progresses correctly.
+ */
 
 public class Controller {
 
+    /**
+     *list composed by user
+     */
     private List<User> lobby;
+    /**
+     * reference to main server
+     */
     private Server server;
+    /**
+     * reference to game
+     */
     private Game game;
 
+    /**
+     * reference to game orchestrator
+     */
+
     private GameOrchestrator orchestrator;
+
+    /**
+     * reference to virtual view
+     */
     private VirtualView view;
 
+    /**
+     * max num players
+     */
     private int numPlayers = 4;
+
+    /**
+     * constructor
+     * @throws RemoteException
+     */
 
     public Controller() throws RemoteException {
 
@@ -54,11 +87,26 @@ public class Controller {
         return this.view;
     }
 
+    /**
+     * Refreshes the controller by resetting the lobby and game objects.
+     * Creates a new empty lobby and initializes a new game object with the server.
+     * Adds a property change listener to the game object to listen for changes in the game state.
+     */
     public void refresh(){
         this.lobby = new ArrayList<>();
         this.game = new Game(server);
         game.addPropertyChangeListener(this.GameStateListener);
     }
+
+    /**
+     * Starts the game by initializing the view, setting the player order,
+     * initializing the game, linking the model to the view,
+     * picking common and personal goals, setting up the game board, executing the game state,
+     * sending the view to the server,
+     * and sending an info message to the server.
+     *
+     * @throws RuntimeException if an exception occurs during the game initialization or execution
+     */
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -87,6 +135,12 @@ public class Controller {
         server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
 
     }
+
+    /**
+     * Links the model to the view by adding property change listeners to the players,
+     * game board, and game object,
+     * which update the view when changes occur.
+     */
     public void linkModel2View(){
         for(Player player : game.getPlayers()){
             player.addPropertyChangeListener(view.getTilesUpdateListener());
@@ -97,6 +151,13 @@ public class Controller {
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
         game.addPropertyChangeListener(view.getScoreBoardListener());
     }
+
+    /**
+     * Generates a random order for the players based on the given list of users.
+     *
+     * @param users the list of users representing the players
+     * @return the list of players in a random order
+     */
     public List<Player> playerOrder(List<User> users){
         Random random = new Random();
         List<User> usersCopy = new ArrayList<>(users);
@@ -108,6 +169,7 @@ public class Controller {
         }
         return playerOrder;
     }
+
     /**
      * method for logging the FIRST player through the nickname.
      * @param username player's name
@@ -181,11 +243,26 @@ public class Controller {
         }
         throw new InvalidLoginException("No available game to join", 1);
     }
+
+    /**
+     * Sends a refresh request to the server for the specified username.
+     *
+     * @param username the username of the player requesting a refresh
+     */
     public void refreshRequest(String username){
         if(game.getGameStarted()) {
             server.refresh(username, view);
         }
     }
+
+    /**
+     * Sends a chat message from the specified username with the given text.
+     * The message is sent to the server for broadcasting to all connected players.
+     *
+     * @param username the username of the player sending the chat message
+     * @param text the content of the chat message
+     * @return true if the chat message was sent successfully, false otherwise
+     */
     public boolean chat(String username, String text){
         server.sendChat(username, text);
         return true;
@@ -305,6 +382,8 @@ public class Controller {
         }
         return null;
     }
+
+    //todo javadoc
     public void warnNextPlayer(){
 
         String playerName = this.orchestrator.getCurrentPlayer().getNickname();
@@ -322,11 +401,25 @@ public class Controller {
             this.server.sendInfo(Info, 4);
         }
     }
+
+    /**
+     * Handles an InvalidMoveException by sending the exception information to the server.
+     * It sends the error message, user object associated with the username, and an identifier to the server.
+     *
+     * @param e The InvalidMoveException to handle.
+     * @param username The username associated with the action that caused the exception.
+     */
     public void handleStateException(InvalidMoveException e, String username){
         String info = e.getMessage();
         int identifier = e.getIdentifier();
         server.sendInfo(info, getUser(username), identifier);
     }
+
+    /**
+     * Checks the lobby to ensure at least one player is connected.
+     * If all players in the lobby are disconnected, it removes all users from the lobby,
+     * notifies the server's lock object, and sets the gameStarted flag to false.
+     */
     public void lobbyCheck(){
         System.out.println("Lobby check");
         boolean allDisconnected = true;
@@ -347,6 +440,19 @@ public class Controller {
             game.setGameStarted(false);
         }
     }
+
+    /**
+     * PropertyChangeListener implementation that listens for user connection updates.
+     * It checks if the property name is "ConnectionUpdate" and retrieves the new value.
+     * If the user is connected, it updates the corresponding player's connection status in the game.
+     * If the user is connected, it sends a notification to the server that the player has joined the game.
+     * If the user is disconnected, it sends a notification to the server that the player has disconnected.
+     * If the game has not started and the user is disconnected, it removes the user from the
+     * lobby and notifies the server's lock object.
+     * It then performs lobby checks to ensure at least one player is connected.
+     * If the game has started and the user is the correct player,
+     * it checks the game state and executes the appropriate actions.
+     */
     PropertyChangeListener UserConnectionListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -396,6 +502,13 @@ public class Controller {
         }
 
     };
+
+    /**
+     * PropertyChangeListener implementation that listens for game state updates.
+     * It checks if the property name is "GameStateUpdate" and retrieves the new value.
+     * If the game state is false, it sends end game information, including the scoreboard, to the server.
+     * Finally, it notifies the server's lock object to wake up any waiting threads.
+     */
     PropertyChangeListener GameStateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -418,6 +531,13 @@ public class Controller {
 
     };
 
+    /**
+     * Launches the application by initializing the server and the controller.
+     * It attempts to initialize the server and create a new instance of the controller.
+     * If any RemoteException occurs during the initialization process, it throws a RuntimeException.
+     *
+     * @param args the command line arguments
+     */
     public void launch(String[] args){
         try {
             Controller controller = new Controller();

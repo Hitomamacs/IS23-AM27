@@ -59,7 +59,7 @@ public class Server {
     /**
      * constructor
      */
-    //TODO:devo passare game e game orchestrator
+
     public Server(Controller controller) throws RemoteException {
 
         this.controller = controller;
@@ -68,13 +68,25 @@ public class Server {
         rmiServer= new RMIServerApp(this);
         connectedPlayers=0;
     }
+
+    /**
+     * Initializes a new game using the provided controller.
+     * Sets the game object obtained from the controller as the current game.
+     * Resets the number of connected players to 0.
+     *
+     * @param controller the controller used to start the new game
+     */
     public void newGame(Controller controller){
         game = controller.getGame();
         connectedPlayers = 0;
     }
 
     /**
-     * MAIN
+     * Initializes the server for the game.
+     * Starts an RMI server on the port specified in Settings.RMI_PORT.
+     * Starts a thread for the socket server.
+     * Waits until the number of players in the controller's lobby is equal to the desired number of players.
+     * Once the number of players reaches the desired count, starts the game by calling the startGame() method on the controller.
      */
     public void serverInit() {
         int rmiPort = Settings.RMI_PORT;
@@ -180,6 +192,14 @@ public class Server {
         return controller.topUp(username, column, tileIndex);
     }
 
+    /**
+     * Sets a player as disconnected based on the provided username.
+     * If the username is not null, it sets the connected status of the corresponding user to false
+     * and decrements the count of connected players.
+     * This action triggers a listener or event to handle the disconnection.
+     *
+     * @param username the username of the player to be set as disconnected
+     */
     void set_player_disconnected(String username){
         if(username != null) {
             controller.getUser(username).setConnected(false);
@@ -217,31 +237,6 @@ public class Server {
         return controller.quit(username);
     }
 
-
-    /**
-     * send a chat message to all players
-     * @param username message sender
-     * @param message message you want to send
-     * @throws RemoteException if something goes wrong with the connection
-    */
-    public void sendMessage (String username,String message){
-        System.out.println("server received : "+ message);
-
-        //per i client RMI:
-        for(RMIClientInterface rmiCl: rmiServer.getClientsRMI().values()){  //MI SA FOR SBAGLIATO
-            try{rmiCl.printMsgChat(username,message);}
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-
-        //per i client Socket:
-    }
-
-   //METODI GET E SET
-   
-
-
     //METODI PER LA VIEW
 
     //Next are the methods for sending information to the clients, two smaller methods sendRMI and sendSocket
@@ -253,6 +248,14 @@ public class Server {
     //Sent at the beginning of the game and updates the client view (Could be the one sent if we decide
     //to implement a refresh view method called from the client, in this case though it should be sent just
     //to the client who has requested it)
+    /**
+     * Sends the game view to the specified VirtualView.
+     * Retrieves the game state from the provided VirtualView and organizes it into various data structures.
+     * These include the game board, the point stack, the grid views, the tile views, the personal goal views,
+     * and the common goal view.
+     *
+     * @param view the VirtualView to which the game view will be sent
+     */
     public void send(VirtualView view){
 
         String[][] board = view.getBoardView().getBoard();
@@ -292,6 +295,18 @@ public class Server {
         });
 
     }
+
+    /**
+     * Refreshes the game view for a specific player in the provided VirtualView.
+     * Retrieves the game state from the VirtualView and organizes it into various data structures,
+     * including the game board, the point stack, the grid views, the tile views, the personal goal views,
+     * and the common goal view.
+     * Constructs a RefreshMsg object with the organized game view data.
+     * Send the new view to rmi and socket clients.
+     *
+     * @param playername the username of the player to refresh the game view for
+     * @param view the VirtualView containing the game state
+     */
     public void refresh(String playername, VirtualView view){
 
         String[][] board = view.getBoardView().getBoard();
@@ -333,6 +348,14 @@ public class Server {
         }
     }
     //Sends necessary stuff for update after a successful pick move
+    /**
+     * Sends an update message containing the game board and player's tiles to all connected clients after a successful pick move.
+     * Constructs an UpdatePickMsg object with the player's name, tiles, and board.
+     * Sends the message to all connected socket clients and rmiClients.
+     *
+     * @param boardView  the BoardView containing the game board
+     * @param tilesView  the TilesView containing the player's tiles
+     */
     public void send(BoardView boardView, TilesView tilesView){
         String[][] board = boardView.getBoard();
         String[] tiles = tilesView.getPlayerTiles();
@@ -356,6 +379,14 @@ public class Server {
         });
     }
     //Sends necessary stuff after a successful topUp move
+    /**
+     * Sends an update message containing the grid view and player's tiles to all connected clients after a successful top up move.
+     * Constructs an UpdateTopUPMsg object with the player's name, tiles, and grid.
+     * Sends the message to all connected socket clients and rmiClients.
+     *
+     * @param gridView   the GridView containing the grid view
+     * @param tilesView  the TilesView containing the player's tiles
+     */
     public void send(GridView gridView, TilesView tilesView){
 
         String[][] grid = gridView.getGridView();
@@ -379,6 +410,13 @@ public class Server {
         });
     }
     //Sends necessary stuff to display final scoreBoard after game has ended
+    /**
+     * Sends an update message containing the scoreboard to all connected clients to display final scoreBoard after game has ended.
+     * Constructs a ScoreBoardMsg object with the scoreboard data.
+     * Sends the message to all connected socket clients and rmiClients.
+     *
+     * @param scoreBoard the ScoreBoardView containing the scoreboard data
+     */
     public void send(ScoreBoardView scoreBoard){
 
         HashMap<String, Integer> score = scoreBoard.getScoreBoard();
@@ -397,6 +435,17 @@ public class Server {
     //Rewriting server methods
 
     //Method to send text information to a single user
+    /**
+     * Sends an informational message to a specific user.
+     * Constructs a PopUpMsg object with the provided information.
+     * Sets the identifier for the message.
+     * Retrieves the username and connection type from the provided User object.
+     * Sends the message to the corresponding socket client or rmi client.
+     *
+     * @param info the information to be sent
+     * @param user reference to the User
+     * @param identifier the identifier for the message
+     */
     public void sendInfo(String info,User user, int identifier){
         PopUpMsg message = new PopUpMsg(info);
         message.setIdentifier(identifier);
@@ -415,6 +464,15 @@ public class Server {
 
     }
     //Method to send text information to all players
+    /**
+     * Sends an informational message to all connected clients.
+     * Constructs a PopUpMsg object with the provided information.
+     * Sets the identifier for the message.
+     * Sends the message to all connected socket clients and rmi clients.
+     *
+     * @param info the information to be sent
+     * @param identifier the identifier for the message
+     */
     public void sendInfo(String info, int identifier){
 
         PopUpMsg message = new PopUpMsg(info);
@@ -428,6 +486,14 @@ public class Server {
             }
         });
     }
+    /**
+     * Sends a chat message to all connected clients.
+     * Constructs a ChatMessage object with the provided username and text.
+     * Sends the message to all connected socket clients and rmi clients.
+     *
+     * @param username the username of the sender
+     * @param text the text of the chat message
+     */
     public void sendChat(String username, String text){
 
         ChatMessage message = new ChatMessage(username, text);
@@ -441,6 +507,15 @@ public class Server {
         });
 
     }
+
+    /**
+     * Removes a user from the server based on the username and connection type.
+     * If the connection type is socket, disconnects the corresponding socket client and removes it from the socket server's client list.
+     * If the connection type is RMI, removes the corresponding RMI client from the RMI server's client list.
+     *
+     * @param username the username of the user to be removed
+     * @param connectionType the connection type of the user (true for socket, false for RMI)
+     */
     public void removeUser(String username, boolean connectionType){
         if(connectionType){
             socketServer.getSocketClients().get(username).disconnect();
@@ -450,6 +525,15 @@ public class Server {
             rmiServer.getClientsRMI().remove(username);
         }
     }
+    //todo javadoc
+    /**
+     * Sends a pre-turn message to a specific player indicating their turn refresh.
+     * Constructs a PreTurnMsg object with the playername and move information.
+     * Sends the message to the corresponding socket client or rmi client.
+     *
+     * @param playername the username of the player
+     * @param move indicates whether the player can make a move in the current turn
+     */
     public void turn_Refresh(String playername, boolean move){
 
         boolean connectionType = controller.getUser(playername).getConnectionType();

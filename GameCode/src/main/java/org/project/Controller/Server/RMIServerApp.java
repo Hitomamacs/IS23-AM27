@@ -195,16 +195,6 @@ public class RMIServerApp implements RMIServerInterface {
         return false;
     }
 
-    /**
-     * send a chat message to all players
-     * @param nickname message sender
-     * @param message message you want to send
-     * @throws RemoteException if something goes wrong with the connection
-     */
-
-    public void sendMessageRequest(String nickname, String message) throws RemoteException{
-        server.sendMessage(nickname, message);
-    }
 
     /**
      * method called constantly by the client rmi to understand if the server is crushed

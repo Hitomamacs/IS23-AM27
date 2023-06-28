@@ -170,7 +170,7 @@ public class CliUserInterface implements UserInterface {
                     case "join":
                         if(firstAction==false){
                             SendJoinMessage(client);
-                            if(!clientView.getPopUpErrorMessage().contains("is already in use in the game")){
+                            if(!clientView.getPopUpErrorMessage().contains("is already in use in the game") && !clientView.getPopUpErrorMessage().contains("No available game to join")){
                                 firstAction=true;
                             }
                         }else{

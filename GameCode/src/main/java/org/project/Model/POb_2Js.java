@@ -32,6 +32,7 @@ public class POb_2Js {
             e.printStackTrace();
         }
     }
+
     public List<PersonalGoal> getPersonalGoals_list() {
         return personalGoals_list;
     }

@@ -13,9 +13,7 @@ public class PopUpView {
     public String getErrorMessage(){
         return ErrorMessage;
     }
-
     public String getUsername(){ return username; };
-
     public void setUsername(String username) {
         this.username = username;
     }

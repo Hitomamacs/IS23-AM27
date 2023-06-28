@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Random;
 
 /**
- * cClass that initializes the bag that contains all the tiles
+ * Class that initializes the bag that contains all the tiles
  */
 
 public class TileBag {

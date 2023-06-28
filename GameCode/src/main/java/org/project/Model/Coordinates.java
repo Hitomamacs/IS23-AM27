@@ -1,9 +1,13 @@
 package org.project.Model;
 
-
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+
+/**
+ * The Coordinates class represents the coordinates of the tiles in the game board or in the player's grid.
+ * It implements the Serializable interface, which means that objects of this class can be serialized and deserialized.
+ */
 
 public class Coordinates implements Serializable {
     @Expose

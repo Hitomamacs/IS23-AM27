@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The virtual view class contains the various view classes which will be both common to the server and
+ * client however the virtual view class its self is just on the server, so a few methods do take model parts
+ * as input, while the common parts do not so that in the client there won't be any need to know how
+ * the model data structures are implemented
+ */
 
-//The virtual view class contains the various view classes which will be both common to the server and
-//client however the virtual view class its self is just on the server, so a few methods do take model parts
-//as input, while the common parts do not so that in the client there won't be any need to know how
-//the model data structures are implemented
-//hello
 public class VirtualView {
 
     private Game game;

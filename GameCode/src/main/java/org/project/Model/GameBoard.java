@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * The class represents the game board
+ */
 public class GameBoard extends ObservableObject {
     @Expose
     private Spot[][] board;

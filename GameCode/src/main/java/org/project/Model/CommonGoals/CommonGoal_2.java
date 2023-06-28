@@ -1,5 +1,8 @@
 package org.project.Model.CommonGoals;
 
+/**
+ * Two columns formed each from 6 different types of tiles.
+ */
 
 import org.project.Model.Color;
 import org.project.Model.CommonGoals.CommonGoal;

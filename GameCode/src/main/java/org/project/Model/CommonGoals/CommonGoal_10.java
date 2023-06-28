@@ -4,6 +4,10 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Cinque tessere dello stesso tipo
+ * che formano una X.
+ */
 public class CommonGoal_10 extends CommonGoal {
 
     private final int goal_ID = 10;

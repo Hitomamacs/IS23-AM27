@@ -7,6 +7,10 @@ import org.project.Model.PlayerGrid;
 
 import java.util.ArrayList;
 
+/**
+ * Four lines formed each from 5 tiles of one, two or three types
+ * different. Different lines may have different combinations of tile types
+ */
 public class CommonGoal_7 extends CommonGoal {
 
     private final int goal_ID = 7;

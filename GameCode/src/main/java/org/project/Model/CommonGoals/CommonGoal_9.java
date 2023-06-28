@@ -6,6 +6,9 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Eight tiles of the same type. There are restrictions on the location of these tiles
+ */
 public class CommonGoal_9 extends CommonGoal {
 
     private final int goal_ID = 9;

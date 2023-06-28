@@ -5,6 +5,11 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Four separate groups formed each from four adjacent tiles of the same
+ * type (not necessarily as shown in figure). The tiles of a group can
+ * be different from those of another group.
+ */
 public class CommonGoal_3 extends CommonGoal {
 
     private final int goal_ID = 3;

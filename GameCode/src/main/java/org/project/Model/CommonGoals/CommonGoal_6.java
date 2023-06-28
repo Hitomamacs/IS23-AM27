@@ -6,6 +6,9 @@ import org.project.Model.PlayerGrid;
 
 import java.util.ArrayList;
 
+/**
+ * Two lines formed each from 5 different types of tiles
+ */
 public class CommonGoal_6 extends CommonGoal {
 
     private final int goal_ID = 6;

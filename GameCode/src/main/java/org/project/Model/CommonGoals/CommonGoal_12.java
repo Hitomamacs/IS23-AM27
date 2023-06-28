@@ -5,6 +5,13 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Five columns of increasing height or
+ * descending: starting from the first column
+ * left or right, each successive column
+ * it must be formed by an extra tile.
+ * Tiles can be of any type.
+ */
 public class CommonGoal_12 extends CommonGoal {
 
     private final int goal_ID = 12;

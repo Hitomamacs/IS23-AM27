@@ -6,6 +6,10 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Two separate groups of 4 tiles same type that form a 2x2 square.
+ * The tiles of the two groups must be of the same type.
+ */
 public class CommonGoal_1 extends CommonGoal {
 
     private  int goal_ID = 1;

@@ -5,6 +5,9 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Four tiles of the same type at the four corners of the Library.
+ */
 public class CommonGoal_8 extends CommonGoal {
 
     private final int goal_ID = 8;

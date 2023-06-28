@@ -5,6 +5,9 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Five tiles of the same type that form a diagonal.
+ */
 public class CommonGoal_11 extends CommonGoal {
 
     private final int goal_ID = 11;

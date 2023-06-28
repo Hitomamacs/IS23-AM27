@@ -43,6 +43,10 @@ public class FinalSceneController {
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -61,6 +65,11 @@ public class FinalSceneController {
             dialog.showAndWait();
         });
     }
+
+    /**
+     * The method is used to return to the Main Scene
+     * @param actionEvent button press
+     */
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             centralController.showMainScene();
@@ -69,16 +78,20 @@ public class FinalSceneController {
     public void setCentralController(GuiFx guiFx) {
         this.centralController = guiFx;
     }
-
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface=guiUserInterface;
     }
 
+    /**
+     * The method initializes the final scene showing player names and scores in order of high scores
+     * @param finalScore map of the final scores
+     *                   the keys are the names of the players and the values are the corresponding scores
+     */
     public void init(HashMap<String,Integer> finalScore) {
 
         String result;
 
-        if(finalScore.size()==2){
+        if(finalScore.size()==2) {
 
             ThirdScore.setVisible(false);
             ThirdNameLable.setVisible(false);
@@ -128,10 +141,15 @@ public class FinalSceneController {
             FourthNameLable.setText((result));
             FourthScore.setText(finalScore.get(result).toString());
             finalScore.remove(result);
-
         }
-
     }
+
+    /**
+     * The method finds the player with the highest score in the final score map by comparing scores
+     * @param finalScore map of the final scores,
+     *                  the keys are the names of the players and the values are the corresponding scores
+     * @return the player with the highest score
+     */
     String AssignScore(HashMap<String,Integer> finalScore){
         String highestScorer = null;
         int highestScore = Integer.MIN_VALUE;
@@ -148,10 +166,17 @@ public class FinalSceneController {
         return highestScorer;
     }
 
-     public void QuitAction(ActionEvent actionEvent) {
+    /**
+     * The method is an event handler for the Quit button, it calls the quit() method to quit the application.
+     * @param actionEvent button press
+     */
+    public void QuitAction(ActionEvent actionEvent) {
         quit();
     }
 
+    /**
+     * The method is called to close the application
+     */
     public void quit(){
         Platform.exit();
         System.exit(0);

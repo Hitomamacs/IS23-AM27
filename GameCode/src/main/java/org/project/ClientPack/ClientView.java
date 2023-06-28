@@ -190,16 +190,6 @@ ClientView extends ObservableObject {
         }
     }
 
-
-
-    //TODO: questo metodo deve essere chiamato PRIMA di qualsiasi altra cosa, è il metodo di benvenuto e dopo si sceglie rmi/socket, cli/gui
-    public void printStartImage() {
-        imagine = new Cli_Images();
-        imagine.printFirstImage();
-    }
-
-    //TODO: fare in modo che i giocatori vedano solo la PROPRIA personal goal card
-    //NOTA PER CHI DEVE USARE IL METODO: funziona, le carte vengono stampate in modo corretto, ho fatto la prova
     public void printPersonalGoalCard(String username){
         int idCard = personalGoalViews.get(username).intValue();
         switch (idCard){
@@ -631,7 +621,6 @@ ClientView extends ObservableObject {
         System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
     }
 
-    //TODO: si stampano all'inizio del gioco, sarebbe però carino che quando un giocatore le vuole vedere schiaccia un comando che gliele fa vedere sul momento
     public void printCommonGoal(){
         System.out.println("\nPrinting Common Goals Card");
         for(Integer id: commonGoalView){

@@ -36,6 +36,10 @@ public class CreateGameController {
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -80,7 +84,7 @@ public class CreateGameController {
             guiUserInterface.setNickname(username);
             guiUserInterface.setNumPlayers(numPlayers);
             guiUserInterface.setInput("create_game");
-            if(guiUserInterface.isFirstAction()==false){
+            if(!guiUserInterface.isFirstAction()){
                 try {
                     guiUserInterface.getClient().SendCreateGameMessage(username, centralController.getGuiUserInterface().getClient().get_connection_type(), numPlayers);
                 } catch (RemoteException e) {
@@ -91,7 +95,6 @@ public class CreateGameController {
             }else{
                 loginstatus.setText("Hai già fatto login/create game");
             }
-
             centralController.showCreateGameScene();
         });
     }
@@ -108,8 +111,6 @@ public class CreateGameController {
      * The method is called to close the application
      */
     public void quit(){
-        //centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
-        //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);
     }

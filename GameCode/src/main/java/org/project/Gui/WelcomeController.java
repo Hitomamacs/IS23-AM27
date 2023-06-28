@@ -31,6 +31,10 @@ public class WelcomeController {
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -54,62 +58,31 @@ public class WelcomeController {
     private GuiController guiController;
     private GuiFx centralController;
 
-
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
     }
+
+    /**
+     * The method is called when the "Create game" button is pressed in the welcome scene.
+     * It calls the GuiFx showCreateGameScene() method to switch to the game creation scene.
+     * @param actionEvent button press
+     */
     public void startCreateGameAction(ActionEvent actionEvent) {
-
         centralController.showCreateGameScene();
-
-        /*
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/createGame.fxml"));
-        Parent root= null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        CreateGameController controller=loader.getController();
-        controller.setGuiUserInterface(guiUserInterface);
-        guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
-        guiUserInterface.getClientView().addPropertyChangeListener(controller.getRefreshListener());
-        controller.setGuiController(guiController);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        guiController.closeScene();
-        guiController.setPrimaryStage(stage);
-        stage.show();*/
     }
 
+    /**
+     * The method is called when the "Join" button is pressed in the welcome scene.
+     * It calls the GuiFx showCreateGameScene() method to switch to the join scene.
+     * @param actionEvent button press
+     */
     public void startJoinAction(ActionEvent actionEvent) {
-
         centralController.showJoinScene();
-        /*
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/join.fxml"));
-        Parent root= null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        JoinController controller=loader.getController();
-        controller.setGuiUserInterface(guiUserInterface);
-        guiUserInterface.getClientView().addPropertyChangeListener(controller.getPopupListener());
-        guiUserInterface.getClientView().addPropertyChangeListener(controller.getRefreshListener());
-        controller.setGuiController(guiController);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(root));
-        guiController.closeScene();
-        guiController.setPrimaryStage(stage);
-        stage.show();
-        */
     }
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }
-
     public void setGuiController(GuiController guiController) {
         this.guiController = guiController;
     }

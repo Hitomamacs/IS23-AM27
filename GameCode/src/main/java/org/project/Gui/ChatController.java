@@ -26,6 +26,10 @@ public class ChatController {
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -41,14 +45,16 @@ public class ChatController {
 
             dialog.getDialogPane().setContent(contentPane);
 
-
             dialog.showAndWait();
         });
     }
     private GuiUserInterface guiUserInterface;
-
     private GuiFx centralController;
 
+    /**
+     * The method configures the disabling property of the "Send" button based on the content of the "messageTextField"
+     * text field. The "Send" button is disabled if the text field is empty.
+     */
     public void initialize() {
         Send.disableProperty().bind(messageTextField.textProperty().isEmpty());
     }
@@ -59,6 +65,11 @@ public class ChatController {
         this.centralController = centralController;
     }
 
+    /**
+     * The method takes the message from the text field, adds it to the chat, clears the text field
+     * and sends the text message
+     * @param actionEvent button press
+     */
     public void sendMessage(ActionEvent actionEvent) {
         Platform.runLater(()->{
             String message = messageTextField.getText();
@@ -67,12 +78,29 @@ public class ChatController {
             guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
         });
     }
+
+    /**
+     * The method adds the message to the chat, preceded by the username "You" to indicate
+     * that the message is sent by the current user
+     * @param message button press
+     */
     private void appendMessageToChat(String message) {
         chatTextArea.appendText("You: " + message + "\n");
     }
+
+    /**
+     * The method clears the content of the text field
+     */
     private void clearMessageTextField() {
         messageTextField.clear();
     }
+
+    /**
+     * The method adds a message to the chat from another user.
+     * The message is displayed in the chatTextArea with the username of the message author.
+     * @param username of the player who has sent the message in the chat
+     * @param message that the player wants to share with other players
+     */
     public void addMessageToChat(String username, String message) {
         Platform.runLater(() -> {
             if(!(username.equals(guiUserInterface.getNickname()))){
@@ -80,6 +108,11 @@ public class ChatController {
             }
         });
     }
+
+    /**
+     * The method is used to return to the Main Scene
+     * @param actionEvent button press
+     */
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             centralController.showMainScene();

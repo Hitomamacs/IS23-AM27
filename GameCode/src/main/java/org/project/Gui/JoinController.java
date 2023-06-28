@@ -36,6 +36,10 @@ public class JoinController {
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -63,6 +67,11 @@ public class JoinController {
         this.centralController = controller;
     }
 
+    /**
+     * The method takes the username entered by the user, stores it and sends a join message to the remote client.
+     * If the user has previously logged in or created a game, an appropriate message is shown.
+     * @param actionEvent button press
+     */
     public void JoinAction(ActionEvent actionEvent) {
 
         Platform.runLater(()->{
@@ -71,19 +80,16 @@ public class JoinController {
 
             guiUserInterface.setNickname(username);
             guiUserInterface.setInput("join");
-            if(guiUserInterface.isFirstAction()==false){
+            if(!guiUserInterface.isFirstAction()){
                 guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
                 if(!guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game")){
                     guiUserInterface.setFirstAction(true);
                 }
-
             }else{
                 Loginstatus.setText("Hai già fatto login/create game");
             }
-
             centralController.showJoinScene();
             });
-
     }
 
     /**
@@ -108,8 +114,6 @@ public class JoinController {
      * The method is called to close the application
      */
     public void quit(){
-        //centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
-        //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);
     }

@@ -60,8 +60,6 @@ public class MainSceneController {
     @FXML
     private Button warning;
 
-
-
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -712,12 +710,7 @@ public class MainSceneController {
 
 
     public void quit(){
-        //guiUserInterface.getClient().SendQuitMessage(guiUserInterface.getNickname());
-        //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);
-
-
     }
-
 }

@@ -4,14 +4,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.project.ClientPack.ClientView;
@@ -20,8 +15,11 @@ import org.project.Controller.Messages.ChatMessage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GuiFx extends Application {
+/**
+ * Class that manages the switch between the various scenes and that contains all the property change listeners
+ */
 
+public class GuiFx extends Application {
 
     private Stage primaryStage;
     private WelcomeController welcomeController;
@@ -32,15 +30,11 @@ public class GuiFx extends Application {
     private Scene createGameScene;
     private JoinController joinController;
     private Scene joinScene;
-
     private OtherGridsController otherGridsController;
-
     private Scene otherGridsScene;
     private FinalSceneController finalSceneController;
     private Scene finalScene;
-
     private ChatController chatController;
-
     private Scene chatScene;
     private static ClientView clientView;
     private static GuiUserInterface guiUserInterface;
@@ -48,13 +42,18 @@ public class GuiFx extends Application {
     public static void setClientView(ClientView clientView1){
         clientView=clientView1;
     }
-    public static void setguiUserInterface(GuiUserInterface guiUserInterface1){
+    public static void setGuiUserInterface(GuiUserInterface guiUserInterface1){
         guiUserInterface=guiUserInterface1;
     }
-
     public GuiUserInterface getGuiUserInterface(){
         return guiUserInterface;
     }
+
+    /**
+     *
+     * @param primaryStage initial screen stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         try{
@@ -73,7 +72,7 @@ public class GuiFx extends Application {
             guiUserInterface.getClientView().addPropertyChangeListener(getPopupListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getRefreshListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getPickListener());
-            guiUserInterface.getClientView().addPropertyChangeListener(getTopupListener());
+            guiUserInterface.getClientView().addPropertyChangeListener(getTopUpListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getScoreListener());
             guiUserInterface.getClientView().addPropertyChangeListener(getChatListener());
             guiUserInterface.setGuiCentralController(this);
@@ -84,9 +83,14 @@ public class GuiFx extends Application {
             e.printStackTrace();
         }
     }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+
+    /**
+     * The method handles the visualisation of the welcome scene
+     */
     public void showWelcomeScene(){
         if (welcomeController == null){
             try {
@@ -114,6 +118,10 @@ public class GuiFx extends Application {
 
         }
     }
+
+    /**
+     * The method handles the visualisation of the "create game" scene
+     */
     public void showCreateGameScene(){
         if (createGameController == null){
             try {
@@ -139,6 +147,10 @@ public class GuiFx extends Application {
             primaryStage.setResizable(false);
         }
     }
+
+    /**
+     * The method handles the visualisation of the join scene
+     */
     public void showJoinScene(){
         if (joinController == null){
             try {
@@ -161,6 +173,10 @@ public class GuiFx extends Application {
             primaryStage.show();
         }
     }
+
+    /**
+     * The method handles the visualisation of the main scene
+     */
     public void showMainScene(){
         if (mainSceneController == null){
             try {
@@ -185,6 +201,10 @@ public class GuiFx extends Application {
             primaryStage.show();
         }
     }
+
+    /**
+     * The method handles the visualisation of the other grids scene
+     */
     public void showOtherGridsScene(){
         if (otherGridsController == null){
             try {
@@ -211,6 +231,10 @@ public class GuiFx extends Application {
             primaryStage.show();
         }
     }
+
+    /**
+     * The method handles the visualisation of the final scene
+     */
     public void showFinalScene(){
         if(finalSceneController==null){
             try{
@@ -238,6 +262,10 @@ public class GuiFx extends Application {
             primaryStage.show();
         }
     }
+
+    /**
+     * The method handles the visualisation of the chat scene
+     */
     public void showChatScene(){
         if(chatController == null){
             try{
@@ -254,7 +282,6 @@ public class GuiFx extends Application {
                 primaryStage.setScene(newChatScene);
                 primaryStage.show();
 
-
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -265,6 +292,12 @@ public class GuiFx extends Application {
             primaryStage.show();
         }
     }
+
+    /**
+     * The method is responsible for showing a warning banner to the user when the server is unreachable
+     * or a server crash has occurred. It also checks if the user has clicked on the "OK" button in the banner.
+     * If the user clicked "OK", the Platform.exit() method is called to close the application.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -280,10 +313,17 @@ public class GuiFx extends Application {
             });
         });
     }
+
+    // PropertyChangeListeners are used to listen and respond to changes to some properties of the ClientView object
+
     public PropertyChangeListener getPopupListener() {
         return popupListener;
     }
 
+    /**
+     * The popupListener is a specific PropertyChangeListener that handles popup messages in the UI.
+     * Triggers when the ClientView object's popupCreate property changes.
+     */
     PropertyChangeListener popupListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -291,7 +331,7 @@ public class GuiFx extends Application {
                 if("popupCreate".equals(evt.getPropertyName())){
                     int identifier = guiUserInterface.getClientView().getPopUpIdentifier();
                     String message = guiUserInterface.getClientView().getPopUpErrorMessage();
-                    System.out.println("fire popup");
+                    //System.out.println("fire popup");
 
                     switch(identifier){
                         case (0):
@@ -319,9 +359,16 @@ public class GuiFx extends Application {
             });
         }
     };
+
     public PropertyChangeListener getRefreshListener() {
         return refreshlistener;
     }
+
+    /**
+     * The refreshListener takes care of updating the user interface when a change is observed in the refresh property
+     * of the ClientView object. In particular, it takes care of displaying the main scene,
+     * updating the game board and the grid.
+     */
     PropertyChangeListener refreshlistener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -332,17 +379,24 @@ public class GuiFx extends Application {
                     if(!refreshBool){
                         mainSceneController.refreshGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
                         refreshBool = true;
-                        System.out.println(refreshBool);
+                        //System.out.println(refreshBool);
                     }
                     //showMainScene();
-                    System.out.println("fire refresh");
+                    //System.out.println("fire refresh");
                 }
             });
         }
     };
+
     public PropertyChangeListener getPickListener() {
         return pickListener;
     }
+
+    /**
+     * The pickListener takes care of managing the event of a player selecting a tile.
+     * Depending on the player who made the selection, different actions are performed
+     * such as moving tiles on the board or updating the display of the board itself.
+     */
     PropertyChangeListener pickListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -352,18 +406,22 @@ public class GuiFx extends Application {
                         mainSceneController.moveTiles();
                     else
                         mainSceneController.refreshBoard(clientView.getBoard());
-                    System.out.println("fire pick");
+                    //System.out.println("fire pick");
                     //showMainScene();
                 }
             });
         }
     };
 
-    public PropertyChangeListener getTopupListener() {
-        return topupListener;
+    public PropertyChangeListener getTopUpListener() {
+        return topUpListener;
     }
 
-    PropertyChangeListener topupListener = new PropertyChangeListener() {
+    /**
+     * The topUpListener handles the event of a player adding tiles to the grid.
+     * When a player adds tiles to his grid, the grid visualisation is updated accordingly.
+     */
+    PropertyChangeListener topUpListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(() -> {
@@ -371,7 +429,7 @@ public class GuiFx extends Application {
                     if(guiUserInterface.getNickname().equals(evt.getNewValue())) {
                         mainSceneController.updateGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
                     }
-                    System.out.println("fire topup");
+                    //System.out.println("fire topup");
                     //showMainScene();
 
                 }
@@ -383,20 +441,32 @@ public class GuiFx extends Application {
     public PropertyChangeListener getScoreListener(){
         return scoreListener;
     }
+
+    /**
+     * The scoreListener takes care of handling a player's score update event.
+     * When a player's score is updated, the final scene of the game is displayed.
+     */
     PropertyChangeListener scoreListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Platform.runLater(()->{
                 if("score".equals(evt.getPropertyName())){
-                    System.out.println("fire score");
+                    //System.out.println("fire score");
                     showFinalScene();
                 }
             });
         }
     };
+
     public PropertyChangeListener getChatListener(){
         return chatListener;
     }
+
+    /**
+     * The chatListener handles the event of receiving a new message in the chat.
+     * When a new message is received, the message is displayed in the chat
+     * and the chat scene is shown for the user to view the message.
+     */
     PropertyChangeListener chatListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

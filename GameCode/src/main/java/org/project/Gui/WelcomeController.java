@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller that controls the Welcome Scene screen
+ */
 public class WelcomeController {
 
     @FXML

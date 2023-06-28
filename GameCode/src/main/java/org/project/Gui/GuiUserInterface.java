@@ -62,7 +62,7 @@ public class GuiUserInterface implements UserInterface {
      * and then launches the JavaFX application to display the GUI window.
      */
     public void launcher(){
-        GuiFx.setguiUserInterface(this);
+        GuiFx.setGuiUserInterface(this);
         GuiFx.setClientView(clientView);
         Application.launch(GuiFx.class);
     }

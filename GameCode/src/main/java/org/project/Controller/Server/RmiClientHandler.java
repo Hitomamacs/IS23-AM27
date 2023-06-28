@@ -53,7 +53,6 @@ public class RmiClientHandler extends Thread{
      * if it detects the remote exception it means that the
      * client is crushed so it aborts the connection.
      */
-
     @Override
     public void run() {
         while(connected){

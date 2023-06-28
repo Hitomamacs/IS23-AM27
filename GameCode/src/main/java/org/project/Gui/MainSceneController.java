@@ -20,6 +20,10 @@ import org.project.Model.Coordinates;
 
 import java.util.*;
 
+/**
+ * Controller that controls the Main scene
+ */
+
 public class MainSceneController {
     private GuiUserInterface guiUserInterface;
     private Coordinates lastpick;
@@ -162,6 +166,9 @@ public class MainSceneController {
         return this.Status;
     }
 
+    /**
+     * The method performs the operations to initialize and configure the graphical interface of the game
+     */
     public void init(){
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -206,6 +213,10 @@ public class MainSceneController {
         });
     }
 
+    /**
+     * The method updates the visual appearance of the game board
+     * @param board matrix representing the game board
+     */
     public void refreshBoard(String[][] board){
         Platform.runLater(()->{
             Random random = new Random();
@@ -281,22 +292,29 @@ public class MainSceneController {
                     }
                 }
                 }
-            //decidedCommonGoals();
-            //decidedPersonalGoals();
             });
     }
 
+    /**
+     * The method sets the images of the common goals
+     */
     public void decidedCommonGoals(){
         CGoalCard1.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(0)-1].getImage());
         CommonGoal2.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(1)-1].getImage());
     }
 
+    /**
+     * The method sets the images of the personal goals
+     */
     public void decidedPersonalGoals(){
         String nickname = guiUserInterface.getNickname();
-        PersonalGoalImage.setImage(personalGoal[guiUserInterface.getClientView().getPersonalGoalViews().get(nickname) ].getImage());
-        System.out.println(guiUserInterface.getClientView().getPersonalGoalViews().get(nickname));
+        PersonalGoalImage.setImage(personalGoal[guiUserInterface.getClientView().getPersonalGoalViews().get(nickname)].getImage());
+        //System.out.println(guiUserInterface.getClientView().getPersonalGoalViews().get(nickname));
     }
 
+    /**
+     * The method manages the movement of the tiles in the game
+     */
     public void moveTiles(){
         int i = 0;
         col_tick = -1;
@@ -314,6 +332,7 @@ public class MainSceneController {
                         initialPositionTile[1] = Tile1.getLayoutY();
                     });
 
+                    // the tile is moved according to the movement of the mouse
                     Tile1.setOnMouseDragged(event -> {
                         Tile1.setLayoutX(event.getSceneX() - initialPosition[0]);
                         Tile1.setLayoutY(event.getSceneY() - initialPosition[1]);
@@ -321,7 +340,6 @@ public class MainSceneController {
 
                     Tile1.setOnMouseReleased(event -> {
                         index = 1;
-                        // Perform your logic here
 
                         int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
                         int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
@@ -337,16 +355,15 @@ public class MainSceneController {
                                     col_tick = -1;
                                 }
                             guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
-
                         }
 
-                        //guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), );
-
+                        // guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), );
                         // return the tile to its initial position after drag
                         Tile1.setLayoutX(initialPositionTile[0]);
                         Tile1.setLayoutY(initialPositionTile[1]);
                     });
                     break;
+
                 case 1:
 
                     Tile2.setImage(tileCopy.getImage());
@@ -364,7 +381,6 @@ public class MainSceneController {
 
                     Tile2.setOnMouseReleased(event -> {
                         index = 2;
-                                // Perform your logic here
 
                                 int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
                                 int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
@@ -380,14 +396,13 @@ public class MainSceneController {
                                         }
                                     //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
                                     guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
-                                }
-
+                                    }
                                 }
                         Tile2.setLayoutX(initialPositionTile[0]);
                         Tile2.setLayoutY(initialPositionTile[1]);
-                    
                     });
                     break;
+
                 case 2:
 
                     Tile3.setImage(tileCopy.getImage());
@@ -447,6 +462,11 @@ public class MainSceneController {
         coordinates.clear();
     }
 
+    /**
+     * The method is used to select or deselect a tile in the game grid.
+     * @param column of the game board
+     * @param row of the game board
+     */
     public void selectTile(int column, int row) {
         ImageView tile = (ImageView) GrigliaBoard.getChildren().get(row * 9 + column);
         int tileIndex = selectedTiles.indexOf(tile);
@@ -464,7 +484,6 @@ public class MainSceneController {
                     break;
                 }
             }
-
             selectedTiles.remove(tileIndex);
             GrigliaBoard.getChildren().remove(selectedBorders.get(tileIndex));
             selectedBorders.remove(tileIndex);
@@ -513,12 +532,22 @@ public class MainSceneController {
         }
     }
 
+    /**
+     * The method sends a pick message to the server, containing the nickname, the number of the selected tiles
+     * and their coordinates
+     * @param actionEvent button press
+     */
     public void PickAction(ActionEvent actionEvent){
         if(coordinates.size() > 0){
             guiUserInterface.getClient().SendPickMessage(guiUserInterface.getNickname(), coordinates.size(), coordinates);
         }
         //centralController.getGuiUserInterface().getClient().SendPickMessage();
     }
+
+    /**
+     * The method updates the game grid with the images corresponding to the tiles present in the grid of the player
+     * @param grid of the player
+     */
     public void refreshGrid(String[][] grid){
         for(int i = 0; i < 5; i++){
             for(int j = 5; j >= 0; j--){
@@ -540,7 +569,6 @@ public class MainSceneController {
                 ImageView image = new ImageView();
                 switch (grid[j][k]) {
                     case ("I"):
-
                         break;
                     case ("A"):
                         if (addedGridPositions.contains(c)) {
@@ -597,6 +625,11 @@ public class MainSceneController {
         }
     }
 
+    /**
+     * The method copies the image of a selected tile from its original position (Tile1, Tile2 or Tile3)
+     * and places it in the player grid based on the last_col column and the row calculated by lastTile[last_col]
+     * @param grid of the player
+     */
     public void updateGrid(String[][] grid){
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 5; j++){
@@ -645,6 +678,9 @@ public class MainSceneController {
         this.guiUserInterface = guiUserInterface;
     }
 
+    /**
+     * The method is used to open the screen where it is possible to see other players' grids
+     */
     public void SwitchToGrids(){
         centralController.showOtherGridsScene();
     }
@@ -657,6 +693,10 @@ public class MainSceneController {
         quit();
     }
 
+    /**
+     * The method is used to open the chat screen
+     * @param action button press
+     */
     public void openChat(ActionEvent action){
         Platform.runLater(()->{
             centralController.showChatScene();

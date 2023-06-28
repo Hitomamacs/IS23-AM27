@@ -20,8 +20,17 @@ import javafx.scene.shape.Rectangle;
 import org.project.Model.Coordinates;
 
 import java.util.*;
+
+/**
+ *Controller that controls the OtherGrids scene
+ */
+
 public class OtherGridsController {
 
+    /**
+     * The method is used to return to the Main Scene
+     * @param actionEvent button press
+     */
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             centralController.showMainScene();
@@ -50,13 +59,15 @@ public class OtherGridsController {
     private Label player3;
     @FXML
     private Button Back;
-
     @FXML
     private Pane bannerPane;
-
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -79,7 +90,6 @@ public class OtherGridsController {
     private ArrayList<GridPane> gridPanes = new ArrayList<>();
     private ArrayList<ImageView> grids = new ArrayList<>();
     private ArrayList<Label> labels = new ArrayList<>();
-
     private HashMap<Integer, Set<Integer>> addedPositions = new HashMap<>();
     private ImageView[] azureImage = {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Trofei1.1.png"))),
@@ -111,15 +121,18 @@ public class OtherGridsController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.2.png"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/Gatti1.3.png")))
     };
-
     public void setCentralController(GuiFx controller) {
         this.centralController = controller;
     }
-
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }
 
+    /**
+     * The method sets the grids of the other players visible only for the participating players
+     * and adding the empty images in the correct position of the grids.
+     * In addition, a data structure is prepared to track the locations added by players.
+     */
     public void init() {
         grids.add(Grid1);
         grids.add(Grid2);
@@ -132,13 +145,11 @@ public class OtherGridsController {
         labels.add(player3);
         HashMap<String, String[][]> hashMap = guiUserInterface.getClientView().getGridsview();
 
-
         for (Map.Entry<String, String[][]> entry : hashMap.entrySet()) {
             if (!(entry.getKey().equals(guiUserInterface.getNickname()))) {
                 playerNames.add(entry.getKey());
             }
         }
-
         int num_players = guiUserInterface.getClientView().getGridsview().size() - 2;
         for (int i = 2; i > num_players; i--) {
             grids.get(i).setVisible(false);
@@ -159,6 +170,10 @@ public class OtherGridsController {
         }
     }
 
+    /**
+     * The method refreshes the game grids, adding or removing images in the corresponding positions
+     * based on the values of the cells in the player grids.
+     */
     public void refreshGrids() {
         Platform.runLater(() -> {
             Random random = new Random();

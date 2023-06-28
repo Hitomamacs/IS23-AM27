@@ -18,6 +18,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+/**
+ * Controller that controls the Create Game Scene
+ */
 public class CreateGameController {
     @FXML
     private TextField Username;

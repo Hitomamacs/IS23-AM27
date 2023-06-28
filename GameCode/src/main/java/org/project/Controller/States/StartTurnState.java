@@ -5,6 +5,10 @@ import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class StartTurnState implements GameState {
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private final int stateID = 6;
     private transient GameOrchestrator gameOrchestrator;
 

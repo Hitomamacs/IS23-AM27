@@ -7,6 +7,10 @@ import org.project.Model.PlayerGrid;
 public class VerifyGrillableState implements GameState {
     private final int stateID = 10;
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private transient GameOrchestrator gameOrchestrator;
 
     public VerifyGrillableState(GameOrchestrator orchestrator) {

@@ -3,6 +3,7 @@ package org.project.Model;
 
 import com.google.gson.annotations.Expose;
 import org.project.ClientPack.ObservableObject;
+import org.project.Controller.Control.GameOrchestrator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,6 +16,11 @@ public class GameBoard extends ObservableObject {
     private int[][] oneMatrix;
     @Expose
     private int[][] finalMatrix;
+
+    public ArrayList<Tile> getAdjcecent() {
+        return adjcecent;
+    }
+
     @Expose
     private ArrayList<Tile> adjcecent = new ArrayList<Tile>();
 
@@ -45,6 +51,15 @@ public class GameBoard extends ObservableObject {
             }
         }
     }
+
+    public GameBoard (GameOrchestrator orchestrator){
+        this.board = orchestrator.getGameBoard().getBoard();
+        this.oneMatrix = orchestrator.getGameBoard().getOneMatrix();
+        this.finalMatrix = orchestrator.getGameBoard().getFinalMatrix();
+        this.adjcecent = orchestrator.getGameBoard().getAdjcecent();
+    }
+
+
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";

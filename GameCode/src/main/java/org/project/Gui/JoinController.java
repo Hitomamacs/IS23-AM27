@@ -73,7 +73,7 @@ public class JoinController {
             guiUserInterface.setInput("join");
             if(guiUserInterface.isFirstAction()==false){
                 guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
-                if(!guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game")){
+                if(guiUserInterface.getClientView().getPopUpErrorMessage() != null && (!guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game"))){
                     guiUserInterface.setFirstAction(true);
                 }
 

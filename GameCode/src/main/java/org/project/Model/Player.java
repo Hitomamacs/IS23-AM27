@@ -4,6 +4,7 @@ package org.project.Model;
 import com.google.gson.annotations.Expose;
 import org.project.ClientPack.ObservableObject;
 
+import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,6 +25,11 @@ public class Player extends ObservableObject {
     private boolean[] CompletedCGoals;
     //TODO Pgoal ID
     private PersonalGoal myPersonalGoal;
+
+    public int getPersonalGoalID() {
+        return personalGoalID;
+    }
+
     @Expose
     private int personalGoalID;
     @Expose
@@ -33,6 +39,7 @@ public class Player extends ObservableObject {
 
     @Expose
     List<PersonalGoal> personalGoals_list;
+    @Expose
     private Tile[] pickedTiles;
 
     /**
@@ -59,6 +66,23 @@ public class Player extends ObservableObject {
         List<PersonalGoal > personalGoals_list = pOb_2Js.getPersonalGoals_list();
     }
 
+    public Player(Player player){
+        this.playerGrid = player.getPlayerGrid();
+        this.nickname = player.getNickname();
+        this.personalGoalID = player.getPersonalGoalID();
+        this.myPersonalGoal = player.getMyPersonalGoal();
+        this.score = player.getScore();
+        this.isConnected = player.isConnected();
+        this.CompletedCGoals = player.getCompletedCGoals();
+        this.selectedColumn = player.getSelectedColumn();
+        this.tileIndex = player.getTileIndex();
+        this.pickedTiles = player.getPickedTiles();
+
+
+    }
+    public void initializeSupport(){
+        this.setSupport(new PropertyChangeSupport (this));
+    }
     /**
      * The method reads personal goals data from a file using a BufferedReader and the Gson library.
      * The personal goals read are stored in the personalGoals_list.
@@ -66,13 +90,12 @@ public class Player extends ObservableObject {
      */
     public void personal_list_init(String filename){
         Reader reader = null;
-        try {
-            reader = Files.newBufferedReader(Paths.get(filename));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        POb_2Js pOb_2Js = gson_parser.fromJson(reader, POb_2Js.class);
+            ClassLoader classLoader=this.getClass().getClassLoader();
+            InputStream inputStream= classLoader.getResourceAsStream(filename);
+            BufferedReader read= new BufferedReader(new InputStreamReader(inputStream));
+
+        POb_2Js pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
 
         personalGoals_list = pOb_2Js.getPersonalGoals_list();
     }

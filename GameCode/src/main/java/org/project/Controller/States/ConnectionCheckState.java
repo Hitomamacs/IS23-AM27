@@ -18,6 +18,10 @@ public class ConnectionCheckState implements GameState {
         this.gameOrchestrator = orchestrator;
     }
 
+    public int getStateID(){
+        return stateID;
+    }
+
     @Override
     public void changeState() {
         if(gameOrchestrator.getCurrentPlayer().isConnected()){

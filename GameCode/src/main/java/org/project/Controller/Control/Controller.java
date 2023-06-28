@@ -26,6 +26,8 @@ public class Controller {
     private GameOrchestrator orchestrator;
     private VirtualView view;
 
+    private Persistencer persistencer = new Persistencer();
+
     private int numPlayers = 4;
 
     public Controller() throws RemoteException {
@@ -59,6 +61,29 @@ public class Controller {
         this.game = new Game(server);
         game.addPropertyChangeListener(this.GameStateListener);
     }
+
+    public void recoverGame(String name){
+        this.view = new VirtualView(lobby, game);
+        GameOrchestrator recovered = persistencer.load_all(name);
+        this.orchestrator = recovered;
+        this.game = new Game(recovered);
+        this.orchestrator.setPlayers(game.getPlayers());
+        this.orchestrator.setGameBoard(new GameBoard(recovered));
+        this.game.setGameStarted(true);
+        this.game.setOrchestrator(this.orchestrator);
+        this.recoverModel2View();
+        this.server.send(this.view);
+
+        orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+        try {
+            this.orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
+        this.server.send(this.view);
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
+    }
+
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -97,6 +122,18 @@ public class Controller {
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
         game.addPropertyChangeListener(view.getScoreBoardListener());
     }
+
+    public void recoverModel2View(){
+        for(Player player : game.getPlayers()){
+            player.addPropertyChangeListener(view.getTilesUpdateListener());
+            player.addPropertyChangeListener(view.getGridUpdateListener());
+            player.addPropertyChangeListener(view.getPGoalUpdateListener());
+        }
+        orchestrator.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
+
+        game.addPropertyChangeListener(view.getScoreBoardListener());
+    }
+
     public List<Player> playerOrder(List<User> users){
         Random random = new Random();
         List<User> usersCopy = new ArrayList<>(users);

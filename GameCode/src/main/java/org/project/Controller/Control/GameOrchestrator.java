@@ -15,6 +15,11 @@ public class GameOrchestrator {
 
     @Expose
     private int curr_sate_id;
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
     @Expose
     private List<Player> players;
     @Expose
@@ -38,7 +43,7 @@ public class GameOrchestrator {
     @Expose
     private List<Coordinates> pickedCoordinates;
     @Expose
-    private transient Game game;
+    private  Game game;
 
     public GameState getState() {
         return State;
@@ -50,6 +55,10 @@ public class GameOrchestrator {
 
     public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
         this.selectedCGoal = selectedCGoal;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
@@ -74,6 +83,7 @@ public class GameOrchestrator {
     }
 
     public void executeState()throws InvalidMoveException {
+        this.setCurr_sate_id(this.State.getStateID());
         this.State.execute();
     }
 

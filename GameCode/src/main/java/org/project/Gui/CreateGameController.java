@@ -86,8 +86,11 @@ public class CreateGameController {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-                if(!guiUserInterface.getClientView().getPopUpErrorMessage().equals("Already an existing game") && !guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game"))
-                guiUserInterface.setFirstAction(true);
+                if(guiUserInterface.getClientView()!=null){
+                    if(guiUserInterface.getClientView().getPopUpErrorMessage().equals("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game"))
+                        guiUserInterface.setFirstAction(true);
+                }
+
             }else{
                 loginstatus.setText("Hai già fatto login/create game");
             }

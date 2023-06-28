@@ -170,7 +170,7 @@ public class CliUserInterface implements UserInterface {
                     case "join":
                         if(firstAction==false){
                             SendJoinMessage(client);
-                            if(!clientView.getPopUpErrorMessage().contains("is already in use in the game") && !clientView.getPopUpErrorMessage().contains("No available game to join")){
+                            if(clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
                                 firstAction=true;
                             }
                         }else{
@@ -180,7 +180,7 @@ public class CliUserInterface implements UserInterface {
                     case "create_game":
                         if(firstAction==false){
                             SendCreateGameMessage(client);
-                            if(!clientView.getPopUpErrorMessage().equals("Already an existing game") && !clientView.getPopUpErrorMessage().contains("is already in use in the game")){
+                            if(clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
                                 firstAction=true;
                             }
                         }else{

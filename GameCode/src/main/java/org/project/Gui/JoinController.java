@@ -82,7 +82,7 @@ public class JoinController {
             if(!guiUserInterface.isFirstAction()){
                 guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
                 if(guiUserInterface.getClientView()!=null){
-                    if(!guiUserInterface.getClientView().getPopUpErrorMessage().contains("is already in use in the game") && !guiUserInterface.getClientView().getPopUpErrorMessage().contains("No available game to join")){
+                    if(guiUserInterface.getClientView().getPopUpErrorMessage().contains("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game")){
                         guiUserInterface.setFirstAction(true);
                     }
                 }

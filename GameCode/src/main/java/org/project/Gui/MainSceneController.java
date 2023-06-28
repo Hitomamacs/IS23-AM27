@@ -22,43 +22,34 @@ import java.util.*;
 
 public class MainSceneController {
     private GuiUserInterface guiUserInterface;
-
     private Coordinates lastpick;
-
     private double[] initialPosition = new double[2];
-
     private double[] initialPositionTile = new double[2];
-
     private int pickedTile = 0;
-
     private int[] lastTile = new int[]{-1,-1,-1,-1,-1};
-    
     private int last_col = 0;
-
     private int col_tick = -1;
-
     private boolean firstboolean = true;
-
     private Set<Integer> addedPositions = new HashSet<>();
-
-    //riferimento alla ClientView
     private Set<Integer> addedGridPositions = new HashSet<>();
+
     @FXML
     private GridPane GridGriglia;
-
     @FXML
     private GridPane GrigliaBoard;
     @FXML
     private Label Status;
     @FXML
     private Button Pick;
-
     @FXML
     private Pane bannerPane;
-
     @FXML
     private Button warning;
 
+    /**
+     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
+     * This dialog is displayed on top of the main application window.
+     */
     public void showBanner() {
         Platform.runLater(() -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -79,39 +70,26 @@ public class MainSceneController {
     }
     
     private int index = 1;
-
     private int tileCount = 0;
-
     @FXML
     private ImageView Tile1;
-
     @FXML
     private ImageView Tile2;
-
     @FXML
     private ImageView Tile3;
-
     @FXML
     private Button Grids;
-
     @FXML
     private ImageView CGoalCard1;
-
     @FXML
     private ImageView CommonGoal2;
-
     @FXML
     private ImageView PersonalGoalImage;
-
     private Coordinates firstTile = new Coordinates(8,8);
-
     private HashMap<Integer, ImageView> helper_board = new HashMap<>();
-
     private HashMap<Integer, ImageView> helper_grid = new HashMap<>();
-
     private ArrayList<Rectangle> selectedBorders = new ArrayList<>();
     private ArrayList<ImageView> selectedTiles = new ArrayList<>();
-
     private ArrayList<Coordinates> coordinates = new ArrayList<>();
     private ImageView[] azureImage= {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Trofei1.1.png"))),
@@ -157,7 +135,6 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/11.jpg"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/12.jpg")))
     };
-
     private ImageView[] personalGoal= {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals.png"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals2.png"))),
@@ -172,19 +149,22 @@ public class MainSceneController {
             new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals11.png"))),
             new ImageView(new Image(getClass().getResourceAsStream("/images/Personal_Goals12.png")))
     };
-
     private GuiFx centralController;
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
     }
 
+    /**
+     * @return the Status attribute of the current object.
+     * The Status attribute is of type Label and specifies the current state of the application.
+     */
     public Label getStatus(){
         return this.Status;
     }
+
     public void init(){
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                //Coordinates c = new Coordinates(i, j);
                 ImageView image = new ImageView();
                 image.setFitHeight(GrigliaBoard.getHeight() / 9);
                 image.setFitWidth(GrigliaBoard.getWidth() / 9);
@@ -206,7 +186,8 @@ public class MainSceneController {
                 GridGriglia.add(image, j ,i);
             }
         }
-
+        decidedCommonGoals();
+        decidedPersonalGoals();
     }
 
     public void boardCheck(String[][] board){
@@ -235,7 +216,6 @@ public class MainSceneController {
                 int a = (lastpick.getX()) * 9 + (lastpick.getY());
                 addedPositions.clear();
                 firstTile = new Coordinates(8, 8);
-
             }
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -260,7 +240,6 @@ public class MainSceneController {
                                 helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
                                 addedPositions.add(c);
                             }
-
                             break;
                         case("G"):
                             if(!addedPositions.contains(c)) {
@@ -282,7 +261,6 @@ public class MainSceneController {
                                 helper_board.get(c).setOnMouseClicked(event -> selectTile(finalJ, finalI));
                                 addedPositions.add(c);
                             }
-
                             break;
                         case("B"):
                             if(!addedPositions.contains(c)) {
@@ -301,15 +279,12 @@ public class MainSceneController {
                         default:
                             break;
                     }
-
-                    }
                 }
-            decidedCommonGoals();
-            decidedPersonalGoals();
+                }
+            //decidedCommonGoals();
+            //decidedPersonalGoals();
             });
-
     }
-
 
     public void decidedCommonGoals(){
         CGoalCard1.setImage(commonGoal[guiUserInterface.getClientView().getCommonGoalView().get(0)-1].getImage());
@@ -470,8 +445,8 @@ public class MainSceneController {
 
         lastpick = coordinates.get(coordinates.size() - 1);
         coordinates.clear();
-
     }
+
     public void selectTile(int column, int row) {
         ImageView tile = (ImageView) GrigliaBoard.getChildren().get(row * 9 + column);
         int tileIndex = selectedTiles.indexOf(tile);
@@ -554,17 +529,6 @@ public class MainSceneController {
                 }
             }
         }
-        /*
-        boolean emptyFlag = true;
-        for(int i = 0; i < 5; i++){
-            System.out.println(lastTile[i]);
-            if(lastTile[i] != 0){
-                emptyFlag = false;
-            }
-        }
-        if(emptyFlag) {
-            flushLastTile();
-        } */
         String username = guiUserInterface.getNickname();
         tileCount = guiUserInterface.getClientView().getTilesview().get(username).length;
         Random random = new Random();
@@ -631,11 +595,7 @@ public class MainSceneController {
                 }
             }
         }
-
-
-
     }
-
 
     public void updateGrid(String[][] grid){
         for (int i = 0; i < 6; i++){
@@ -671,7 +631,6 @@ public class MainSceneController {
                 break;
             default:
                 break;
-                
         }
         tileCount--;
         tilecopy.setFitWidth(GridGriglia.getWidth()/5);
@@ -680,11 +639,7 @@ public class MainSceneController {
             this.lastTile[last_col] = 5;
         }
         GridGriglia.add(tilecopy, last_col, 5- this.lastTile[last_col]);
-        
-        
-        
     }
-
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
@@ -694,6 +649,10 @@ public class MainSceneController {
         centralController.showOtherGridsScene();
     }
 
+    /**
+     * The method is an event handler for the Quit button, it calls the quit() method to quit the application.
+     * @param actionEvent button press
+     */
     public void QuitAction(ActionEvent actionEvent) {
         quit();
     }
@@ -704,7 +663,9 @@ public class MainSceneController {
         });
     }
 
-
+    /**
+     * The method is called to close the application
+     */
     public void quit(){
         Platform.exit();
         System.exit(0);

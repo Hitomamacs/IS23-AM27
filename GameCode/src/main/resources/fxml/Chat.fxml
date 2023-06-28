@@ -6,9 +6,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="638.0" minWidth="1000.0" prefHeight="750.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.ChatController">
+<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="638.0" minWidth="1000.0" prefHeight="750.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.ChatController">
     <children>
         <ImageView fx:id="ImmaginaDiSfondo" fitHeight="1053.0" fitWidth="1238.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -21,10 +21,21 @@
             </image>
         </ImageView>
       <TextArea fx:id="chatTextArea" layoutX="95.0" layoutY="37.0" opacity="1.0" prefHeight="572.0" prefWidth="838.0" style="-fx-background-color: transparent;">
-      </TextArea>
-      <TextField fx:id="messageTextField" layoutX="96.0" layoutY="609.0" prefHeight="24.0" prefWidth="646.0" />
-      <Button fx:id="Send" layoutX="774.0" layoutY="609.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="44.0" prefWidth="93.0" text="Send" />
-      <Button fx:id="Back" layoutX="891.0" layoutY="32.0" mnemonicParsing="false" onAction="#BackToMain" prefHeight="44.0" prefWidth="93.0" text="Back" />
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextArea>
+      <TextField fx:id="messageTextField" layoutX="96.0" layoutY="609.0" prefHeight="24.0" prefWidth="646.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextField>
+      <Button fx:id="Send" layoutX="774.0" layoutY="609.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="44.0" prefWidth="93.0" text="Send">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
+      <Button fx:id="Back" layoutX="891.0" layoutY="32.0" mnemonicParsing="false" onAction="#BackToMain" prefHeight="44.0" prefWidth="93.0" text="Back">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
     </children>
 
 </Pane>

@@ -18,6 +18,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+/**
+ * Controller that controls the Join scene
+ */
 public class JoinController {
 
     private GuiUserInterface guiUserInterface;

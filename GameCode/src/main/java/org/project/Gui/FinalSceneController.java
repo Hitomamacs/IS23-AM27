@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller that controls the Final scene
+ */
 public class FinalSceneController {
 
     private GuiUserInterface guiUserInterface;

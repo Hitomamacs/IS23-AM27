@@ -10,6 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller that controls the Chat scene
+ */
 public class ChatController {
     @FXML
     private TextArea chatTextArea;

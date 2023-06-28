@@ -195,8 +195,6 @@ public class RMIServerApp implements RMIServerInterface {
         return false;
     }
 
-
-
     /**
      * send a chat message to all players
      * @param nickname message sender
@@ -216,7 +214,6 @@ public class RMIServerApp implements RMIServerInterface {
     public void isConnected() throws RemoteException {
 
     }
-
 
     /**
      * getter rmi clients

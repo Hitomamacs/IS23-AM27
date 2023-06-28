@@ -29,8 +29,6 @@ public class CreateGameController {
     private Label loginstatus;
     @FXML
     private Button Back;
-
-
     @FXML
     private Pane bannerPane;
     @FXML
@@ -59,9 +57,7 @@ public class CreateGameController {
         });
     }
     private GuiUserInterface guiUserInterface;
-    private GuiController guiController;
     private GuiFx centralController;
-
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
     }
@@ -124,11 +120,7 @@ public class CreateGameController {
             centralController.showWelcomeScene();
         });
     }
-
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
-    }
-    public void setGuiController(GuiController guiController) {
-        this.guiController = guiController;
     }
 }

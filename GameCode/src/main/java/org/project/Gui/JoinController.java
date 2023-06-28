@@ -59,7 +59,6 @@ public class JoinController {
         });
     }
 
-    private GuiController guiController;
     public Label getLoginStatus(){
         return this.Loginstatus;
     }
@@ -120,8 +119,5 @@ public class JoinController {
 
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
-    }
-    public void setGuiController(GuiController guiController) {
-        this.guiController = guiController;
     }
 }

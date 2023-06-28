@@ -28,7 +28,6 @@ public class GuiUserInterface implements UserInterface {
     private boolean serverDownFlag;
     private GuiFx guiCentralController;
     private ConnectionInterface client;
-    private GuiController guiController;
 
     public ConnectionInterface getClient() {
         return client;

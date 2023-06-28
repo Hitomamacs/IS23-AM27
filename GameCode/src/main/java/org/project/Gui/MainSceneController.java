@@ -22,7 +22,6 @@ import java.util.*;
 
 public class MainSceneController {
     private GuiUserInterface guiUserInterface;
-    private GuiController guiController;
 
     private Coordinates lastpick;
 
@@ -691,9 +690,6 @@ public class MainSceneController {
         this.guiUserInterface = guiUserInterface;
     }
 
-    public void setGuiController(GuiController guiController) {
-        this.guiController = guiController;
-    }
     public void SwitchToGrids(){
         centralController.showOtherGridsScene();
     }

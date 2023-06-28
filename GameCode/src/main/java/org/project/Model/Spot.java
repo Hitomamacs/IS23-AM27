@@ -3,6 +3,10 @@ package org.project.Model;
 import com.google.gson.annotations.Expose;
 import org.project.Model.Tile;
 
+/**
+ * Class that represents the space (on the game board or on the player grid) where a tile can be placed
+ */
+
 public class Spot {
     @Expose
     private boolean occupied;

@@ -8,9 +8,12 @@ import java.util.Stack;
 
 import static java.lang.Integer.valueOf;
 
+/**
+ * Class that contains the common goal scores
+ */
+
 public class PointAssigner {
     @Expose
-
     private List<Stack<Integer>> stackList;
 
     public PointAssigner(){

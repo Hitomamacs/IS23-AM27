@@ -33,13 +33,8 @@ public class PersonalGoal_Deck {
             pOb_2Js = gson_parser.fromJson(read, POb_2Js.class);
             for(int i = 0; i< pOb_2Js.getPersonalGoals_list().size(); i++){
                 deck.add((PersonalGoal)pOb_2Js.getPersonalGoals_list().get(i));
-
-
             }
             System.out.println("Test");
-
-
-
         }
 
         public PersonalGoal getRandom(){

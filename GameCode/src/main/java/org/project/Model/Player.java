@@ -11,6 +11,10 @@ import java.util.*;
 
 import static org.project.Controller.Control.Persistencer.gson_parser;
 
+/**
+ * Class that represents il player of the game
+ */
+
 public class Player extends ObservableObject {
     @Expose
     private String nickname;

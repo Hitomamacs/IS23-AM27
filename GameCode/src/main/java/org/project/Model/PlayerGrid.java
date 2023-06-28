@@ -2,6 +2,10 @@ package org.project.Model;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Class that represents the player's grid
+ */
+
 public class PlayerGrid {
     @Expose
     private Spot[][] grid;

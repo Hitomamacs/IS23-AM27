@@ -1,11 +1,14 @@
 package org.project.Model;
 
-
 import com.google.gson.annotations.Expose;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
+
+/**
+ * cClass that initializes the bag that contains all the tiles
+ */
 
 public class TileBag {
     @Expose

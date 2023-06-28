@@ -1,6 +1,5 @@
 package org.project.Model;
 
-
 import com.google.gson.annotations.Expose;
 import org.project.ClientPack.ObservableObject;
 

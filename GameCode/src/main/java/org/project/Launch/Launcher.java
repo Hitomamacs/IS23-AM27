@@ -18,15 +18,11 @@ public class Launcher {
     private static String inText;
     private static Scanner scanner = new Scanner(System.in);
 
-
-
-
     /**
      * The main method that starts the application.
      * It parses command line arguments for configuration settings, prompts the user to
      * select the mode (client or server), and then launches the application in the
      * selected mode.
-     *
      * @param args the command line arguments
      */
     public static void main(String[] args) throws RemoteException {

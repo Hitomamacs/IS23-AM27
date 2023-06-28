@@ -8,6 +8,12 @@ import org.project.Controller.Server.Settings;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+/**
+ * Launcher class that starts the application, either as a client or as a server.
+ * The launcher uses command line arguments to determine the IP address, Socket Port,
+ * and RMI Port for the server.
+ */
+
 public class Launcher {
     private static String inText;
     private static Scanner scanner = new Scanner(System.in);
@@ -15,7 +21,14 @@ public class Launcher {
 
 
 
-
+    /**
+     * The main method that starts the application.
+     * It parses command line arguments for configuration settings, prompts the user to
+     * select the mode (client or server), and then launches the application in the
+     * selected mode.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) throws RemoteException {
 
         Options options = new Options();

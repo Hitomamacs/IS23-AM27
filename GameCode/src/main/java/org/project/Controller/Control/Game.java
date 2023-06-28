@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class represents a Game within the system. It contains all elements of the game like
+ * the server, players, game board, tile bag, point assigner, goal decks and orchestrator.
+ * It inherits from ObservableObject class to enable other objects to observe its changes.
+ */
+
 public class Game extends ObservableObject{
     public Server getServer() {
         return server;

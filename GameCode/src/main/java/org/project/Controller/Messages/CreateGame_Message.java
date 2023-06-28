@@ -20,5 +20,4 @@ public class CreateGame_Message extends Message {
     public String getUsername(){
         return username;
     }
-
 }

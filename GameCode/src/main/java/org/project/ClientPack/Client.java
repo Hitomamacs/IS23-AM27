@@ -70,6 +70,13 @@ public class Client {
 
         System.out.println("Che tipo di connessione vuoi usare (rmi/socket)?");
         connessione= stdin.nextLine();
+        connessione = connessione.toLowerCase();
+
+        while(!connessione.equals("rmi") && !connessione.equals("socket")){
+            System.out.println("Inserisci un tipo di connessione valido (rmi/socket)");
+            connessione = stdin.nextLine();
+            connessione =connessione.toLowerCase();
+        }
 
         switch(connessione){
             case "rmi":
@@ -87,9 +94,16 @@ public class Client {
                  }
                 break;
         }
-        
+
         System.out.println("Che tipo di UserInterface vuoi usare (CLI/GUI)?");
         userInterface= stdin.nextLine();
+        userInterface = userInterface.toUpperCase();
+
+        while(!userInterface.equals("CLI") && !userInterface.equals("GUI")){
+            System.out.println("Inserisci un tipo di UserInterface valido (CLI/GUI)");
+            userInterface = stdin.nextLine();
+            userInterface = userInterface.toUpperCase();
+        }
 
         switch (userInterface){
             case "CLI":
@@ -116,12 +130,8 @@ public class Client {
         }
 
     }
-
-
     // METODI  CHE CHIAMANO IL SERVER
     //TODO: avrò i metodi di login, send chat message e metodi per fare le mosse, questi metodi chiameranno i metodi presenti in RMI/SOCKET client che chismeranno i metodi del server
-
-
     //GETTER
 
     /**

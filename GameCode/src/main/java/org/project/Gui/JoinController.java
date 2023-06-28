@@ -56,13 +56,13 @@ public class JoinController {
     }
 
     private GuiController guiController;
-
     public Label getLoginStatus(){
         return this.Loginstatus;
     }
     public void setCentralController(GuiFx controller){
         this.centralController = controller;
     }
+
     public void JoinAction(ActionEvent actionEvent) {
 
         Platform.runLater(()->{
@@ -85,31 +85,38 @@ public class JoinController {
             });
 
     }
+
+    /**
+     * The method is used to return to the Welcome Scene
+     * @param actionEvent button press
+     */
     public void BackToWelcome(ActionEvent actionEvent){
         Platform.runLater(()->{
             centralController.showWelcomeScene();
         });
     }
+
+    /**
+     * The method is an event handler for the Quit button, it calls the quit() method to quit the application.
+     * @param actionEvent button press
+     */
     public void QuitAction(ActionEvent actionEvent) {
         quit();
-
-
     }
 
-
-
+    /**
+     * The method is called to close the application
+     */
     public void quit(){
         //centralController.getGuiUserInterface().getClient().SendQuitMessage(centralController.getGuiUserInterface().getNickname());
         //guiUserInterface.getClient().close();
         Platform.exit();
         System.exit(0);
-
-
     }
+
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
     }
-
     public void setGuiController(GuiController guiController) {
         this.guiController = guiController;
     }

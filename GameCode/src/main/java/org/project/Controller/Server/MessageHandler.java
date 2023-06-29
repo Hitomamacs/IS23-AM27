@@ -152,7 +152,10 @@ public class MessageHandler {
      * @param chatMsg The ChatMessage object.
      */
     public void handleChat(ChatMessage chatMsg){
-        server.chat(chatMsg.getUsername(), chatMsg.getText());
+        if(chatMsg.getReceiver().equalsIgnoreCase("broadcast"))
+            server.chat(chatMsg.getUsername(), chatMsg.getText());
+        else
+            server.chat(chatMsg.getUsername(), chatMsg.getText(), chatMsg.getReceiver());
     }
 
     public void send(Message message){

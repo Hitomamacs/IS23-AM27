@@ -194,6 +194,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             throw new RuntimeException(e);
         }
     }
+    public void SendChatMessage(String username, String text, String receiver) {
+        try {
+            rmiServer.sendChat(username, text, receiver);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     //TODO javadoc
     @Override
@@ -337,6 +345,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.processReceivedMessage(jsonStr);
     }
 
+    @Override
+    public void notifyChat(String username, String text, String receiver){
+
+        ChatMessage message = new ChatMessage(username, text, receiver);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+    }
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);

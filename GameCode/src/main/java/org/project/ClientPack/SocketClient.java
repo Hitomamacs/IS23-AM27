@@ -145,6 +145,12 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         sendMessage(createChatMessage(username, text));
     }
 
+    @Override
+    public void SendChatMessage(String username, String text, String receiver) {
+        sendMessage(createChatMessage(username, text, receiver));
+    }
+
+
     /**
      * Sends a top-up message
      * @param username player's name

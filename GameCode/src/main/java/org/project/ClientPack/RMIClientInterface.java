@@ -65,4 +65,7 @@ import java.util.List;
 
         public void notifyChat(String playername, String text) throws RemoteException;
 
-    }
+    public void notifyChat(String playername, String text, String receiver) throws RemoteException;
+
+    //public String getNickname() throws RemoteException;
+}

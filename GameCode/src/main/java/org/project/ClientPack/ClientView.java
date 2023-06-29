@@ -14,11 +14,15 @@ ClientView extends ObservableObject {
     private List<Integer> pointStack;
     private HashMap<String, String[][] > gridsview;
     private HashMap<String,String[]> tilesview;
+    private HashMap<String, List<ChatMessage>> privateChats;
     private String popUpErrorMessage;
     private int popUpIdentifier; //TODO change and put all in a popup message instead of having separate message and identifier
     private HashMap<String, Integer> scoreBoard;
     private HashMap<String, Integer> personalGoalViews;
     private List<Integer> commonGoalView;
+
+    private String current_chat;
+
     private List<ChatMessage> chat = new ArrayList<>();
     private static final String ANSI_RESET = "\u001b[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
@@ -67,8 +71,29 @@ ClientView extends ObservableObject {
         this.num_tiles = num_tiles;
     }
 
+    private int num_tiles;
+
+    public ClientView() {
+       pointStack=new ArrayList<>();
+       gridsview= new HashMap<>();
+       tilesview= new HashMap<>();
+       scoreBoard = new HashMap<>();
+       privateChats = new HashMap<>();
+       current_chat = "broadcast";
+    }
     public List<ChatMessage> getChat(){
         return chat;
+    }
+
+    public String getCurrentChat(){
+        return current_chat;
+    }
+    public void setCurrent_Chat(String chat){
+        current_chat = chat;
+    }
+
+    public HashMap<String, List<ChatMessage>> getPrivateChats() {
+        return privateChats;
     }
 
     public void updateGridsView(String playerName, String[][] grid) {
@@ -1019,4 +1044,29 @@ ClientView extends ObservableObject {
         }
         System.out.println(sender + ": " + message.getText());
     }
+    public void printPrivateChat(String username, String sender){
+        List<ChatMessage> messages = privateChats.get(sender);
+        if(messages.isEmpty())
+            return;
+        for(int i = 0; i < messages.size(); i++){
+            ChatMessage message = messages.get(i);
+            if(message.getUsername().equals(username)){
+                System.out.println( "You: " + message.getText());
+            }else{
+                System.out.println(sender + ": " + message.getText());
+            }
+        }
+    }
+    public void printPrivateChatLast(String username, String sender){
+        List<ChatMessage> messages = privateChats.get(sender);
+        if(messages.isEmpty())
+            return;
+        ChatMessage message = messages.get(messages.size() - 1);
+        if(message.getUsername().equals(username)){
+            System.out.println("You: " + message.getText());
+        }else{
+            System.out.println(sender + ": " + message.getText());
+        }
+    }
+
 }

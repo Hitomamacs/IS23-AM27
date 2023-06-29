@@ -304,6 +304,10 @@ public class Controller {
         server.sendChat(username, text);
         return true;
     }
+    public boolean chat(String username, String text, String receiver){
+        server.sendChat(username, text, receiver);
+        return true;
+    }
 
     /**
      * method that allows the client to take tiles from the board
@@ -422,20 +426,20 @@ public class Controller {
 
     //todo javadoc
     public void warnNextPlayer(){
-
-        String playerName = this.orchestrator.getCurrentPlayer().getNickname();
-        GameState state = this.orchestrator.getState();
-        String Info = " ";
-        if(state instanceof TopUpState){
-            Info ="Waiting for player " + playerName + " to top up";
-            server.turn_Refresh(playerName, false);
-        }
-        else if(state instanceof VerifyGrillableState){
-            Info ="Waiting for player " + playerName + " pick tiles";
-            server.turn_Refresh(playerName, true);
-        }
-        if(!Info.equals(" ")){
-            this.server.sendInfo(Info, 4);
+        if(orchestrator != null) {
+            String playerName = this.orchestrator.getCurrentPlayer().getNickname();
+            GameState state = this.orchestrator.getState();
+            String Info = " ";
+            if (state instanceof TopUpState) {
+                Info = "Waiting for player " + playerName + " to top up";
+                server.turn_Refresh(playerName, false);
+            } else if (state instanceof VerifyGrillableState) {
+                Info = "Waiting for player " + playerName + " pick tiles";
+                server.turn_Refresh(playerName, true);
+            }
+            if (!Info.equals(" ")) {
+                this.server.sendInfo(Info, 4);
+            }
         }
     }
 

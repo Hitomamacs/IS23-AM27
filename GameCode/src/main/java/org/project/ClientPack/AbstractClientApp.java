@@ -66,6 +66,17 @@ public abstract class AbstractClientApp implements Runnable {
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
+    protected String createChatMessage(String username, String text, String receiver){
+        ChatMessage message = new ChatMessage(username, text, receiver);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        return jsonStr;
+    }
+
+
+
+
+
     public void run() {
         // Same implementation as before
     }

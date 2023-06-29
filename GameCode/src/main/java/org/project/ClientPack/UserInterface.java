@@ -120,4 +120,6 @@ public interface UserInterface {
      * @param clientView the new client view to be set
      */
     void updateClientView(ClientView clientView);
+
+    void fillChatMap();
 }

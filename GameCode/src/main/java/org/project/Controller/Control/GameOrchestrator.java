@@ -171,7 +171,7 @@ public class GameOrchestrator {
         return this.gameBoard;
     }
 
-public List<CommonGoal> getSelectedCGoal(){
+    public List<CommonGoal> getSelectedCGoal(){
         return this.selectedCGoal;
     }
 
@@ -202,8 +202,6 @@ public List<CommonGoal> getSelectedCGoal(){
     public List<Integer> get_selected_cgoal_int(){
         return this.selectedCGoal_int;
     }
-
-
 
     public void setCurr_sate_id(int curr_sate_id) {
         this.curr_sate_id = curr_sate_id;

@@ -6,6 +6,13 @@ import org.project.Model.Coordinates;
 
 import java.util.List;
 
+/**
+ * VerifyBoardableState is responsible for checking if the picked tiles occupy a valid position on the game board.
+ * It verifies if the picked tiles are aligned and if they can be taken from the board without violating the game rules.
+ * If the tiles are valid, the state transitions to PickState.
+ * If the tiles are not valid, an InvalidMoveException is thrown, and the state remains in VerifyGrillableState.
+ */
+
 public class VerifyBoardableState implements GameState {
 
     public int getStateID(){
@@ -14,10 +21,18 @@ public class VerifyBoardableState implements GameState {
     private final int stateID = 8;
     private transient GameOrchestrator gameOrchestrator;
 
+    /**
+     * Constructor
+     * @param orchestrator reference to GameOrchestrator
+     */
     public VerifyBoardableState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }
 
+    /**
+     * Checks if the picked tiles are valid for placement on the game board.
+     * @return true if the tiles are valid, false otherwise.
+     */
     public boolean verifyBoardable(){
         List<Coordinates> pickedCoordinates = gameOrchestrator.getPickedCoordinates();
         if(!checkAligned(pickedCoordinates)) {
@@ -30,6 +45,12 @@ public class VerifyBoardableState implements GameState {
         }
         return true;
     }
+
+    /**
+     * Checks if the picked tiles are aligned.
+     * @param coordinates the list of coordinates of the picked tiles
+     * @return true if the tiles are aligned, false otherwise.
+     */
     public boolean checkAligned(List<Coordinates> coordinates){
         boolean same_X = true;
         boolean same_Y = true;
@@ -47,6 +68,7 @@ public class VerifyBoardableState implements GameState {
             if(!(y == coordinates.get(i + 1).getY()))
                 same_Y = false;
         }
+
         for(int i = 0; i < coordinates.size(); i++){
             x = coordinates.get(i).getX();
             y = coordinates.get(i).getY();
@@ -73,6 +95,12 @@ public class VerifyBoardableState implements GameState {
         }
         return(same_X || same_Y);
     }
+
+    /**
+     * Changes the game state based on the result of the boardable verification.
+     * If the picked tiles are valid, the state transitions to PickState.
+     * If the tiles are not valid, an InvalidMoveException is thrown, and the state returns in VerifyGrillableState.
+     */
     @Override
     public void changeState() throws InvalidMoveException {
 
@@ -91,12 +119,10 @@ public class VerifyBoardableState implements GameState {
             gameOrchestrator.setCurr_sate_id(10);
             throw new InvalidMoveException("Tiles not adjacent, aligned or with no free side", 2);
         }
-
     }
 
     @Override
     public void execute() throws InvalidMoveException {
         changeState();
     }
-
 }

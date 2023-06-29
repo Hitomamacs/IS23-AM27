@@ -8,6 +8,12 @@ import org.project.Model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PickState is responsible for handling the picking of tiles by the current player.
+ * It allows the player to pick tiles from the game board and updates the player's picked tiles accordingly.
+ * After picking, it transitions to the RefillState.
+ */
+
 public class PickState implements GameState {
 
     private final int stateID = 4;
@@ -18,10 +24,17 @@ public class PickState implements GameState {
 
     private transient GameOrchestrator gameOrchestrator;
 
+    /**
+     * Constructor
+     * @param orchestrator reference to GameOrchestrator
+     */
     public PickState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }
 
+    /**
+     * Picks tiles from the game board based on the selected coordinates and updates the player's picked tiles.
+     */
     public void Pick() {
         List<Coordinates> coordinates = gameOrchestrator.getPickedCoordinates();
         List<Tile> pickedTiles = new ArrayList<Tile>();
@@ -41,9 +54,11 @@ public class PickState implements GameState {
             return true;
         }
         return false;
+    } */
 
-    }
-*/
+    /**
+     * Changes the game state to the RefillState after picking tiles.
+     */
     @Override
     public void changeState() {
         gameOrchestrator.changeState(new RefillState(gameOrchestrator));
@@ -62,25 +77,19 @@ public class PickState implements GameState {
               gameOrchestrator.setCurr_sate_id(7);
         }
        */
-
     }
-
 
     @Override
     public void execute() {
- //       if(!DisconnectState()){
         System.out.println("Pick executing: ");
         Pick();
         System.out.println("-> model changed");
         //Now we update the Virtual View
         String currentPlayer = gameOrchestrator.getCurrentPlayer().getNickname();
         Tile[] playerTiles = gameOrchestrator.getCurrentPlayer().getPickedTiles();
-        //gameOrchestrator.getGame().getView().updateView(gameOrchestrator.getGameBoard());
-        //gameOrchestrator.getGame().getView().updateView(playerTiles, currentPlayer);
         gameOrchestrator.flushCoordinates();
         gameOrchestrator.getGame().getPersistencer().saveGame(gameOrchestrator, gameOrchestrator.getGame().getFilename());
         System.out.println("-> VirtualView updated ");
         changeState();
     }
-
 }

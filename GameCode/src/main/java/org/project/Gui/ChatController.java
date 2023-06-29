@@ -9,6 +9,9 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.project.Controller.Messages.ChatMessage;
+
+import java.util.List;
 
 /**
  * Controller that controls the Chat scene
@@ -28,6 +31,15 @@ public class ChatController {
 
     @FXML
     private Button warning;
+
+    @FXML
+    private Button NextChat;
+
+    @FXML
+    private  TextField searchBar;
+
+    @FXML
+    private Button search;
 
     /**
      * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
@@ -59,7 +71,9 @@ public class ChatController {
      * text field. The "Send" button is disabled if the text field is empty.
      */
     public void initialize() {
+
         Send.disableProperty().bind(messageTextField.textProperty().isEmpty());
+        search.disableProperty().bind(searchBar.textProperty().isEmpty());
     }
     public void setGuiUserInterface(GuiUserInterface guiUserInterface) {
         this.guiUserInterface = guiUserInterface;
@@ -78,9 +92,30 @@ public class ChatController {
             String message = messageTextField.getText();
             appendMessageToChat(message);
             clearMessageTextField();
+            if(guiUserInterface.getClientView().getCurrentChat().equalsIgnoreCase("Broadcast")){
             guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
+            }else{
+                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message, guiUserInterface.getClientView().getCurrentChat());
+            }
         });
     }
+    public void searchChat(ActionEvent actionEvent){
+        Platform.runLater(()->{
+            String selected_chat = searchBar.getText();
+            searchBar.clear();
+            if(selected_chat.equalsIgnoreCase("Broadcast")){
+                guiUserInterface.getClientView().setCurrent_Chat(selected_chat);
+                reloadChat(selected_chat);
+                return;
+
+            }
+            if(guiUserInterface.getClientView().findChat(selected_chat)){
+                guiUserInterface.getClientView().setCurrent_Chat(selected_chat);
+                reloadChat(selected_chat);
+            }
+        });
+    }
+
 
     /**
      * The method adds the message to the chat, preceded by the username "You" to indicate
@@ -111,6 +146,40 @@ public class ChatController {
             }
         });
     }
+    public void reloadChat(String chat_to_load){
+        chatTextArea.clear();
+        if(!chat_to_load.equalsIgnoreCase("Broadcast")){
+
+
+        List<ChatMessage> messages = guiUserInterface.getClientView().getPrivateChats().get(chat_to_load);
+        if(messages != null  &&!messages.isEmpty() ){
+
+
+        for(int i = 0; i < messages.size(); i++){
+            ChatMessage message = messages.get(i);
+            String sender = message.getUsername();
+            if(!sender.equalsIgnoreCase(guiUserInterface.getNickname())) {
+                chatTextArea.appendText(sender+ ": " + message.getText() + "\n");
+            }else chatTextArea.appendText("You: "+ message.getText() + "\n");
+        }
+        }
+
+        }
+        else {
+            List<ChatMessage> messages = guiUserInterface.getClientView().getChat();
+            if (messages != null && !messages.isEmpty()) {
+                for (int i = 0; i < messages.size() ; i++) {
+                    ChatMessage message = messages.get(i);
+                    String sender = message.getUsername();
+                    if (!sender.equalsIgnoreCase(guiUserInterface.getNickname())) {
+                        chatTextArea.appendText(sender + ": " + message.getText() + "\n");
+                    } else chatTextArea.appendText("You: " + message.getText() + "\n");
+                }
+            }
+        }
+
+    }
+
 
     /**
      * The method is used to return to the Main Scene
@@ -118,6 +187,7 @@ public class ChatController {
      */
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
+            centralController.getMainSceneController().removeNotification();
             centralController.showMainScene();
         });
     }

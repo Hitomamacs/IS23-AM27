@@ -8,9 +8,10 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
+<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
    <children>
       <ImageView fx:id="SfondoParquet" fitHeight="1154.0" fitWidth="1412.0" layoutX="-108.0" layoutY="-53.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -108,9 +109,10 @@
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="ChatButton" layoutX="894.0" layoutY="16.0" mnemonicParsing="false" onAction="#openChat" prefHeight="46.0" prefWidth="100.0" text="Chat">
+      <Button fx:id="ChatButton" layoutX="894.0" layoutY="16.0" mnemonicParsing="false" onAction="#openChat" prefHeight="46.0" prefWidth="119.0" text="    Chat">
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
+      <Circle fx:id="circle" fill="#1fffee" layoutX="913.0" layoutY="39.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

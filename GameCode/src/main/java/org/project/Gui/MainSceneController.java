@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import org.project.Model.Coordinates;
@@ -37,6 +38,9 @@ public class MainSceneController {
     private Set<Integer> addedPositions = new HashSet<>();
     private Set<Integer> addedGridPositions = new HashSet<>();
 
+
+    @FXML
+    private Circle circle;
     @FXML
     private GridPane GridGriglia;
     @FXML
@@ -868,4 +872,13 @@ public class MainSceneController {
         Platform.exit();
         System.exit(0);
     }
+    public void notifyChat(){
+        Platform.runLater(()->{
+            circle.setVisible(true);
+        });
+    }
+    public void removeNotification(){
+        circle.setVisible(false);
+    }
+
 }

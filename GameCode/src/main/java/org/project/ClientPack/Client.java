@@ -53,7 +53,6 @@ public class Client {
      * Launches the client application.
      * Client choose if he wants rmi/socket connection and use CLI/GUI
      *
-     * @param args Command-line arguments
      */
     public  void launch(){
 

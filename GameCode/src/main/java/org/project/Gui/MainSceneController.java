@@ -312,9 +312,167 @@ public class MainSceneController {
         //System.out.println(guiUserInterface.getClientView().getPersonalGoalViews().get(nickname));
     }
 
+    public ImageView getColoredImageTile(String tile){
+        Random random = new Random();
+
+        switch(tile){
+            case("A"):
+                return azureImage[random.nextInt(3)];
+            case("P"):
+                return pinkImage[random.nextInt(3)];
+            case("G"):
+                return greenImage[random.nextInt(3)];
+            case("Y"):
+                return yellowImage[random.nextInt(3)];
+            case("W"):
+                return whiteImage[random.nextInt(3)];
+            case("B"):
+                return blueImage[random.nextInt(3)];
+            default:
+                return null;
+        }
+
+    }
+
+    public void refreshTile(String[] tiles ){
+
+        Platform.runLater(()-> {
+
+            for (int i = 0; i < 3; i++) {
+                if (tiles[i] != null && !tiles[i].equals("N")) {
+                    switch (i) {
+                        case (0):
+                            Tile1.setImage(getColoredImageTile(tiles[i]).getImage());
+                            Tile1.setOnMousePressed(event -> {
+                                initialPosition[0] = event.getX();
+                                initialPosition[1] = event.getY();
+                                initialPositionTile[0] = Tile1.getLayoutX();
+                                initialPositionTile[1] = Tile1.getLayoutY();
+                            });
+
+                            // the tile is moved according to the movement of the mouse
+                            Tile1.setOnMouseDragged(event -> {
+                                Tile1.setLayoutX(event.getSceneX() - initialPosition[0]);
+                                Tile1.setLayoutY(event.getSceneY() - initialPosition[1]);
+                            });
+
+                            Tile1.setOnMouseReleased(event -> {
+                                index = 1;
+
+                                int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                                int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+
+                                if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                                    //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+
+                                    if(last_col ==col ||col_tick == -1 ){
+                                        last_col = col;
+                                        col_tick = col;
+                                        this.lastTile[col] ++;
+                                        if((this.lastTile[col] + tileCount-1) > 5){
+                                            col_tick = -1;
+                                        }
+                                        guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 0 );}
+                                }
+
+                                // guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), );
+                                // return the tile to its initial position after drag
+                                Tile1.setLayoutX(initialPositionTile[0]);
+                                Tile1.setLayoutY(initialPositionTile[1]);
+                            });
+                            break;
+
+                        case (1):
+                            Tile2.setImage(getColoredImageTile(tiles[i]).getImage());
+                            Tile2.setOnMousePressed(event -> {
+                                initialPosition[0] = event.getX();
+                                initialPosition[1] = event.getY();
+                                initialPositionTile[0] = Tile2.getLayoutX();
+                                initialPositionTile[1] = Tile2.getLayoutY();
+                            });
+
+                            Tile2.setOnMouseDragged(event -> {
+                                Tile2.setLayoutX(event.getSceneX() - initialPosition[0]);
+                                Tile2.setLayoutY(event.getSceneY() - initialPosition[1]);
+                            });
+
+                            Tile2.setOnMouseReleased(event -> {
+                                index = 2;
+
+                                int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                                int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+                                pickedTile = 1;
+
+                                if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                                    if(last_col ==col ||col_tick == -1 ){
+                                        last_col = col;
+                                        col_tick = col;
+                                        this.lastTile[col] ++;
+                                        if((this.lastTile[col] + tileCount-1) > 5){
+                                            col_tick = -1;
+                                        }
+                                        //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+                                        guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 1 );
+                                    }
+                                }
+                                Tile2.setLayoutX(initialPositionTile[0]);
+                                Tile2.setLayoutY(initialPositionTile[1]);
+                            });
+
+                            break;
+                        case (2):
+                            Tile3.setImage(getColoredImageTile(tiles[i]).getImage());
+                            Tile3.setOnMousePressed(event -> {
+                                initialPosition[0] = event.getX();
+                                initialPosition[1] = event.getY();
+                                initialPositionTile[0] = Tile3.getLayoutX();
+                                initialPositionTile[1] = Tile3.getLayoutY();
+                            });
+
+                            Tile3.setOnMouseDragged(event -> {
+                                Tile3.setLayoutX(event.getSceneX() - initialPosition[0]);
+                                Tile3.setLayoutY(event.getSceneY() - initialPosition[1]);
+                            });
+
+                            Tile3.setOnMouseReleased(event -> {
+                                index = 3;
+                                // Perform your logic here
+
+                                int col = Math.min((int) ((event.getSceneX() - GridGriglia.getLayoutX()) / (GridGriglia.getWidth() / 5)), 4);
+                                int row = Math.min((int) ((event.getSceneY() - GridGriglia.getLayoutY()) / (GridGriglia.getHeight() / 6)), 5);
+                                pickedTile = 3;
+                                if (col >= 0 && col < 5 && row >= 0 && row < 6) {
+                                    if(last_col ==col || col_tick == -1 ){
+                                        last_col = col;
+                                        col_tick = col;
+                                        this.lastTile[col] ++;
+                                        if((this.lastTile[col] + tileCount-1) > 5){
+                                            col_tick = -1;
+                                        }
+                                        //System.out.println("Tile " + 1 + " dropped at column " + col + ", row " + row);
+                                        guiUserInterface.getClient().SendTopUpMessage(guiUserInterface.getNickname(), col, 2 );
+                                    }
+
+                                }
+                                Tile3.setLayoutX(initialPositionTile[0]);
+                                Tile3.setLayoutY(initialPositionTile[1]);
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
+
+        };
+
+
     /**
      * The method manages the movement of the tiles in the game
      */
+
+
     public void moveTiles(){
         int i = 0;
         col_tick = -1;
@@ -405,7 +563,7 @@ public class MainSceneController {
 
                 case 2:
 
-                    Tile3.setImage(tileCopy.getImage());
+
                     Tile3.setImage(tileCopy.getImage());
                     Tile3.setOnMousePressed(event -> {
                         initialPosition[0] = event.getX();

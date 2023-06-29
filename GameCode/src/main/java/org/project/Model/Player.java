@@ -76,7 +76,7 @@ public class Player extends ObservableObject {
         this.personalGoalID = player.getPersonalGoalID();
         this.myPersonalGoal = player.getMyPersonalGoal();
         this.score = player.getScore();
-        this.isConnected = player.isConnected();
+        this.isConnected = true;
         this.CompletedCGoals = player.getCompletedCGoals();
         this.selectedColumn = player.getSelectedColumn();
         this.tileIndex = player.getTileIndex();

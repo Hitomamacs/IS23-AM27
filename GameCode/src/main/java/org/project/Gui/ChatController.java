@@ -103,6 +103,12 @@ public class ChatController {
         Platform.runLater(()->{
             String selected_chat = searchBar.getText();
             searchBar.clear();
+            if(selected_chat.equalsIgnoreCase("Broadcast")){
+                guiUserInterface.getClientView().setCurrent_Chat(selected_chat);
+                reloadChat(selected_chat);
+                return;
+
+            }
             if(guiUserInterface.getClientView().findChat(selected_chat)){
                 guiUserInterface.getClientView().setCurrent_Chat(selected_chat);
                 reloadChat(selected_chat);
@@ -142,14 +148,36 @@ public class ChatController {
     }
     public void reloadChat(String chat_to_load){
         chatTextArea.clear();
+        if(!chat_to_load.equalsIgnoreCase("Broadcast")){
+
+
         List<ChatMessage> messages = guiUserInterface.getClientView().getPrivateChats().get(chat_to_load);
-        for(int i = 0; i < messages.size() - 1; i++){
+        if(messages != null  &&!messages.isEmpty() ){
+
+
+        for(int i = 0; i < messages.size(); i++){
             ChatMessage message = messages.get(i);
             String sender = message.getUsername();
             if(!sender.equalsIgnoreCase(guiUserInterface.getNickname())) {
                 chatTextArea.appendText(sender+ ": " + message.getText() + "\n");
             }else chatTextArea.appendText("You: "+ message.getText() + "\n");
         }
+        }
+
+        }
+        else {
+            List<ChatMessage> messages = guiUserInterface.getClientView().getChat();
+            if (messages != null && !messages.isEmpty()) {
+                for (int i = 0; i < messages.size() ; i++) {
+                    ChatMessage message = messages.get(i);
+                    String sender = message.getUsername();
+                    if (!sender.equalsIgnoreCase(guiUserInterface.getNickname())) {
+                        chatTextArea.appendText(sender + ": " + message.getText() + "\n");
+                    } else chatTextArea.appendText("You: " + message.getText() + "\n");
+                }
+            }
+        }
+
     }
 
 

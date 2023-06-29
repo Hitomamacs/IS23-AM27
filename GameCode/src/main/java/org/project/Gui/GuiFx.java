@@ -476,8 +476,13 @@ public class GuiFx extends Application {
                 if("chat".equals(evt.getPropertyName())){
                     showChatScene();
                     ChatMessage message = (ChatMessage) evt.getNewValue();
-                    if(message.getReceiver().equalsIgnoreCase(guiUserInterface.getClientView().getCurrentChat())){
+                    if(message.getUsername().equalsIgnoreCase(guiUserInterface.getClientView().getCurrentChat()) && message.getReceiver().equalsIgnoreCase(guiUserInterface.getNickname())){
                         chatController.addMessageToChat(message.getUsername(), message.getText());
+                        return;
+                    }
+                    if(message.getReceiver().equalsIgnoreCase("Broadcast") && guiUserInterface.getClientView().getCurrentChat().equalsIgnoreCase("Broadcast")){
+                        chatController.addMessageToChat(message.getUsername(), message.getText());
+                        return;
                     }
                     //showChatScene();
                 }

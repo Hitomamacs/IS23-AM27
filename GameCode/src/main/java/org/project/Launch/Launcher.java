@@ -64,13 +64,13 @@ public class Launcher {
             controller.launch(args);
         } else if (inText.equals("C")) {
             Client client = new Client();
-            client.launch(args);
+            client.launch();
         }
         // Default: Client
         else {
             System.out.println("Starting as Client..");
             Client client = new Client();
-            client.launch(args);
+            client.launch();
         }
     }
 }

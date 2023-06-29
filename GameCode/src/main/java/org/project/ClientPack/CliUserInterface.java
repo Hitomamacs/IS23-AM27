@@ -299,7 +299,7 @@ public class CliUserInterface implements UserInterface {
                     case "create_game":
                         if(firstAction==false){
                             SendCreateGameMessage(client);
-                            if(clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
+                            if(clientView.getPopUpErrorMessage() != null && clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
                                 firstAction=true;
                             }
                         }else{
@@ -691,7 +691,7 @@ public class CliUserInterface implements UserInterface {
         }
         System.out.println();
         String name = getInput();
-        while(clientView.getPrivateChats().entrySet().contains(name)){
+        while(!clientView.findChat(name)){
             System.out.println("Invalid user");
             name = getInput();
         }

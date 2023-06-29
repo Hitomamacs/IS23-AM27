@@ -61,6 +61,8 @@ ClientView extends ObservableObject {
        gridsview= new HashMap<>();
        tilesview= new HashMap<>();
        scoreBoard = new HashMap<>();
+        privateChats = new HashMap<>();
+        current_chat = "broadcast";
     }
 
     public int getNum_tiles() {
@@ -71,16 +73,6 @@ ClientView extends ObservableObject {
         this.num_tiles = num_tiles;
     }
 
-    private int num_tiles;
-
-    public ClientView() {
-       pointStack=new ArrayList<>();
-       gridsview= new HashMap<>();
-       tilesview= new HashMap<>();
-       scoreBoard = new HashMap<>();
-       privateChats = new HashMap<>();
-       current_chat = "broadcast";
-    }
     public List<ChatMessage> getChat(){
         return chat;
     }
@@ -1046,6 +1038,9 @@ ClientView extends ObservableObject {
     }
     public void printPrivateChat(String username, String sender){
         List<ChatMessage> messages = privateChats.get(sender);
+        if(!findChat(sender)){
+            return;
+        }
         if(messages.isEmpty())
             return;
         for(int i = 0; i < messages.size(); i++){
@@ -1059,6 +1054,9 @@ ClientView extends ObservableObject {
     }
     public void printPrivateChatLast(String username, String sender){
         List<ChatMessage> messages = privateChats.get(sender);
+        if(!findChat(sender)){
+            return;
+        }
         if(messages.isEmpty())
             return;
         ChatMessage message = messages.get(messages.size() - 1);
@@ -1067,6 +1065,17 @@ ClientView extends ObservableObject {
         }else{
             System.out.println(sender + ": " + message.getText());
         }
+    }
+    public boolean findChat(String name){
+        boolean check = false;
+        for(Map.Entry<String, List<ChatMessage>> entry : privateChats.entrySet()){
+            String user = entry.getKey();
+            if(user.equalsIgnoreCase(name)){
+                check = true;
+                break;
+            }
+        }
+        return check;
     }
 
 }

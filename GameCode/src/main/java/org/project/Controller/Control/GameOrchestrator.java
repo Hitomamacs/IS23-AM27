@@ -20,11 +20,6 @@ public class GameOrchestrator {
 
     @Expose
     private int curr_sate_id;
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
-
     @Expose
     private List<Player> players;
     @Expose
@@ -36,10 +31,6 @@ public class GameOrchestrator {
     private GameState State;
     @Expose
     private GameBoard gameBoard;
-
-    public List<Integer> getSelectedCGoal_int() {
-        return selectedCGoal_int;
-    }
 
     //TODO common goal id
     private List<CommonGoal> selectedCGoal;
@@ -54,18 +45,6 @@ public class GameOrchestrator {
     @Expose
     private  Game game;
 
-    public GameState getState() {
-        return State;
-    }
-
-    public void setState(GameState state) {
-        State = state;
-    }
-
-    public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
-        this.selectedCGoal = selectedCGoal;
-    }
-
     /**
      * Constructs a GameOrchestrator object with the specified players, game board, selected common goals, point assigner,
      * tile bag, and game.
@@ -77,11 +56,6 @@ public class GameOrchestrator {
      * @param tileBag          the tile bag
      * @param game             the game object
      */
-
-    public void setGameBoard(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;
@@ -96,11 +70,34 @@ public class GameOrchestrator {
         this.selectedCGoal_int = new ArrayList<>();
     }
 
+    public GameState getState() {
+        return State;
+    }
+
+    public void setState(GameState state) {
+        State = state;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
+        this.selectedCGoal = selectedCGoal;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
 
     public void setSelectedCGoal_int() {
         for(CommonGoal cg: selectedCGoal){
             this.selectedCGoal_int.add(cg.getGoalID());
         }
+    }
+
+    public List<Integer> getSelectedCGoal_int() {
+        return selectedCGoal_int;
     }
 
     /**
@@ -117,7 +114,6 @@ public class GameOrchestrator {
      *
      * @throws InvalidMoveException if an invalid move is made
      */
-
     public void executeState()throws InvalidMoveException {
         this.setCurr_sate_id(this.State.getStateID());
         this.State.execute();
@@ -130,6 +126,7 @@ public class GameOrchestrator {
     public Player getPlayer(int i){
         return this.players.get(i);
     }
+
     public Player getPlayer(String username){
         List<Player> players = getPlayers();
         int i = 0;
@@ -138,6 +135,7 @@ public class GameOrchestrator {
         }
         return players.get(i);
     }
+
     public int CurrentPlayerIndex(){
         return this.currentPlayerIndex;
     }
@@ -155,6 +153,7 @@ public class GameOrchestrator {
         }
         return this.players.get(this.currentPlayerIndex);
     }
+
     public void setFinalRoundFlag(boolean flag){
         this.finalRoundFlag=flag;
     }

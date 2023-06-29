@@ -68,6 +68,7 @@ public class Game extends ObservableObject{
         this.gameBoard = orchestrator.getGameBoard();
         this.tileBag = orchestrator.getTileBag();
         this.players = new ArrayList<>();
+        this.persistencer = new Persistencer();
         for(Player player : orchestrator.getPlayers()){
             this.players.add(new Player(player));
         }

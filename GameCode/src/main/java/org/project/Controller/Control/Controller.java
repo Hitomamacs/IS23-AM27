@@ -115,11 +115,14 @@ public class Controller {
             player.firePropertyChange("gridUpdate",player);
             player.firePropertyChange("tilesUpdate", player);
         }
-
+        this.game.addPropertyChangeListener(this.GameStateListener);
+        this.orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
         this.game.setOrchestrator(this.orchestrator);
+        this.orchestrator.setGame(this.game);
+        this.game.addPropertyChangeListener(this.view.getScoreBoardListener());
         this.server.send(this.view);
 
-        orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+
         try {
             this.orchestrator.executeState();
         } catch (InvalidMoveException e) {
@@ -183,7 +186,7 @@ public class Controller {
         }
         orchestrator.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
-        game.addPropertyChangeListener(view.getScoreBoardListener());
+
     }
 
     /**

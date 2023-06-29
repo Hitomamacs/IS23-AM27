@@ -13,13 +13,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 
-/**
- * This class represents a socket client in the system, extends the AbstractClientApp and
- * implements the ConnectionInterface. It facilitates sending and receiving messages
- * over a socket connection, and handling user interactions and views.
- * A keep-alive mechanism is also implemented to maintain the connection.
- */
-
 public class SocketClient extends AbstractClientApp implements ConnectionInterface {
 
     private boolean connection_type = true;
@@ -47,12 +40,6 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     public Socket echoSocket;
     private final Gson gson = new Gson();
-
-
-    /**
-     * Constructor for the SocketClient class. Establishes a socket connection with the server,
-     * starts a keep-alive mechanism, and begins checking for keep-alive messages.
-     */
 
     public SocketClient() {
         // qui connetti il client al server
@@ -114,6 +101,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         out.println(message);
     }
 
+    public String receiveMessage()  {
         String line = null;
         try {
             if(in!= null){
@@ -122,9 +110,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
                 throw new IOException();
         } catch (IOException e) {
             System.out.println("Server down, Start Server And then Client");
-            System.exit(0);
+
         }
-    public String receiveMessage()  {
         if (line != null &&line.equals("KEEP_ALIVE")) {
             lastKeepAliveReceivedTime = System.currentTimeMillis();
         }

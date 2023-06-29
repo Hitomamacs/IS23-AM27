@@ -170,7 +170,7 @@ public class CliUserInterface implements UserInterface {
                     case "join":
                         if(firstAction==false){
                             SendJoinMessage(client);
-                            if(clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
+                            if(clientView.getPopUpErrorMessage() != null && (clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game"))){
                                 firstAction=true;
                             }
                         }else{

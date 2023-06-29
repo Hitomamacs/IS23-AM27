@@ -85,7 +85,7 @@ public class JoinController {
             if(!guiUserInterface.isFirstAction()){
                 guiUserInterface.getClient().SendJoinMessage(username, guiUserInterface.getClient().get_connection_type());
                 if(guiUserInterface.getClientView()!=null){
-                    if(guiUserInterface.getClientView().getPopUpErrorMessage().contains("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game")){
+                    if(guiUserInterface.getClientView().getPopUpErrorMessage()!= null &&(guiUserInterface.getClientView().getPopUpErrorMessage().contains("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game"))){
                         guiUserInterface.setFirstAction(true);
                     }
                 }

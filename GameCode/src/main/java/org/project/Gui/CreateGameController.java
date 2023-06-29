@@ -95,7 +95,7 @@ public class CreateGameController {
                     throw new RuntimeException(e);
                 }
                 if(guiUserInterface.getClientView()!=null){
-                    if(guiUserInterface.getClientView().getPopUpErrorMessage().equals("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game"))
+                    if(guiUserInterface.getClientView().getPopUpErrorMessage() != null &&(guiUserInterface.getClientView().getPopUpErrorMessage().equals("Successfully created game") && guiUserInterface.getClientView().getPopUpErrorMessage().contains("Succesfully joined game")))
                         guiUserInterface.setFirstAction(true);
                 }
 

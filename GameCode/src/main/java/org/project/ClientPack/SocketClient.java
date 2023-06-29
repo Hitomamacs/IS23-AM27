@@ -11,34 +11,26 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class SocketClient extends AbstractClientApp implements ConnectionInterface {
 
     private boolean connection_type = true;
-
     private ClientView clientView = new ClientView();
-
     UserInterface userInterface;
-
     private Timer keepAlive;
-
     private static final int KEEP_ALIVE_INTERVAL = 5 * 1000;  // in milliseconds
-
 
     private final Scanner scanner = new Scanner(System.in);
 
-
-
     private static final int MAX_TILES = 3;
-
     private long lastKeepAliveReceivedTime;
     private Timer keepAliveTimer;
     private BufferedReader in;
-
     private PrintWriter out;
-
     public Socket echoSocket;
+
     private final Gson gson = new Gson();
 
     public SocketClient() {
@@ -73,7 +65,6 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         // Implement  disconnect function here!!!!
         //System.out.println("Disconnected from server");
         userInterface.serverDown();
-
     }
 
     private void startKeepAlive() {
@@ -92,11 +83,6 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
             keepAlive = null;
         }
     }
-
-
-
-
-
     public void sendMessage(String message) {
         out.println(message);
     }
@@ -120,6 +106,10 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         return line;
     }
 
+    /**
+     * @return the message
+     * @throws IOException
+     */
     @Override
     public String receiveMessage(Message msg) throws IOException {
         return null;
@@ -128,26 +118,36 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     @Override
     public void setUserInterface(UserInterface client) {
         this.userInterface = client;
-
     }
 
+    /**
+     * Sends a pick message
+     * @param username player's name
+     * @param numTiles number of the tiles that the player has picked
+     * @param coordinates coordinates of the tiles that the player has picked
+     */
     public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
         sendMessage(createPickMessage(username, numTiles, coordinates));
     }
+
+    /**
+     * Sends a chat message
+     * @param username player's name
+     * @param text text of the message
+     */
     public void SendChatMessage(String username, String text){
         sendMessage(createChatMessage(username, text));
     }
 
-
+    /**
+     * Sends a top-up message
+     * @param username player's name
+     * @param firstTime column number
+     * @param tileIndex number of the tile in the array picked tiles
+     */
     public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
 
-        // Get the user's tiles
-
-        //String[] userTiles = this.clientView.getTilesview().get(username);
-        //long numTiles = Arrays.stream(userTiles).filter(tile -> !tile.equals("N")).count();
         sendMessage(createTopUpMessage(username, firstTime, tileIndex));
-
-
     }
 
     private void close_connection() {
@@ -160,12 +160,23 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         }
     }
 
-
+    /**
+     * Sends a quit message
+     * @param username player's name who wants to quit
+     */
     public void SendQuitMessage(String username) {
         stopKeepAlive();
         sendMessage(createQuitMessage(username));
         close_connection();
     }
+
+    /**
+     * Sends a create game message
+     * @param username player's name
+     * @param connection_type socket/rmi
+     * @param numPlayers number of the players that want to take part in the game
+     * @throws RemoteException
+     */
     public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) {
         sendMessage(createCreateGameMessage(username, connection_type, numPlayers));
     }
@@ -180,12 +191,13 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         return true;
     }
 
+    /**
+     * Sends a join message
+     * @param username player's name
+     * @param connection_type socket/rmi
+     */
     public void SendJoinMessage(String username, boolean connection_type) {
         sendMessage(createJoinMessage(username, connection_type));
     }
-
-
-
-
 }
 

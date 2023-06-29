@@ -8,14 +8,17 @@ import java.rmi.RemoteException;
  * class that continuously checks if the server is crushed
  */
 public class RmiServerHandler extends Thread{
+
     /**
      * reference to rmi client
      */
     private RMIClient client;
+
     /**
      * reference to rmi server
      */
     private RMIServerInterface rmiServer;
+
     /**
      * if server is connected to the client this boolean is true
      */
@@ -55,5 +58,4 @@ public class RmiServerHandler extends Thread{
 
         }
     }
-
 }

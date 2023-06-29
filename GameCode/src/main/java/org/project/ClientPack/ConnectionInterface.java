@@ -53,6 +53,8 @@ public interface ConnectionInterface {
      */
     void SendChatMessage(String username, String text);
 
+    void SendChatMessage(String username, String text, String receiver);
+
     /**
      * Sends a top-up message
      * @param username player's name

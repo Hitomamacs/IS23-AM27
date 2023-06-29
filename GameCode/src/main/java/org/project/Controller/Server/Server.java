@@ -1,5 +1,6 @@
 package org.project.Controller.Server;
 
+import org.project.ClientPack.RMIClient;
 import org.project.Controller.Control.*;
 import org.project.Controller.Messages.*;
 import org.project.Controller.View.*;
@@ -209,6 +210,8 @@ public class Server {
     public boolean chat(String username, String text){
         return controller.chat(username, text);
     }
+
+    public boolean chat(String username, String text, String receiver){return controller.chat(username, text, receiver);}
 
     /**
      * remote method that given a column as input, puts the drawn tiles in that column of the player's grid
@@ -534,6 +537,19 @@ public class Server {
             }
         });
 
+    }
+    public void sendChat(String username, String text, String receiver) {
+        if (controller.getUser(receiver).getConnectionType()) {
+            ChatMessage message = new ChatMessage(username, text, receiver);
+            socketServer.getSocketClients().get(receiver).send(message);
+        } else {
+            RMIClientInterface client = rmiServer.getClientsRMI().get(receiver);
+            try {
+                client.notifyChat(username, text, receiver);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

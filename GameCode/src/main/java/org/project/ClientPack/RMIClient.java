@@ -108,7 +108,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a join message
+     * Sends a join message to rmi server
      * @param username player's name
      * @param connection_type socket/rmi
      */
@@ -124,7 +124,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a create game message
+     * Sends a create game message to rmi server
      * @param username player's name
      * @param connection_type socket/rmi
      * @param numPlayers number of the players that want to take part in the game
@@ -140,7 +140,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a quit message
+     * Sends a quit message to rmi server
      * @param username player's name who wants to quit
      */
     @Override
@@ -153,7 +153,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a pick message
+     * Sends a pick message to rmi server
      * @param username player's name
      * @param numTiles number of the tiles that the player has picked
      * @param coordinates coordinates of the tiles that the player has picked
@@ -168,7 +168,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a top-up message
+     * Sends a top-up message to rmi server
      * @param username player's name
      * @param firstTime column number
      * @param tileIndex number of the tile in the array picked tiles
@@ -183,7 +183,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * Sends a chat message
+     * Sends a chat message to rmi server
      * @param username player's name
      * @param text text of the message
      */
@@ -194,6 +194,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             throw new RuntimeException(e);
         }
     }
+    public void SendChatMessage(String username, String text, String receiver) {
+        try {
+            rmiServer.sendChat(username, text, receiver);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     //TODO javadoc
     @Override
@@ -328,6 +336,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
        userInterface.updateClientView(clientView);
        clientView.firePropertyChange("score",clientView);*/
 
+    /**
+     * method invoked by the server to notify the client of a new chat message
+     * @param username message author
+     * @param text text of the message
+     */
     @Override
     public void notifyChat(String username, String text){
 
@@ -337,6 +350,21 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.processReceivedMessage(jsonStr);
     }
 
+    /**
+     *  method invoked by the server to notify the PopUpView with a message and identifier.
+     *
+     * @param text The text message to be displayed in the PopUpView.
+     * @param identifier The identifier for the PopUpView.
+     * @throws RemoteException If a remote communication error occurs.
+     */
+    @Override
+    public void notifyChat(String username, String text, String receiver){
+
+        ChatMessage message = new ChatMessage(username, text, receiver);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(message);
+        userInterface.processReceivedMessage(jsonStr);
+    }
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);

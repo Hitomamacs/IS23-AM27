@@ -18,10 +18,14 @@ public class CliUserInterface implements UserInterface {
 
     private boolean firstAction;
     private ConnectionInterface client;
-
     private Screens screen = Screens.PLAYER_SCREEN;
-
     private boolean serverDownFlag;
+
+    /**
+     * Constructor
+     * @param clientView reference to the ClientView
+     * @param client reference to the Client
+     */
 
     public CliUserInterface(ClientView clientView, ConnectionInterface client) {
 
@@ -145,7 +149,6 @@ public class CliUserInterface implements UserInterface {
                 if("score".equals(evt.getPropertyName())){
                     clientView.printScore();
                 }
-
         }
     };
 

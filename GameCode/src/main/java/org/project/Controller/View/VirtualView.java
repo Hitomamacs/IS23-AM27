@@ -207,7 +207,7 @@ public class VirtualView {
                 String[] tilesStr = new String[3];
                 Color color;
                 for (int i = 0; i < 3; i++) {
-                    if (tiles[i] != null) {
+                    if (tiles != null && tiles[i] != null) {
                         color = tiles[i].getColor();
                         switch (color) {
                             case YELLOW -> tilesStr[i] = "Y";

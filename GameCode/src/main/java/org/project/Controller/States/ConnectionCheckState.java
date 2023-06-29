@@ -69,6 +69,13 @@ public class ConnectionCheckState implements GameState {
                                 timer.purge();
                                 insideTimer.cancel();
                                 insideTimer.purge();
+                                gameOrchestrator.changeState(new ConnectionCheckState(gameOrchestrator));
+                                gameOrchestrator.setCurr_sate_id(1);
+                                try {
+                                    gameOrchestrator.executeState();
+                                } catch (InvalidMoveException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
                     }, 0, 1000);

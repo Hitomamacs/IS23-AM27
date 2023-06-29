@@ -381,6 +381,7 @@ public class GuiFx extends Application {
                     if(!refreshBool){
                         mainSceneController.refreshGrid(clientView.getGridsview().get(guiUserInterface.getNickname()));
                         refreshBool = true;
+                        mainSceneController.refreshTile(clientView.getTilesview().get(guiUserInterface.getNickname()));
                         //System.out.println(refreshBool);
                     }
                     //showMainScene();

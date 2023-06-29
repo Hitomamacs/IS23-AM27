@@ -33,8 +33,8 @@ public class GeneralClient implements ClientInterface {
                    e.printStackTrace();
                }
            }).start();
-
         }
+
         if(userInterface.getUI() == "CLI"){
             userInterface.launcher();
             Cli_Images start_image = new Cli_Images();
@@ -43,9 +43,8 @@ public class GeneralClient implements ClientInterface {
             System.out.println("Enter create_game to create a new game");
             System.out.println("Enter join to join an already existing game");
             System.out.println("Enter help to view all commands");
-
-
         }
+
         new Thread(() -> {
             while (client.get_connection_type()) {
                 try {

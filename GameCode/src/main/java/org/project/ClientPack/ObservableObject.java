@@ -5,7 +5,13 @@ import com.google.gson.annotations.Expose;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * An abstract base class for objects that support property change notification.
+ */
 public class ObservableObject {
+
+    private transient PropertyChangeSupport support;
+
     public PropertyChangeSupport getSupport() {
         return support;
     }
@@ -14,12 +20,17 @@ public class ObservableObject {
         this.support = support;
     }
 
-    private transient PropertyChangeSupport support;
-
+    /**
+     * Constructor
+     */
     public ObservableObject() {
         this.support = new PropertyChangeSupport(this);
     }
 
+    /**
+     * Adds a PropertyChangeListener to the internal PropertyChangeSupport object.
+     * @param listener The PropertyChangeListener to be added.
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
@@ -28,6 +39,11 @@ public class ObservableObject {
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Notifies registered PropertyChangeListeners about a property change event.
+     * @param propertyName The name of the property that has changed.
+     * @param newValue The new value of the property.
+     */
     public void firePropertyChange(String propertyName, Object newValue) {
         support.firePropertyChange(propertyName, null, newValue);
     }

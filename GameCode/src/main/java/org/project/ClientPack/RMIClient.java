@@ -21,14 +21,17 @@ import java.util.Scanner;
  */
 
 public class RMIClient extends UnicastRemoteObject implements ConnectionInterface, RMIClientInterface {
+
     /**
      * reference to rmi server
      */
     private RMIServerInterface rmiServer;
+
     /**
      * port for the communication
      */
     private int port;
+
     /**
      * nickname chosen by the player
      */
@@ -55,40 +58,34 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         startClient();
     }
 
-
     /**
      * method called to initiate the RMI client. This method establishes the connection with the RMI server.
      */
-
-        public void startClient() {
-            boolean nome;
-            boolean successo;
-            final Scanner stdin = new Scanner(System.in);
-            int port = Settings.RMI_PORT;
-            Registry registry = null;
-            try {
-                //System.setProperty("java.rmi.server.hostname", "10.42.0.1");
-                registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-
-            //Looking up the registry for the remote object
-            try {
-                rmiServer = (RMIServerInterface) registry.lookup("Server");
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (NotBoundException e) {
-                throw new RuntimeException(e);
-            }
-
-            RmiServerHandler rmiServerHandler = new RmiServerHandler(rmiServer, this);
-            Thread serverHandlerThread = new Thread(rmiServerHandler);
-            serverHandlerThread.start();
-
-            //System.out.println("Connessione stabilita con successo");
+    public void startClient() {
+        boolean nome;
+        boolean successo;
+        final Scanner stdin = new Scanner(System.in);
+        int port = Settings.RMI_PORT;
+        Registry registry = null;
+        try {
+            //System.setProperty("java.rmi.server.hostname", "10.42.0.1");
+            registry = LocateRegistry.getRegistry(Settings.SERVER_NAME, port);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
-
+        //Looking up the registry for the remote object
+        try {
+            rmiServer = (RMIServerInterface) registry.lookup("Server");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+        RmiServerHandler rmiServerHandler = new RmiServerHandler(rmiServer, this);
+        Thread serverHandlerThread = new Thread(rmiServerHandler);
+        serverHandlerThread.start();
+            //System.out.println("Connessione stabilita con successo");
+    }
 
     /**
      * getter client view
@@ -111,10 +108,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     * method called by the general client in order to be able to send the request to join the game to the rmi server
-     *
-     * @param username        player's nickname
-     * @param connection_type connection type
+     * Sends a join message
+     * @param username player's name
+     * @param connection_type socket/rmi
      */
     @Override
     public void SendJoinMessage(String username, boolean connection_type) {
@@ -125,15 +121,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
-     * method called by the general client in order to be able to send the request to create a game to the rmi server
-     *
-     * @param username        player's name
-     * @param connection_type connection type
-     * @param numPlayers      number of players in the game
+     * Sends a create game message
+     * @param username player's name
+     * @param connection_type socket/rmi
+     * @param numPlayers number of the players that want to take part in the game
+     * @throws RemoteException
      */
     @Override
     public void SendCreateGameMessage(String username, boolean connection_type, int numPlayers) {
@@ -142,13 +137,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
-     * method called by the general client to be able to send the disconnection request to the rmi server
-     *
-     * @param username player's name
+     * Sends a quit message
+     * @param username player's name who wants to quit
      */
     @Override
     public void SendQuitMessage(String username) {
@@ -157,15 +150,13 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
-     * method called by the general client to be able to send the rmi server the request to take some tiles from the board
-     *
-     * @param username    player's name
-     * @param numTiles    number of tiles he wants to take
-     * @param coordinates coordinates of tiles he wants to take
+     * Sends a pick message
+     * @param username player's name
+     * @param numTiles number of the tiles that the player has picked
+     * @param coordinates coordinates of the tiles that the player has picked
      */
     @Override
     public void SendPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
@@ -174,15 +165,13 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
-     * method called by the general client to be able to send the rmi server the request to insert the tiles in its own grid
-     *
-     * @param username  player's name
-     * @param firstTime column choosen
-     * @param tileIndex index of tile choosen
+     * Sends a top-up message
+     * @param username player's name
+     * @param firstTime column number
+     * @param tileIndex number of the tile in the array picked tiles
      */
     @Override
     public void SendTopUpMessage(String username, int firstTime, int tileIndex) {
@@ -193,9 +182,11 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         }
     }
 
-
-
-
+    /**
+     * Sends a chat message
+     * @param username player's name
+     * @param text text of the message
+     */
     public void SendChatMessage(String username, String text) {
         try {
             rmiServer.sendChat(username, text);
@@ -203,7 +194,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
             throw new RuntimeException(e);
         }
     }
-
 
     //TODO javadoc
     @Override
@@ -236,10 +226,9 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     public void printMsgChat(String nickname, String message) throws RemoteException {
         //TODO chat
 
-
     }
 
-        //METHODS CALLED BY SERVER
+    //METHODS CALLED BY SERVER
 
     /**
      * method called by the server to send all initialized game parameters to the client
@@ -251,19 +240,18 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @param cGoalView in this list there are the common goals fished
      * @throws RemoteException
      */
-         @Override
-        public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
-            clientView.setBoard(board);
-            clientView.setPointStack(pointStack);
-            clientView.setGridsview(gridsView);
-            clientView.setTilesview(tilesView);
-            clientView.setCommonGoalView(cGoalView);
-            clientView.setPersonalGoalViews(pGoalView);
-            userInterface.updateClientView(clientView);
-            clientView.firePropertyChange("refresh", null);
-            //clientView.printCommonGoal();
-
-        }
+    @Override
+    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
+        clientView.setBoard(board);
+        clientView.setPointStack(pointStack);
+        clientView.setGridsview(gridsView);
+        clientView.setTilesview(tilesView);
+        clientView.setCommonGoalView(cGoalView);
+        clientView.setPersonalGoalViews(pGoalView);
+        userInterface.updateClientView(clientView);
+        clientView.firePropertyChange("refresh", null);
+        //clientView.printCommonGoal();
+    }
 
     /**
      * method invoked by the server after a successful pick
@@ -273,33 +261,31 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException
      */
 
-        @Override
-        public void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
-            int i,j;
+    @Override
+    public void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
+        int i,j;
 
-            //aggiorno board
-            for(i=0;i<9;i++){
-                for(j=0;j<9;j++){
-                    clientView.getBoard()[i][j]=board[i][j];
-                }
+        //aggiorno board
+        for(i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                clientView.getBoard()[i][j]=board[i][j];
             }
-            //aggiorno tiles view
-            for(i=0;i< tilesView.length; i++ ){
-                clientView.getTilesview().get(playername)[i]=tilesView[i];
-            }
-
-            userInterface.updateClientView(clientView);
-            clientView.firePropertyChange("pick", playername);
-            //System.out.println("\nPrinting updated board");
-            //userInterface.printBoard();
-            //userInterface.printTiles(playername);
-
-           /* String[][] grid = clientView.getGridsview().get(playername);
-            System.out.println("This is "+playername+" grid");
-            clientView.printGrid(playername);*/
-
-
         }
+        //aggiorno tiles view
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+
+        userInterface.updateClientView(clientView);
+        clientView.firePropertyChange("pick", playername);
+        //System.out.println("\nPrinting updated board");
+        //userInterface.printBoard();
+        //userInterface.printTiles(playername);
+
+        /* String[][] grid = clientView.getGridsview().get(playername);
+           System.out.println("This is "+playername+" grid");
+           clientView.printGrid(playername);*/
+    }
 
     /**
      * method invoked by the server after a successful topUp
@@ -309,41 +295,38 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException
      */
 
-        @Override
-        public void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
-            int i,j;
-
-            //aggiorna grid view e stampa grid
-            for(i=0;i<6;i++){
-                for(j=0;j<5;j++){
-                    clientView.getGridsview().get(playername)[i][j]=grid[i][j];
-                }
+    @Override
+    public void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
+        int i,j;
+        //aggiorna grid view e stampa grid
+        for(i=0;i<6;i++){
+            for(j=0;j<5;j++){
+                clientView.getGridsview().get(playername)[i][j]=grid[i][j];
             }
-            for(i=0;i< tilesView.length; i++ ){
-                clientView.getTilesview().get(playername)[i]=tilesView[i];
-            }
-            userInterface.updateClientView(clientView);
-            userInterface.printGrids(playername);
-            clientView.firePropertyChange("topup", playername);
-
         }
+        for(i=0;i< tilesView.length; i++ ){
+            clientView.getTilesview().get(playername)[i]=tilesView[i];
+        }
+        userInterface.updateClientView(clientView);
+        userInterface.printGrids(playername);
+        clientView.firePropertyChange("topup", playername);
+    }
 
     /**
      * method invoked by the server to notify the client of each player's final score
      * @param score final scores
      * @throws RemoteException
      */
-
-        @Override
-        public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
-            clientView.setScoreBoard(score);
-            userInterface.updateClientView(clientView);
-            clientView.firePropertyChange("score",clientView);
-        }
-
-        /*clientView.setScoreBoard(score);
+    @Override
+    public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
+        clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
-        clientView.firePropertyChange("score",clientView);*/
+        clientView.firePropertyChange("score",clientView);
+    }
+
+    /*clientView.setScoreBoard(score);
+       userInterface.updateClientView(clientView);
+       clientView.firePropertyChange("score",clientView);*/
 
     @Override
     public void notifyChat(String username, String text){
@@ -353,6 +336,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         String jsonStr = gson.toJson(message);
         userInterface.processReceivedMessage(jsonStr);
     }
+
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);
@@ -384,7 +368,6 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * removes the player from the list of online players
      * @throws RemoteException when something goes wrong with the connection
      */
-
     @Override
     public void isConnected() throws RemoteException {
 

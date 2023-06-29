@@ -51,6 +51,11 @@ public class GameOrchestrator {
     private TileBag tileBag;
     @Expose
     private List<Coordinates> pickedCoordinates;
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     @Expose
     private  Game game;
 

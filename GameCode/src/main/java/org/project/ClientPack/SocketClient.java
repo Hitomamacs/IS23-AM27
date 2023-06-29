@@ -19,6 +19,8 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     private ClientView clientView = new ClientView();
 
+    private boolean first = true;
+
     UserInterface userInterface;
 
     private Timer keepAlive;
@@ -102,6 +104,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     }
 
     public String receiveMessage()  {
+
         String line = null;
         try {
             if(in!= null){
@@ -109,9 +112,11 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
             else
                 throw new IOException();
         } catch (IOException e) {
+            if(first){
             System.out.println("Server down, Start Server And then Client");
+            first = false;
 
-        }
+        }}
         if (line != null &&line.equals("KEEP_ALIVE")) {
             lastKeepAliveReceivedTime = System.currentTimeMillis();
         }

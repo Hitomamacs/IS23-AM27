@@ -308,7 +308,9 @@ public class GuiFx extends Application {
 
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == ButtonType.OK) {
-                    Platform.exit(); // Close the entire application when OK is clicked
+                    Platform.exit();
+                    System.exit(0);
+                    // Close the entire application when OK is clicked
                 }
             });
         });

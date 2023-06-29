@@ -7,10 +7,7 @@ import org.project.Controller.States.*;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -34,6 +31,10 @@ public class Persistencer {
     public void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
         String json = gson_parser.toJson(gameOrchestrator);
         try {
+            File file = new File(fileName + ".json");
+            if(file.exists()) {
+                file.delete();
+            };
             PrintWriter out = new PrintWriter(new FileWriter(fileName + ".json"));
             out.println(json);
             out.close();

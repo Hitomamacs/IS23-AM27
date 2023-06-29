@@ -101,8 +101,17 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         out.println(message);
     }
 
-    public String receiveMessage() throws IOException {
-        String line = in.readLine();
+    public String receiveMessage()  {
+        String line = null;
+        try {
+            if(in!= null){
+            line = in.readLine();}
+            else
+                throw new IOException();
+        } catch (IOException e) {
+            System.out.println("Server down, Start Server And then Client");
+            System.exit(0);
+        }
         if (line != null &&line.equals("KEEP_ALIVE")) {
             lastKeepAliveReceivedTime = System.currentTimeMillis();
         }

@@ -7,7 +7,9 @@ import org.project.Model.Coordinates;
 import org.project.ClientPack.RMIClientInterface;
 import org.project.Model.Player;
 
+import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -129,6 +131,11 @@ public class Server {
                     }
                 }
                 System.out.println("Server flushing");
+                Path paths = Paths.get(name);
+                File file = new File(paths.toUri());
+                if(file.exists()) {
+                    file.delete();
+                };
                 getRmiServer().flushRMIClients();
                 getSocketServer().flushSocketClients();
                 controller.refresh();

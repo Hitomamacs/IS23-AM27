@@ -180,7 +180,7 @@ public class CliUserInterface implements UserInterface {
                     case "create_game":
                         if(firstAction==false){
                             SendCreateGameMessage(client);
-                            if(!clientView.getPopUpErrorMessage().equals("Already an existing game") && !clientView.getPopUpErrorMessage().contains("is already in use in the game")){
+                            if(clientView.getPopUpErrorMessage() != null &&(!clientView.getPopUpErrorMessage().equals("Already an existing game") && !clientView.getPopUpErrorMessage().contains("is already in use in the game"))){
                                 firstAction=true;
                             }
                         }else{
@@ -579,6 +579,12 @@ public class CliUserInterface implements UserInterface {
         System.out.println("Enter number of players: ");
         int numPlayers = Integer.parseInt(scanner.nextLine());
         // You may want to add a validation here as well
+        //num player must be a number between 2 and 4
+        if(numPlayers < 2 || numPlayers > 4) {
+            System.out.println("Invalid number of players. Please try again.");
+            return getNumPlayers(); // Retry for correct input
+        }
+
         return numPlayers;
     }
     public String getText(){

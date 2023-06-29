@@ -304,7 +304,7 @@ public class GuiFx extends Application {
             alert.initOwner(primaryStage);
             alert.setTitle("Server Crash");
             alert.setHeaderText("Server is unreachable");
-            alert.setContentText("The server has crashed and is currently unreachable.");
+            alert.setContentText("The server has crashed :-( ");
 
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == ButtonType.OK) {

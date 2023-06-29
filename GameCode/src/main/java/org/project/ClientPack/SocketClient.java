@@ -14,9 +14,15 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * SOCKET clients
+ */
 public class SocketClient extends AbstractClientApp implements ConnectionInterface {
 
     private boolean connection_type = true;
+    /**
+     * reference to clientview
+     */
     private ClientView clientView = new ClientView();
 
     private boolean first = true;
@@ -36,6 +42,10 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
 
     private final Gson gson = new Gson();
 
+    /**
+     * Creates a new instance of the SocketClient class.
+     * Initializes the client socket connection to the server.
+     */
     public SocketClient() {
         // qui connetti il client al server
         try {
@@ -51,6 +61,10 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         }
     }
 
+    /**
+     * Starts the keep-alive check mechanism to monitor the connection with the server.
+     * If a keep-alive message is not received within the specified interval, the client is disconnected.
+     */
     private void startKeepAliveCheck() {
         keepAliveTimer = new Timer();
         keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
@@ -64,12 +78,21 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         }, KEEP_ALIVE_INTERVAL, KEEP_ALIVE_INTERVAL);
     }
 
+    /**
+     * Disconnects the client from the server.
+     * This function is called when a keep-alive message is not received within the specified interval.
+     * It notifies the user interface about the server disconnection.
+     */
     private void disconnect() {
         // Implement  disconnect function here!!!!
         //System.out.println("Disconnected from server");
         userInterface.serverDown();
     }
 
+    /**
+     * Starts the keep-alive mechanism to send periodic messages to the server.
+     * The client sends a "KEEP_ALIVE" message to the server every second to maintain the connection.
+     */
     private void startKeepAlive() {
          keepAlive = new Timer();
         keepAlive.scheduleAtFixedRate(new TimerTask() {
@@ -80,16 +103,32 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         }, 0, 1000);
     }
 
+    /**
+     * Stops the keep-alive mechanism.
+     * Cancels the timer task responsible for sending periodic "KEEP_ALIVE" messages to the server.
+     */
     private void stopKeepAlive() {
         if (keepAlive != null) {
             keepAlive.cancel();
             keepAlive = null;
         }
     }
+
+    /**
+     * Sends a message to the server.
+     *
+     * @param message the message to send
+     */
     public void sendMessage(String message) {
         out.println(message);
     }
 
+    /**
+     * Receives a message from the server.
+     *
+     * @return the received message, or null if there was an error or the server sent a keep-alive message
+     * @throws IOException if there is an error reading from the input stream
+     */
     public String receiveMessage()  {
 
         String line = null;
@@ -145,6 +184,12 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         sendMessage(createChatMessage(username, text));
     }
 
+    @Override
+    public void SendChatMessage(String username, String text, String receiver) {
+        sendMessage(createChatMessage(username, text, receiver));
+    }
+
+
     /**
      * Sends a top-up message
      * @param username player's name
@@ -156,6 +201,9 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         sendMessage(createTopUpMessage(username, firstTime, tileIndex));
     }
 
+    /**
+     * Closes the connection to the server.
+     */
     private void close_connection() {
         try {
             in.close();

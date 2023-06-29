@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -46,6 +47,9 @@ public class CliUserInterface implements UserInterface {
      * cli images
      */
     private Cli_Images cliImages = new Cli_Images();
+
+    private boolean firstTimeChat = true;
+
 
     /**
      * player's username
@@ -98,8 +102,22 @@ public class CliUserInterface implements UserInterface {
         public void propertyChange(PropertyChangeEvent evt) {
 
             if("chat".equals(evt.getPropertyName())){
-                //printGrids((String) evt.getNewValue());
-                clientView.printChatLast((String) evt.getNewValue());
+                ChatMessage chatMessage = (ChatMessage) evt.getNewValue();
+                String receiver = chatMessage.getReceiver();
+                String sender = chatMessage.getUsername();
+                if(clientView.getCurrentChat().equalsIgnoreCase("broadcast")){
+                    if(receiver.equalsIgnoreCase("broadcast")) {
+                        clientView.printChatLast(nickname);
+                    }
+                }
+                else {
+                    if(clientView.getCurrentChat().equalsIgnoreCase(sender)) {
+                        if(receiver.equalsIgnoreCase(nickname)){
+                            clientView.printPrivateChatLast(nickname, sender);
+                        }
+                    }
+                }
+
             }
 
         }
@@ -122,22 +140,11 @@ public class CliUserInterface implements UserInterface {
         public void propertyChange(PropertyChangeEvent evt) {
 
                 if("refresh".equals(evt.getPropertyName())){
-                    if(evt.getNewValue() != null){
-
-                        if((boolean)evt.getNewValue()){
-                            //clientView.printBoard();
-                            //System.out.println();
-                            //clientView.printGrid(nickname);
-                            printPlayerStuff();
-                        }
-                        else{
-                            printPlayerStuff();
-                            //clientView.printGrid(nickname);
-                            //System.out.println();
-                            //clientView.printTiles(nickname);
-                        }
-                    }else {//clientView.printBoard();
-                        printPlayerStuff(); }
+                    printPlayerStuff();
+                    if(firstTimeChat){
+                        fillChatMap();
+                    }
+                    firstTimeChat = false;
             };
         }
     };
@@ -292,13 +299,12 @@ public class CliUserInterface implements UserInterface {
                     case "create_game":
                         if(firstAction==false){
                             SendCreateGameMessage(client);
-                            if(clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
+                            if(clientView.getPopUpErrorMessage() != null && clientView.getPopUpErrorMessage().contains("Successfully created game") && !clientView.getPopUpErrorMessage().contains("Succesfully joined game")){
                                 firstAction=true;
                             }
                         }else{
                             displayMessage("Hai già fatto join/create_game");
                         }
-
                         break;
                     case "quit":
                         SendQuitMessage(client);
@@ -319,8 +325,17 @@ public class CliUserInterface implements UserInterface {
                         break;
                     case "show_chat":
                         screen = Screens.CHAT_SCREEN;
+                        clientView.setCurrent_Chat("broadcast");
                         clientView.printChat(nickname);
                         SendChat(client);
+                        break;
+                    case "show_private_chat":
+                        if(firstTimeChat){
+                            fillChatMap();
+                        }
+                        firstTimeChat = false;
+                        screen = Screens.CHAT_SCREEN;
+                        handlePrivateChat(client);
                         break;
                     case "show_grids":
                         screen = Screens.GRIDS_SCREEN;
@@ -360,6 +375,7 @@ public class CliUserInterface implements UserInterface {
         System.out.println("show_board: Shows the board, your grid and your tiles");
         System.out.println("show_grids: Shows other players grid");
         System.out.println("show_chat: Shows the chat");
+        System.out.println("show_private_chat: Shows private chat");
     }
 
     /**
@@ -539,9 +555,16 @@ public class CliUserInterface implements UserInterface {
      * @param message the chat message to be added to the chat view
      */
     public void handleChatUpdate(ChatMessage message){
-        clientView.getChat().add(message);
+        String sender = message.getUsername();
+
+        if(message.getReceiver().equalsIgnoreCase("broadcast")){
+            clientView.getChat().add(message);
+        }
+        else{
+            clientView.getPrivateChats().get(sender).add(message);
+        }
         if(screen.equals(Screens.CHAT_SCREEN)){
-            clientView.firePropertyChange("chat", nickname);
+            clientView.firePropertyChange("chat", message);
         }
     }
 
@@ -622,11 +645,7 @@ public class CliUserInterface implements UserInterface {
         return UI;
     }
 
-    /**
-     * Displays the common goal for all players.
-     *
-     * @param playerName the name of the player
-     */
+
     @Override
     public void ShowCObj(String playerName) {
         clientView.printCommonGoal();
@@ -649,7 +668,40 @@ public class CliUserInterface implements UserInterface {
         screen = Screens.PLAYER_SCREEN;
         clientView.printPlayerStuff(nickname);
     }
+    public void SendChatPrivate(ConnectionInterface client, String receiver){
+        String text = getText();
+        while(!(text.equals("exit"))){
+            client.SendChatMessage(nickname, text, receiver);
+            clientView.getPrivateChats().get(receiver).add(new ChatMessage(nickname, text, receiver));
+            clientView.printPrivateChatLast(nickname, receiver);
+            text = getText();
+        }
+        screen = Screens.PLAYER_SCREEN;
+        clientView.printPlayerStuff(nickname);
 
+    }
+    public void handlePrivateChat(ConnectionInterface client){
+        System.out.println("Who do you want to chat with?");
+        for(Map.Entry<String, List<ChatMessage>> entry : clientView.getPrivateChats().entrySet()){
+            System.out.println(entry.getKey() + "  ");
+        }
+        System.out.println();
+        String name = getInput();
+        while(!clientView.findChat(name)){
+            System.out.println("Invalid user");
+            name = getInput();
+        }
+        clientView.setCurrent_Chat(name);
+        clientView.printPrivateChat(nickname, name);
+        SendChatPrivate(client, name);
+    }
+    public void fillChatMap(){
+        for(Map.Entry<String, String[][]> entry : clientView.getGridsview().entrySet()){
+            String playername = entry.getKey();
+            if(!playername.equals(nickname))
+                clientView.getPrivateChats().put(entry.getKey(), new ArrayList<>());
+        }
+    }
     /**
      * Handles the case when the server is unreachable.
      * Displays an error message, waits for 10 seconds, and then exits the application.
@@ -868,4 +920,5 @@ public class CliUserInterface implements UserInterface {
     public void printOtherGrids(){
         clientView.printOtherGrids(nickname);
     }
+
 }

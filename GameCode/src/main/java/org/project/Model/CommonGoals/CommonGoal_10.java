@@ -5,8 +5,7 @@ import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
 /**
- * Cinque tessere dello stesso tipo
- * che formano una X.
+ * Five tiles of the same type that create an X
  */
 public class CommonGoal_10 extends CommonGoal {
 

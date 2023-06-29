@@ -28,6 +28,11 @@ public class VirtualView {
     private HashMap<String, Integer> personalGoalViews;
     private ArrayList<Integer> commonGoalsView;
 
+    /**
+     * Constructor
+     * @param users players
+     * @param game reference to Game
+     */
     public VirtualView(List<User> users, Game game){
         this.game = game;
         boardView = new BoardView();
@@ -57,14 +62,25 @@ public class VirtualView {
         pointStackView.updatePointStackView(newValue, position);
     }
 
+    /**
+     * Update the score board view
+     * @param score
+     */
     public void updateView(HashMap<String, Integer> score){
         scoreBoardView.updateScoreBoardView(score);
     }
 
+    /**
+     * @param username of the player
+     * @param PGoal that is assigned to the player
+     */
     public void updateView(String username, PersonalGoal PGoal){
         personalGoalViews.put(username, PGoal.getPgoal_ID());
     }
 
+    /**
+     * @param commonGoals list of the common goals
+     */
     public void updateView(List<CommonGoal> commonGoals){
         ArrayList<Integer> copyList = new ArrayList<>();
         for(CommonGoal cGoal : commonGoals){
@@ -107,6 +123,10 @@ public class VirtualView {
         return this.ScoreBoardListener;
     }
 
+    /**
+     * Listens for property change events related to the board update.
+     * When a board update event occurs, this listener updates the board view with the new board information.
+     */
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -135,6 +155,11 @@ public class VirtualView {
         }
     };
 
+    /**
+     * Listens for property change events related to the grid update.
+     * When a grid update event occurs, this listener updates the grid view for the corresponding player
+     * with the new grid information.
+     */
     PropertyChangeListener gridUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -167,6 +192,11 @@ public class VirtualView {
         }
     };
 
+    /**
+     * Listens for property change events related to the tiles update.
+     * When a tiles update event occurs, this listener updates the tiles view for the corresponding player
+     * with the new picked tiles information.
+     */
     PropertyChangeListener tilesUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -194,6 +224,11 @@ public class VirtualView {
         }
     };
 
+    /**
+     * Listens for property change events related to the personal goal update.
+     * When a personal goal update event occurs, this listener updates the view
+     * with the player's nickname and their personal goal.
+     */
     PropertyChangeListener PGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -204,6 +239,10 @@ public class VirtualView {
         }
     };
 
+    /**
+     * Listens for property change events related to the common goal update.
+     * When a common goal update event occurs, this listener updates the view with the updated common goals of the game.
+     */
     PropertyChangeListener CGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -214,6 +253,10 @@ public class VirtualView {
         }
     };
 
+    /**
+     * Listens for property change events related to the scoreboard update.
+     * When a scoreboard update event occurs, this listener updates the view with the updated scoreboard of the game.
+     */
     PropertyChangeListener ScoreBoardListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

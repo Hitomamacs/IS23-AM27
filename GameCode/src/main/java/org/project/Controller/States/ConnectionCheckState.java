@@ -2,6 +2,11 @@ package org.project.Controller.States;
 
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Controller.States.Exceptions.InvalidMoveException;
+import org.project.Model.Player;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * ConnectionCheckState controls that the player is connected through its isConnected boolean.
@@ -14,6 +19,12 @@ import org.project.Controller.States.Exceptions.InvalidMoveException;
 public class ConnectionCheckState implements GameState {
 
     private final int stateID = 1;
+
+    private Timer timer = new Timer();
+
+    private boolean endTimer = false;
+
+    private Timer insideTimer = new Timer();
     private transient GameOrchestrator gameOrchestrator;
 
     /**
@@ -41,35 +52,87 @@ public class ConnectionCheckState implements GameState {
      */
     @Override
     public void changeState() {
-        if(gameOrchestrator.getCurrentPlayer().isConnected()){
-            if(gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
-                System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles"  );
-                gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-                gameOrchestrator.setCurr_sate_id(10);
-            }
+        int numPlayers = countOnlinePlayers();
+        if (numPlayers == 1) {
+            //set a timer that checks if the player reconnects
+            //if he doesn't reconnect in time, the game ends
+            //if he reconnects, the timer is stopped
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    int numPlayers = countOnlinePlayers();
+                    insideTimer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (countOnlinePlayers() > 1) {
+                                timer.cancel();
+                                timer.purge();
+                                insideTimer.cancel();
+                                insideTimer.purge();
+                            }
+                        }
+                    }, 0, 1000);
+                    if (endTimer && countOnlinePlayers() == 1) {
+                        gameOrchestrator.changeState(new EndGameState(gameOrchestrator));
+                        gameOrchestrator.setCurr_sate_id(2);
+                        try {
+                            gameOrchestrator.executeState();
+                        } catch (InvalidMoveException e) {
+                            throw new RuntimeException(e);
+                        }
+                        timer.cancel();
+                        timer.purge();
+                    }
+                    endTimer = true;
+                }
 
-            else{
-                int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
-                gameOrchestrator.changeState(new TopUpState(gameOrchestrator, previousSelectedColumn));
-                gameOrchestrator.setCurr_sate_id(7);
+            }, 0, 30000);
+
+
+        }
+        numPlayers = countOnlinePlayers();
+        if (numPlayers > 1) {
+            if (gameOrchestrator.getCurrentPlayer().isConnected()) {
+                numPlayers = countOnlinePlayers();
+
+                if (gameOrchestrator.getCurrentPlayer().pickedTilesIsEmpty()) {
+                    System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles");
+                    gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
+                    gameOrchestrator.setCurr_sate_id(10);
+                } else {
+                    int previousSelectedColumn = gameOrchestrator.getCurrentPlayer().getSelectedColumn();
+                    gameOrchestrator.changeState(new TopUpState(gameOrchestrator, previousSelectedColumn));
+                    gameOrchestrator.setCurr_sate_id(7);
                 /* Without this check if player had disconnected in between TopUps he could place remaining tiles in
                   a different column, note that this means that at the end of the TopUp phase of a player the
                   Selected column in player has to be set to the default value -1. This is because if the player
                   disconnected before his first TopUp the connectionCheckState would force him to use the same
                   column of the previous TopUp phase. In stead this way in that scenario the TopUps selectedColumn
                   would be -1 and the player would be allowed to select a new column */
+                }
+            } else {
+                gameOrchestrator.nextPlayer();
+                gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
+                gameOrchestrator.setCurr_sate_id(6);
+                try {
+                    gameOrchestrator.executeState();
+                } catch (InvalidMoveException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
-        else{
-            gameOrchestrator.nextPlayer();
-            gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
-            gameOrchestrator.setCurr_sate_id(6);
-            try {
-                gameOrchestrator.executeState();
-            } catch (InvalidMoveException e) {
-                throw new RuntimeException(e);
+    }
+
+    public int countOnlinePlayers(){
+        List<Player> players = gameOrchestrator.getPlayers();
+        int onlinePlayers = 0;
+        for(Player player : players){
+            if(player.isConnected()){
+                onlinePlayers++;
             }
         }
+        return onlinePlayers;
+
     }
 
     @Override

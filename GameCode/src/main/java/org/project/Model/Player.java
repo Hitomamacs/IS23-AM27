@@ -70,6 +70,10 @@ public class Player extends ObservableObject {
         List<PersonalGoal > personalGoals_list = pOb_2Js.getPersonalGoals_list();
     }
 
+    /**
+     * Constructor for recovering the player class (Persistencer)
+     * @param player player's name
+     */
     public Player(Player player){
         this.playerGrid = player.getPlayerGrid();
         this.nickname = player.getNickname();
@@ -81,12 +85,15 @@ public class Player extends ObservableObject {
         this.selectedColumn = player.getSelectedColumn();
         this.tileIndex = player.getTileIndex();
         this.pickedTiles = player.getPickedTiles();
-
-
     }
+
+    /**
+     * Method for Persinstencer
+     */
     public void initializeSupport(){
         this.setSupport(new PropertyChangeSupport (this));
     }
+
     /**
      * The method reads personal goals data from a file using a BufferedReader and the Gson library.
      * The personal goals read are stored in the personalGoals_list.

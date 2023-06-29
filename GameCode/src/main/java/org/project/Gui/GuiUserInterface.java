@@ -11,6 +11,8 @@ import org.project.Controller.Messages.*;
 import org.project.ClientPack.UserInterface;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The GuiUserInterface class is responsible for handling the client's graphical user interface (GUI).
@@ -28,6 +30,10 @@ public class GuiUserInterface implements UserInterface {
     private boolean serverDownFlag;
     private GuiFx guiCentralController;
     private ConnectionInterface client;
+
+    private String current_Chat;
+
+    private boolean firstTimeChat = true;
 
     public ConnectionInterface getClient() {
         return client;
@@ -141,8 +147,15 @@ public class GuiUserInterface implements UserInterface {
      * @param message chat message
      */
     public void handleChat(ChatMessage message){
-        clientView.getChat().add(message);
-        clientView.firePropertyChange("chat", clientView);
+        String receiver = message.getReceiver();
+        String sender = message.getUsername();
+        if(message.getReceiver().equalsIgnoreCase("broadcast")){
+            clientView.getChat().add(message);
+        }
+        else {
+            clientView.getPrivateChats().get(sender).add(message);
+        }
+        clientView.firePropertyChange("chat", message);
     }
 
     /**
@@ -197,7 +210,10 @@ public class GuiUserInterface implements UserInterface {
 
         clientView.setCommonGoalView(message.getCommonGoalsView());
         clientView.setPersonalGoalViews(message.getPersonalGoalViews());
-
+        if(firstTimeChat){
+            fillChatMap();
+            firstTimeChat = false;
+        }
         clientView.firePropertyChange("refresh", clientView);
     }
 
@@ -307,6 +323,14 @@ public class GuiUserInterface implements UserInterface {
     @Override
     public void updateClientView(ClientView clientView) {
         this.clientView=clientView;
+    }
+
+    public void fillChatMap(){
+        for(Map.Entry<String, String[][]> entry : clientView.getGridsview().entrySet()){
+            String playername = entry.getKey();
+            if(!playername.equals(nickname))
+                clientView.getPrivateChats().put(entry.getKey(), new ArrayList<>());
+        }
     }
 
     public String getNickname() {

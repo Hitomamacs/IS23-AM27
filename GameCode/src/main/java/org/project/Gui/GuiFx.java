@@ -475,9 +475,11 @@ public class GuiFx extends Application {
             Platform.runLater(()->{
                 if("chat".equals(evt.getPropertyName())){
                     showChatScene();
-                    ChatMessage message = clientView.getChat().get(clientView.getChat().size() - 1);
-                    chatController.addMessageToChat(message.getUsername(), message.getText());
-                    showChatScene();
+                    ChatMessage message = (ChatMessage) evt.getNewValue();
+                    if(message.getReceiver().equalsIgnoreCase(guiUserInterface.getClientView().getCurrentChat())){
+                        chatController.addMessageToChat(message.getUsername(), message.getText());
+                    }
+                    //showChatScene();
                 }
             });
         }

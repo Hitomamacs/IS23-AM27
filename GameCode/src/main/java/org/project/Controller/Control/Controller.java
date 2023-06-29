@@ -51,9 +51,8 @@ public class Controller {
      */
     private VirtualView view;
 
-    /**
-     * max num players
-     */
+    private Persistencer persistencer = new Persistencer();
+
     private int numPlayers = 4;
 
     /**
@@ -98,15 +97,38 @@ public class Controller {
         game.addPropertyChangeListener(this.GameStateListener);
     }
 
-    /**
-     * Starts the game by initializing the view, setting the player order,
-     * initializing the game, linking the model to the view,
-     * picking common and personal goals, setting up the game board, executing the game state,
-     * sending the view to the server,
-     * and sending an info message to the server.
-     *
-     * @throws RuntimeException if an exception occurs during the game initialization or execution
-     */
+    public void recoverGame(String name){
+        this.view = new VirtualView(lobby, game);
+        GameOrchestrator recovered = persistencer.load_all(name);
+        this.orchestrator = recovered;
+        this.game = new Game(recovered);
+        this.orchestrator.setPlayers(game.getPlayers());
+        this.orchestrator.setGameBoard(new GameBoard(recovered));
+        this.recoverModel2View();
+        this.game.setGameStarted(true);
+        this.game.setCommonGoals(recovered.getSelectedCGoal());
+        this.orchestrator.setSelectedCGoal(this.game.getCommonGoals());
+        this.orchestrator.setSelectedCGoal_int();
+        this.game.firePropertyChange("CGoalUpdate", this.game);
+        for(Player player : this.game.getPlayers()){
+            player.firePropertyChange("PGoalUpdate", player);
+            player.firePropertyChange("gridUpdate",player);
+            player.firePropertyChange("tilesUpdate", player);
+        }
+
+        this.game.setOrchestrator(this.orchestrator);
+        this.server.send(this.view);
+
+        orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+        try {
+            this.orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
+        this.server.send(this.view);
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
+    }
+
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -115,6 +137,7 @@ public class Controller {
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
+        this.orchestrator.setSelectedCGoal_int();
         int needed_tiles = 0;
         try {
             needed_tiles = orchestrator.getGameBoard().boardCheckNum();
@@ -148,6 +171,17 @@ public class Controller {
             player.addPropertyChangeListener(view.getPGoalUpdateListener());
         }
         game.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
+        game.addPropertyChangeListener(view.getCGoalUpdateListener());
+        game.addPropertyChangeListener(view.getScoreBoardListener());
+    }
+
+    public void recoverModel2View(){
+        for(Player player : game.getPlayers()){
+            player.addPropertyChangeListener(view.getTilesUpdateListener());
+            player.addPropertyChangeListener(view.getGridUpdateListener());
+            player.addPropertyChangeListener(view.getPGoalUpdateListener());
+        }
+        orchestrator.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
         game.addPropertyChangeListener(view.getScoreBoardListener());
     }

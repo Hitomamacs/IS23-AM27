@@ -579,6 +579,12 @@ public class CliUserInterface implements UserInterface {
         System.out.println("Enter number of players: ");
         int numPlayers = Integer.parseInt(scanner.nextLine());
         // You may want to add a validation here as well
+        //num player must be a number between 2 and 4
+        if(numPlayers < 2 || numPlayers > 4) {
+            System.out.println("Invalid number of players. Please try again.");
+            return getNumPlayers(); // Retry for correct input
+        }
+
         return numPlayers;
     }
     public String getText(){

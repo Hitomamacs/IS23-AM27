@@ -15,6 +15,10 @@ public class EndGameState implements GameState {
         this.gameOrchestrator = orchestrator;
     }
 
+    public int getStateID(){
+        return stateID;
+    }
+
     @Override
     public void execute() {
 

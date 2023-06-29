@@ -20,6 +20,11 @@ public class GameOrchestrator {
 
     @Expose
     private int curr_sate_id;
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
     @Expose
     private List<Player> players;
     @Expose
@@ -32,6 +37,10 @@ public class GameOrchestrator {
     @Expose
     private GameBoard gameBoard;
 
+    public List<Integer> getSelectedCGoal_int() {
+        return selectedCGoal_int;
+    }
+
     //TODO common goal id
     private List<CommonGoal> selectedCGoal;
     @Expose
@@ -43,7 +52,7 @@ public class GameOrchestrator {
     @Expose
     private List<Coordinates> pickedCoordinates;
     @Expose
-    private transient Game game;
+    private  Game game;
 
     public GameState getState() {
         return State;
@@ -69,6 +78,10 @@ public class GameOrchestrator {
      * @param game             the game object
      */
 
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;
@@ -81,6 +94,10 @@ public class GameOrchestrator {
         this.pickedCoordinates =new ArrayList<>();
         this.game=game;
         this.selectedCGoal_int = new ArrayList<>();
+    }
+
+
+    public void setSelectedCGoal_int() {
         for(CommonGoal cg: selectedCGoal){
             this.selectedCGoal_int.add(cg.getGoalID());
         }
@@ -102,6 +119,7 @@ public class GameOrchestrator {
      */
 
     public void executeState()throws InvalidMoveException {
+        this.setCurr_sate_id(this.State.getStateID());
         this.State.execute();
     }
 

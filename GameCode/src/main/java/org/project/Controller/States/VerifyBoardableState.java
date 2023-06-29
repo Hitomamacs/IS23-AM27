@@ -7,6 +7,10 @@ import org.project.Model.Coordinates;
 import java.util.List;
 
 public class VerifyBoardableState implements GameState {
+
+    public int getStateID(){
+        return stateID;
+    }
     private final int stateID = 8;
     private transient GameOrchestrator gameOrchestrator;
 

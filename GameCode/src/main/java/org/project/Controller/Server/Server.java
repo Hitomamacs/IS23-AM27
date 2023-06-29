@@ -5,8 +5,14 @@ import org.project.Controller.Messages.*;
 import org.project.Controller.View.*;
 import org.project.Model.Coordinates;
 import org.project.ClientPack.RMIClientInterface;
+import org.project.Model.Player;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +87,19 @@ public class Server {
         connectedPlayers = 0;
     }
 
+    public String getName(List<User> Lobby){
+        List<String> names = new ArrayList<>();
+        for(User p : Lobby){
+            names.add(p.getUsername());
+        }
+        List<String> sorted_list = names.stream().sorted().toList();
+        String file_name = "";
+        for(String s : sorted_list){
+            file_name += s;
+        }
+        return file_name;
+    }
+
     /**
      * Initializes the server for the game.
      * Starts an RMI server on the port specified in Settings.RMI_PORT.
@@ -108,7 +127,11 @@ public class Server {
                         //Thread.sleep(1000);
                     }
                 }
-                this.controller.startGame();
+                String name = getName(this.controller.getLobby())+".json";
+                if(Files.exists(Paths.get(name)))
+                    this.controller.recoverGame(name);
+                else
+                    this.controller.startGame();
                 synchronized (lock) {
                     while (controller.getGame().getGameStarted()) {
                         try {
@@ -120,6 +143,11 @@ public class Server {
                     }
                 }
                 System.out.println("Server flushing");
+                Path paths = Paths.get(name);
+                File file = new File(paths.toUri());
+                if(file.exists()) {
+                    file.delete();
+                };
                 getRmiServer().flushRMIClients();
                 getSocketServer().flushSocketClients();
                 controller.refresh();

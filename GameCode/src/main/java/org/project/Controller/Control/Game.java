@@ -1,4 +1,5 @@
 package org.project.Controller.Control;
+import com.google.gson.annotations.Expose;
 import org.project.Controller.Server.Server;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
@@ -25,13 +26,28 @@ public class Game extends ObservableObject{
     private Server server;
     private Persistencer persistencer;
     private boolean gameStarted;
+    @Expose
     private List<Player> players;
+
+    public void setPersistencer(Persistencer persistencer) {
+        this.persistencer = persistencer;
+    }
+
     private GameOrchestrator orchestrator;
+    @Expose
     private GameBoard gameBoard;
+    @Expose
     private TileBag tileBag;
+    @Expose
     private int numPlayers;
     private PersonalGoal_Deck personalGoalDeck;
+    @Expose
     private PointAssigner pointAssigner;
+
+    public void setCommonGoals(List<CommonGoal> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
     private List<CommonGoal> commonGoals;
     private CommonGoal_Deck commonGoalDeck;
     private HashMap<String, Integer> scoreboard;
@@ -48,10 +64,15 @@ public class Game extends ObservableObject{
         numPlayers = 2;
     }
 
-    /**
-     * constructor
-     * @param server main server
-     */
+    public Game(GameOrchestrator orchestrator){
+        this.gameBoard = orchestrator.getGameBoard();
+        this.tileBag = orchestrator.getTileBag();
+        this.players = new ArrayList<>();
+        for(Player player : orchestrator.getPlayers()){
+            this.players.add(new Player(player));
+        }
+    }
+
     public Game(Server server){
         this.server = server;
         players = new ArrayList<>();

@@ -6,6 +6,10 @@ import org.project.Model.PlayerGrid;
 import org.project.Model.Tile;
 
 public class TopUpState implements GameState {
+
+    public int getStateID(){
+        return stateID;
+    }
     private final int stateID = 7;
     private GameOrchestrator gameOrchestrator;
 

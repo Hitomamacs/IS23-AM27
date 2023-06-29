@@ -21,7 +21,10 @@ import java.util.List;
  *
  */
 public class Persistencer {
-    public static Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    public static Gson gson_parser = new GsonBuilder()
+            .registerTypeAdapter(Player.class, new PlayerDeserializer())
+            .excludeFieldsWithoutExposeAnnotation()  // se vuoi escludere i campi senza l'annotazione @Expose
+            .create();
 
     //* This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file*/
     /** This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file
@@ -55,7 +58,7 @@ public class Persistencer {
     public static GameOrchestrator loadGame(String fileName) {
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get(fileName + ".json"));
+            reader = Files.newBufferedReader(Paths.get(fileName ));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

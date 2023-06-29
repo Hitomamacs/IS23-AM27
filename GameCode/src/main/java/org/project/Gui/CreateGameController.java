@@ -82,6 +82,11 @@ public class CreateGameController {
 
             guiUserInterface.setNickname(username);
             guiUserInterface.setNumPlayers(numPlayers);
+            //num player must be a number between 2 and 4
+            if(numPlayers<2 || numPlayers>4){
+                loginstatus.setText("Number of players must be between 2 and 4");
+                return;
+            }
             guiUserInterface.setInput("create_game");
             if(!guiUserInterface.isFirstAction()){
                 try {

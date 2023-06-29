@@ -5,6 +5,10 @@ import org.project.Controller.States.Exceptions.InvalidMoveException;
 
 public class RefillState implements GameState {
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private final int stateID = 5;
     private transient GameOrchestrator gameOrchestrator;
 

@@ -12,6 +12,10 @@ public class PickState implements GameState {
 
     private final int stateID = 4;
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private transient GameOrchestrator gameOrchestrator;
 
     public PickState(GameOrchestrator orchestrator){

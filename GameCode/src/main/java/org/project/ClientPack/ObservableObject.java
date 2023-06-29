@@ -1,10 +1,22 @@
 package org.project.ClientPack;
 
+import com.google.gson.annotations.Expose;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class ObservableObject {
-    private PropertyChangeSupport support;
+    public PropertyChangeSupport getSupport() {
+        return support;
+    }
+
+    public void setSupport(PropertyChangeSupport support) {
+        this.support = support;
+    }
+
+
+
+    private transient PropertyChangeSupport support;
 
     public ObservableObject() {
         this.support = new PropertyChangeSupport(this);

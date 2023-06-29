@@ -7,6 +7,10 @@ import org.project.Model.PlayerGrid;
 public class VerifyCommonGoalState implements GameState {
     private final int stateID = 9;
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private transient GameOrchestrator gameOrchestrator;
 
     public VerifyCommonGoalState(GameOrchestrator orchestrator){

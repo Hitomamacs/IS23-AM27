@@ -8,6 +8,10 @@ public class FullGridState implements GameState {
 
     private final int stateID = 3;
 
+    public int getStateID(){
+        return stateID;
+    }
+
     private transient GameOrchestrator gameOrchestrator;
 
     public FullGridState(GameOrchestrator orchestrator){

@@ -10,4 +10,8 @@ public interface GameState {
 
     public void changeState() throws InvalidMoveException;
 
+    public int getStateID();
+
+
+
 }

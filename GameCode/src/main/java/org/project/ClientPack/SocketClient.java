@@ -114,15 +114,17 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
         out.println(message);
     }
 
-    /**
-     * Receives a string message from the server. Also handles keep-alive messages.
-     *
-     * @return The message received from the server.
-     * @throws IOException If there's a problem reading the message from the server.
-     */
-
-    public String receiveMessage() throws IOException {
-        String line = in.readLine();
+        String line = null;
+        try {
+            if(in!= null){
+            line = in.readLine();}
+            else
+                throw new IOException();
+        } catch (IOException e) {
+            System.out.println("Server down, Start Server And then Client");
+            System.exit(0);
+        }
+    public String receiveMessage()  {
         if (line != null &&line.equals("KEEP_ALIVE")) {
             lastKeepAliveReceivedTime = System.currentTimeMillis();
         }

@@ -31,7 +31,7 @@ To run this project, you need to have Java and Maven installed on your machine.
 4. Run the project:
 
     ```
-    java -jar target/my-shelfie-1.0-SNAPSHOT.jar
+    java -jar GameCode.jar -IP ... -SP ... -RMIP ...
     ```
 
 ## Main Commands
@@ -67,14 +67,14 @@ Here are some useful commands to use with Maven:
 | Functionality           | Status        |
 | ----------------------- |:-------------:|
 | Complete Rules          | ![YES][TICK]  |
-| CLI                     | ![NO][CROSS]  |
-| GUI                     | ![NO][CROSS]  |
+| CLI                     | ![YES][TICK]  |
+| GUI                     | ![YES][TICK]  |
 | Socket                  | ![YES][TICK]  |
 |RMI                      | ![YES][TICK]  |
 | Multiple Games          | ![NO][CROSS]  |
 | Persistency             | ![YES][TICK]  |
 | Disconnection Recovery  | ![YES][TICK]  |
-| CHAT                    | ![NO][CROSS]  |
+| CHAT                    | ![YES][TICK]  |
 
 
 ## License

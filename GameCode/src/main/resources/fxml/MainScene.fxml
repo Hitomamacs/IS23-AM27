@@ -109,10 +109,10 @@
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <Button fx:id="ChatButton" layoutX="894.0" layoutY="16.0" mnemonicParsing="false" onAction="#openChat" prefHeight="46.0" prefWidth="119.0" text="    Chat">
+      <Button fx:id="ChatButton" layoutX="837.0" layoutY="16.0" mnemonicParsing="false" onAction="#openChat" prefHeight="46.0" prefWidth="119.0" text="    Chat">
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <Circle fx:id="circle" fill="#1fffee" layoutX="913.0" layoutY="39.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circle" fill="#1fffee" layoutX="865.0" layoutY="39.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

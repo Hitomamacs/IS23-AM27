@@ -7,28 +7,20 @@ import org.project.Model.Coordinates;
 import java.util.*;
 
 public abstract class AbstractClientApp implements Runnable {
+
     protected ClientView clientView = new ClientView();
+
     protected final Gson gson = new Gson();
+
     protected final Scanner scanner = new Scanner(System.in);
 
     private int firstTime = -1;
-
-
-
+    private int tileIndex = -1;
+    private String username;
+    public static final int MAX_TILES = 3;
     public int get_tile_index() {
         return tileIndex;
     }
-
-    private int tileIndex = -1;
-
-    private String username;
-    public static final int MAX_TILES = 3;
-
-
-
-
-
-
 
     protected String createPickMessage(String username, int numTiles, List<Coordinates> coordinates) {
         this.username = username;
@@ -74,10 +66,6 @@ public abstract class AbstractClientApp implements Runnable {
         String jsonStr = gson.toJson(message);
         return jsonStr;
     }
-
-
-
-
     public void run() {
         // Same implementation as before
     }

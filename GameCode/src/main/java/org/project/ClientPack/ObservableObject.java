@@ -14,8 +14,6 @@ public class ObservableObject {
         this.support = support;
     }
 
-
-
     private transient PropertyChangeSupport support;
 
     public ObservableObject() {

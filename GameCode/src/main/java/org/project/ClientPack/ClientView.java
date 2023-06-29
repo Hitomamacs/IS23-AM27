@@ -5,7 +5,7 @@ import org.project.Controller.Messages.ChatMessage;
 import java.util.*;
 
 /**
- * class representing the client side view
+ * Class representing the client side view
  */
 public class
 ClientView extends ObservableObject {
@@ -19,14 +19,10 @@ ClientView extends ObservableObject {
     private HashMap<String, Integer> scoreBoard;
     private HashMap<String, Integer> personalGoalViews;
     private List<Integer> commonGoalView;
-
     private List<ChatMessage> chat = new ArrayList<>();
-
-    //agg
-    private Cli_Images imagine;
-
     private static final String ANSI_RESET = "\u001b[0m";
     private static final String ANSI_BROWN = "\u001B[0;33m";
+    private int num_tiles;
 
     private static final Map<String, String> colorMap;
     static {
@@ -53,6 +49,16 @@ ClientView extends ObservableObject {
         backgroundColorMap.put("N", "\u001b[40m");  //black quando hai già pescato la tile e il posto diventa vuoto
     }
 
+    /**
+     * Constructor
+     */
+    public ClientView() {
+       pointStack=new ArrayList<>();
+       gridsview= new HashMap<>();
+       tilesview= new HashMap<>();
+       scoreBoard = new HashMap<>();
+    }
+
     public int getNum_tiles() {
         return num_tiles;
     }
@@ -61,14 +67,6 @@ ClientView extends ObservableObject {
         this.num_tiles = num_tiles;
     }
 
-    private int num_tiles;
-
-    public ClientView() {
-       pointStack=new ArrayList<>();
-       gridsview= new HashMap<>();
-       tilesview= new HashMap<>();
-       scoreBoard = new HashMap<>();
-    }
     public List<ChatMessage> getChat(){
         return chat;
     }
@@ -84,6 +82,7 @@ ClientView extends ObservableObject {
     public String[][] getBoard() {
         return board;
     }
+
     public void setPopUpIdentifier(int identifier){
         this.popUpIdentifier =identifier;
     }
@@ -103,6 +102,7 @@ ClientView extends ObservableObject {
     public String getPopUpErrorMessage() {
         return popUpErrorMessage;
     }
+
     public int getPopUpIdentifier(){
         return popUpIdentifier;
     }
@@ -178,6 +178,7 @@ ClientView extends ObservableObject {
             count++;
         }
     }
+
     public void printScore(){
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(scoreBoard.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
@@ -190,6 +191,10 @@ ClientView extends ObservableObject {
         }
     }
 
+    /**
+     * The method prints the personal goal card of the player
+     * @param username player's name
+     */
     public void printPersonalGoalCard(String username){
         int idCard = personalGoalViews.get(username).intValue();
         switch (idCard){
@@ -612,15 +617,17 @@ ClientView extends ObservableObject {
                 System.out.println("Caselle completate:  1   2   3   4   5   6");
                 System.out.println("Punteggio ottenuto:  1   2   4   6   9   12");
                 break;
-
         }
 
-
     }
+
     public void printPersonalGoal(String playerName){
         System.out.println("\nPrinting " + playerName + " personal Goal : "+ personalGoalViews.get(playerName));
     }
 
+    /**
+     * The method prints the common goal card of the player
+     */
     public void printCommonGoal(){
         System.out.println("\nPrinting Common Goals Card");
         for(Integer id: commonGoalView){
@@ -861,19 +868,27 @@ ClientView extends ObservableObject {
             }
         }
     }
+
     public HashMap<String, Integer> getPersonalGoalViews() {
         return personalGoalViews;
     }
+
     public void setPersonalGoalViews(HashMap<String, Integer> personalGoalViews) {
         this.personalGoalViews = personalGoalViews;
     }
+
     public List<Integer> getCommonGoalView() {
         return commonGoalView;
     }
+
     public void setCommonGoalView(List<Integer> commonGoalView) {
         this.commonGoalView = commonGoalView;
     }
 
+    /**
+     * The class is used to print the player's stuff
+     * @param username player's name
+     */
     public void printPlayerStuff(String username) {
 
         int count_grid = 0;
@@ -927,6 +942,11 @@ ClientView extends ObservableObject {
         System.out.println();
         System.out.println("To visualize instruction set: help");
     }
+
+    /**
+     * The method is used to print the grids of the pther players
+     * @param username player's name
+     */
     public void printOtherGrids(String username){
         ArrayList<String[][]> gridList = new ArrayList<>();
         for(Map.Entry<String, String[][]> entry : gridsview.entrySet()) {
@@ -962,9 +982,14 @@ ClientView extends ObservableObject {
             }
             System.out.println();
         }
-
-
     }
+
+    /**
+     * The method prints the entire chat, displaying all the messages present.
+     * Each message is printed with the username of the sender.
+     * If the username matches the specified one, the displayed name will be "You".
+     * @param username the username for which you want to print the chat
+     */
     public void printChat(String username){
         for(int i = 0; i < chat.size(); i++){
             String sender;
@@ -977,6 +1002,13 @@ ClientView extends ObservableObject {
             System.out.println(sender + ": " + message.getText());
         }
     }
+
+    /**
+     * The method prints the last message of the chat.
+     * The message is printed with the username of the sender.
+     * If the username matches the specified one, the displayed name will be "You".
+     * @param username the username for which you want to print the last message
+     */
     public void printChatLast(String username){
         String sender;
         ChatMessage message = chat.get(chat.size() - 1);
@@ -987,6 +1019,4 @@ ClientView extends ObservableObject {
         }
         System.out.println(sender + ": " + message.getText());
     }
-
-
 }

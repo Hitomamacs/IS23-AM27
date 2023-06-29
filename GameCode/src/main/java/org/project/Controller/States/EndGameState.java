@@ -1,16 +1,24 @@
 package org.project.Controller.States;
 
-
 import org.project.Controller.Control.GameOrchestrator;
 import org.project.Model.Player;
 
 import java.util.HashMap;
 
+/**
+ * The EndGameState class represents the game state when the game has ended.
+ * It calculates the final scores for each player and updates the scoreboard.
+ */
+
 public class EndGameState implements GameState {
 
     private final int stateID = 2;
-
     transient GameOrchestrator gameOrchestrator;
+
+    /**
+     * Constructor
+     * @param orchestrator reference to GameOrchestrator
+     */
     public EndGameState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }
@@ -19,6 +27,11 @@ public class EndGameState implements GameState {
         return stateID;
     }
 
+    /**
+     * Executes the game state. It calculates the final scores for each player,
+     * updates the scoreboard, and sets the "gameStarted" flag to false in order to indicate
+     * that the game has ended.
+     */
     @Override
     public void execute() {
 

@@ -15,5 +15,4 @@ public class InvalidLoginException extends Exception{
     public int getIdentifier(){
         return identifier;
     }
-
 }

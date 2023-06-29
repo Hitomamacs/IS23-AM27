@@ -23,7 +23,6 @@ public class Persistencer {
             .excludeFieldsWithoutExposeAnnotation()  // se vuoi escludere i campi senza l'annotazione @Expose
             .create();
 
-    //* This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file*/
     /** This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file
      * @param gameOrchestrator
      * @param fileName
@@ -167,8 +166,6 @@ public class Persistencer {
                     gameOrchestrator.getSelectedCGoal().add(new CommonGoal_12());
                     break;
             }
-
-
         }
         return true;
     }
@@ -216,8 +213,5 @@ public class Persistencer {
             file_name += s;
         }
         return file_name;
-
-
     }
-
 }

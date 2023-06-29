@@ -19,7 +19,6 @@ import java.util.List;
  */
 
 public class VirtualView {
-
     private Game game;
     private BoardView boardView;
     private PointStackView pointStackView;
@@ -28,8 +27,6 @@ public class VirtualView {
     private ScoreBoardView scoreBoardView;
     private HashMap<String, Integer> personalGoalViews;
     private ArrayList<Integer> commonGoalsView;
-
-
 
     public VirtualView(List<User> users, Game game){
         this.game = game;
@@ -53,17 +50,21 @@ public class VirtualView {
         pointStackView.getPointList().add(8);
         boardView.init(numPlayers);
     }
+
     //This method updates the players GridView and tilesView, so is needed in top up
     public void updateView(PointAssigner pointAssigner, int position){
         int newValue = pointAssigner.getStackList().get(position).peek();
         pointStackView.updatePointStackView(newValue, position);
     }
+
     public void updateView(HashMap<String, Integer> score){
         scoreBoardView.updateScoreBoardView(score);
     }
+
     public void updateView(String username, PersonalGoal PGoal){
         personalGoalViews.put(username, PGoal.getPgoal_ID());
     }
+
     public void updateView(List<CommonGoal> commonGoals){
         ArrayList<Integer> copyList = new ArrayList<>();
         for(CommonGoal cGoal : commonGoals){
@@ -105,6 +106,7 @@ public class VirtualView {
     public PropertyChangeListener getScoreBoardListener(){
         return this.ScoreBoardListener;
     }
+
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -132,6 +134,7 @@ public class VirtualView {
             }
         }
     };
+
     PropertyChangeListener gridUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -163,6 +166,7 @@ public class VirtualView {
             }
         }
     };
+
     PropertyChangeListener tilesUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -188,8 +192,8 @@ public class VirtualView {
                 tilesViews.get(player.getNickname()).updateTilesView(tilesStr);
             }
         }
-
     };
+
     PropertyChangeListener PGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -199,6 +203,7 @@ public class VirtualView {
             }
         }
     };
+
     PropertyChangeListener CGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -208,6 +213,7 @@ public class VirtualView {
             }
         }
     };
+
     PropertyChangeListener ScoreBoardListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

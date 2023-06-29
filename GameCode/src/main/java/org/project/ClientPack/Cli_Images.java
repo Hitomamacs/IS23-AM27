@@ -1,5 +1,8 @@
 package org.project.ClientPack;
 
+/**
+ * The class prints the initial image of the CLI
+ */
 public class Cli_Images {
 
     public void printFirstImage(){

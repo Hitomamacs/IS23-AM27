@@ -12,16 +12,21 @@ public class RefillState implements GameState {
     private final int stateID = 5;
     private transient GameOrchestrator gameOrchestrator;
 
+    /**
+     * Constructor
+     * @param orchestrator reference to GameOrchestrator
+     */
     public RefillState(GameOrchestrator orchestrator){
         this.gameOrchestrator = orchestrator;
     }
 
-
+    /**
+     * Changes the game state
+     * If the player is not connected, it goes to StartTurnState for the next player
+     * If the player is connected, it passes to the TopUpState
+     */
     @Override
     public void changeState() {
-        /*System.out.println("Server waiting for " + gameOrchestrator.getCurrentPlayer().getNickname() + " to pick tiles"  );
-        gameOrchestrator.changeState(new VerifyGrillableState(gameOrchestrator));
-        gameOrchestrator.setCurr_sate_id(10); */
 
         if(!gameOrchestrator.getCurrentPlayer().isConnected()){
             gameOrchestrator.changeState(new StartTurnState(gameOrchestrator));
@@ -36,12 +41,15 @@ public class RefillState implements GameState {
             gameOrchestrator.changeState(new TopUpState(gameOrchestrator));
             gameOrchestrator.setCurr_sate_id(7);
         }
-
-
     }
 
+    /**
+     * Executes the refill phase of the game.
+     * It checks if the game board needs to be refilled, and if so, it refills the board by picking tiles from the tile bag.
+     * After refilling, it triggers the necessary updates, such as firing property change events to update the game board.
+     * Finally, it calls the `changeState()` method to transition to the appropriate next state.
+     */
     @Override
-    //TODO refresh view (update)
     public void execute() {
         System.out.println("Checking if board needs refilling  (RefillState) ");
         if(gameOrchestrator.getGameBoard().checkBoard()){
@@ -54,8 +62,6 @@ public class RefillState implements GameState {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         }
         changeState();
     }

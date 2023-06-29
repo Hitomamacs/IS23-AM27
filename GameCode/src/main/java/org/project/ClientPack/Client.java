@@ -39,8 +39,6 @@ public class Client {
     private boolean gameStarted;
 
 
-
-
     /**
      * constructor
      */
@@ -175,8 +173,5 @@ public class Client {
     public boolean isGameStarted() {
         return gameStarted;
     }
-
-
-
 }
 

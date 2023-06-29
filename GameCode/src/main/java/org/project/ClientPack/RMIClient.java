@@ -351,11 +351,10 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
     }
 
     /**
-     *  method invoked by the server to notify the PopUpView with a message and identifier.
-     *
-     * @param text The text message to be displayed in the PopUpView.
-     * @param identifier The identifier for the PopUpView.
-     * @throws RemoteException If a remote communication error occurs.
+     * method invoked by the server to notify the client of a new PRIVATE chat message
+     * @param username message author
+     * @param text text of the message
+     * @param receiver message receiver
      */
     @Override
     public void notifyChat(String username, String text, String receiver){
@@ -365,6 +364,14 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         String jsonStr = gson.toJson(message);
         userInterface.processReceivedMessage(jsonStr);
     }
+
+    /**
+     *  method invoked by the server to notify the PopUpView with a message and identifier.
+     *
+     * @param text The text message to be displayed in the PopUpView.
+     * @param identifier The identifier for the PopUpView.
+     * @throws RemoteException If a remote communication error occurs.
+     */
     @Override
     public void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);

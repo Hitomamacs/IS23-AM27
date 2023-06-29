@@ -538,6 +538,15 @@ public class Server {
         });
 
     }
+
+    /**
+     * Sends a chat message to a specific connected clients.
+     * Constructs a ChatMessage object with the provided username and text.
+     *
+     * @param username the username of the sender
+     * @param text the text of the chat message
+     * @param receiver the username of the receiver
+     */
     public void sendChat(String username, String text, String receiver) {
         if (controller.getUser(receiver).getConnectionType()) {
             ChatMessage message = new ChatMessage(username, text, receiver);

@@ -4,16 +4,41 @@ import com.google.gson.*;
 import org.project.Controller.Control.InvalidLoginException;
 import org.project.Controller.Messages.*;
 
+/**
+ * Handles incoming messages from clients and delegates them to the appropriate server methods.
+ */
 public class MessageHandler {
-
+    /**
+     * reference to main server
+     */
     private Server server;
+    /**
+     * reference to client
+     */
     private SocketClientHandler client;
+    /**
+     * reference to socket server
+     */
     private SocketServer socketServer;
+
+    /**
+     * constructor
+     *
+     * @param server the server instance.
+     * @param socketServer the socket server instance.
+     * @param client the client handler instance.
+     */
     public MessageHandler(Server server, SocketServer socketServer, SocketClientHandler client){
         this.server = server;
         this.socketServer = socketServer;
         this.client = client;
     }
+
+    /**
+     * Handles the incoming JSON message.
+     * depending on the ID of the message, a specific method is called which manages it
+     * @param jsonStr The JSON message string.
+     */
     public void handle(String jsonStr){
         Gson gson = new Gson();
 
@@ -30,17 +55,42 @@ public class MessageHandler {
             case CHAT -> this.handleChat(gson.fromJson(jsonStr, ChatMessage.class));
         };
     }
+
+    /**
+     * Handles the PickMessage from the client and send it to the main server
+     *
+     * @param pickMsg The PickMessage object.
+     */
     public void handlePick(PickMessage pickMsg){
         server.pick(pickMsg.getUsername(), pickMsg.getCoordinates());
     }
+
+    /**
+     * Handles the TopUpMessage from the client and send it to the main server
+     *
+     * @param topUpMsg The TopUpMessage object.
+     */
     public void handleTopUp(TopUpMessage topUpMsg){
         server.topUp(topUpMsg.getUsername(), topUpMsg.getColumn(), topUpMsg.getTileIndex());
     }
+
+    /**
+     * Handles the QuitMessage from the client and send it to the main server
+     *
+     * @param quitMessage The QuitMessage object.
+     */
     public void handleQuit(QuitMessage quitMessage){
         server.quit(quitMessage.getUsername());
         client.disconnect();
 
     }
+
+    /**
+     * Handles the CreateGame_Message from the client and send it to the main server
+     * if the operation fails, an exception is thrown
+     *
+     * @param create_gameMsg The CreateGame_Message object.
+     */
     public void handleCreateGame(CreateGame_Message create_gameMsg){
         String username = create_gameMsg.getUsername();
         PopUpMsg popUpMsg = new PopUpMsg();
@@ -70,6 +120,12 @@ public class MessageHandler {
         popUpMsg.setIdentifier(0);
         send(popUpMsg);
     }
+
+    /**
+     * Handles the JoinMessage from the client and send it to the main server
+     * if the operation fails, an exception is thrown
+     * @param joinMsg The JoinMessage object.
+     */
     public void handleJoin(JoinMessage joinMsg){
         String username = joinMsg.getUsername();
         PopUpMsg popUpMsg = new PopUpMsg();
@@ -89,9 +145,16 @@ public class MessageHandler {
             send(popUpMsg);
         }
     }
+
+    /**
+     * Handles the ChatMessage from the client and send it to the main server
+     * if the operation fails, an exception is thrown
+     * @param chatMsg The ChatMessage object.
+     */
     public void handleChat(ChatMessage chatMsg){
         server.chat(chatMsg.getUsername(), chatMsg.getText());
     }
+
     public void send(Message message){
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);

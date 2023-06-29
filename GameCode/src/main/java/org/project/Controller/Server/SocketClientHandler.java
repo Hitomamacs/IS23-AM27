@@ -9,6 +9,11 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Represents a client handler for socket communication in the server.
+ * This class handles the communication with a specific client connected to the server via a socket.
+ */
+
 public class SocketClientHandler implements Runnable {
 
     private static final int KEEP_ALIVE_INTERVAL = 10;
@@ -23,6 +28,13 @@ public class SocketClientHandler implements Runnable {
     private Timer keepAlive;
     private Timer keepAliveTimer;
 
+    /**
+     * Creates a new instance of SocketClientHandler.
+     *
+     * @param socket the socket representing the client connection.
+     * @param server reference to the server instance.
+     * @param socketServer reference to the socket server.
+     */
     public SocketClientHandler(Socket socket, Server server, SocketServer socketServer) {
         this.server = server;
         this.socket = socket;
@@ -40,6 +52,12 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Runs the client handler thread,
+     * this method listens for incoming messages from the client and delegates the handling of each message.
+     * if the message is a KEEP ALIVE it resets keep alive timer
+     */
+
     public void run() {
         while (connected) {
             try {
@@ -55,10 +73,20 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Sends a message to the client.
+     * @param message The message to send.
+     */
     public void send(Message message){
         messageHandler.send(message);
     }
 
+    /**
+     * disconnects the client from the server.
+     * this method sets the connected flag to false,
+     * notifies the server about the player disconnection,
+     * stops the keep-alive mechanism, and closes the socket and associated resources.
+     */
     public void disconnect() {
         if(connected){
         connected = false;
@@ -68,6 +96,10 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Starts the keep-alive mechanism
+     * sending periodic keep-alive messages to the client to maintain the connection.
+     */
     private void startKeepAlive() {
         this.keepAliveTimer = new Timer();
         keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
@@ -78,6 +110,10 @@ public class SocketClientHandler implements Runnable {
         }, 0, 1000);
     }
 
+    /**
+     * Stops the keep-alive mechanism.
+     * This method cancels the keep-alive timer if it is running.
+     */
     public void stopKeepAlive() {
         if (this.keepAliveTimer != null) {
             this.keepAliveTimer.cancel();
@@ -85,6 +121,9 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Resets the keep-alive timer: cancels the current keep-alive timer and starts a new one with the specified interval.
+     */
     private void resetKeepAliveTimer() {
         synchronized(this) {
             if(this.keepAlive != null) {
@@ -100,6 +139,9 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Closes the socket and associated resources.
+     */
     private void closeResources() {
         try {
             if(in != null){

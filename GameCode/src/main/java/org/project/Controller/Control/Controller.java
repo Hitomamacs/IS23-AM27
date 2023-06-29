@@ -69,9 +69,19 @@ public class Controller {
         this.game = new Game(recovered);
         this.orchestrator.setPlayers(game.getPlayers());
         this.orchestrator.setGameBoard(new GameBoard(recovered));
-        this.game.setGameStarted(true);
-        this.game.setOrchestrator(this.orchestrator);
         this.recoverModel2View();
+        this.game.setGameStarted(true);
+        this.game.setCommonGoals(recovered.getSelectedCGoal());
+        this.orchestrator.setSelectedCGoal(this.game.getCommonGoals());
+        this.orchestrator.setSelectedCGoal_int();
+        this.game.firePropertyChange("CGoalUpdate", this.game);
+        for(Player player : this.game.getPlayers()){
+            player.firePropertyChange("PGoalUpdate", player);
+            player.firePropertyChange("gridUpdate",player);
+            player.firePropertyChange("tilesUpdate", player);
+        }
+
+        this.game.setOrchestrator(this.orchestrator);
         this.server.send(this.view);
 
         orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
@@ -92,6 +102,7 @@ public class Controller {
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
+        this.orchestrator.setSelectedCGoal_int();
         int needed_tiles = 0;
         try {
             needed_tiles = orchestrator.getGameBoard().boardCheckNum();
@@ -130,7 +141,7 @@ public class Controller {
             player.addPropertyChangeListener(view.getPGoalUpdateListener());
         }
         orchestrator.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
-
+        game.addPropertyChangeListener(view.getCGoalUpdateListener());
         game.addPropertyChangeListener(view.getScoreBoardListener());
     }
 

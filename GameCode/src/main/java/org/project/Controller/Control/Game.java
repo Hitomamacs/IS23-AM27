@@ -37,6 +37,11 @@ public class Game extends ObservableObject{
     private PersonalGoal_Deck personalGoalDeck;
     @Expose
     private PointAssigner pointAssigner;
+
+    public void setCommonGoals(List<CommonGoal> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
     private List<CommonGoal> commonGoals;
     private CommonGoal_Deck commonGoalDeck;
     private HashMap<String, Integer> scoreboard;

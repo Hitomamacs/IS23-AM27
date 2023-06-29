@@ -32,6 +32,10 @@ public class GameOrchestrator {
     @Expose
     private GameBoard gameBoard;
 
+    public List<Integer> getSelectedCGoal_int() {
+        return selectedCGoal_int;
+    }
+
     //TODO common goal id
     private List<CommonGoal> selectedCGoal;
     @Expose
@@ -73,11 +77,14 @@ public class GameOrchestrator {
         this.pickedCoordinates =new ArrayList<>();
         this.game=game;
         this.selectedCGoal_int = new ArrayList<>();
+    }
+
+
+    public void setSelectedCGoal_int() {
         for(CommonGoal cg: selectedCGoal){
             this.selectedCGoal_int.add(cg.getGoalID());
         }
     }
-
     public void changeState(GameState state){
         this.State=state;
     }

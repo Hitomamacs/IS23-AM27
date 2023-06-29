@@ -92,12 +92,10 @@ public class ChatController {
             String message = messageTextField.getText();
             appendMessageToChat(message);
             clearMessageTextField();
-            String receiver = guiUserInterface.getClientView().getCurrentChat();
-            if(receiver.equalsIgnoreCase("broadcast")){
-                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
-            }
-            else{
-                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message, receiver);
+            if(guiUserInterface.getClientView().getCurrentChat().equalsIgnoreCase("Broadcast")){
+            guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
+            }else{
+                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message, guiUserInterface.getClientView().getCurrentChat());
             }
         });
     }

@@ -5,6 +5,10 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * interface to be implemented by rmi client. here are the methods that the rmi server can call on the rmi client
+ */
+
     public interface RMIClientInterface extends Remote {
 
         /**
@@ -59,10 +63,22 @@ import java.util.List;
          */
         public void notifyPopUpView (String text, int identifier) throws RemoteException;
 
+        //todo javadoc
         public void notifyTurn(String username, boolean move) throws RemoteException;
 
+        /**
+         * method called by the server to accept that the client is always connected.
+         * When the exception returns it understands that the client has disconnected and therefore
+         * removes the player from the list of online players
+         * @throws RemoteException when something goes wrong with the connection
+         */
         public void isConnected() throws RemoteException;
 
+        /**
+         * method invoked by the server to notify the client of a new chat message
+         * @param playername message author
+         * @param text text of the message
+         */
         public void notifyChat(String playername, String text) throws RemoteException;
 
     public void notifyChat(String playername, String text, String receiver) throws RemoteException;

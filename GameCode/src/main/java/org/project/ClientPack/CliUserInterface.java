@@ -645,11 +645,7 @@ public class CliUserInterface implements UserInterface {
         return UI;
     }
 
-    /**
-     * Displays the common goal for all players.
-     *
-     * @param playerName the name of the player
-     */
+
     @Override
     public void ShowCObj(String playerName) {
         clientView.printCommonGoal();

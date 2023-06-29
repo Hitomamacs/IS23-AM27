@@ -13,28 +13,28 @@ import java.util.Scanner;
 public class Client {
 
     /**
-     * porta socket
+     * socket port
      */
     static int socketPort= Settings.SOCKET_PORT;
     /**
-     * porta RMI
+     *  RMI port
      */
     static int  rmiPort= Settings.RMI_PORT;
 
     /**
-     * client scelto (RMI O SOCKET)
+     * client connection(RMI O SOCKET)
      */
     static private ClientInterface client;
     /**
-     * nickname scelto
+     * nickname of the player
      */
     private String nickname;
     /**
-     * riferimento alla view del client
+     * reference client view
      */
     private ClientView clientView;
     /**
-     * booleano che mi dice se la partita è iniziata
+     * boolean. it is true if game is started
      */
     private boolean gameStarted;
 
@@ -48,8 +48,12 @@ public class Client {
         gameStarted=false;
     }
 
+
     /**
-     * MAIN
+     * Launches the client application.
+     * Client choose if he wants rmi/socket connection and use CLI/GUI
+     *
+     * @param args Command-line arguments
      */
     public  void launch(){
 
@@ -125,48 +129,29 @@ public class Client {
         }
 
     }
-    // METODI  CHE CHIAMANO IL SERVER
-    //TODO: avrò i metodi di login, send chat message e metodi per fare le mosse, questi metodi chiameranno i metodi presenti in RMI/SOCKET client che chismeranno i metodi del server
+
     //GETTER
 
-    /**
-     * metodo getter che ritorna la socket port scelta
-     */
     public static int getSocketPort() {
         return socketPort;
     }
 
-    /**
-     *metodo che ritorna il client
-     */
     public static ClientInterface getClient() {
         return client;
     }
 
-    /**
-     * metodo che ritorna la porta rmi scelta
-     */
     public static int getRmiPort() {
         return rmiPort;
     }
 
-    /**
-     *metodo che ritorna il nickname finale
-     */
     public String getNickname() {
         return nickname;
     }
 
-    /**
-     * metodo che ritorna la client view
-     */
     public ClientView getClientView() {
         return clientView;
     }
 
-    /**
-     *metodo che ritorna il flag che mi dice se una partita è già iniziata
-     */
     public boolean isGameStarted() {
         return gameStarted;
     }

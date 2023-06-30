@@ -27,12 +27,12 @@ public class GameOrchestrator {
     @Expose
     private boolean finalRoundFlag;
 
-    //TODO state id
+
     private GameState State;
     @Expose
     private GameBoard gameBoard;
 
-    //TODO common goal id
+
     private List<CommonGoal> selectedCGoal;
     @Expose
     private List<Integer> selectedCGoal_int;

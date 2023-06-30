@@ -209,7 +209,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         return null;
     }
 
-    //TODO javadoc
+
     @Override
     public String receiveMessage(Message msg) throws IOException {
         return null;
@@ -232,7 +232,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      */
     @Override
     public void printMsgChat(String nickname, String message) throws RemoteException {
-        //TODO chat
+
 
     }
 
@@ -249,7 +249,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException
      */
     @Override
-    public void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
+    public synchronized void notifyInitialGameView(String[][] board, List<Integer> pointStack, HashMap<String, String[][]> gridsView, HashMap<String, String[]> tilesView, HashMap<String, Integer> pGoalView, List<Integer> cGoalView) throws RemoteException {
         clientView.setBoard(board);
         clientView.setPointStack(pointStack);
         clientView.setGridsview(gridsView);
@@ -271,7 +271,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      */
 
     @Override
-    public void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
+    public synchronized void notifyPick(String[][] board, String[] tilesView, String playername) throws RemoteException {
         int i,j;
 
         //aggiorno board
@@ -305,7 +305,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      */
 
     @Override
-    public void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
+    public synchronized void notifyTopUp(String[][] grid, String[] tilesView, String playername) throws RemoteException {
         int i,j;
         //aggiorna grid view e stampa grid
         for(i=0;i<6;i++){
@@ -327,7 +327,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException
      */
     @Override
-    public void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
+    public synchronized void notifyScoreBoard(HashMap<String, Integer> score) throws RemoteException {
         clientView.setScoreBoard(score);
         userInterface.updateClientView(clientView);
         clientView.firePropertyChange("score",clientView);
@@ -343,7 +343,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @param text text of the message
      */
     @Override
-    public void notifyChat(String username, String text){
+    public synchronized void notifyChat(String username, String text){
 
         ChatMessage message = new ChatMessage(username, text);
         Gson gson = new Gson();
@@ -358,7 +358,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @param receiver message receiver
      */
     @Override
-    public void notifyChat(String username, String text, String receiver){
+    public synchronized void notifyChat(String username, String text, String receiver){
 
         ChatMessage message = new ChatMessage(username, text, receiver);
         Gson gson = new Gson();
@@ -374,7 +374,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException If a remote communication error occurs.
      */
     @Override
-    public void notifyPopUpView(String text, int identifier) throws RemoteException {
+    public synchronized void notifyPopUpView(String text, int identifier) throws RemoteException {
         PopUpMsg message = new PopUpMsg(text);
         message.setIdentifier(identifier);
         Gson gson = new Gson();
@@ -382,7 +382,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
         userInterface.processReceivedMessage(jsonStr);
     }
 
-    //  TODO javadoc
+
     /**
      *
      * @param username
@@ -390,7 +390,7 @@ public class RMIClient extends UnicastRemoteObject implements ConnectionInterfac
      * @throws RemoteException
      */
     @Override
-    public void notifyTurn(String username, boolean move) throws RemoteException {
+    public synchronized void notifyTurn(String username, boolean move) throws RemoteException {
         PreTurnMsg message = new PreTurnMsg(username, move);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(message);

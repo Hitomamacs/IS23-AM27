@@ -250,7 +250,7 @@ public class Controller {
      */
     public boolean join(String username, boolean connectionType) throws InvalidLoginException {
         System.out.println("\nReceived login request from " + username + " to join game  (Server login method)");
-        //TODO checks once persistence has been implemented
+
         if(!lobby.isEmpty()){
             for (User user : lobby) {
                 if (user.getUsername().equals(username) && user.isConnected()) {
@@ -426,7 +426,7 @@ public class Controller {
         return null;
     }
 
-    //todo javadoc
+
     public void warnNextPlayer(){
         if(orchestrator != null) {
             String playerName = this.orchestrator.getCurrentPlayer().getNickname();

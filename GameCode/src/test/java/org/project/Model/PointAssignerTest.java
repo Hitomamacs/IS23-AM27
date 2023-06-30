@@ -44,14 +44,14 @@ class PointAssignerTest {
     }
     @Test
     void testExceptionInitialize(){
-     //TODO
+
     }
     @Test
     void testAssignPoints() {
-        //TODO
+
     }
     @Test
     void testExceptionAssignPoints(){
-        //TODO
+
     }
 }

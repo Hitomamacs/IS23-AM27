@@ -20,10 +20,16 @@ public class ConnectionCheckState implements GameState {
 
     private final int stateID = 1;
 
+    /**
+     * Timer used to check if the last player remains alone and goes to EndGameState
+     */
     private Timer timer = new Timer();
 
     private boolean endTimer = false;
 
+    /**
+     * Timer used to check if the last player remains alone and goes to EndGameState
+     */
     private Timer insideTimer = new Timer();
     private transient GameOrchestrator gameOrchestrator;
 
@@ -130,6 +136,9 @@ public class ConnectionCheckState implements GameState {
         }
     }
 
+    /**
+     * @return number of online players
+     */
     public int countOnlinePlayers(){
         List<Player> players = gameOrchestrator.getPlayers();
         int onlinePlayers = 0;

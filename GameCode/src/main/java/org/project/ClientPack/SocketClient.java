@@ -58,7 +58,7 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
             public void run() {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastKeepAliveReceivedTime > KEEP_ALIVE_INTERVAL) {
-                    //disconnect();  // replace this with your disconnect function
+                    disconnect();  // replace this with your disconnect function
                 }
             }
         }, KEEP_ALIVE_INTERVAL, KEEP_ALIVE_INTERVAL);

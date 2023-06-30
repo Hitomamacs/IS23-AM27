@@ -187,6 +187,7 @@ public class ChatController {
      */
     public void BackToMain(ActionEvent actionEvent) {
         Platform.runLater(() -> {
+            centralController.getMainSceneController().removeNotification();
             centralController.showMainScene();
         });
     }

@@ -28,4 +28,6 @@ public interface UserInterface {
     void updateClientViewTiles(String playerName, String[] tiles);
     void updateGridsView(String playerName, String[][] grid);
     void updateClientView(ClientView clientView);
+
+    void fillChatMap();
 }

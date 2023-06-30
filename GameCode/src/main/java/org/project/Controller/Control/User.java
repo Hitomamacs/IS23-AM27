@@ -64,7 +64,7 @@ public class User extends ObservableObject {
      *
      * @param connected the connected status to set
      */
-    public void setConnected(boolean connected) {
+    public synchronized void setConnected(boolean connected) {
         isConnected = connected;
         firePropertyChange("ConnectionUpdate", this);
     }

@@ -399,7 +399,9 @@ public class Controller {
      */
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
-        for (User user : lobby) {
+
+        for (int i = 0; i < lobby.size(); i++) {
+            User user = lobby.get(i);
             System.out.println("Hello it's " + user.getUsername());
             if (user.getUsername().equals(username)) {
                 System.out.println("Setting disconnected " + user.getUsername());
@@ -408,14 +410,14 @@ public class Controller {
                 System.out.println("Player " + username + " has quit");
                 server.sendInfo(text, 4);
                 warnNextPlayer();
-                }
+            }
         }
         return true;
     }
     public boolean correctPlayer(String username){
         return orchestrator.getCurrentPlayer().getNickname().equals(username);
     }
-    public User getUser(String username){
+    public synchronized User getUser(String username){
         for(User user : lobby){
             if(user.getUsername().equals(username)){
                 return user;

@@ -1,0 +1,12 @@
+unnamed package
+org.project.ClientPack
+org.project.Controller.Control
+org.project.Controller.Messages
+org.project.Controller.Server
+org.project.Controller.States
+org.project.Controller.States.Exceptions
+org.project.Controller.View
+org.project.Gui
+org.project.Launch
+org.project.Model
+org.project.Model.CommonGoals

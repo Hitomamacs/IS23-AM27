@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="638.0" minWidth="1000.0" prefHeight="750.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.ChatController">
+<Pane maxHeight="750.0" maxWidth="1000.0" minHeight="638.0" minWidth="1000.0" prefHeight="750.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.ChatController">
     <children>
         <ImageView fx:id="ImmaginaDiSfondo" fitHeight="1053.0" fitWidth="1238.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -36,10 +36,13 @@
          <font>
             <Font name="Arial" size="24.0" />
          </font></Button>
-      <TextField fx:id="searchBar" layoutX="96.0" layoutY="86.0" prefHeight="46.0" prefWidth="314.0" />
+      <TextField fx:id="searchBar" layoutX="96.0" layoutY="86.0" prefHeight="46.0" prefWidth="314.0">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></TextField>
       <Button fx:id="search" layoutX="435.0" layoutY="86.0" mnemonicParsing="false" onAction="#searchChat" prefHeight="46.0" prefWidth="123.0" text="Search">
          <font>
-            <Font size="24.0" />
+            <Font name="Arial" size="24.0" />
          </font>
       </Button>
     </children>

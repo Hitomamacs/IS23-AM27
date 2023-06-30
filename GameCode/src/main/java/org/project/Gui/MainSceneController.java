@@ -49,34 +49,6 @@ public class MainSceneController {
     private Label Status;
     @FXML
     private Button Pick;
-    @FXML
-    private Pane bannerPane;
-    @FXML
-    private Button warning;
-
-    /**
-     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
-     * This dialog is displayed on top of the main application window.
-     */
-    public void showBanner() {
-        Platform.runLater(() -> {
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initOwner(centralController.getPrimaryStage());
-            dialog.setTitle("Server Crash");
-            dialog.setHeaderText("Server is unreachable");
-
-            Label contentLabel = new Label("The server has crashed and is currently unreachable.");
-            VBox contentPane = new VBox(10);
-            contentPane.setAlignment(Pos.CENTER);
-            contentPane.setPadding(new Insets(20));
-            contentPane.getChildren().add(contentLabel);
-
-            dialog.getDialogPane().setContent(contentPane);
-
-            dialog.showAndWait();
-        });
-    }
-    
     private int index = 1;
     private int tileCount = 0;
     @FXML
@@ -200,23 +172,6 @@ public class MainSceneController {
         decidedCommonGoals();
         decidedPersonalGoals();
     }
-
-    public void boardCheck(String[][] board){
-        Platform.runLater(()->{
-            System.out.println("Boardcheck");
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    System.out.print(board[i][j] + " ");
-                    if(board[i][j].equals("N")){
-                        ImageView tile = (ImageView) GrigliaBoard.getChildren().get(i * 9 + j);
-                        tile.setImage(null);
-                    }
-                }
-                System.out.println();
-            }
-        });
-    }
-
     /**
      * The method updates the visual appearance of the game board
      * @param board matrix representing the game board
@@ -715,7 +670,7 @@ public class MainSceneController {
             for(int j = 5; j >= 0; j--){
                 if(grid[j][i].equals("N")){
                     lastTile[i] = 5 - j - 1;
-                    System.out.println(lastTile[i]);
+                    //System.out.println(lastTile[i]);
                     break;
                 }
             }
@@ -793,12 +748,12 @@ public class MainSceneController {
      * @param grid of the player
      */
     public void updateGrid(String[][] grid){
-        for (int i = 0; i < 6; i++){
+        /*for (int i = 0; i < 6; i++){
             for (int j = 0; j < 5; j++){
                 System.out.print(grid[i][j]);
                 }
             System.out.println();
-            }
+            } */
 
         ImageView tilecopy = null;
         switch (index){

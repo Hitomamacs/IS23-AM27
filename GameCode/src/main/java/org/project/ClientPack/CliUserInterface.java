@@ -511,25 +511,9 @@ public class CliUserInterface implements UserInterface {
      * @param message the turn update message containing the username and move type
      */
     public void handleTurnUpdate(PreTurnMsg message){
-        String username = message.getUsername();
-        if(message.getMove_Type()){
-            boolean type = true;
-            //clientView.printBoard();
-            //System.out.println();
-            //clientView.printGrid(username);
             if(screen.equals(Screens.PLAYER_SCREEN)) {
-                clientView.firePropertyChange("refresh", type);
+                clientView.firePropertyChange("refresh", null);
             }
-        }
-        else{
-            boolean type = false;
-            //clientView.printGrid(username);
-            //System.out.println();
-            //clientView.printTiles(username);
-            if(screen.equals(Screens.PLAYER_SCREEN)) {
-                clientView.firePropertyChange("refresh", type);
-            }
-        }
     }
 
     /**

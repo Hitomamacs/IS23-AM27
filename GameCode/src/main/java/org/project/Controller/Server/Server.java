@@ -232,7 +232,7 @@ public class Server {
      * @param username the username of the player to be set as disconnected
      */
     public synchronized void set_player_disconnected(String username){
-        if(username != null) {
+        if(controller.getUser(username) != null && username != null) {
             controller.getUser(username).setConnected(false);
             connectedPlayers--;
         }

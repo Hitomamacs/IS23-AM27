@@ -30,7 +30,7 @@ class GameBoardTest {
     @Test
     @DisplayName("Verify Picking 1 Tile")
     void testpick() {
-        //TODO da rifare
+
 
     }
 

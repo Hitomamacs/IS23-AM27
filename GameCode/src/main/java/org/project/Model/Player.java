@@ -27,7 +27,7 @@ public class Player extends ObservableObject {
     private PlayerGrid playerGrid;
     @Expose
     private boolean[] CompletedCGoals;
-    //TODO Pgoal ID
+
     private PersonalGoal myPersonalGoal;
 
     public int getPersonalGoalID() {

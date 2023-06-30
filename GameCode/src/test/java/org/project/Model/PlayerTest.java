@@ -49,7 +49,7 @@ class PlayerTest {
          test = player.getCompletedCGoals();
          assertTrue(test[0]);
          assertTrue(test[1]);
-         //TODO test exception in case position is not in {0,1}
+
     }
     @Test
     void testExceptionModifyCompletedCGoals(){
@@ -104,7 +104,7 @@ class PlayerTest {
     }
     @Test
     void testPickedTilesNum(){
-        //TODO
+
     }
     /*
     @Test

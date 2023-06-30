@@ -18,7 +18,8 @@ public class CommonGoal_5 extends CommonGoal {
 
     public boolean checkGoal(PlayerGrid playerGrid)
     {
-        int counter=0; //counter for row that verify the goal
+        int counter=0;
+        int checkPiena=0; //counter for row that verify the goal
         int i, j; //counters for playergrid
 
         for(i=0; i<5; i++)
@@ -26,18 +27,16 @@ public class CommonGoal_5 extends CommonGoal {
             ArrayList<Integer> color= new ArrayList<>();
             for(j=0; j<6; j++)
             {
-                if(!(playerGrid.getSpot(new Coordinates(j,i)).isOccupied()))
+                if((playerGrid.getSpot(new Coordinates(j,i)).isOccupied()))
                 {
-                    break;
-                }
-                else{
                     if(!(color.contains(playerGrid.getSpot(new Coordinates(j,i)).getTile().getColor().ordinal())))
                     {
                         color.add(playerGrid.getSpot(new Coordinates(j,i)).getTile().getColor().ordinal());
                     }
                 }
+                checkPiena++;
             }
-            if(color.size()<=3)
+            if(color.size()<=3 && checkPiena==6)
                 counter++;
         }
         if(counter>=3)

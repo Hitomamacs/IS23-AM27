@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class SocketClient extends AbstractClientApp implements ConnectionInterface {
 
-    private boolean connection_type = true;
+
     /**
      * reference to clientview
      */
@@ -31,16 +31,13 @@ public class SocketClient extends AbstractClientApp implements ConnectionInterfa
     private Timer keepAlive;
     private static final int KEEP_ALIVE_INTERVAL = 5 * 1000;  // in milliseconds
 
-    private final Scanner scanner = new Scanner(System.in);
-
-    private static final int MAX_TILES = 3;
     private long lastKeepAliveReceivedTime;
     private Timer keepAliveTimer;
     private BufferedReader in;
     private PrintWriter out;
     public Socket echoSocket;
 
-    private final Gson gson = new Gson();
+
 
     /**
      * Creates a new instance of the SocketClient class.

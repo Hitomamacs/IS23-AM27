@@ -43,10 +43,6 @@ public class CliUserInterface implements UserInterface {
      * boolean used to close the connection when the server is crushed
      */
     private boolean serverDownFlag;
-    /**
-     * cli images
-     */
-    private Cli_Images cliImages = new Cli_Images();
 
     private boolean firstTimeChat = true;
 
@@ -78,6 +74,7 @@ public class CliUserInterface implements UserInterface {
         clientView.addPropertyChangeListener(getTopupListener());
         clientView.addPropertyChangeListener(getTopupGridListener());
         clientView.addPropertyChangeListener(getChatListener());
+        clientView.addPropertyChangeListener(getScorelistener());
     }
     public Screens getScreen(){
         return screen;
@@ -608,6 +605,7 @@ public class CliUserInterface implements UserInterface {
                     handlePopUp(gson.fromJson(line, PopUpMsg.class));
                     break;
                 case SCORE_UPDATE:
+                    screen = Screens.SCORE_SCREEN;
                     handleScoreUpdate(gson.fromJson(line, ScoreBoardMsg.class));
                     break;
                 case REFRESH_UPDATE:

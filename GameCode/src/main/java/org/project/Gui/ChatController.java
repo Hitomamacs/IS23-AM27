@@ -25,44 +25,11 @@ public class ChatController {
     private Button Send;
     @FXML
     private Button Back;
-
-    @FXML
-    private Pane bannerPane;
-
-    @FXML
-    private Button warning;
-
-    @FXML
-    private Button NextChat;
-
     @FXML
     private  TextField searchBar;
 
     @FXML
     private Button search;
-
-    /**
-     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
-     * This dialog is displayed on top of the main application window.
-     */
-    public void showBanner() {
-        Platform.runLater(() -> {
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initOwner(centralController.getPrimaryStage());
-            dialog.setTitle("Server Crash");
-            dialog.setHeaderText("Server is unreachable");
-
-            Label contentLabel = new Label("The server has crashed and is currently unreachable.");
-            VBox contentPane = new VBox(10);
-            contentPane.setAlignment(Pos.CENTER);
-            contentPane.setPadding(new Insets(20));
-            contentPane.getChildren().add(contentLabel);
-
-            dialog.getDialogPane().setContent(contentPane);
-
-            dialog.showAndWait();
-        });
-    }
     private GuiUserInterface guiUserInterface;
     private GuiFx centralController;
 
@@ -92,10 +59,11 @@ public class ChatController {
             String message = messageTextField.getText();
             appendMessageToChat(message);
             clearMessageTextField();
-            if(guiUserInterface.getClientView().getCurrentChat().equalsIgnoreCase("Broadcast")){
-            guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
+            String currentChat = guiUserInterface.getClientView().getCurrentChat();
+            if(currentChat.equalsIgnoreCase("Broadcast")){
+                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message);
             }else{
-                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message, guiUserInterface.getClientView().getCurrentChat());
+                guiUserInterface.getClient().SendChatMessage(guiUserInterface.getNickname(), message, currentChat);
             }
         });
     }

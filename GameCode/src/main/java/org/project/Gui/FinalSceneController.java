@@ -40,35 +40,6 @@ public class FinalSceneController {
     @FXML
     private Button QuitButton;
 
-    @FXML
-    private Pane bannerPane;
-
-    @FXML
-    private Button warning;
-
-    /**
-     * The method displays a specific warning message to inform the user that the server is inaccessible or has crashed.
-     * This dialog is displayed on top of the main application window.
-     */
-    public void showBanner() {
-        Platform.runLater(() -> {
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initOwner(centralController.getPrimaryStage());
-            dialog.setTitle("Server Crash");
-            dialog.setHeaderText("Server is unreachable");
-
-            Label contentLabel = new Label("The server has crashed and is currently unreachable.");
-            VBox contentPane = new VBox(10);
-            contentPane.setAlignment(Pos.CENTER);
-            contentPane.setPadding(new Insets(20));
-            contentPane.getChildren().add(contentLabel);
-
-            dialog.getDialogPane().setContent(contentPane);
-
-            dialog.showAndWait();
-        });
-    }
-
     /**
      * The method is used to return to the Main Scene
      * @param actionEvent button press
@@ -153,7 +124,7 @@ public class FinalSceneController {
      *                  the keys are the names of the players and the values are the corresponding scores
      * @return the player with the highest score
      */
-    String AssignScore(HashMap<String,Integer> finalScore){
+    public String AssignScore(HashMap<String,Integer> finalScore){
         String highestScorer = null;
         int highestScore = Integer.MIN_VALUE;
 

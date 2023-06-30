@@ -7,10 +7,7 @@ import org.project.Controller.States.*;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,9 +18,11 @@ import java.util.List;
  *
  */
 public class Persistencer {
-    public static Gson gson_parser = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    public static Gson gson_parser = new GsonBuilder()
+            .registerTypeAdapter(Player.class, new PlayerDeserializer())
+            .excludeFieldsWithoutExposeAnnotation()  // se vuoi escludere i campi senza l'annotazione @Expose
+            .create();
 
-    //* This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file*/
     /** This method takes a GameOrchestrator object and returns a JSON string and then takes the JSON sting and writes it to a file
      * @param gameOrchestrator
      * @param fileName
@@ -31,6 +30,10 @@ public class Persistencer {
     public void saveGame(GameOrchestrator gameOrchestrator, String fileName) {
         String json = gson_parser.toJson(gameOrchestrator);
         try {
+            File file = new File(fileName + ".json");
+            if(file.exists()) {
+                file.delete();
+            };
             PrintWriter out = new PrintWriter(new FileWriter(fileName + ".json"));
             out.println(json);
             out.close();
@@ -55,7 +58,7 @@ public class Persistencer {
     public static GameOrchestrator loadGame(String fileName) {
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get(fileName + ".json"));
+            reader = Files.newBufferedReader(Paths.get(fileName ));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -163,8 +166,6 @@ public class Persistencer {
                     gameOrchestrator.getSelectedCGoal().add(new CommonGoal_12());
                     break;
             }
-
-
         }
         return true;
     }
@@ -176,7 +177,7 @@ public class Persistencer {
      */
     public void load_pgoals(GameOrchestrator gameOrchestrator){
         for(Player p : gameOrchestrator.getPlayers()){
-            p.personal_list_init("test_1.json");
+            p.personal_list_init("PGoals.json");
             p.recoverPersonalGoal();
         }
     }
@@ -212,8 +213,5 @@ public class Persistencer {
             file_name += s;
         }
         return file_name;
-
-
     }
-
 }

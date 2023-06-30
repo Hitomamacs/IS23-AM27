@@ -4,6 +4,9 @@ import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
+/**
+ * Five tiles of the same type that create an X
+ */
 public class CommonGoal_10 extends CommonGoal {
 
     private final int goal_ID = 10;

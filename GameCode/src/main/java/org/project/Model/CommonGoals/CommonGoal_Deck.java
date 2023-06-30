@@ -1,10 +1,13 @@
 package org.project.Model.CommonGoals;
 
-
 import org.project.Model.CommonGoals.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+/**
+ * Class that represents the entire deck of common goal cards
+ */
 
 public class CommonGoal_Deck {
     ArrayList<CommonGoal> deck=new ArrayList<>();
@@ -12,6 +15,10 @@ public class CommonGoal_Deck {
     public CommonGoal_Deck() {
         fillDeck();
     }
+
+    /**
+     * @return the ArrayList deck containing all the created and added CommonGoal instances
+     */
     public ArrayList<CommonGoal> fillDeck(){
         CommonGoal co1=new CommonGoal_1();
         deck.add(co1);
@@ -41,6 +48,10 @@ public class CommonGoal_Deck {
         return deck;
     }
 
+    /**
+     * The method is used to randomly draw a common goal card from the deck
+     * @return random goal card drawn from the deck
+     */
     public CommonGoal getRandom(){
         Random random= new Random();
         int randomIndex= random.nextInt(deck.size());
@@ -49,6 +60,9 @@ public class CommonGoal_Deck {
         return randomGoal;
     }
 
+    /**
+     * @return common goal card deck
+     */
     public ArrayList<CommonGoal> getDeck() {
         return deck;
     }

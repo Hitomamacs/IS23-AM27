@@ -4,32 +4,44 @@ import com.google.gson.annotations.Expose;
 import org.project.Model.Color;
 import org.project.Model.Coordinates;
 
+import java.util.List;
 import java.util.Map;
+
+/**
+ * The class represents a single personal goal card
+ */
 
 public  class PersonalGoal {
 
-    private int Pgoal_ID ;
+    /**
+     * ID of the personal goal card
+     */
     @Expose
-    private Map<Coordinates, Color> personalGoal;
+    private int Pgoal_ID ;
 
-    public PersonalGoal(int Pgoal_ID, Map<Coordinates, Color> personalGoal) {
+    /**
+     * List of Goal that are the color goals of the personal goal card.
+     */
+    @Expose
+    private List<Goal> goals;
+
+    /**
+     * Constructor
+     * @param Pgoal_ID
+     * @param personalGoal
+     */
+    public PersonalGoal(int Pgoal_ID, List<Goal> personalGoal) {
         this.Pgoal_ID = Pgoal_ID;
-        this.personalGoal = personalGoal;
+        this.goals = personalGoal;
     }
 
     public  int getPgoal_ID() {
         return Pgoal_ID;
     }
-
-
-
-    public  void initialize(){
-
-    };
-    public  Map<Coordinates, Color> getColoredGoal(){
-        return personalGoal;
-
+    public  List<Goal> getColoredGoal(){
+        return goals;
+    }
+    public List<Goal> getGoals() {
+        return goals;
     }
 }
-
-

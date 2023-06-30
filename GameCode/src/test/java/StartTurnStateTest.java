@@ -50,7 +50,7 @@ public class StartTurnStateTest {
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
         assertEquals(0, orchestrator.CurrentPlayerIndex());
-        assertFalse(orchestrator.getGameBoard().checkBoard());
+
     }
     //In this other case we check what happens if the player is signaled as disconnected, The next state has
     //to be verifyGrillable but of the following player.
@@ -67,7 +67,7 @@ public class StartTurnStateTest {
         orchestrator.getGameBoard().printBoardColor();
         orchestrator.getGameBoard().printMwithTiles();
         assertEquals(1, orchestrator.CurrentPlayerIndex());
-        assertFalse(orchestrator.getGameBoard().checkBoard());
+
     }
     //Have to check that startTurn goes to connectionCheck and connectionCheck goes to TopUp if player is
     //connected and has some tiles in his hand

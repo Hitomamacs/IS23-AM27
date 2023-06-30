@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="750.0" maxWidth="1000.0" minHeight="750.0" minWidth="1000.0" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.Gui.MainSceneController">
+   <children>
+      <ImageView fx:id="SfondoParquet" fitHeight="1154.0" fitWidth="1412.0" layoutX="-108.0" layoutY="-53.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/sfondo parquet.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Board" fitHeight="411.0" fitWidth="458.0" layoutX="29.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/livingroom.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="GrigliaBoard" layoutX="45.0" layoutY="42.0" prefHeight="375.0" prefWidth="377.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="GridGriglia" layoutX="664.0" layoutY="110.0" prefHeight="290.0" prefWidth="275.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <ImageView fx:id="CGoalCard1" fitHeight="150.0" fitWidth="200.0" layoutX="29.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/back.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="CommonGoal2" fitHeight="150.0" fitWidth="200.0" layoutX="239.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/back.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="PersonalGoalImage" fitHeight="228.0" fitWidth="192.0" layoutX="453.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/front_EMPTY.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="GrigliaGiocatore" fitHeight="350.0" fitWidth="352.0" layoutX="625.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/bookshelf_orth.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="SfondoTile" fitHeight="105.0" fitWidth="384.0" layoutX="624.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/base_pagina2.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Tile1" fitHeight="100.0" fitWidth="100.0" layoutX="631.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="Tile2" fitHeight="100.0" fitWidth="100.0" layoutX="758.0" layoutY="523.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="Tile3" fitHeight="100.0" fitWidth="100.0" layoutX="874.0" layoutY="522.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="Status" layoutX="468.0" layoutY="31.0" text="Status:">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font></Label>
+      <Button fx:id="Pick" layoutX="31.0" layoutY="680.0" mnemonicParsing="false" onAction="#PickAction" text="Pick">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
+      <Button fx:id="QuitButtonMainScene" layoutX="896.0" layoutY="676.0" mnemonicParsing="false" onAction="#QuitAction" text="Quit">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="Grids" layoutX="792.0" layoutY="676.0" mnemonicParsing="false" onAction="#SwitchToGrids" prefHeight="46.0" prefWidth="92.0" text="Grids">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
+      <Button fx:id="ChatButton" layoutX="837.0" layoutY="16.0" mnemonicParsing="false" onAction="#openChat" prefHeight="46.0" prefWidth="119.0" text="    Chat">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font></Button>
+      <Circle fx:id="circle" fill="#1fffee" layoutX="865.0" layoutY="39.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+   </children>
+</AnchorPane>

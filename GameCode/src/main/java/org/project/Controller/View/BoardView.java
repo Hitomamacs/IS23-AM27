@@ -5,11 +5,20 @@ import org.project.Model.Coordinates;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The class represents the view of the game board
+ */
 public class BoardView {
     private String[][] board;
     public BoardView(){
         board = new String[9][9];
     }
+
+    /**
+     * The method selects a predefined board configuration (defined by the matrix2P, matrix3P and matrix4P matrices)
+     * based on the number of players
+     * @param numPlayers number of the players that are playing the game
+     */
     public void init(int numPlayers){
         int[][] matrix2P =
                 {{0,0,0,0,0,0,0,0,0},
@@ -74,11 +83,11 @@ public class BoardView {
             }
         }
     }
-    public void updateBoardView(List<Coordinates> coordinates){
-        for (Coordinates coordinate : coordinates) {
-            board[coordinate.getX()][coordinate.getY()] = "N";
-        }
-    }
+
+    /**
+     * The method updates the board view with a new configuration represented by the newBoardView
+     * @param newBoardView new configuration of the board
+     */
     public void updateBoardView(String[][] newBoardView){
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -88,6 +97,7 @@ public class BoardView {
             }
         }
     }
+
     public String[][] getBoard(){
         return board;
     }

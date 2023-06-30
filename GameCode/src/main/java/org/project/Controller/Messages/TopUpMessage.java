@@ -2,6 +2,12 @@ package org.project.Controller.Messages;
 
 import org.project.Controller.Messages.MessageID;
 
+/**
+ * Represents a message indicating a player's intention to "topUp" their grid with a tile
+ * from the specified column and tile index.
+ * Contains information about the username, column and tile index.
+ */
+
 public class TopUpMessage extends Message {
     private int column;
     private int tileIndex;

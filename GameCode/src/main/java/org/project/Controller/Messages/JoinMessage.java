@@ -1,5 +1,9 @@
 package org.project.Controller.Messages;
 
+/**
+ * Represents a message for join a game.
+ * Contains information about the username and connection type.
+ */
 public class JoinMessage extends Message {
     private String username;
     private boolean connectionType;
@@ -11,9 +15,7 @@ public class JoinMessage extends Message {
     public boolean getConnectionType(){
         return connectionType;
     }
-
     public String getUsername(){
         return username;
     }
-
 }

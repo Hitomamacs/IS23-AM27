@@ -11,6 +11,11 @@ import org.project.Model.CommonGoals.CommonGoal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The GameOrchestrator class is responsible for managing the game orchestration, including players, current game state,
+ * game board, selected common goals, point assigner, tile bag, and other game-related information.
+ */
+
 public class GameOrchestrator {
 
     @Expose
@@ -37,21 +42,25 @@ public class GameOrchestrator {
     private TileBag tileBag;
     @Expose
     private List<Coordinates> pickedCoordinates;
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     @Expose
-    private transient Game game;
+    private  Game game;
 
-    public GameState getState() {
-        return State;
-    }
-
-    public void setState(GameState state) {
-        State = state;
-    }
-
-    public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
-        this.selectedCGoal = selectedCGoal;
-    }
-
+    /**
+     * Constructs a GameOrchestrator object with the specified players, game board, selected common goals, point assigner,
+     * tile bag, and game.
+     *
+     * @param players          the list of players participating in the game
+     * @param gameBoard        the game board
+     * @param selectedCGoal    the list of selected common goals
+     * @param pointAssigner    the point assigner
+     * @param tileBag          the tile bag
+     * @param game             the game object
+     */
     public GameOrchestrator(List<Player> players, GameBoard gameBoard, List<CommonGoal> selectedCGoal, PointAssigner pointAssigner, TileBag tileBag, Game game){
         this.players=players;
         this.currentPlayerIndex=0;
@@ -64,16 +73,54 @@ public class GameOrchestrator {
         this.pickedCoordinates =new ArrayList<>();
         this.game=game;
         this.selectedCGoal_int = new ArrayList<>();
+    }
+
+    public GameState getState() {
+        return State;
+    }
+
+    public void setState(GameState state) {
+        State = state;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setSelectedCGoal(List<CommonGoal> selectedCGoal) {
+        this.selectedCGoal = selectedCGoal;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    public void setSelectedCGoal_int() {
         for(CommonGoal cg: selectedCGoal){
             this.selectedCGoal_int.add(cg.getGoalID());
         }
     }
 
+    public List<Integer> getSelectedCGoal_int() {
+        return selectedCGoal_int;
+    }
+
+    /**
+     * Changes the current state of the game to the specified state.
+     *
+     * @param state the new game state
+     */
     public void changeState(GameState state){
         this.State=state;
     }
 
+    /**
+     * Executes the current game state. Throws an InvalidMoveException if an invalid move is made.
+     *
+     * @throws InvalidMoveException if an invalid move is made
+     */
     public void executeState()throws InvalidMoveException {
+        this.setCurr_sate_id(this.State.getStateID());
         this.State.execute();
     }
 
@@ -84,6 +131,7 @@ public class GameOrchestrator {
     public Player getPlayer(int i){
         return this.players.get(i);
     }
+
     public Player getPlayer(String username){
         List<Player> players = getPlayers();
         int i = 0;
@@ -92,6 +140,7 @@ public class GameOrchestrator {
         }
         return players.get(i);
     }
+
     public int CurrentPlayerIndex(){
         return this.currentPlayerIndex;
     }
@@ -109,6 +158,7 @@ public class GameOrchestrator {
         }
         return this.players.get(this.currentPlayerIndex);
     }
+
     public void setFinalRoundFlag(boolean flag){
         this.finalRoundFlag=flag;
     }
@@ -125,7 +175,7 @@ public class GameOrchestrator {
         return this.gameBoard;
     }
 
-public List<CommonGoal> getSelectedCGoal(){
+    public List<CommonGoal> getSelectedCGoal(){
         return this.selectedCGoal;
     }
 
@@ -156,8 +206,6 @@ public List<CommonGoal> getSelectedCGoal(){
     public List<Integer> get_selected_cgoal_int(){
         return this.selectedCGoal_int;
     }
-
-
 
     public void setCurr_sate_id(int curr_sate_id) {
         this.curr_sate_id = curr_sate_id;

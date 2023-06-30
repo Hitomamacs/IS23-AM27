@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The virtual view class contains the various view classes which will be both common to the server and
+ * client however the virtual view class its self is just on the server, so a few methods do take model parts
+ * as input, while the common parts do not so that in the client there won't be any need to know how
+ * the model data structures are implemented
+ */
 
-//The virtual view class contains the various view classes which will be both common to the server and
-//client however the virtual view class its self is just on the server, so a few methods do take model parts
-//as input, while the common parts do not so that in the client there won't be any need to know how
-//the model data structures are implemented
-//hello
 public class VirtualView {
-
     private Game game;
     private BoardView boardView;
     private PointStackView pointStackView;
@@ -28,8 +28,11 @@ public class VirtualView {
     private HashMap<String, Integer> personalGoalViews;
     private ArrayList<Integer> commonGoalsView;
 
-
-
+    /**
+     * Constructor
+     * @param users players
+     * @param game reference to Game
+     */
     public VirtualView(List<User> users, Game game){
         this.game = game;
         boardView = new BoardView();
@@ -52,17 +55,32 @@ public class VirtualView {
         pointStackView.getPointList().add(8);
         boardView.init(numPlayers);
     }
+
     //This method updates the players GridView and tilesView, so is needed in top up
     public void updateView(PointAssigner pointAssigner, int position){
         int newValue = pointAssigner.getStackList().get(position).peek();
         pointStackView.updatePointStackView(newValue, position);
     }
+
+    /**
+     * Update the score board view
+     * @param score
+     */
     public void updateView(HashMap<String, Integer> score){
         scoreBoardView.updateScoreBoardView(score);
     }
+
+    /**
+     * @param username of the player
+     * @param PGoal that is assigned to the player
+     */
     public void updateView(String username, PersonalGoal PGoal){
         personalGoalViews.put(username, PGoal.getPgoal_ID());
     }
+
+    /**
+     * @param commonGoals list of the common goals
+     */
     public void updateView(List<CommonGoal> commonGoals){
         ArrayList<Integer> copyList = new ArrayList<>();
         for(CommonGoal cGoal : commonGoals){
@@ -104,6 +122,11 @@ public class VirtualView {
     public PropertyChangeListener getScoreBoardListener(){
         return this.ScoreBoardListener;
     }
+
+    /**
+     * Listens for property change events related to the board update.
+     * When a board update event occurs, this listener updates the board view with the new board information.
+     */
     PropertyChangeListener boardUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -131,6 +154,12 @@ public class VirtualView {
             }
         }
     };
+
+    /**
+     * Listens for property change events related to the grid update.
+     * When a grid update event occurs, this listener updates the grid view for the corresponding player
+     * with the new grid information.
+     */
     PropertyChangeListener gridUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -162,6 +191,12 @@ public class VirtualView {
             }
         }
     };
+
+    /**
+     * Listens for property change events related to the tiles update.
+     * When a tiles update event occurs, this listener updates the tiles view for the corresponding player
+     * with the new picked tiles information.
+     */
     PropertyChangeListener tilesUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -172,7 +207,7 @@ public class VirtualView {
                 String[] tilesStr = new String[3];
                 Color color;
                 for (int i = 0; i < 3; i++) {
-                    if (tiles[i] != null) {
+                    if (tiles != null && tiles[i] != null) {
                         color = tiles[i].getColor();
                         switch (color) {
                             case YELLOW -> tilesStr[i] = "Y";
@@ -187,8 +222,13 @@ public class VirtualView {
                 tilesViews.get(player.getNickname()).updateTilesView(tilesStr);
             }
         }
-
     };
+
+    /**
+     * Listens for property change events related to the personal goal update.
+     * When a personal goal update event occurs, this listener updates the view
+     * with the player's nickname and their personal goal.
+     */
     PropertyChangeListener PGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -198,6 +238,11 @@ public class VirtualView {
             }
         }
     };
+
+    /**
+     * Listens for property change events related to the common goal update.
+     * When a common goal update event occurs, this listener updates the view with the updated common goals of the game.
+     */
     PropertyChangeListener CGoalUpdateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -207,6 +252,11 @@ public class VirtualView {
             }
         }
     };
+
+    /**
+     * Listens for property change events related to the scoreboard update.
+     * When a scoreboard update event occurs, this listener updates the view with the updated scoreboard of the game.
+     */
     PropertyChangeListener ScoreBoardListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

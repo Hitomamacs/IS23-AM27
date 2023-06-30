@@ -5,6 +5,11 @@ import org.project.Model.Coordinates;
 
 import java.util.List;
 
+/**
+ * Represents a message for the coordinates of the picked tiles
+ * Contains information about the username and a list of coordinates.
+ */
+
 public class PickMessage extends Message{
     private List<Coordinates> coordinates;
     private String username;
@@ -16,7 +21,6 @@ public class PickMessage extends Message{
     public List<Coordinates> getCoordinates(){
         return coordinates;
     }
-
     public String getUsername(){
         return username;
     }

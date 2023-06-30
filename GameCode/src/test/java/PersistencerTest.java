@@ -49,7 +49,7 @@ public class PersistencerTest {
 
     @Test
   public  void load_all() {
-        restored = persistencer.load_all("save_test");
+        restored = persistencer.load_all("save_test.json");
         //assertSame(restored.getSelectedCGoal().get(0).getClass(), orchestrator.getSelectedCGoal().get(0).getClass());
         //assertSame(restored.getPlayer(0).getMyPersonalGoal().getClass(), orchestrator.getPlayer(0).getMyPersonalGoal().getClass());
 

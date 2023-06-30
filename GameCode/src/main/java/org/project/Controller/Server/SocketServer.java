@@ -13,30 +13,44 @@ import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Socket server
+ */
 public class SocketServer implements Runnable {
 
 
+    /**
+     * reference to the server
+     */
     private final Server server;
+    /**
+     * port for connection
+     */
     int port;
-
-    public HashMap<String, Timer> getKeepAliveTimers() {
-        return keepAliveTimers;
-    }
 
     private HashMap<String, Timer> keepAliveTimers = new HashMap<>();
 
 
+    /**
+     * hash map that contains all references ti socket clients
+     * String is the username
+     */
     private HashMap<String, SocketClientHandler> socketClients;
 
+    /**
+     * Creates a new instance of SocketServer.
+     * @param server the server instance.
+     * @param port the port number to listen on.
+     */
     public SocketServer(Server server, int port){
         this.server = server;
         this.port = port;
         socketClients = new HashMap<>();
     }
-    public HashMap<String, SocketClientHandler> getSocketClients(){
-        return socketClients;
-    }
 
+    /**
+     * This method close all connections and then create a new hashmap for a new game
+     */
     public void flushSocketClients(){
         //Trying to close all connections and then create a new hashmap for a new game
        /* for(Map.Entry<String, SocketClientHandler> mapElement : socketClients.entrySet()){
@@ -45,10 +59,17 @@ public class SocketServer implements Runnable {
         socketClients = new HashMap<>();
     }
 
+    /**
+     * start socket server
+     */
     @Override
     public void run() {
         startSocketServer();
     }
+
+    /**
+     * Prepare the socket server for new connection
+     */
     public void startSocketServer(){
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
@@ -74,4 +95,11 @@ public class SocketServer implements Runnable {
         executor.shutdown();
     }
 
+    public HashMap<String, Timer> getKeepAliveTimers() {
+        return keepAliveTimers;
+    }
+
+    public HashMap<String, SocketClientHandler> getSocketClients(){
+        return socketClients;
+    }
 }

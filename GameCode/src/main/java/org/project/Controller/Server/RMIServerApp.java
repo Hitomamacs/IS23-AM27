@@ -1,39 +1,47 @@
 package org.project.Controller.Server;
 
 import org.project.Controller.Control.InvalidLoginException;
-import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+/**
+ * RMI SERVER
+ */
 
 public class RMIServerApp implements RMIServerInterface {
 
     /**
-     * hash map che contiene tutti i giocatori RMI.
-     * La chiave è l'username
-     * il secondo parametro è il riferimento al client
+     * hash map containing all RMI players.
+     * The key is the username
+     * the second parameter is the reference to the client
      */
     private HashMap<String, RMIClientInterface> clientsRMI;
 
+    /**
+     * reference to main server
+     */
     private final Server server;
+    private HashMap<String,RmiClientHandler> rmiClientsHandler;
 
     /**
-     * this is the constructor. Initialize the hash map.
+     * this is the constructor.
      * @throws RemoteException if something goes wrong with the connection
      */
     public RMIServerApp(Server server) throws RemoteException{
         this.clientsRMI = new HashMap<>();
         this.server = server;
+        rmiClientsHandler=new HashMap<>();
     }
+
+    //TODO javadoc
     public void flushRMIClients() throws RemoteException {
         //TODO haven't really understood how to close the connections
         clientsRMI = new HashMap<>();
@@ -46,6 +54,7 @@ public class RMIServerApp implements RMIServerInterface {
     public void startRMIServer(int port) {
         RMIServerInterface stub= null;
         try {
+            System.setProperty("java.rmi.server.hostname", Settings.SERVER_NAME);
             stub = (RMIServerInterface) UnicastRemoteObject.exportObject(this, port);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -68,10 +77,6 @@ public class RMIServerApp implements RMIServerInterface {
         System.out.println("RMI server bound and ready");
     }
 
-    /**
-     * metodo che serve per comunicare con il client
-     * @return il client
-     */
 
     //METHODS INVOCATED BY CLIENTS--SONO I METODI DELL'RMI INTERFACE
 
@@ -87,12 +92,17 @@ public class RMIServerApp implements RMIServerInterface {
         try {
             check=server.join(nickname, connectionType);
         } catch (InvalidLoginException e) {
-            client.notifyPopUpView(e.getMessage());
+            client.notifyPopUpView(e.getMessage(), e.getIdentifier());
         }
         if(check==true){
             clientsRMI.put(nickname,client);
-            client.notifyPopUpView("Successfully joined game");
+            client.notifyPopUpView("Successfully joined game", 1);
             server.getController().refreshRequest(nickname);
+
+            RmiClientHandler rch=new RmiClientHandler(server,this,client,nickname);
+            rmiClientsHandler.put(nickname, rch);
+            rmiClientsHandler.get(nickname).start();
+
             return true;
         }
         return false;
@@ -112,14 +122,19 @@ public class RMIServerApp implements RMIServerInterface {
         try {
             check = server.create_game(nickname,connectionType,numPlayers);
         } catch (InvalidLoginException e) {
-            client.notifyPopUpView(e.getMessage());
+            client.notifyPopUpView(e.getMessage(), e.getIdentifier());
         }
         if(check==true){
             clientsRMI.put(nickname, client);
-            client.notifyPopUpView("Successfully created game");
+            client.notifyPopUpView("Successfully created game", 0);
+
+            RmiClientHandler rch=new RmiClientHandler(server,this,client,nickname);
+            rmiClientsHandler.put(nickname, rch);
+            rmiClientsHandler.get(nickname).start();
+
             return true;
         }else{
-            client.notifyPopUpView("Already an existing game");
+            client.notifyPopUpView("Already an existing game", 0);
         }
         return false;
     }
@@ -133,6 +148,9 @@ public class RMIServerApp implements RMIServerInterface {
         boolean check;
         check=server.quit(nickname);
         if(check){
+            clientsRMI.remove(nickname);
+            rmiClientsHandler.get(nickname).setConnected(false);
+            rmiClientsHandler.remove(nickname);
             return true;
         }
         return false;
@@ -147,6 +165,22 @@ public class RMIServerApp implements RMIServerInterface {
     public boolean sendPickRequest(String nickname, List<Coordinates> coordinates) throws RemoteException{
         boolean check;
         check=server.pick(nickname,coordinates);
+        if(check){
+            return true;
+        }
+        return false;
+    }
+    public boolean sendChat(String username, String text){
+        boolean check;
+        check = server.chat(username, text);
+        if(check){
+            return true;
+        }
+        return false;
+    }
+    public boolean sendChat(String username, String text, String receiver){
+        boolean check;
+        check = server.chat(username, text, receiver);
         if(check){
             return true;
         }
@@ -170,19 +204,19 @@ public class RMIServerApp implements RMIServerInterface {
     }
 
 
-
     /**
-     * send a chat message to all players
-     * @param nickname message sender
-     * @param message message you want to send
+     * method called constantly by the client rmi to understand if the server is crushed
      * @throws RemoteException if something goes wrong with the connection
      */
+    @Override
+    public void isConnected() throws RemoteException {
 
-    public void sendMessageRequest(String nickname, String message) throws RemoteException{
-        server.sendMessage(nickname, message);
     }
 
-
+    /**
+     * getter rmi clients
+     * @return
+     */
     public HashMap<String, RMIClientInterface> getClientsRMI() {
         return clientsRMI;
     }

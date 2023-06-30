@@ -1,8 +1,7 @@
 package org.project.Controller.Server;
 
-import org.project.RMIClientApp;
 import org.project.Model.Coordinates;
-import org.project.RMIClientInterface;
+import org.project.ClientPack.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -57,11 +56,9 @@ public interface RMIServerInterface extends Remote {
      */
     public boolean sendTopUpRequest(String nickname, int column, int tileIndex) throws RemoteException;
 
-    /**
-     * remote method that send a chat message to all players
-     * @param nickname message sender
-     * @param message message you want to send
-     * @throws RemoteException if something goes wrong with the connection
-     */
-    public void sendMessageRequest(String nickname, String message) throws RemoteException;
+    public void isConnected() throws RemoteException;
+
+    public boolean sendChat(String username, String text) throws RemoteException;
+
+    public boolean sendChat(String username, String text, String receiver) throws RemoteException;
 }

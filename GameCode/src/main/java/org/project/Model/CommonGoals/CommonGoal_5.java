@@ -1,12 +1,15 @@
 package org.project.Model.CommonGoals;
 
-
 import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.Coordinates;
 import org.project.Model.PlayerGrid;
 
 import java.util.ArrayList;
 
+/**
+ * Three columns each formed by 6 tiles of one, two or three different types.
+ * Different columns can have different combinations of tile types.
+ */
 public class CommonGoal_5 extends CommonGoal {
     private final int goal_ID = 5;
     public Integer getGoalID() {

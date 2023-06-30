@@ -16,17 +16,49 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+/**
+ * The Controller class is responsible for managing the game logic and communication between
+ * the server, players, and the game model.
+ * It handles actions such as creating a game, joining a game, starting the game,
+ * making moves, and managing the game state.
+ * The controller acts as a bridge between the user interface and the game model,
+ * ensuring that the game rules are enforced and the game progresses correctly.
+ */
 
 public class Controller {
 
+    /**
+     *list composed by user
+     */
     private List<User> lobby;
+    /**
+     * reference to main server
+     */
     private Server server;
+    /**
+     * reference to game
+     */
     private Game game;
 
+    /**
+     * reference to game orchestrator
+     */
+
     private GameOrchestrator orchestrator;
+
+    /**
+     * reference to virtual view
+     */
     private VirtualView view;
 
+    private Persistencer persistencer = new Persistencer();
+
     private int numPlayers = 4;
+
+    /**
+     * constructor
+     * @throws RemoteException
+     */
 
     public Controller() throws RemoteException {
 
@@ -54,11 +86,52 @@ public class Controller {
         return this.view;
     }
 
+    /**
+     * Refreshes the controller by resetting the lobby and game objects.
+     * Creates a new empty lobby and initializes a new game object with the server.
+     * Adds a property change listener to the game object to listen for changes in the game state.
+     */
     public void refresh(){
         this.lobby = new ArrayList<>();
         this.game = new Game(server);
         game.addPropertyChangeListener(this.GameStateListener);
     }
+
+    public void recoverGame(String name){
+        this.view = new VirtualView(lobby, game);
+        GameOrchestrator recovered = persistencer.load_all(name);
+        this.orchestrator = recovered;
+        this.game = new Game(recovered);
+        this.orchestrator.setPlayers(game.getPlayers());
+        this.orchestrator.setGameBoard(new GameBoard(recovered));
+        this.recoverModel2View();
+        this.game.setGameStarted(true);
+        this.game.setCommonGoals(recovered.getSelectedCGoal());
+        this.orchestrator.setSelectedCGoal(this.game.getCommonGoals());
+        this.orchestrator.setSelectedCGoal_int();
+        this.game.firePropertyChange("CGoalUpdate", this.game);
+        for(Player player : this.game.getPlayers()){
+            player.firePropertyChange("PGoalUpdate", player);
+            player.firePropertyChange("gridUpdate",player);
+            player.firePropertyChange("tilesUpdate", player);
+        }
+        this.game.addPropertyChangeListener(this.GameStateListener);
+        this.orchestrator.getGameBoard().firePropertyChange("boardUpdate", orchestrator.getGameBoard());
+        this.game.setOrchestrator(this.orchestrator);
+        this.orchestrator.setGame(this.game);
+        this.game.addPropertyChangeListener(this.view.getScoreBoardListener());
+        this.server.send(this.view);
+
+
+        try {
+            this.orchestrator.executeState();
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
+        this.server.send(this.view);
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
+    }
+
     public void startGame(){
         this.view = new VirtualView(lobby, game);
         List<Player> playerOrder = playerOrder(lobby);
@@ -67,6 +140,7 @@ public class Controller {
         this.game.pickCommonGoals();
         this.game.pickPersonalGoals();
         this.orchestrator = this.game.getOrchestrator();
+        this.orchestrator.setSelectedCGoal_int();
         int needed_tiles = 0;
         try {
             needed_tiles = orchestrator.getGameBoard().boardCheckNum();
@@ -84,9 +158,15 @@ public class Controller {
             throw new RuntimeException(e);
         }
         this.server.send(this.view);
-        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles");
+        server.sendInfo("Waiting for player " + getGame().getOrchestrator().getCurrentPlayer().getNickname() + " to pick tiles", 4);
 
     }
+
+    /**
+     * Links the model to the view by adding property change listeners to the players,
+     * game board, and game object,
+     * which update the view when changes occur.
+     */
     public void linkModel2View(){
         for(Player player : game.getPlayers()){
             player.addPropertyChangeListener(view.getTilesUpdateListener());
@@ -97,6 +177,24 @@ public class Controller {
         game.addPropertyChangeListener(view.getCGoalUpdateListener());
         game.addPropertyChangeListener(view.getScoreBoardListener());
     }
+
+    public void recoverModel2View(){
+        for(Player player : game.getPlayers()){
+            player.addPropertyChangeListener(view.getTilesUpdateListener());
+            player.addPropertyChangeListener(view.getGridUpdateListener());
+            player.addPropertyChangeListener(view.getPGoalUpdateListener());
+        }
+        orchestrator.getGameBoard().addPropertyChangeListener(view.getBoardUpdateListener());
+        game.addPropertyChangeListener(view.getCGoalUpdateListener());
+
+    }
+
+    /**
+     * Generates a random order for the players based on the given list of users.
+     *
+     * @param users the list of users representing the players
+     * @return the list of players in a random order
+     */
     public List<Player> playerOrder(List<User> users){
         Random random = new Random();
         List<User> usersCopy = new ArrayList<>(users);
@@ -108,6 +206,7 @@ public class Controller {
         }
         return playerOrder;
     }
+
     /**
      * method for logging the FIRST player through the nickname.
      * @param username player's name
@@ -134,7 +233,7 @@ public class Controller {
         //Should probably do another check to see if numPlayers is acceptable
         else {
             System.out.println("\nAlready an existing game  (Server login method)");
-            throw new InvalidLoginException("Already an existing game");
+            throw new InvalidLoginException("Already an existing game", 0);
         }
     }
 
@@ -156,7 +255,7 @@ public class Controller {
             for (User user : lobby) {
                 if (user.getUsername().equals(username) && user.isConnected()) {
                     System.out.println("\n" + username + " is already in use in the game  (Server login method)");
-                    throw new InvalidLoginException(username + " is already in use in the game");
+                    throw new InvalidLoginException(username + " is already in use in the game", 1);
 
                 } else if (user.getUsername().equals(username) && !user.isConnected()) {
 
@@ -176,15 +275,38 @@ public class Controller {
                 System.out.println("\n" + username + " added to game  (Server login method)");
                 return true;
             }else{
-                throw new InvalidLoginException("Game is full, if you are rejoining make sure to be using the same username");
+                throw new InvalidLoginException("Game is full, if you are rejoining make sure to be using the same username", 1);
             }
         }
-        throw new InvalidLoginException("No available game to join");
+        throw new InvalidLoginException("No available game to join", 1);
     }
+
+    /**
+     * Sends a refresh request to the server for the specified username.
+     *
+     * @param username the username of the player requesting a refresh
+     */
     public void refreshRequest(String username){
         if(game.getGameStarted()) {
             server.refresh(username, view);
         }
+    }
+
+    /**
+     * Sends a chat message from the specified username with the given text.
+     * The message is sent to the server for broadcasting to all connected players.
+     *
+     * @param username the username of the player sending the chat message
+     * @param text the content of the chat message
+     * @return true if the chat message was sent successfully, false otherwise
+     */
+    public boolean chat(String username, String text){
+        server.sendChat(username, text);
+        return true;
+    }
+    public boolean chat(String username, String text, String receiver){
+        server.sendChat(username, text, receiver);
+        return true;
     }
 
     /**
@@ -205,7 +327,7 @@ public class Controller {
                     orchestrator.setPickedCoordinates(coordinates);
                     try {
                         orchestrator.executeState();
-                    } catch(Exception e){
+                    } catch(InvalidMoveException e){
                         handleStateException(e, username);
                     }
                     //now if the coordinates were valid then the pieces have been picked and put in players pickedTiles
@@ -277,23 +399,25 @@ public class Controller {
      */
     public boolean quit(String username){
         System.out.println("Server handling quit message (Server quit method)");
-        for (User user : lobby) {
+
+        for (int i = 0; i < lobby.size(); i++) {
+            User user = lobby.get(i);
             System.out.println("Hello it's " + user.getUsername());
             if (user.getUsername().equals(username)) {
                 System.out.println("Setting disconnected " + user.getUsername());
                 user.setConnected(false);
                 String text = username + " quitted";
                 System.out.println("Player " + username + " has quit");
-                server.sendInfo(text);
+                server.sendInfo(text, 4);
                 warnNextPlayer();
-                }
+            }
         }
         return true;
     }
     public boolean correctPlayer(String username){
         return orchestrator.getCurrentPlayer().getNickname().equals(username);
     }
-    public User getUser(String username){
+    public synchronized User getUser(String username){
         for(User user : lobby){
             if(user.getUsername().equals(username)){
                 return user;
@@ -301,26 +425,44 @@ public class Controller {
         }
         return null;
     }
+
+    //todo javadoc
     public void warnNextPlayer(){
-        String playerName = this.orchestrator.getCurrentPlayer().getNickname();
-        GameState state = this.orchestrator.getState();
-        String Info = " ";
-        if(state instanceof TopUpState){
-            Info ="Waiting for player " + playerName + " to top up";
-            server.turn_Refresh(playerName, false);
-        }
-        else if(state instanceof VerifyGrillableState){
-            Info ="Waiting for player " + playerName + " pick tiles";
-            server.turn_Refresh(playerName, true);
-        }
-        if(!Info.equals(" ")){
-            this.server.sendInfo(Info);
+        if(orchestrator != null) {
+            String playerName = this.orchestrator.getCurrentPlayer().getNickname();
+            GameState state = this.orchestrator.getState();
+            String Info = " ";
+            if (state instanceof TopUpState) {
+                Info = "Waiting for player " + playerName + " to top up";
+                server.turn_Refresh(playerName, false);
+            } else if (state instanceof VerifyGrillableState) {
+                Info = "Waiting for player " + playerName + " pick tiles";
+                server.turn_Refresh(playerName, true);
+            }
+            if (!Info.equals(" ")) {
+                this.server.sendInfo(Info, 4);
+            }
         }
     }
-    public void handleStateException(Exception e, String username){
+
+    /**
+     * Handles an InvalidMoveException by sending the exception information to the server.
+     * It sends the error message, user object associated with the username, and an identifier to the server.
+     *
+     * @param e The InvalidMoveException to handle.
+     * @param username The username associated with the action that caused the exception.
+     */
+    public void handleStateException(InvalidMoveException e, String username){
         String info = e.getMessage();
-        server.sendInfo(info, getUser(username));
+        int identifier = e.getIdentifier();
+        server.sendInfo(info, getUser(username), identifier);
     }
+
+    /**
+     * Checks the lobby to ensure at least one player is connected.
+     * If all players in the lobby are disconnected, it removes all users from the lobby,
+     * notifies the server's lock object, and sets the gameStarted flag to false.
+     */
     public void lobbyCheck(){
         System.out.println("Lobby check");
         boolean allDisconnected = true;
@@ -341,6 +483,19 @@ public class Controller {
             game.setGameStarted(false);
         }
     }
+
+    /**
+     * PropertyChangeListener implementation that listens for user connection updates.
+     * It checks if the property name is "ConnectionUpdate" and retrieves the new value.
+     * If the user is connected, it updates the corresponding player's connection status in the game.
+     * If the user is connected, it sends a notification to the server that the player has joined the game.
+     * If the user is disconnected, it sends a notification to the server that the player has disconnected.
+     * If the game has not started and the user is disconnected, it removes the user from the
+     * lobby and notifies the server's lock object.
+     * It then performs lobby checks to ensure at least one player is connected.
+     * If the game has started and the user is the correct player,
+     * it checks the game state and executes the appropriate actions.
+     */
     PropertyChangeListener UserConnectionListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -353,9 +508,9 @@ public class Controller {
                     player.setConnected(user.isConnected());
                 }
                 if (user.isConnected()) {
-                    server.sendInfo("Player " + username + " has joined the game");
+                    server.sendInfo("Player " + username + " has joined the game", 4);
                 } else {
-                    server.sendInfo("Player " + username + " has disconnected");
+                    server.sendInfo("Player " + username + " has disconnected", 4);
                     server.removeUser(username, user.getConnectionType());
                     if(!game.getGameStarted()){
                         System.out.println("Debug");
@@ -369,24 +524,34 @@ public class Controller {
                     System.out.println("Entering lobby check");
                     lobbyCheck();
                     //Turn checks
-                    GameState state = game.getOrchestrator().getState();
-                    if (game.getGameStarted() && correctPlayer(username) && !(state instanceof EndGameState)) {
-                        GameOrchestrator orchestrator = game.getOrchestrator();
-                        orchestrator.changeState(new StartTurnState(orchestrator));
-                        while (!orchestrator.getCurrentPlayer().isConnected()) {
-                            orchestrator.nextPlayer();
+                    System.out.println("check prova");
+                    if (game.getGameStarted() && correctPlayer(username)) {
+                        GameState state = game.getOrchestrator().getState();
+                        if (!(state instanceof EndGameState)) {
+                            GameOrchestrator orchestrator = game.getOrchestrator();
+                            orchestrator.changeState(new StartTurnState(orchestrator));
+                            while (!orchestrator.getCurrentPlayer().isConnected()) {
+                                orchestrator.nextPlayer();
+                            }
+                            try {
+                                orchestrator.executeState();
+                            } catch (InvalidMoveException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                        try {
-                            orchestrator.executeState();
-                        } catch (InvalidMoveException e) {
-                            throw new RuntimeException(e);
                     }
-                }
             }
             }
         }
 
     };
+
+    /**
+     * PropertyChangeListener implementation that listens for game state updates.
+     * It checks if the property name is "GameStateUpdate" and retrieves the new value.
+     * If the game state is false, it sends end game information, including the scoreboard, to the server.
+     * Finally, it notifies the server's lock object to wake up any waiting threads.
+     */
     PropertyChangeListener GameStateListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -394,8 +559,10 @@ public class Controller {
                 boolean game_state = (boolean) evt.getNewValue();
                 if(!game_state){
                     System.out.println("Sending end game info");
-                    server.sendInfo("Game has ended this is the scoreboard: " + "\n");
-                    server.send(view.getScoreBoardView());
+                    server.sendInfo("Game has ended this is the scoreboard: " + "\n", 4);
+                    if(view != null) {
+                        server.send(view.getScoreBoardView());
+                    }
                     synchronized (server.getLock()){
                         System.out.println("Notifying");
                         server.getLock().notifyAll();
@@ -407,7 +574,14 @@ public class Controller {
 
     };
 
-    public static void main(String[] args){
+    /**
+     * Launches the application by initializing the server and the controller.
+     * It attempts to initialize the server and create a new instance of the controller.
+     * If any RemoteException occurs during the initialization process, it throws a RuntimeException.
+     *
+     * @param args the command line arguments
+     */
+    public void launch(String[] args){
         try {
             Controller controller = new Controller();
             controller.getServer().serverInit();

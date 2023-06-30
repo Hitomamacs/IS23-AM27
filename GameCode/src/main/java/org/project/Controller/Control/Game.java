@@ -1,17 +1,20 @@
 package org.project.Controller.Control;
+import com.google.gson.annotations.Expose;
 import org.project.Controller.Server.Server;
-import org.project.Controller.View.VirtualView;
 import org.project.Model.*;
 import org.project.Model.CommonGoals.CommonGoal;
 import org.project.Model.CommonGoals.CommonGoal_Deck;
-import org.project.ObservableObject;
+import org.project.ClientPack.ObservableObject;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+
+/**
+ * This class represents a Game within the system. It contains all elements of the game like
+ * the server, players, game board, tile bag, point assigner, goal decks and orchestrator.
+ * It inherits from ObservableObject class to enable other objects to observe its changes.
+ */
 
 public class Game extends ObservableObject{
     public Server getServer() {
@@ -23,24 +26,54 @@ public class Game extends ObservableObject{
     private Server server;
     private Persistencer persistencer;
     private boolean gameStarted;
+    @Expose
     private List<Player> players;
+
+    public void setPersistencer(Persistencer persistencer) {
+        this.persistencer = persistencer;
+    }
+
     private GameOrchestrator orchestrator;
+    @Expose
     private GameBoard gameBoard;
+    @Expose
     private TileBag tileBag;
+    @Expose
     private int numPlayers;
     private PersonalGoal_Deck personalGoalDeck;
+    @Expose
     private PointAssigner pointAssigner;
+
+    public void setCommonGoals(List<CommonGoal> commonGoals) {
+        this.commonGoals = commonGoals;
+    }
+
     private List<CommonGoal> commonGoals;
     private CommonGoal_Deck commonGoalDeck;
     private HashMap<String, Integer> scoreboard;
     private String filename;
     //TODO WHat happens if game terminates?
+
+    /**
+     * constructor
+     */
     public Game(){
         players = new ArrayList<>();
         commonGoals = new ArrayList<>();
         persistencer = new Persistencer();
         numPlayers = 2;
     }
+
+    public Game(GameOrchestrator orchestrator){
+        this.gameBoard = orchestrator.getGameBoard();
+        this.tileBag = orchestrator.getTileBag();
+        this.players = new ArrayList<>();
+        this.persistencer = new Persistencer();
+        for(Player player : orchestrator.getPlayers()){
+            this.players.add(new Player(player));
+        }
+    }
+
     public Game(Server server){
         this.server = server;
         players = new ArrayList<>();
@@ -49,6 +82,12 @@ public class Game extends ObservableObject{
         this.numPlayers = 4;
         scoreboard = new HashMap<>();
     }
+
+    /**
+     * Initializes the game with the specified players.
+     *
+     * @param players The list of players for the game.
+     */
     public void gameInit(List<Player> players){
         System.out.println("\nInitializing game (Game method gameInit)");
         this.numPlayers = players.size();
@@ -78,6 +117,12 @@ public class Game extends ObservableObject{
     public void setOrchestrator(GameOrchestrator orchestrator) {
         this.orchestrator = orchestrator;
     }
+
+    /**
+     * Sets the game started flag to the specified value.
+     *
+     * @param value The value indicating whether the game has started.
+     */
     public void setGameStarted(boolean value){
         gameStarted = value;
         firePropertyChange("GameStateUpdate", gameStarted);
@@ -134,12 +179,24 @@ public class Game extends ObservableObject{
             player.getPlayerGrid().topUp(2, tileBag.pickSingle());
         }
     }
+
+    /**
+     * This method randomly selects a personal goal from the personal goal deck for each player
+     * and assigns it as their own personal goal. It then notifies the observers by firing a
+     * property change event with the property name "PGoalUpdate".
+     */
     public void pickPersonalGoals(){
         for(Player player : players){
             player.setMyPersonalGoal(personalGoalDeck.getRandom());
             player.firePropertyChange("PGoalUpdate", player);
         }
     }
+
+    /**
+     * This method selects two random common goals from the common goal deck and adds them to the
+     * list of common goals for the game. It then fires a property change event with the property
+     * name "CGoalUpdate" to notify the observers about the updated common goals.
+     */
     public void pickCommonGoals(){
         commonGoals.add(commonGoalDeck.getRandom());
         commonGoals.add(commonGoalDeck.getRandom());

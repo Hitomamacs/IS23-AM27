@@ -3,6 +3,9 @@ package org.project.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that initializes the matrix representing the different game boards according to the number of players
+ */
 public class TrueM {
     static final int[][] negativeMatrix1= {
             {0, 0, 0, 1, 1, 0, 0, 0, 0},
@@ -13,41 +16,32 @@ public class TrueM {
             {1, 1, 1, 1, 1, 1, 1, 1, 0},
             {0, 0, 1, 1, 1, 1, 1, 0, 0},
             {0, 0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 1, 1, 0, 0, 0},};
+
+    static final int[][] negativematrix2 = {
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 1, 0, 0, 0, 0},
+            {0, 0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 0, 0},
+            {0, 0, 0, 1, 1, 1, 0, 0, 0},
             {0, 0, 0, 0, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    };
-
-    static final int[][] negativematrix2 = {{0,0,0,0,0,0,0,0,0},
-            {0,0,0,1,1,0,0,0,0},
-            {0,0,0,1,1,1,0,0,0},
-            {0,0,1,1,1,1,1,1,0},
-            {0,1,1,1,1,1,1,1,0},
-            {0,1,1,1,1,1,1,0,0},
-            {0,0,0,1,1,1,0,0,0},
-            {0,0,0,0,1,1,0,0,0},
-            {0,0,0,0,0,0,0,0,0}};
-
-    static final int [][] negativematrix3 =  {{0,0,0,1,0,0,0,0,0},
-            {0,0,0,1,1,0,0,0,0},
-            {0,0,1,1,1,1,1,0,0},
-            {0,0,1,1,1,1,1,1,1},
-            {0,1,1,1,1,1,1,1,0},
-            {1,1,1,1,1,1,1,0,0},
-            {0,0,1,1,1,1,1,0,0},
-            {0,0,0,0,1,1,0,0,0},
-            {0,0,0,0,0,1,0,0,0}};
+    static final int [][] negativematrix3 =  {
+            {0, 0, 0, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 1, 0, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 1},
+            {0, 1, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 1, 1, 1, 1, 1, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 0, 0},
+            {0, 0, 0, 0, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 0, 0, 0}};
     static final List<int[][]> negativeMatrixList = new ArrayList<int[][]>();
-
-
-    public static int[] returndim(int[][] matrix) {
-        int[] dim = new int[2];
-        dim[0] = matrix.length;
-        dim[1] = matrix[0].length;
-        return dim;
-    }
 
     public static void addMatrix(int[][] matrix) {
         negativeMatrixList.add(matrix);
     }
-
 }

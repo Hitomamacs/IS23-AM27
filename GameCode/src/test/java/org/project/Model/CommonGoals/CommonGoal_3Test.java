@@ -56,7 +56,7 @@ class CommonGoal_3Test {
     }
 
     @Test
-    //check pink(4), green(4), blue(4), white(4), azure(4) is false
+    //check pink(4), green(4), blue(4), white(4), azure(4) is true
     public void check3(){
 
         PlayerGrid playerGrid = new PlayerGrid();

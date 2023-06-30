@@ -24,7 +24,7 @@ public class CommonGoal_4 extends CommonGoal {
         int i, j;
 
         //I need count to count the number of tiles per group
-        //I need counter to count the number of groups of 4
+        //I need counter to count the number of groups of 2
         int count = 0, counter = 0;
         Color color;
 
@@ -40,9 +40,9 @@ public class CommonGoal_4 extends CommonGoal {
                 if(playerGrid.getSpot(new Coordinates(i, j)).isOccupied() && !visited[i][j]){
                     color = playerGrid.getSpot(new Coordinates(i, j)).getTile().getColor();
                     count = verifyExtraPointHelper(i, j, color, visited, playerGrid);
-                    if(count > 2){
+                    if(count >= 2){
                         counter++;
-                        if(counter>=4){
+                        if(counter>=6){
                             return true;
                         }
                     }

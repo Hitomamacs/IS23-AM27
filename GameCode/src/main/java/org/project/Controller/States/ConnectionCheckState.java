@@ -93,7 +93,7 @@ public class ConnectionCheckState implements GameState {
                     endTimer = true;
                 }
 
-            }, 0, 30000);
+            }, 0, 100000);
 
 
         }
